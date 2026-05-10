@@ -54,6 +54,11 @@ nav{background:var(--dark);height:52px;display:flex;align-items:center;position:
 .about-inner{max-width:var(--col);margin:0 auto;text-align:center}
 .about-q{font-size:14px;font-weight:300;color:var(--dark);line-height:1.8;font-style:italic;margin-bottom:.75rem;max-width:400px;margin-left:auto;margin-right:auto}
 .about-name{font-size:10px;font-weight:400;color:var(--textm);letter-spacing:.05em}
+.about-bio{text-align:left;max-width:420px;margin:0 auto}
+.about-title{font-size:11px;font-weight:500;color:var(--dark);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.25rem}
+.about-p{font-size:13px;font-weight:300;color:var(--dark);line-height:1.8;margin-bottom:.75rem}
+.about-sig{font-size:13px;font-weight:300;color:var(--textm);font-style:italic;margin-top:1.25rem}
+
 .page-header{padding:1.5rem 0 1rem;border-bottom:0.5px solid var(--beige);margin-bottom:1.25rem}
 .page-title{font-size:1.5rem;font-weight:300;color:var(--dark);letter-spacing:-.01em;margin-bottom:2px}
 .page-sub{font-size:11px;font-weight:300;color:var(--texts)}
@@ -160,33 +165,40 @@ nav{background:var(--dark);height:52px;display:flex;align-items:center;position:
 <div id="view-landing" class="view active">
   <div class="hero">
     <div class="hero-inner">
-      <div class="hero-eyebrow">Swiss German</div>
+      
       <svg class="hero-mark" width="68" height="68" viewBox="0 0 96 96" role="img" aria-label="Grüezi">
         <rect width="96" height="96" rx="22" fill="#A8C8BC"/>
         <text x="48" y="72" text-anchor="middle" font-family="'Jost',sans-serif" font-size="58" font-weight="300" fill="#F7F3EC">G</text>
         <rect x="63" y="8" width="8" height="26" rx="2" fill="#D4788A"/>
         <rect x="52" y="17" width="30" height="8" rx="2" fill="#D4788A"/>
       </svg>
-      <h1 class="hero-h1">Gr<span>ü</span>ezi.</h1>
-      <p class="hero-sub">Real Swiss German — the dialect people actually speak. Structured, clear, no fluff.</p>
+      <h1 class="hero-h1">Your Swiss German trainer.</h1>
+      <p class="hero-sub">Made with love.</p>
       <div class="hero-btns">
-        <button class="btn-p" onclick="showView('lessons')">Start — it's free</button>
-        <button class="btn-s" onclick="showView('lessons')">I already have access</button>
+        <button class="btn-p" onclick="showView('lessons')">preview</button>
+        <button class="btn-s" onclick="showView('lessons')">login</button>
       </div>
     </div>
   </div>
   <div class="features">
     <div class="features-inner">
-      <div class="feat"><div class="feat-dot"></div><div><div class="feat-title">A real voice</div><div class="feat-sub">Every phrase recorded by Deborah — Swiss German, born and raised</div></div></div>
-      <div class="feat"><div class="feat-dot"></div><div><div class="feat-title">Works offline</div><div class="feat-sub">On the train, in the mountains, no signal needed</div></div></div>
-      <div class="feat"><div class="feat-dot"></div><div><div class="feat-title">Everything visible</div><div class="feat-sub">All lessons and phrases in one clear view — nothing hidden</div></div></div>
-      <div class="feat"><div class="feat-dot"></div><div><div class="feat-title">3 lessons free</div><div class="feat-sub">Then €7/month or €29 once to unlock everything</div></div></div>
+      <div class="feat"><div class="feat-dot"></div><div><div class="feat-title">real voice</div><div class="feat-sub">every phrase recorded by deborah — native swiss german</div></div></div>
+      <div class="feat"><div class="feat-dot"></div><div><div class="feat-title">works offline</div><div class="feat-sub">on the train, in the mountains, no signal needed</div></div></div>
+      <div class="feat"><div class="feat-dot"></div><div><div class="feat-title">designed for focus</div><div class="feat-sub">the structure your brain will thank you for</div></div></div>
+      <div class="feat"><div class="feat-dot"></div><div><div class="feat-title">no owl will judge you</div><div class="feat-sub">3 lessons free — then €7/month or €29 once</div></div></div>
     </div>
   </div>
   <div class="about">
     <div class="about-inner">
-      <p class="about-q">"I grew up speaking this. I built the resource I always wished existed."</p>
-      <div class="about-name">Deborah Muriel Blum · Zürich · Swiss German C2</div>
+      <div class="about-bio">
+        <p class="about-title">About Deborah</p>
+        <p class="about-p">Swiss. German. Berliner since 2010.</p>
+        <p class="about-p">Grew up speaking Swiss German and German first, then French and English arrived more or less at the same time. Languages have always just been the thing.</p>
+        <p class="about-p">Actor, voice artist, language enthusiast. Credits include Netflix, Warner Bros., Copenhagen English Theatre.</p>
+        <p class="about-p">For my environment it was hard to find the right Swiss German tool. So I built one.</p>
+        <p class="about-p">Have fun.</p>
+        <p class="about-sig">— Deborah</p>
+      </div>
     </div>
   </div>
 </div>
