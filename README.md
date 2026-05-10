@@ -1,2 +1,2 @@
-# gr-ezi
+# grueezi
 Learn Swiss German
