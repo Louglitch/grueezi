@@ -20,7 +20,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{font-size:16px}
-body{font-family:var(--font);background:var(--cream);color:var(--dark);min-height:100vh;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);background:var(--cream);color:var(--dark);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 .inner{max-width:var(--col);margin:0 auto;padding:0 1.25rem}
 nav{background:var(--dark);height:52px;display:flex;align-items:center;position:sticky;top:0;z-index:100}
 .nav-inner{max-width:var(--col);margin:0 auto;padding:0 1.25rem;width:100%;display:flex;align-items:center;justify-content:space-between}
@@ -31,21 +31,21 @@ nav{background:var(--dark);height:52px;display:flex;align-items:center;position:
 .streak-val{font-size:16px;font-weight:300;color:var(--rose)}
 .view{display:none;padding-bottom:72px}
 .view.active{display:block}
-#view-landing{padding-bottom:0}
-.hero{background:var(--dark);padding:3.5rem 1.25rem 2.5rem;text-align:center}
+#view-landing{padding-bottom:0;min-height:0;overflow:hidden;background:var(--cream)}
+.hero{background:var(--mint-light);padding:3.5rem 1.25rem 2.5rem;text-align:center}
 .hero-inner{max-width:var(--col);margin:0 auto}
-.hero-eyebrow{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--mint);font-weight:400;margin-bottom:1.25rem}
-.hero-mark{margin:0 auto 1.5rem}
-.hero-h1{font-size:clamp(2.2rem,7vw,3.5rem);font-weight:300;color:var(--cream);line-height:1.1;letter-spacing:-.01em;margin-bottom:.75rem}
+.hero-eyebrow{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--texts);font-weight:400;margin-bottom:1.25rem}
+.hero-mark{margin:0 auto 1.5rem;border-radius:22px;box-shadow:0 0 0 4px var(--cream)}
+.hero-h1{font-size:clamp(2.2rem,7vw,3.5rem);font-weight:300;color:var(--dark);line-height:1.1;letter-spacing:-.01em;margin-bottom:.75rem}
 .hero-h1 span{color:var(--rose)}
-.hero-sub{font-size:13px;font-weight:300;color:var(--mint-light);line-height:1.8;max-width:320px;margin:0 auto 2rem}
+.hero-sub{font-size:13px;font-weight:300;color:var(--textm);line-height:1.8;max-width:320px;margin:0 auto 2rem}
 .hero-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.btn-p{background:var(--mint);color:var(--dark);border:none;border-radius:8px;padding:11px 22px;font-size:13px;font-weight:500;font-family:var(--font);cursor:pointer;letter-spacing:.02em}
-.btn-p:hover{background:var(--mint-light)}
-.btn-s{background:transparent;color:var(--mint-light);border:0.5px solid var(--darkm);border-radius:8px;padding:10px 20px;font-size:12px;font-family:var(--font);cursor:pointer}
-.btn-s:hover{border-color:var(--mint)}
-.features{border-top:0.5px solid var(--cream2)}
-.features-inner{max-width:var(--col);margin:0 auto;padding:1.5rem 1.25rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.btn-p{background:var(--cream);color:var(--dark);border:none;border-radius:8px;padding:11px 22px;font-size:13px;font-weight:500;font-family:var(--font);cursor:pointer;letter-spacing:.02em}
+.btn-p:hover{background:var(--cream2)}
+.btn-s{background:var(--cream);color:var(--dark);border:0.5px solid var(--cream2);border-radius:8px;padding:10px 20px;font-size:12px;font-family:var(--font);cursor:pointer}
+.btn-s:hover{background:var(--cream2)}
+.features{background:var(--mint-light);border-top:none}
+.features-inner{max-width:var(--col);margin:0 auto;padding:1.25rem 1.25rem 1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .feat{display:flex;gap:8px;align-items:flex-start}
 .feat-dot{width:5px;height:5px;border-radius:50%;background:var(--sage);flex-shrink:0;margin-top:6px}
 .feat-title{font-size:12px;font-weight:500;color:var(--dark);margin-bottom:2px}
@@ -55,7 +55,7 @@ nav{background:var(--dark);height:52px;display:flex;align-items:center;position:
 .about-q{font-size:14px;font-weight:300;color:var(--dark);line-height:1.8;font-style:italic;margin-bottom:.75rem;max-width:400px;margin-left:auto;margin-right:auto}
 .about-name{font-size:10px;font-weight:400;color:var(--textm);letter-spacing:.05em}
 .about-bio{text-align:left;max-width:420px;margin:0 auto}
-.about-title{font-size:11px;font-weight:500;color:var(--dark);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.25rem}
+.about-title{font-size:11px;font-weight:500;color:var(--texts);letter-spacing:.04em;margin-bottom:1.25rem}
 .about-p{font-size:13px;font-weight:300;color:var(--dark);line-height:1.8;margin-bottom:.75rem}
 .about-sig{font-size:13px;font-weight:300;color:var(--textm);font-style:italic;margin-top:1.25rem}
 
@@ -172,8 +172,8 @@ nav{background:var(--dark);height:52px;display:flex;align-items:center;position:
         <rect x="63" y="8" width="8" height="26" rx="2" fill="#D4788A"/>
         <rect x="52" y="17" width="30" height="8" rx="2" fill="#D4788A"/>
       </svg>
-      <h1 class="hero-h1">Your Swiss German trainer.</h1>
-      <p class="hero-sub">Made with love.</p>
+      <h1 class="hero-h1">Gr<span>ü</span>ezi —<br>your swiss german trainer</h1>
+      <p class="hero-sub">made with love</p>
       <div class="hero-btns">
         <button class="btn-p" onclick="showView('lessons')">preview</button>
         <button class="btn-s" onclick="showView('lessons')">login</button>
@@ -280,12 +280,12 @@ nav{background:var(--dark);height:52px;display:flex;align-items:center;position:
       <div class="page-title">About</div>
     </div>
     <div class="about-bio">
-      <p class="about-p">Swiss. German. Berliner since 2010.</p>
-      <p class="about-p">Grew up speaking Swiss German and German first, then French and English arrived more or less at the same time. Languages have always just been the thing.</p>
-      <p class="about-p">Actor, voice artist, language enthusiast. Credits include Netflix, Warner Bros., Copenhagen English Theatre.</p>
-      <p class="about-p">For my environment it was hard to find the right Swiss German tool. So I built one.</p>
-      <p class="about-p">Have fun.</p>
-      <p class="about-sig">— Deborah</p>
+      <p class="about-p">swiss · german · berliner since 2010</p>
+      <p class="about-p">grew up speaking swiss german and german first, then french and english arrived more or less at the same time — languages have always just been the thing</p>
+      <p class="about-p">actor, voice artist, language enthusiast — credits include netflix, warner bros, copenhagen english theatre</p>
+      <p class="about-p">for my environment it was hard to find the right swiss german tool — so i built one</p>
+      <p class="about-p">have fun</p>
+      <p class="about-sig">— deborah</p>
     </div>
   </div>
 </div>
