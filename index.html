@@ -249,20 +249,20 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
 .about-bio{padding:0}
 .about-p{font-size:13px;font-weight:300;color:var(--dark);line-height:1.8;margin-bottom:.75rem}
 .about-sig{font-size:13px;font-weight:300;color:var(--textm);font-style:italic;margin-top:1.25rem;margin-bottom:1.5rem}
+.about-note{font-size:11px;font-weight:300;color:var(--textm);line-height:1.7;margin-bottom:1.25rem;padding:.75rem 1rem;background:rgba(168,200,188,.18);border-left:2px solid var(--sage);border-radius:6px}
+.about-note strong{font-weight:500;color:var(--dark)}
 .contact-section{padding-top:1.25rem;border-top:0.5px solid var(--beige)}
-.about-split{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;padding:1.5rem 0 2rem}
-.about-photo-wrap{position:relative}
-.about-photo{width:100%;aspect-ratio:1;object-fit:cover;object-position:center top;border-radius:16px;display:block;min-height:200px;background:var(--cream2)}
-.about-text{display:flex;flex-direction:column;gap:0}
+.about-split{display:flex;flex-direction:column;align-items:center;gap:1.5rem;padding:1.5rem 0 2rem}
+.about-photo-wrap{position:relative;width:100%;display:flex;justify-content:center}
+.about-photo{width:200px;height:200px;object-fit:cover;object-position:center top;border-radius:16px;display:block;background:var(--cream2)}
+.about-text{display:flex;flex-direction:column;gap:0;width:100%}
 @media(max-width:600px){
-  .about-split{grid-template-columns:1fr;gap:1.25rem}
-  .about-photo-wrap{display:flex;justify-content:center}
-  .about-photo{aspect-ratio:1;border-radius:16px;max-width:240px;width:100%;display:block}
+  .about-photo{width:180px;height:180px}
 }
 
 .contact-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--texts);margin-bottom:.75rem;font-weight:400}
-.contact-btn{display:block;width:100%;padding:11px;border-radius:999px;border:1.5px solid var(--dark);background:transparent;color:var(--dark);font-size:13px;font-family:var(--font);cursor:pointer;margin-bottom:8px;font-weight:400;letter-spacing:.02em;text-align:center;text-decoration:none}
-.contact-btn:hover{background:var(--cream2)}
+.contact-btn{display:block;width:100%;padding:11px;border-radius:999px;border:1.5px solid var(--sage);background:rgba(168,200,188,.55);color:var(--dark);font-size:13px;font-family:var(--font);cursor:pointer;margin-bottom:8px;font-weight:500;letter-spacing:.02em;text-align:center;text-decoration:none}
+.contact-btn:hover{background:rgba(168,200,188,.75)}
 .contact-btn.soft{border:0.5px solid var(--beige);color:var(--textm);font-weight:300;border-radius:999px}
 .contact-btn.soft:hover{background:var(--cream2)}
 
@@ -462,6 +462,7 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
         <p class="about-p">For my environment it was hard to find the right Swiss German tool — so I built one.</p>
         <p class="about-p">Have fun.</p>
         <p class="about-sig">— Deborah</p>
+        <p class="about-note">A note on dialect — Swiss German has many regional flavours. The lessons here teach <strong>Züritüütsch</strong>, the Zürich dialect, which is the variety I grew up speaking.</p>
         <div class="contact-section">
           <a class="contact-btn" href="https://calendly.com/deborahmurielblum-info/new-meeting" target="_blank">Book a private lesson</a>
           <a class="contact-btn soft" href="mailto:info@deborahmurielblum.com">Get in touch</a>
