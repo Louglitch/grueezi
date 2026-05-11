@@ -112,6 +112,7 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
 .pw-hero{padding-bottom:3.5rem}
 .pw-btns{display:flex;flex-direction:column;gap:10px;max-width:240px;margin:1.5rem auto 0}
 .pw-btns .btn-p,.pw-btns .btn-cream{width:100%}
+.pw-or{text-align:center;font-family:var(--font);font-size:10px;font-weight:300;color:var(--texts);letter-spacing:.1em;text-transform:uppercase;margin:4px 0}
 .pw-tagline{font-size:11px;color:var(--textm);letter-spacing:.04em;margin:1.75rem 0 0;font-weight:300;text-align:center}
 .features{background:var(--cream2);padding:1.75rem 1.25rem 2.5rem}
 .features-inner{max-width:var(--col);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
@@ -140,8 +141,7 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
 
 /* PILLARS */
 .pillar-section{margin-bottom:1.25rem}
-.pillar-label{font-size:12px;font-weight:500;color:var(--dark);padding:16px 0 2px;margin-bottom:0;letter-spacing:.01em}
-.pillar-sub{font-size:11px;font-weight:300;color:var(--texts);line-height:1.5;margin-bottom:.6rem;padding-left:2px}
+.pillar-label{font-size:12px;font-weight:500;color:var(--dark);padding:16px 0 6px;margin-bottom:2px;letter-spacing:.01em}
 .lessons-list{display:flex;flex-direction:column;gap:1px;background:var(--cream2);border-radius:18px;overflow:hidden;border:0.5px solid var(--cream2)}
 .lesson-row{background:white;padding:11px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .1s}
 .lesson-row:hover{background:rgba(200,221,212,.12)}
@@ -378,7 +378,6 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
   <div class="inner">
     <div class="page-header">
       <div class="page-title">Account<span class="u-dots"><i></i><i></i></span></div>
-      <div class="page-sub">progress · membership · settings</div>
     </div>
 
     <div class="me-section">
@@ -390,7 +389,7 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
         </div>
         <div class="me-stat">
           <span class="me-stat-label">lessons completed</span>
-          <span class="me-stat-val" id="me-lessons">0 / 17</span>
+          <span class="me-stat-val" id="me-lessons">0 / 12</span>
         </div>
         <div class="me-stat">
           <span class="me-stat-label">listen accuracy</span>
@@ -429,6 +428,8 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
       <div class="pw-btns">
         <button class="btn-p" onclick="window.open('https://deborahmurielblum.gumroad.com/l/ugdfe','_blank')">€7 / month</button>
         <button class="btn-cream" onclick="window.open('https://deborahmurielblum.gumroad.com/l/ugdfe','_blank')">€29 once</button>
+        <div class="pw-or">or</div>
+        <a class="btn-cream" href="https://calendly.com/deborahmurielblum-info/new-meeting" target="_blank" style="text-decoration:none;display:block;text-align:center">book a session</a>
       </div>
       <p class="pw-tagline">chuchichäschtli<span class="u-dots"><i></i><i></i></span></p>
     </div>
@@ -501,176 +502,66 @@ const PILLARS=[
       {chde:"Hoi",phon:"hoy",hd:"Hi",en:"Hi",note:"Casual. What friends say.",culture:"Hoi comes from the same root as the English 'hi' — Swiss German absorbed it naturally. Use it with people your age or younger. With your landlord, stick to Grüezi.<br><br><em>Hoi entered Swiss German in the 20th century, influenced by English 'hi' through international contact, radio and later television. Its adoption shows how Swiss German absorbs foreign influences without formality or resistance.</em>"},
       {chde:"Uf Widerluege",phon:"oof VEE-der-loo-eh-geh",hd:"Auf Wiedersehen",en:"Goodbye (formal)",note:"Literally 'until seeing again'. Use with shopkeepers, doctors, elderly neighbours.",culture:"The formal goodbye. Swiss formality isn't stiff — it's respectful. People notice and appreciate it.<br><br><em>Uf Widerluege preserves an older German grammatical form — the dative case — that has largely disappeared from modern High German. Swiss German is linguistically conservative, retaining features that the northern dialects dropped centuries ago.</em>"}
     ]},
-    {id:2,title:"Numbers 1–10",phrases:[
-      {chde:"Eis",phon:"ice",hd:"Eins",en:"One",note:"Sounds like 'ice'.",culture:"Swiss German numbers differ significantly from High German. Eis instead of Eins — the -s ending disappears. This pattern repeats throughout the dialect."},
-      {chde:"Zwöi",phon:"zvoy",hd:"Zwei",en:"Two",note:"The ö changes everything.",culture:"The ö sound is central to Swiss German identity. It appears constantly and marks the dialect immediately. German speakers from Germany often struggle with it — Swiss children grow up with it naturally."},
-      {chde:"Drü",phon:"drü",hd:"Drei",en:"Three",note:"Short, clipped.",culture:"Drü rhymes with the French 'du' — another example of how Swiss German sits between German and French influences, especially in cities like Zürich and Bern."},
-      {chde:"Vier",phon:"feer",hd:"Vier",en:"Four",note:"Same as High German.",culture:"A free one. Swiss German keeps some numbers identical to High German — Vier, Acht, and a few others. The dialect is selective about what it changes."},
-      {chde:"Füüf",phon:"füüf",hd:"Fünf",en:"Five",note:"Hold the double ü.",culture:"The double vowel — Füüf, Nüün, Zää — is a Swiss German feature that doesn't exist in High German. It stretches certain vowels in a way that gives the dialect its musical, rounded quality."},
-      {chde:"Sächs",phon:"zekhs",hd:"Sechs",en:"Six",note:"The ä is distinct.",culture:"Sechs becomes Sächs — the vowel shifts and opens. This is one of the reasons Swiss German sounds so different from High German even though the vocabulary is similar."},
-      {chde:"Sibe",phon:"ZEE-beh",hd:"Sieben",en:"Seven",note:"Swiss drops the -en ending.",culture:"The -en ending disappears almost universally in Swiss German. Sieben → Sibe, Guten → Gute → Guet. Once you notice this pattern, you start hearing the logic of the dialect."},
-      {chde:"Acht",phon:"akht",hd:"Acht",en:"Eight",note:"Same sound.",culture:"Acht stays the same — identical to High German. Swiss German conserves some older Germanic forms while dramatically changing others. There's historical logic but no simple rule."},
-      {chde:"Nüün",phon:"nüün",hd:"Neun",en:"Nine",note:"Long ü — almost two syllables.",culture:"Nüün is one of the most recognisably Swiss numbers. The stretched double vowel is something children learn to pronounce naturally but adult learners find genuinely challenging — and satisfying to master."},
-      {chde:"Zää",phon:"tsää",hd:"Zehn",en:"Ten",note:"The ä replaces the e.",culture:"Zehn → Zää. The vowel completely transforms. Now you can count to ten in Zürich dialect — that's the foundation for markets, cafés, phone numbers, and everything else."}
+    {id:2,title:"Numbers",phrases:[
+      {chde:"Eis",phon:"ice",hd:"Eins",en:"One",note:"The -s ending disappears.",culture:"Swiss German numbers shift sounds from High German. Eis instead of Eins.<br><br><em>Placeholder — Deborah to review.</em>"},
+      {chde:"Füüf",phon:"füüf",hd:"Fünf",en:"Five",note:"Hold the double ü.",culture:"The double vowel is distinctly Swiss.<br><br><em>Placeholder — Deborah to review.</em>"},
+      {chde:"Zää",phon:"tsää",hd:"Zehn",en:"Ten",note:"The ä replaces the e.",culture:"Zehn becomes Zää — the vowel completely transforms.<br><br><em>Placeholder — Deborah to review.</em>"}
     ]},
-    {id:3,title:"At the Beiz",phrases:[
-      {chde:"En Kafi, bitte",phon:"en KAH-fee BIT-teh",hd:"Einen Kaffee, bitte",en:"A coffee, please",note:"Beiz = local café or pub.",culture:"Beiz is one of the most Swiss words — a local café, pub or restaurant with character. Every neighbourhood has one. Ordering in Swiss German immediately marks you as someone who's making an effort, and Swiss people notice."},
-      {chde:"Zahle, bitte",phon:"TSAH-leh BIT-teh",hd:"Zahlen, bitte",en:"The bill, please",note:"Swiss restaurants won't bring it until you ask.",culture:"This is essential. Swiss service culture is respectful of your space — they will not bring the bill until you ask. Sitting and waiting will get you nowhere. Zahle, bitte is one of the most useful phrases you'll use daily."},
-      {chde:"Zäme oder getrennt?",phon:"TSEM-eh OH-der geh-TRENT",hd:"Zusammen oder getrennt?",en:"Together or separate?",note:"Swiss almost always pay separately.",culture:"Swiss independence extends to bills. Splitting evenly is unusual — each person pays for exactly what they had. It's not unfriendly, it's fair. Knowing this saves confusion on your first dinner out."},
-      {chde:"Es schmeckt super",phon:"es SHMECKT ZOO-per",hd:"Es schmeckt sehr gut",en:"It tastes great",note:"'Super' is the Swiss compliment of choice.",culture:"Super is the Swiss all-purpose superlative. Food, ideas, people — everything good is super. Saying it about food to the person who made it will genuinely make their day."},
-      {chde:"No emol",phon:"noh EH-mol",hd:"Noch einmal",en:"One more",note:"Point at your glass and say this.",culture:"No emol is beautifully efficient. Two words, universally understood. Point at your empty glass or cup and say this — no further explanation needed in any Swiss establishment."},
-      {chde:"Was händ Si?",phon:"vas hend zee",hd:"Was haben Sie?",en:"What do you have?",note:"Asking what's on offer.",culture:"Swiss menus often depend on season and what came in that morning. Asking what's available is not unusual — it shows you're interested in eating well, not just ordering from a list."},
-      {chde:"Proscht!",phon:"prohsht",hd:"Prost!",en:"Cheers!",note:"Look everyone in the eye when you clink.",culture:"Eye contact when clinking glasses is taken seriously in Switzerland. Legend says avoiding it brings seven years of bad luck. Whether you believe it or not, looking people in the eye is simply respectful here — and everywhere."},
-      {chde:"Merci vielmal",phon:"mair-SEE FEEL-mahl",hd:"Vielen Dank",en:"Thank you very much",note:"French merci, German vielmal — the most Swiss phrase of all.",culture:"Merci vielmal perfectly captures Swiss identity — French politeness, German structure, spoken in dialect. It's used by all ages, in all situations. If you only learn one phrase, make it this one."}
+    {id:3,title:"Swearwords",phrases:[
+      {chde:"Gopfriedstutz",phon:"GOPF-reed-shtoots",hd:"Verdammt nochmal",en:"For heaven's sake",note:"The classic. Old-fashioned, used by everyone, never offensive.",culture:"Swiss German has an extraordinary tradition of creative mild swearing. Gopfriedstutz replaced stronger words centuries ago. Completely acceptable in any company.<br><br><em>Placeholder — Deborah to review.</em>"},
+      {chde:"Hergott",phon:"HAIR-got",hd:"Herrgott",en:"Good lord",note:"Literally 'lord god'. A sigh of exasperation.",culture:"Used when something goes mildly wrong. Grandparents and parents say it all day.<br><br><em>Placeholder — Deborah to review.</em>"},
+      {chde:"Sapperlot",phon:"ZAP-per-lot",hd:"Donnerwetter",en:"Good gracious",note:"Old, almost theatrical exclamation.",culture:"Grandparents love this one. Adds character without ever being rude.<br><br><em>Placeholder — Deborah to review.</em>"}
     ]}
   ]},
-  {name:"Pillar 2 — Daily life",free:false,lessons:[
-    {id:4,title:"Swiss Slang",phrases:[
-      {chde:"Gopfriedstutz!",phon:"GOP-freed-shtutz",hd:"Verdammt nochmal!",en:"For goodness' sake!",note:"The Swiss mild swear — safe in all company.",culture:"Swiss German has an extraordinary tradition of creative mild swearing. Gopfriedstutz, Hergott, Sapperlot — these are old expressions that replaced stronger words. Completely acceptable in any company, including at Sunday lunch with grandparents."},
-      {chde:"Gäll?",phon:"gehl",hd:"Nicht wahr?",en:"Right? Isn't it?",note:"Swiss use this constantly.",culture:"Gäll is a verbal tic that punctuates Swiss conversation constantly. It seeks agreement, confirmation, connection. Like 'innit' in London or 'oder?' in Germany. Once you hear it you cannot unhear it."},
-      {chde:"Chuchichäschtli",phon:"CHOO-chee-CHESH-tlee",hd:"Küchenschrank",en:"Kitchen cupboard",note:"The ultimate test word.",culture:"Chuchichäschtli is famous throughout the German-speaking world as the ultimate Swiss German test. It contains the CH sound — a soft guttural — four times in different positions. Say it correctly and any Swiss person will beam at you."},
-      {chde:"Äuä",phon:"oy-ah",hd:"Ach was! / Wirklich?",en:"No way! / Really?",note:"Can mean yes OR no depending on tone.",culture:"Äuä is wonderfully ambiguous. Said with rising intonation it means surprise or disbelief. Said flat it can mean agreement. Context and tone carry everything — which is very Swiss."},
-      {chde:"Ich ha kei Luscht",phon:"ikh ha kei loosht",hd:"Ich habe keine Lust",en:"I don't feel like it",note:"Direct, no apology needed.",culture:"Swiss directness is a feature, not a flaw. Saying you don't want to do something without elaborate excuse is respected. Kei Luscht is honest and everyone understands it immediately."},
-      {chde:"Hä?",phon:"heh",hd:"Was? / Wie bitte?",en:"Huh? / Pardon?",note:"Perfectly acceptable.",culture:"Hä? is not rude in Swiss German — it's a legitimate conversational tool. Swiss directness means you don't need to dress up 'I didn't hear you' as 'I beg your pardon'. Hä? works everywhere."},
-      {chde:"Es isch mega geil",phon:"es ish MEH-gah gail",hd:"Es ist mega gut",en:"It's really great",note:"Mega = very. Geil = great in this context.",culture:"Geil originally meant something quite different in older German — but in modern Swiss (and German) youth language it simply means great, cool, awesome. Mega intensifies everything. Understood by all ages."},
-      {chde:"Lecki mich",phon:"LEK-ee mikh",hd:"Leck mich",en:"Get lost (strong)",note:"You'll hear it. Context matters.",culture:"A Swabian expression that crossed into Swiss German. Much stronger than the mild swears above. Used between close friends in frustration or as dark humour — but know your audience before using it."}
+  {name:"Pillar 2 — First phrases",free:false,lessons:[
+    {id:4,title:"Tourist",phrases:[
+      {chde:"Wo isch...?",phon:"voh ish",hd:"Wo ist...?",en:"Where is...?",note:"Placeholder — Deborah to draft.",culture:"Placeholder.<br><br><em>Draft pending.</em>"},
+      {chde:"Wie chum i nach...?",phon:"vee khoom ee nakh",hd:"Wie komme ich nach...?",en:"How do I get to...?",note:"Placeholder — Deborah to draft.",culture:"Placeholder.<br><br><em>Draft pending.</em>"},
+      {chde:"Es Billett, bitte",phon:"es bee-YET BIT-teh",hd:"Eine Fahrkarte, bitte",en:"A ticket, please",note:"Placeholder — Deborah to draft.",culture:"Placeholder.<br><br><em>Draft pending.</em>"}
     ]},
-    {id:5,title:"Getting Around",phrases:[
-      {chde:"Wo isch de Bahnhof?",phon:"voh ish deh BAHN-hof",hd:"Wo ist der Bahnhof?",en:"Where is the station?",note:"Swiss trains are exceptional.",culture:"Switzerland's train network is genuinely world-class. Trains run to the minute, connect every village, and are clean and comfortable. The SBB (Swiss Federal Railways) is a source of national pride — and justifiably so."},
-      {chde:"Ich möcht go Züri",phon:"ikh möcht goh TSÜÜ-ree",hd:"Ich möchte nach Zürich",en:"I'd like to go to Zürich",note:"Swiss say 'Züri' always.",culture:"Every Swiss city has an informal short name. Zürich is Züri, Bern is Bärn, Basel is Baasel. Using these names marks you as someone who knows the place rather than just visiting it."},
-      {chde:"Wieviel kostet das?",phon:"VEE-feel KOS-tet das",hd:"Wie viel kostet das?",en:"How much does it cost?",note:"Prepare for the answer.",culture:"Switzerland is consistently one of the most expensive countries in the world. This isn't negotiable — prices are what they are, and quality is usually exceptional. Prepare mentally and financially before moving."},
-      {chde:"Links / Räächts",phon:"links / rääkhts",hd:"Links / Rechts",en:"Left / Right",note:"The ää in Räächts is distinctly Swiss.",culture:"The stretched double vowel in Räächts is a perfect example of Swiss German phonetics. Germans from Germany always say Rechts — the Swiss stretch it into something rounder and more musical."},
-      {chde:"Grad us",phon:"grahd oos",hd:"Geradeaus",en:"Straight ahead",note:"Short and direct.",culture:"Grad us replaces the long High German Geradeaus with two short syllables. Swiss German consistently compresses words — removing endings, shortening vowels, making speech more efficient without losing meaning."},
-      {chde:"De nächscht Zug",phon:"deh NEKH-sht tsoog",hd:"Der nächste Zug",en:"The next train",note:"Probably in 7 minutes.",culture:"Swiss trains run on intervals of 15, 30 or 60 minutes depending on the route — but they always come. Missing one is not a disaster. There is always another one, and it will be exactly on time."},
-      {chde:"Ich ha mi verlauffe",phon:"ikh ha mee fer-LOW-feh",hd:"Ich habe mich verlaufen",en:"I got lost",note:"Say this and anyone will help you.",culture:"Swiss people are helpful to lost strangers. Unlike some city cultures, asking for directions in Switzerland reliably gets you a careful, patient answer — often with walking you part of the way."},
-      {chde:"Entschuldigung",phon:"ent-SHOOL-dee-goong",hd:"Entschuldigung",en:"Excuse me / Sorry",note:"Same as High German.",culture:"Swiss public behaviour is considerate and orderly. Entschuldigung is said often and genuinely — when passing someone, bumping into them, or needing attention. It's not performative, it's just polite."},
-      {chde:"Danke, tschau!",phon:"DAHN-keh, chou",hd:"Danke, tschüss!",en:"Thanks, bye!",note:"Tschau from Italian ciao.",culture:"Ticino — the Italian-speaking canton — has influenced Swiss German more than most people realise. Tschau is now completely standard in German-speaking Switzerland. Languages blend here naturally and without fuss."}
+    {id:5,title:"Beiz",phrases:[
+      {chde:"En Kafi, bitte",phon:"en KAH-fee BIT-teh",hd:"Einen Kaffee, bitte",en:"A coffee, please",note:"Beiz = local café or pub.",culture:"Beiz is one of the most Swiss words — a local café, pub or restaurant with character. Every neighbourhood has one. Ordering in Swiss German immediately marks you as someone who's making an effort.<br><br><em>Placeholder — Deborah to review.</em>"},
+      {chde:"Zahle, bitte",phon:"TSAH-leh BIT-teh",hd:"Zahlen, bitte",en:"The bill, please",note:"Swiss restaurants won't bring it until you ask.",culture:"Swiss service culture respects your space — the bill comes only when you ask. Zahle, bitte is essential daily vocabulary.<br><br><em>Placeholder — Deborah to review.</em>"},
+      {chde:"Proscht!",phon:"prohsht",hd:"Prost!",en:"Cheers!",note:"Look everyone in the eye when you clink.",culture:"Eye contact when clinking glasses is taken seriously in Switzerland. Legend says avoiding it brings seven years of bad luck.<br><br><em>Placeholder — Deborah to review.</em>"}
+    ]},
+    {id:6,title:"Freizeit",phrases:[
+      {chde:"Was machsch hüt?",phon:"vas MAKHSH hüt",hd:"Was machst du heute?",en:"What are you doing today?",note:"Placeholder — Deborah to draft.",culture:"Placeholder.<br><br><em>Draft pending.</em>"},
+      {chde:"Gömmer go wandere?",phon:"GUH-mer goh VAN-deh-reh",hd:"Gehen wir wandern?",en:"Shall we go hiking?",note:"Placeholder — Deborah to draft.",culture:"Placeholder.<br><br><em>Draft pending.</em>"},
+      {chde:"Gömmer go schwimme?",phon:"GUH-mer goh SHVIM-meh",hd:"Gehen wir schwimmen?",en:"Shall we go swimming?",note:"Placeholder — Deborah to draft.",culture:"Placeholder.<br><br><em>Draft pending.</em>"}
     ]}
   ]},
-  {name:"Pillar 3 — Social & work",free:false,lessons:[
-    {id:6,title:"Making Friends",phrases:[
-      {chde:"Hesch Luscht uf...?",phon:"hesh loosht oof",hd:"Hast du Lust auf...?",en:"Do you fancy...?",note:"The Swiss way to invite someone.",culture:"Swiss social life takes time. Making friends as an expat is genuinely harder here than in many countries — not because Swiss people are unfriendly, but because they have established circles. Patience matters more than charm."},
-      {chde:"Mir gönd use",phon:"meer gönd oo-zeh",hd:"Wir gehen raus",en:"We're going out",note:"Gönd = gehen in dialect.",culture:"The Swiss weekend culture revolves around nature — hiking, skiing, swimming in lakes. 'Mir gönd use' often means into the mountains or to the lake, not to a bar. Understanding this unlocks Swiss social life."},
-      {chde:"Chasch mir dini Nummere gäh?",phon:"khash meer dee-nee NOO-meh-reh gäh",hd:"Kannst du mir deine Nummer geben?",en:"Can you give me your number?",note:"Longer phrase — take your time.",culture:"Swiss people exchange numbers carefully. It's not casual the way it might be elsewhere. Getting someone's number means they actually want to hear from you. It's a meaningful gesture."},
-      {chde:"Woni dä kennt...",phon:"VOH-nee dä kent",hd:"Wenn ich ihn/sie kennen würde...",en:"If I knew them...",note:"Conditional — natural in conversation.",culture:"Swiss German uses conditional constructions differently from High German. Woni instead of Wenn ich — the subordinate clause folds into the word. It sounds natural once your ear adjusts."},
-      {chde:"Du bisch cool",phon:"doo bish cool",hd:"Du bist cool",en:"You're cool",note:"Simple, genuine compliment.",culture:"Swiss people don't over-compliment. When they say something positive about you, they mean it. Du bisch cool from a Swiss person is worth ten compliments from somewhere more effusive."},
-      {chde:"Mir verstönd eus guet",phon:"meer fer-SHTÖND oys goot",hd:"Wir verstehen uns gut",en:"We get along well",note:"A warm statement.",culture:"Verstönd eus — we understand each other — is a deeper statement in Swiss culture than it might seem. Mutual understanding is genuinely valued. It's what long Swiss friendships are built on."},
-      {chde:"Wann bisch frei?",phon:"van bish frai",hd:"Wann bist du frei?",en:"When are you free?",note:"Making plans.",culture:"Swiss calendars fill up quickly. People plan weeks in advance and keep their commitments. If someone says they're free, they mean it. If they're not free, they'll say so directly — no vague maybes."},
-      {chde:"Es isch schön mit dir",phon:"es ish shön mit deer",hd:"Es ist schön mit dir",en:"It's lovely with you",note:"Warm, genuine.",culture:"A simple phrase that carries real weight in Swiss culture. Saying it means you genuinely enjoyed someone's company. Not said lightly, always meant."}
+  {name:"Pillar 3 — First understandings",free:false,lessons:[
+    {id:7,title:"Humour",phrases:[
+      {chde:"Das isch jetzt e Witz, gäll?",phon:"das ish yetst eh vits, gehl",hd:"Das ist jetzt ein Witz, oder?",en:"That's a joke, right?",note:"Swiss humour is dry — sometimes you need to check.",culture:"Swiss humour is famously understated. A Swiss joke can land so flat that you genuinely don't know if it's a joke. Asking is fine — it's almost part of the game.<br><br><em>Placeholder — Deborah to review.</em>"},
+      {chde:"Bisch dänne",phon:"bish DEN-neh",hd:"Klar / Stimmt",en:"Of course / Yeah right",note:"Sarcastic agreement. Tone is everything.",culture:"Bisch dänne literally means 'are you then' — used with rising sarcastic intonation to mean 'sure, sure' or 'as if'. Understanding when this is sincere vs sarcastic is a real test of dialect comprehension.<br><br><em>Placeholder — Deborah to review.</em>"},
+      {chde:"Das git's doch nöd",phon:"das gits dokh nöt",hd:"Das gibt's doch nicht",en:"That can't be true",note:"Mild disbelief, usually amused.",culture:"Used when something is too absurd or too perfect. Swiss people say this constantly — it's a verbal shrug of recognition that life is strange.<br><br><em>Placeholder — Deborah to review.</em>"}
     ]},
-    {id:7,title:"At Work",phrases:[
-      {chde:"Guete Morge zäme",phon:"GOO-teh MOR-geh TSEM-eh",hd:"Guten Morgen zusammen",en:"Good morning everyone",note:"The standard office greeting.",culture:"Swiss workplace culture values punctuality, precision and directness. Greeting your colleagues properly every morning is expected. Arriving and sitting down without a word would be noticed."},
-      {chde:"Ich ha en Frag",phon:"ikh ha en frahg",hd:"Ich habe eine Frage",en:"I have a question",note:"Direct and simple.",culture:"In Swiss work culture, asking questions clearly and directly is respected. There's no expectation to pretend you already know something. Precision matters more than appearing confident."},
-      {chde:"Das isch klar",phon:"das ish klahr",hd:"Das ist klar",en:"That's clear",note:"Confirming understanding.",culture:"Confirming you've understood is important in Swiss professional culture. Nodding vaguely and hoping for the best is not the Swiss way. Das isch klar means you're ready to proceed."},
-      {chde:"Ich cha das mache",phon:"ikh kha das MAH-kheh",hd:"Ich kann das machen",en:"I can do that",note:"Confident, direct commitment.",culture:"Swiss work culture values doing what you say. Saying Ich cha das mache is a commitment. Don't say it unless you mean it — follow-through is everything here."},
-      {chde:"Bis wenn bruuchsch das?",phon:"bis ven broo-khsh das",hd:"Bis wann brauchst du das?",en:"When do you need this by?",note:"Essential for planning.",culture:"Deadlines in Switzerland are real. 'By Friday' means by Friday — not Friday evening, not Monday if Friday doesn't work out. Asking the deadline clearly is the first step to meeting it."},
-      {chde:"I de Mittagspaus",phon:"ee deh MIT-tahgs-powz",hd:"In der Mittagspause",en:"In the lunch break",note:"Important Swiss institution.",culture:"Swiss lunch breaks are respected. Many offices genuinely stop for an hour. Eating lunch at your desk is less common than in other work cultures — the break is considered necessary, not optional."},
-      {chde:"Mir müend das bespräche",phon:"meer müend das beh-SHPRÄKH-eh",hd:"Wir müssen das besprechen",en:"We need to discuss this",note:"Calling a meeting.",culture:"Swiss meetings are purposeful. They happen when there's something to decide, not as a default. Calling for a discussion means something needs resolving — people come prepared."},
-      {chde:"Schönes Wuchenend",phon:"SHÖH-nes VOOKH-en-end",hd:"Schönes Wochenende",en:"Have a nice weekend",note:"Said to everyone on Friday.",culture:"Wishing colleagues a good weekend on Friday is standard Swiss workplace courtesy. It's brief and genuine. On Monday, a quick 'Wie isch es gsi?' (how was it?) follows naturally."}
+    {id:8,title:"Food",phrases:[
+      {chde:"Rösti",phon:"RÖSH-tee",hd:"Rösti",en:"Rösti (potato dish)",note:"The Swiss national hash brown.",culture:"Rösti is sacred. Originally a farmer's breakfast, now eaten anytime. The 'Röstigraben' (rösti ditch) is the linguistic-cultural divide between German and French Switzerland.<br><br><em>Placeholder — Deborah to review.</em>"},
+      {chde:"Fondue",phon:"fon-DOO",hd:"Fondue",en:"Fondue",note:"Don't lose your bread in the pot — old rule.",culture:"Fondue is winter ritual. Tradition says if you drop your bread, you owe everyone a round of kirsch — or, if you're female, you kiss your neighbour. Modern Swiss take this lightly.<br><br><em>Placeholder — Deborah to review.</em>"},
+      {chde:"Z'Vieri",phon:"TSFEE-eh-ree",hd:"Zvieri",en:"Afternoon snack",note:"Around 4pm. Sacred Swiss ritual.",culture:"Z'Vieri (literally 'at four') is the afternoon snack break — bread, cheese, fruit, chocolate. Children especially have Z'Vieri every day in kindergarten and school.<br><br><em>Placeholder — Deborah to review.</em>"}
     ]},
-    {id:8,title:"Swiss Humour",phrases:[
-      {chde:"Das isch typisch Schweizer",phon:"das ish TÜP-ish SHVAI-tser",hd:"Das ist typisch Schweizer",en:"That's very Swiss",note:"Said with affection.",culture:"Swiss people are entirely self-aware about their national characteristics — precision, directness, reliability, occasional rigidity. Das isch typisch Schweizer is said with a smile, not criticism."},
-      {chde:"Mir Schwizer si so",phon:"meer SHVEE-tser see zoh",hd:"Wir Schweizer sind so",en:"That's how we Swiss are",note:"Dry self-description.",culture:"Swiss self-deprecating humour is bone-dry. It often sounds like a complaint but is actually affectionate. The joke is usually on themselves — Swiss people find their own cultural quirks genuinely funny."},
-      {chde:"Pünktlichkeit isch alles",phon:"PÜHNKT-likh-kait ish AL-es",hd:"Pünktlichkeit ist alles",en:"Punctuality is everything",note:"Said with a straight face.",culture:"Switzerland invented or perfected the mechanical watch, runs the world's most punctual railways, and takes timeliness with genuine seriousness. This phrase is both a joke and a genuine value — at the same time."},
-      {chde:"Hä, das isch doch logisch!",phon:"hä das ish dokh LOH-gish",hd:"Das ist doch logisch!",en:"But that's obvious!",note:"Swiss exasperation.",culture:"Swiss people have a strong sense of what is logical and orderly. When something seems obviously correct to them and others don't see it, this phrase comes out — somewhere between frustrated and amused."},
-      {chde:"Mir hend ja d'Regel",phon:"meer hend yah deh REH-gel",hd:"Wir haben ja die Regel",en:"Well, we have the rule",note:"The rule always exists.",culture:"Swiss society runs on rules. There is a rule for almost everything, and the rules generally work. This phrase acknowledges that reality with gentle self-awareness — yes, there is a rule, and yes, we will follow it."},
-      {chde:"S'isch halt so",phon:"sish halt zoh",hd:"Es ist halt so",en:"It is what it is",note:"Swiss pragmatism.",culture:"Halt is a Swiss German filler word meaning something like 'well, just, simply'. S'isch halt so expresses pragmatic acceptance — things are how they are, complaining doesn't help, let's move on."},
-      {chde:"Mer gönnt sich ja sonst nüt",phon:"mer gönt sikh yah zonst nüt",hd:"Man gönnt sich ja sonst nichts",en:"Well, one has to treat oneself somehow",note:"Classic Swiss saying.",culture:"Said when doing something slightly indulgent — ordering dessert, buying something nice. It's self-aware irony: the Swiss are known for modesty and thrift, so allowing yourself something small is gently comedic."},
-      {chde:"Vo Züri natürlich",phon:"foh TSÜÜ-ree nah-TÜR-likh",hd:"Aus Zürich natürlich",en:"From Zürich, naturally",note:"Inter-cantonal teasing.",culture:"Cantonal rivalry is a beloved Swiss tradition. Zürich (the financial capital), Bern (the political capital) and Basel (the cultural capital) all consider themselves the real Switzerland. Everyone teases everyone else warmly."}
-    ]},
-    {id:9,title:"Opinions & Feelings",phrases:[
-      {chde:"Ich find das guet",phon:"ikh find das goot",hd:"Ich finde das gut",en:"I think that's good",note:"Direct positive opinion.",culture:"Swiss people state opinions directly when they have them. Ich find das guet is a genuine endorsement — not a polite noise. Take it at face value."},
-      {chde:"Das gsfallt mir",phon:"das geh-SFALLT meer",hd:"Das gefällt mir",en:"I like that",note:"Aesthetic appreciation.",culture:"Swiss aesthetic sensibility is refined — quality over quantity, lasting over trendy. When a Swiss person says Das gsfallt mir about something you've made or chosen, it's a real compliment."},
-      {chde:"Ich bin müed",phon:"ikh bin müed",hd:"Ich bin müde",en:"I'm tired",note:"Simple state.",culture:"Swiss work culture is productive but not glorified burnout. Saying you're tired is honest, not weak. Rest is considered necessary, not lazy."},
-      {chde:"Das isch mer würscht",phon:"das ish mer vürsht",hd:"Das ist mir egal",en:"I don't care / It's all the same to me",note:"Swiss indifference.",culture:"Würscht literally means 'sausage'. Das isch mer würscht — it's sausage to me — is a wonderfully Swiss way of expressing genuine indifference. The food metaphor is entirely accidental but very fitting."},
-      {chde:"Ich ha Heimweh",phon:"ikh ha HAIM-veh",hd:"Ich habe Heimweh",en:"I'm homesick",note:"A deep Swiss feeling.",culture:"Heimweh — homesickness — was actually first described clinically in the 17th century in Swiss soldiers fighting abroad. The condition was considered specifically Swiss. The word has spread to all Germanic languages since."},
-      {chde:"Das freut mich",phon:"das froyt mikh",hd:"Das freut mich",en:"That makes me happy",note:"Genuine warmth.",culture:"Das freut mich is warm and direct. Swiss emotional expression is not effusive, but when someone says this they mean it fully. It's a quiet but real expression of happiness."},
-      {chde:"Ich bi stolz",phon:"ikh bee shtolts",hd:"Ich bin stolz",en:"I'm proud",note:"Strong statement.",culture:"Swiss pride is quiet and deep. National pride, cantonal pride, professional pride — all present, rarely announced. When someone says Ich bi stolz it carries genuine weight."},
-      {chde:"Das isch schad",phon:"das ish shahd",hd:"Das ist schade",en:"That's a shame",note:"Mild disappointment.",culture:"Swiss disappointment is expressed calmly. Das isch schad is not dramatic — it acknowledges something unfortunate and moves on. Drama is not a Swiss cultural value."}
+    {id:9,title:"Traditions",phrases:[
+      {chde:"Fasnacht",phon:"FAHS-nakht",hd:"Fastnacht",en:"Carnival",note:"Late winter chaos with masks and music.",culture:"Fasnacht is the Swiss carnival — wildest in Basel and Lucerne. Basler Fasnacht starts at 4am on Monday with the Morgestraich, and the whole city marches in masks for three days. Loud, weird, beloved.<br><br><em>Placeholder — Deborah to review.</em>"},
+      {chde:"1. Auguscht",phon:"AIRSH-teh OW-goosht",hd:"1. August",en:"Swiss National Day",note:"August 1st — fireworks, bonfires, sausages.",culture:"1. Auguscht celebrates the 1291 founding of the Swiss Confederation. Every village does fireworks and bonfires. President addresses the nation. Sausages and bread on a fire pit, neighbours together.<br><br><em>Placeholder — Deborah to review.</em>"},
+      {chde:"Samichlaus",phon:"ZAH-mee-klows",hd:"Nikolaus",en:"St. Nicholas",note:"December 6th — comes with Schmutzli.",culture:"On Dec 6th, Samichlaus (St Nicholas) visits children with peanuts, mandarins and chocolate. He's accompanied by Schmutzli — a darker figure who used to scare bad kids. Modern Schmutzli just looks gentle.<br><br><em>Placeholder — Deborah to review.</em>"}
     ]}
   ]},
-  {name:"Pillar 4 — Swiss culture",free:false,lessons:[
-    {id:10,title:"Food & Swiss Dishes",phrases:[
-      {chde:"Es Fondue, bitte",phon:"es FON-doo BIT-teh",hd:"Ein Fondue, bitte",en:"A fondue, please",note:"The national dish.",culture:"Fondue is not just a meal — it's a social ritual. The pot is shared, you dip together, and there's a rule: if you drop your bread, you owe the table something (usually a round of drinks). It brings people together."},
-      {chde:"Röschti",phon:"RÖSH-tee",hd:"Rösti",en:"Swiss potato dish",note:"A national staple.",culture:"Rösti is so central to Swiss identity that the cultural divide between German and French-speaking Switzerland is called the Röstigraben — the Rösti ditch. Food as geography as identity."},
-      {chde:"Es Cordon bleu",phon:"es kor-DON blö",hd:"Ein Cordon bleu",en:"Breaded stuffed schnitzel",note:"A Swiss restaurant classic.",culture:"The Cordon bleu — a schnitzel filled with ham and cheese — is a Swiss restaurant staple. It appears on nearly every traditional menu. The French name in a German-speaking country eating an Austrian-style dish. Very Swiss."},
-      {chde:"Zürcher Geschnetzeltes",phon:"TSÜRR-kher geh-SHNETS-el-tes",hd:"Zürcher Geschnetzeltes",en:"Zurich-style veal strips",note:"Zürich's signature dish.",culture:"Zürcher Geschnetzeltes — veal strips in cream sauce with rösti — was invented in Zürich and is served at proper restaurants across Switzerland. Ordering it shows you know where you are."},
-      {chde:"Schokolade",phon:"shoh-koh-LAH-deh",hd:"Schokolade",en:"Chocolate",note:"Switzerland's other export.",culture:"Swiss chocolate is a serious matter. Lindt, Toblerone, Läderach, Sprüngli — the tradition dates to the 19th century. Swiss chocolate uses more milk than Belgian, which gives it a distinctly creamy texture."},
-      {chde:"Es Gipfeli",phon:"es GIP-feh-lee",hd:"Ein Croissant",en:"A croissant",note:"The Swiss breakfast staple.",culture:"Gipfeli is the Swiss German word for croissant — the French pastry adopted entirely into Swiss breakfast culture. Every bakery sells them. On Sunday mornings, queues form before 8am."},
-      {chde:"Birchermüesli",phon:"BIR-kher-müess-lee",hd:"Birchermüsli",en:"Swiss muesli",note:"Invented in Zürich.",culture:"Birchermüesli was invented by Dr. Bircher-Brenner in Zürich around 1900 as a health food. The Swiss eat it for breakfast — soaked oats with fresh fruit, yoghurt and nuts. The world ate it up."},
-      {chde:"Raclette",phon:"ra-KLET",hd:"Raclette",en:"Melted cheese dish",note:"Winter tradition.",culture:"Raclette — half a wheel of cheese melted by fire and scraped onto potatoes — is a mountain tradition brought down to Swiss dining tables. Like fondue, it's a social meal. Groups gather around the raclette grill for hours."}
+  {name:"Pillar 4 — First cultural steps",free:false,lessons:[
+    {id:10,title:"Hochdeutsch",phrases:[
+      {chde:"Velo",phon:"VAY-loh",hd:"Fahrrad",en:"Bicycle",note:"Swiss use Velo (French origin), Germans say Fahrrad.",culture:"One of the most marked differences. Swiss German uses many French-origin words for everyday objects: Velo, Trottoir (sidewalk), Coiffeur (hairdresser). Germans use German equivalents.<br><br><em>Placeholder — Deborah to review.</em>"},
+      {chde:"Znacht",phon:"TSNAKHT",hd:"Abendessen",en:"Dinner",note:"Literally 'at night' — Swiss prefer compact forms.",culture:"Swiss German loves compressed time words: Zmorge (breakfast), Znüni (mid-morning), Zmittag (lunch), Zvieri (afternoon snack), Znacht (dinner). High German uses longer phrases.<br><br><em>Placeholder — Deborah to review.</em>"},
+      {chde:"Glacé",phon:"glah-SAY",hd:"Eis",en:"Ice cream",note:"French word — Germans just say Eis.",culture:"Asking for 'Eis' in Switzerland might get you ice cubes. Swiss German keeps Glacé for ice cream — a French loanword that stayed. Small everyday clues to the country's multilingual layers.<br><br><em>Placeholder — Deborah to review.</em>"}
     ]},
-    {id:11,title:"Swiss Traditions",phrases:[
-      {chde:"Fasnacht",phon:"FAHS-nakht",hd:"Fastnacht / Karneval",en:"Swiss carnival",note:"Basel's is world-famous.",culture:"Basel Fasnacht begins on the Monday after Ash Wednesday at exactly 4am — all lights go out and thousands of lantern-bearing marchers fill the streets. It runs for 72 hours exactly. UNESCO lists it as intangible cultural heritage."},
-      {chde:"Bundesfeiertag",phon:"BOON-des-fai-er-tahk",hd:"Bundesfeiertag",en:"Swiss National Day",note:"August 1st.",culture:"August 1st commemorates the 1291 Federal Charter — the founding document of the Swiss Confederation. Celebrated with bonfires on mountains, fireworks over lakes, and speeches in village squares. Very much a community occasion."},
-      {chde:"Sechseläuten",phon:"ZEKH-seh-loi-ten",hd:"Sechseläuten",en:"Zürich spring festival",note:"The Böögg is burned.",culture:"Sechseläuten is Zürich's spring festival. A giant snowman called the Böögg is burned — the faster the head explodes, the better the summer will be. Zürich's guilds parade in historical costume beforehand."},
-      {chde:"Alpabfahrt",phon:"ALP-ab-fahrt",hd:"Alpabfahrt",en:"Bringing cattle down from the Alps",note:"September tradition.",culture:"Each September, cattle are brought down from alpine pastures with flowers woven into their horns. Villages gather to watch. It's a harvest festival and a genuinely moving connection to centuries of alpine farming life."},
-      {chde:"Räbeliechtli",phon:"RÄ-beh-liekhts-lee",hd:"Räbeliechtli",en:"Lantern parade with turnips",note:"Children's November tradition.",culture:"Swiss children carve lanterns from turnips — not pumpkins — and parade through darkened streets in November singing traditional songs. A pre-Christmas tradition with roots going back centuries."},
-      {chde:"Abstimmig",phon:"AB-shtim-ig",hd:"Abstimmung",en:"Referendum / Vote",note:"Switzerland votes four times a year.",culture:"Swiss direct democracy is unique in the world. Citizens vote on federal issues four times a year. Any 100,000 signatures can trigger a referendum. The Swiss have voted on everything from nuclear power to minimum wage to immigration."},
-      {chde:"Chilbi",phon:"KHIL-bee",hd:"Kirchweih / Volksfest",en:"Village fair",note:"A beloved local tradition.",culture:"Chilbi is the Swiss village fair — rides, food stalls, music, community. Every village has its own, usually in autumn. It's hyperlocal and deeply loved — the kind of tradition that keeps communities together across generations."},
-      {chde:"Stubete",phon:"SHTOO-beh-teh",hd:"Gemütlicher Abend",en:"Cosy evening gathering",note:"Swiss community tradition.",culture:"A Stubete is an informal evening of music, singing and togetherness — traditionally in someone's living room (Stube). The Swiss value Gemütlichkeit — cosiness and warmth — especially in winter. A Stubete embodies it perfectly."}
+    {id:11,title:"Regional",phrases:[
+      {chde:"Chuchichäschtli",phon:"CHOO-chee-CHESH-tlee",hd:"Küchenschrank",en:"Kitchen cupboard",note:"The ultimate test word — different in every region.",culture:"Chuchichäschtli contains the CH sound four times in different positions. Every Swiss German region pronounces it slightly differently — Bernese softens it, Zürich sharpens it, Wallis adds its own twist.<br><br><em>Placeholder — Deborah to review.</em>"},
+      {chde:"Bärndütsch",phon:"BERN-düch",hd:"Berndeutsch",en:"Bernese dialect",note:"Slower, rounder than Zürich German.",culture:"Bernese is the dialect of the capital region — famously slower and softer. Stereotype: 'Berner reden langsam, aber denken klar.' (Bernese speak slowly but think clearly.) National treasure Mani Matter wrote his songs in this dialect.<br><br><em>Placeholder — Deborah to review.</em>"},
+      {chde:"Wallisertitsch",phon:"VAL-li-ser-titch",hd:"Walliserdeutsch",en:"Valaisan dialect",note:"Almost incomprehensible — even to other Swiss.",culture:"Wallisertitsch (the dialect of canton Valais, deep in the Alps) preserves Old High German features the rest of Switzerland lost. Speakers from Zürich often struggle to understand it. Linguistically remarkable, culturally proud.<br><br><em>Placeholder — Deborah to review.</em>"}
     ]},
-    {id:12,title:"Swiss German vs High German",phrases:[
-      {chde:"Velo",phon:"VEH-loh",hd:"Fahrrad",en:"Bicycle",note:"Swiss say Velo, Germans say Fahrrad.",culture:"Velo comes from French vélo — another example of French influence on Swiss German. A German from Berlin saying Fahrrad in Zürich is perfectly understood, but immediately identified as not Swiss."},
-      {chde:"Trottoir",phon:"troh-TWAHR",hd:"Bürgersteig",en:"Pavement / Sidewalk",note:"French word, fully Swiss.",culture:"Trottoir is used throughout German-speaking Switzerland where High German uses Bürgersteig or Gehweg. French technical vocabulary entered Swiss German through the cities and stayed."},
-      {chde:"Billett",phon:"bee-YET",hd:"Ticket / Fahrkarte",en:"Ticket",note:"Always Billett in Switzerland.",culture:"Buy a Billett, not a Fahrkarte. French billet became standard Swiss German for all kinds of tickets — train, cinema, concert. Asking for a Fahrkarte at a Swiss station works, but Billett is what everyone says."},
-      {chde:"Perron",phon:"peh-RON",hd:"Bahnsteig",en:"Railway platform",note:"French origin, Swiss standard.",culture:"The train platform is always the Perron in Switzerland. French railway vocabulary dominated Swiss German in the 19th century when the rail network was built — much of the engineering came from France."},
-      {chde:"Coiffeur",phon:"kwa-FÖR",hd:"Friseur",en:"Hairdresser",note:"You go to the Coiffeur.",culture:"Every hairdresser in German-speaking Switzerland is a Coiffeur. The French word is completely standard. Saying Friseur would mark you as German immediately — not wrong, just very obviously not Swiss."},
-      {chde:"Glacé",phon:"glah-SAY",hd:"Eis / Eiscreme",en:"Ice cream",note:"Said with the French accent.",culture:"Ice cream is always Glacé in Switzerland — from French glace. On a hot summer day by the lake, Ich ha gern es Glacé is exactly what you say at the kiosk."},
-      {chde:"Natel",phon:"NAH-tel",hd:"Handy",en:"Mobile phone",note:"Swiss unique word.",culture:"The mobile phone is a Natel in Switzerland — from Nationales Autotelefon, the name of the Swiss mobile network in the 1980s. Germany and Austria use Handy (from English). Switzerland kept Natel. Entirely Swiss."},
-      {chde:"Märt",phon:"mäirt",hd:"Markt",en:"Market",note:"Shorter, rounder.",culture:"The market is a Märt — the vowel shifts and the word shortens. Swiss German consistently compresses vocabulary this way. Once you know the patterns, you start predicting how High German words transform into dialect."}
-    ]},
-    {id:13,title:"Regional Accents",phrases:[
-      {chde:"Grüezi (Zürich)",phon:"GROO-et-see",hd:"Guten Tag",en:"Hello — Zürich accent",note:"Crisp, urban, fast.",culture:"Zürich dialect is the most widely understood Swiss German — partly because of media, partly because of the city's economic dominance. It's slightly faster and more clipped than rural dialects. The one you're learning here."},
-      {chde:"Grüessech (Bern)",phon:"GRÜESS-ekh",hd:"Guten Tag",en:"Hello — Bern accent",note:"Slower, rounder, warmer.",culture:"Bernese dialect (Berndeutsch) is considered the most musical Swiss German. It has a distinctive slow rhythm and rounded vowels. Many Swiss people find it the warmest-sounding dialect. The federal government operates in Bern."},
-      {chde:"Grüezi (Basel)",phon:"GRÜE-tsee",hd:"Guten Tag",en:"Hello — Basel accent",note:"Distinctive, slightly French.",culture:"Basel sits at the meeting point of Switzerland, Germany and France — three countries in one city. Its dialect reflects this geography: slightly French-influenced, slightly German, unmistakably Swiss. A fascinating linguistic borderland."},
-      {chde:"Grüessä (Valais)",phon:"GRÜESS-ä",hd:"Guten Tag",en:"Hello — Valais accent",note:"Mountain dialect, very distinct.",culture:"Walliser dialect (from the Valais canton) is considered one of the most distinctive in Switzerland. Mountain communities preserved older linguistic forms that disappeared elsewhere. Other Swiss Germans sometimes tease that they can't understand it."},
-      {chde:"Grüezi (St. Gallen)",phon:"GROO-et-see",hd:"Guten Tag",en:"Hello — Eastern Switzerland",note:"Closer to Austrian German.",culture:"Eastern Swiss dialects border Austria and Liechtenstein, and show the influence. They share certain features with Vorarlberg German just across the border. Language doesn't respect political boundaries."},
-      {chde:"Ycour (Romandy)",phon:"ee-KOOR",hd:"Ici / Hier",en:"Here — Swiss French",note:"The French-speaking region.",culture:"Romandy — French-speaking Switzerland — has its own identity, politics and culture. Swiss French has subtle differences from Parisian French: septante (70) instead of soixante-dix, huitante (80) instead of quatre-vingts. Refreshingly logical."},
-      {chde:"Allegra (Graubünden)",phon:"ah-LEH-gra",hd:"Hallo / Guten Tag",en:"Hello — Romansh",note:"One of 4 official languages.",culture:"Romansh is the fourth official Swiss language — spoken by around 60,000 people in Graubünden. It descends directly from Latin spoken by Roman soldiers. Allegra is the standard Romansh greeting — it means 'joyful'. A living link to ancient Rome."},
-      {chde:"Ciao (Ticino)",phon:"chow",hd:"Hallo / Tschau",en:"Hello — Swiss Italian",note:"The Italian-speaking canton.",culture:"Ticino speaks Italian — genuine, regional Italian, not an imitation. Swiss Italian has some local vocabulary and the distinctive Swiss directness. And Ticino gave Switzerland Tschau — the greeting that crossed into German-speaking Switzerland and never left."}
-    ]}
-  ]},
-  {name:"Pillar 5 — Language depth",free:false,lessons:[
-    {id:14,title:"False Friends",phrases:[
-      {chde:"Das isch ärgerlich",phon:"das ish ÄR-ger-likh",hd:"Das ist ärgerlich",en:"That's annoying",note:"Not 'argumentative'.",culture:"Ärgerlich looks like 'argumentative' to English speakers but means annoying or frustrating. These false friends trip up learners who assume similarity means equivalence."},
-      {chde:"Ich bin brav",phon:"ikh bin brahf",hd:"Ich bin brav / gut",en:"I'm being good / well-behaved",note:"Not 'brave'.",culture:"Brav means well-behaved or good — the opposite of its English cognate 'brave'. A child being told to be brav is being told to behave, not to show courage."},
-      {chde:"Das isch sensibel",phon:"das ish zen-ZEE-bel",hd:"Das ist empfindlich / feinfühlig",en:"That's sensitive",note:"Not 'sensible'.",culture:"Sensibel means emotionally sensitive in German and Swiss German — not 'sensible' as in reasonable. A sensible English person and a sensible Swiss German person are very different things."},
-      {chde:"Ich bin konfus",phon:"ikh bin kon-FOOS",hd:"Ich bin verwirrt",en:"I'm confused",note:"Not 'confused' in the same way.",culture:"Konfus means confused or muddled, but it can also imply being disorganised or scattered. The nuance shifts depending on context — worth knowing when someone says it about you."},
-      {chde:"Das Gymnasium",phon:"das gim-NAH-zee-um",hd:"Das Gymnasium",en:"High school (academic track)",note:"Not a gym.",culture:"Gymnasium in Swiss and German means the academic secondary school — the path to university. Nothing to do with exercise. Swiss education has strict tracks from age 12: Gymnasium, vocational, or apprenticeship."},
-      {chde:"Ich bin sympathisch",phon:"ikh bin zim-PAH-tish",hd:"Ich bin sympathisch",en:"I'm likeable / pleasant",note:"Not 'sympathetic'.",culture:"Sympathisch means likeable, pleasant, someone you warm to. Not 'sympathetic' as in feeling sorry for someone. Saying 'er isch sympathisch' about someone is a genuine compliment."},
-      {chde:"Das isch aktuell",phon:"das ish ak-too-EL",hd:"Das ist aktuell",en:"That's current / up to date",note:"Not 'actual'.",culture:"Aktuell means current or topical — not 'actual' as in real or genuine. Aktuell news is today's news. The actually you want is eigentlich or tatsächlich. A classic Germanic false friend for English speakers."},
-      {chde:"Ich ha Hunger",phon:"ikh ha HOONG-er",hd:"Ich habe Hunger",en:"I'm hungry",note:"Not 'I have hunger' exactly.",culture:"German and Swiss German express physical states with 'haben' (to have) rather than 'to be'. Ich ha Hunger — I have hunger. Ich ha Durst — I have thirst. The body possesses its states rather than embodying them."}
-    ]},
-    {id:15,title:"Swiss French crossover",phrases:[
-      {chde:"Merci",phon:"mair-SEE",hd:"Danke",en:"Thank you",note:"Used constantly in Swiss German.",culture:"Merci crossed from French into Swiss German so completely that many Swiss German speakers use it more than Danke. It's not code-switching — it's just Swiss. The French and German halves of Switzerland have always influenced each other."},
-      {chde:"S'il vous plaît",phon:"seel voo PLEH",hd:"Bitte",en:"Please",note:"Heard in Swiss service culture.",culture:"In mixed-language cities and tourist areas, s'il vous plaît appears naturally in what is otherwise a Swiss German conversation. Language boundaries are genuinely porous here in ways that don't happen in purely monolingual countries."},
-      {chde:"Adieu",phon:"ah-DYOO",hd:"Tschüss / Auf Wiedersehen",en:"Goodbye",note:"Used in Swiss German.",culture:"Adieu is used as a goodbye in Swiss German — borrowed from French, kept as standard. In France, adieu implies a very final goodbye. In Switzerland it's completely normal and casual. Context changes everything."},
-      {chde:"Velo",phon:"VEH-loh",hd:"Fahrrad",en:"Bicycle",note:"From French vélo.",culture:"Already covered in the dialect comparison — but worth noting again as one of the clearest markers of French influence. Every Swiss child grows up saying Velo without knowing it's French. Language absorption at its most complete."},
-      {chde:"Trottoir",phon:"troh-TWAHR",hd:"Gehweg",en:"Pavement",note:"French, fully standard Swiss.",culture:"The French technical vocabulary that entered Swiss German in the 19th century has never left. Trottoir, Perron, Billett, Coiffeur — all French, all completely standard Swiss German. Language archaeology in daily life."},
-      {chde:"Portemonnaie",phon:"por-teh-moh-NEH",hd:"Geldbörse",en:"Wallet",note:"French, used across Switzerland.",culture:"The wallet is always a Portemonnaie in Switzerland — the French word for purse or wallet, used across all language regions. It appears in Swiss German, Swiss French and even some Swiss Italian contexts."},
-      {chde:"Nonett",phon:"noh-NET",hd:"Genau / Gerade",en:"Exactly / Precisely",note:"From French n'est-ce pas not.",culture:"Regional Swiss expressions often have murky origins mixing German and French. The language border — the Sprachgrenze — runs through the middle of the country but words have always crossed it in both directions."},
-      {chde:"En Café complet",phon:"en kah-FEH kom-PLEH",hd:"Ein vollständiges Frühstück",en:"A full breakfast set",note:"Swiss café culture term.",culture:"Café complet is the classic Swiss breakfast: coffee, bread, butter, jam. The French term is used across German-speaking Switzerland for this specific meal. Order it in any Swiss café and you'll be understood immediately."}
-    ]},
-    {id:16,title:"Numbers 11–100",phrases:[
-      {chde:"Elf",phon:"elf",hd:"Elf",en:"Eleven",note:"Same as High German.",culture:"Numbers 11 and 12 stay close to High German in Swiss German. The bigger divergences come from 13 onwards — and especially in the tens, where Swiss German takes a different path entirely from High German."},
-      {chde:"Zwölf",phon:"tsvölf",hd:"Zwölf",en:"Twelve",note:"The ö softens it.",culture:"Zwölf — the ö is distinctly Swiss. High German Zwölf sounds similar but the vowel quality is different. By now your ear is starting to hear these distinctions automatically."},
-      {chde:"Drüzää",phon:"drü-TSÄÄ",hd:"Dreizehn",en:"Thirteen",note:"Drü + zää combined.",culture:"Thirteen is Drüzää — literally three-ten. Swiss German compounds its teens by combining the units digit with the word for ten (zää). The logic is simple once you see it."},
-      {chde:"Zwänzg",phon:"TSVÄNZG",hd:"Zwanzig",en:"Twenty",note:"The vowel shifts.",culture:"Zwanzig becomes Zwänzg — the vowel opens into ä and the ending compresses. This is the Swiss German pattern: vowels shift and endings shorten. You've seen this throughout every lesson."},
-      {chde:"Drissig",phon:"DRIS-ig",hd:"Dreißig",en:"Thirty",note:"Simpler sound.",culture:"Thirty in Swiss German loses the complex German ß. Drissig is more straightforward to pronounce — another example of Swiss German smoothing out some of the harder sounds from High German."},
-      {chde:"Vierzg",phon:"FEERTS-g",hd:"Vierzig",en:"Forty",note:"The -zig ending.",culture:"The tens from 40 onwards follow the pattern: number + zg. Vierzg, Füfzg, Sächzg. Once you learn the units (which you have) and this ending, you can build any number."},
-      {chde:"Füfzg",phon:"FÜFTS-g",hd:"Fünfzig",en:"Fifty",note:"The double ü appears.",culture:"Fünfzig becomes Füfzg — the double ü from Füüf (five) appears again in a compressed form. Swiss German has internal consistency even when it looks chaotic to learners."},
-      {chde:"Hundert",phon:"HOON-dert",hd:"Hundert",en:"One hundred",note:"Same as High German.",culture:"One hundred — Hundert — stays the same across Swiss and High German. Some numbers are universal. Now you can handle prices, addresses, ages and phone numbers in Swiss German. A real milestone."}
-    ]},
-    {id:17,title:"Essential Expat Sentences",phrases:[
-      {chde:"Ich suech e Wohnig",phon:"ikh zooekh eh VOHN-ig",hd:"Ich suche eine Wohnung",en:"I'm looking for a flat",note:"The first challenge.",culture:"Finding a flat in Swiss cities — especially Zürich and Geneva — is genuinely difficult. Vacancy rates hover around 0.5–1%. Many Swiss renters stay in the same flat for decades. Starting your search 3–6 months early is not excessive."},
-      {chde:"Ich ha e Frag zu mim Vertrag",phon:"ikh ha eh frahg tsoo meem fer-TRAHG",hd:"Ich habe eine Frage zu meinem Vertrag",en:"I have a question about my contract",note:"Essential admin phrase.",culture:"Swiss contracts — employment, rental, insurance — are precise and binding. Reading them carefully matters. Asking questions before signing is expected and respected. Swiss bureaucracy is thorough but functional."},
-      {chde:"Ich möcht mi aamälde",phon:"ikh mökhd mee AH-mel-deh",hd:"Ich möchte mich anmelden",en:"I'd like to register",note:"The Anmeldung.",culture:"Within 14 days of moving to Switzerland, you must register at your local Gemeinde (municipality). The Anmeldung — official registration — is required for almost everything else: bank account, health insurance, work permit. Do it first."},
-      {chde:"Wo isch de nächscht Arzt?",phon:"voh ish deh NEKH-sht artst",hd:"Wo ist der nächste Arzt?",en:"Where is the nearest doctor?",note:"Healthcare navigation.",culture:"Swiss healthcare is excellent and expensive. Health insurance is mandatory for all residents. The system uses a Hausarzt (family doctor) as the first point of contact for almost everything. Register with one as soon as you arrive."},
-      {chde:"Ich bruch Hilf mit de Stüür",phon:"ikh brookh hilf mit deh shtüür",hd:"Ich brauche Hilfe mit der Steuer",en:"I need help with taxes",note:"Annual reality.",culture:"Swiss taxes are filed separately at municipal, cantonal and federal levels. Each canton has different rates — Zug is famous for being low, Zürich city is high. Tax advisors (Treuhänder) are widely used and genuinely helpful."},
-      {chde:"Händ Si das uf Dütsch?",phon:"hend zee das oof DÜCH",hd:"Haben Sie das auf Deutsch?",en:"Do you have this in German?",note:"Navigating languages.",culture:"In Switzerland you may encounter forms and documents in French or Italian even in German-speaking cantons. Asking for the German version is completely normal. Swiss administration officially supports all four national languages."},
-      {chde:"Ich bin neu do",phon:"ikh bin noy doh",hd:"Ich bin neu hier",en:"I'm new here",note:"Opens conversations.",culture:"Saying you're new to Switzerland often opens people up. Swiss people who seem reserved in general can be genuinely warm and helpful to newcomers who make an effort. The key is making the effort — in Swiss German if possible."},
-      {chde:"Ich lerne no Schwizerdütsch",phon:"ikh LERN-eh noh SHVEE-tser-DÜCH",hd:"Ich lerne noch Schweizerdeutsch",en:"I'm still learning Swiss German",note:"Always appreciated.",culture:"This sentence alone will transform how Swiss people interact with you. The effort of learning Swiss German — not even High German, but the dialect — signals respect for Swiss culture. People will slow down, help, and genuinely appreciate it."}
+    {id:12,title:"History",phrases:[
+      {chde:"1291",phon:"twelve-ninety-one",hd:"1291",en:"Founding of the Confederation",note:"The Rütlischwur — three cantons swear an alliance.",culture:"On August 1st 1291, representatives of Uri, Schwyz and Unterwalden allegedly met on the Rütli meadow and swore mutual defence against Habsburg rule. Whether this exact event happened is debated, but the date is sacred.<br><br><em>Placeholder — Deborah to review.</em>"},
+      {chde:"Wilhelm Tell",phon:"VIL-helm tell",hd:"Wilhelm Tell",en:"William Tell",note:"The crossbow, the apple, the founding myth.",culture:"Wilhelm Tell — the legendary archer who shot an apple from his son's head and helped overthrow Habsburg tyranny. Probably never existed. Yet his story shaped Swiss identity for 700 years. Schiller's 1804 play immortalised him in Europe.<br><br><em>Placeholder — Deborah to review.</em>"},
+      {chde:"Neutralität",phon:"noy-trah-lee-TÄT",hd:"Neutralität",en:"Neutrality",note:"The 1815 principle that defines modern Switzerland.",culture:"Switzerland's permanent armed neutrality was recognised at the Congress of Vienna in 1815. It allowed the country to stay out of two world wars and to host international institutions — Red Cross, UN Geneva, WHO. It's not pacifism — it's strategic distance.<br><br><em>Placeholder — Deborah to review.</em>"}
     ]}
   ]}
 ];
@@ -739,7 +630,7 @@ function renderAccount(){
     if(q){correct+=q.correct;total+=q.total;}
   });
   document.getElementById('me-phrases').textContent=`${phrases} / ${totalPhrases}`;
-  document.getElementById('me-lessons').textContent=`${done} / 17`;
+  document.getElementById('me-lessons').textContent=`${done} / 12`;
   document.getElementById('me-accuracy').textContent=total>0?`${Math.round(correct/total*100)}%`:'—';
 
   const card=document.getElementById('me-account-card');
@@ -750,9 +641,7 @@ function renderAccount(){
           <span class="me-tier-name">full access</span>
           <span class="me-plan-pill">current</span>
         </div>
-        <div class="me-tier-sub">all 17 lessons · all 4 stages · cultural notes</div>
-      </div>
-      <div class="me-restore">signed in · <a onclick="logOut()">log out</a></div>`;
+      </div>`;
   } else {
     card.innerHTML=`
       <div class="me-tier me-tier-current">
@@ -760,17 +649,14 @@ function renderAccount(){
           <span class="me-tier-name">free</span>
           <span class="me-plan-pill">current</span>
         </div>
-        <div class="me-tier-sub">first 3 lessons · word + sentence</div>
       </div>
       <div class="me-tier" style="margin-top:.6rem">
         <div class="me-tier-row">
           <span class="me-tier-name">full access</span>
           <span class="me-tier-price">€7/mo · €29 once</span>
         </div>
-        <div class="me-tier-sub">all 17 lessons · all 4 stages · cultural notes</div>
         <button class="me-btn-dark" style="margin-top:.6rem;width:100%" onclick="showView('paywall')">upgrade</button>
-      </div>
-      <div class="me-restore">already a member? <a onclick="showView('paywall')">log in</a></div>`;
+      </div>`;
   }
 
   const settings=document.getElementById('me-settings-card');
@@ -828,36 +714,13 @@ function renderLessons(){
   PILLARS.forEach(pillar=>{
     const section=document.createElement('div');
     section.className='pillar-section';
-    const pillarMeta=[
-      {name:'first words',sub:'the absolute basics — what to say before anything else'},
-      {name:'first phrases',sub:'getting through your first days — moving around &amp; meeting people'},
-      {name:'first understandings',sub:'how the swiss think — what makes them laugh, eat, celebrate'},
-      {name:'first culture steps',sub:'going deeper — dialect history, regional differences, swiss roots'},
-      {name:'book a session',sub:'need a real human? Deborah teaches one-to-one'}
-    ];
+    const pillarNames=['first words','first phrases','first understandings','first cultural steps'];
     const pillarIdx=PILLARS.indexOf(pillar);
-    const meta=pillarMeta[pillarIdx]||{name:pillar.lessons[0].title,sub:''};
+    if(pillarIdx===4)return; // pillar 5 removed - book a session moved to paywall
     const label=document.createElement('div');
     label.className='pillar-label';
-    label.textContent=meta.name;
+    label.textContent=pillarNames[pillarIdx]||pillar.lessons[0].title;
     section.appendChild(label);
-    if(meta.sub){
-      const subtitle=document.createElement('div');
-      subtitle.className='pillar-sub';
-      subtitle.innerHTML=meta.sub;
-      section.appendChild(subtitle);
-    }
-    if(pillarIdx===4){
-      const bookBtn=document.createElement('a');
-      bookBtn.href='https://calendly.com/deborahmurielblum-info/new-meeting';
-      bookBtn.target='_blank';
-      bookBtn.className='contact-btn';bookBtn.style.borderRadius='999px';
-      bookBtn.style.display='block';
-      bookBtn.textContent='Book a session →';
-      section.appendChild(bookBtn);
-      container.appendChild(section);
-      return;
-    }
     const list=document.createElement('div');
     list.className='lessons-list';
     pillar.lessons.forEach(l=>{
@@ -897,9 +760,6 @@ function renderLessons(){
   works.innerHTML=`
     <div class="pillar-label">in the works</div>
     <div class="me-card">
-      <div class="me-stat"><span class="me-stat-label">Swiss history</span><span class="me-plan-pill">soon</span></div>
-      <div class="me-stat"><span class="me-stat-label">Swiss fun facts</span><span class="me-plan-pill">soon</span></div>
-      <div class="me-stat"><span class="me-stat-label">Harmless swearwords</span><span class="me-plan-pill">soon</span></div>
       <div class="me-stat"><span class="me-stat-label">Deborah's voice recordings</span><span class="me-plan-pill">soon</span></div>
       <div class="me-stat"><span class="me-stat-label">"Los gaahts" — voice cue on start</span><span class="me-plan-pill">soon</span></div>
       <div class="me-stat"><span class="me-stat-label">Premium · pronunciation feedback</span><span class="me-plan-pill">soon</span></div>
