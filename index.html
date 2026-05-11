@@ -26,7 +26,7 @@ body{font-family:var(--font);background:var(--cream);color:var(--dark);min-heigh
 /* NAV */
 nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:sticky;top:0;z-index:100}
 .nav-inner{max-width:var(--col);margin:0 auto;padding:0 1.25rem;width:100%;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{display:flex;align-items:center;gap:9px;cursor:pointer;text-decoration:none}
+.nav-logo{display:flex;align-items:center;gap:11px;cursor:pointer;text-decoration:none}
 .nav-wordmark{font-size:16px;font-weight:400;color:var(--dark);letter-spacing:.02em}
 .nav-wordmark span{color:var(--rose)}
 
@@ -39,7 +39,9 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
 .bnav-btn.active{color:var(--dark)}
 .bnav-btn svg{stroke:currentColor}
 .bnav-btn.active svg{stroke:var(--dark)}
-.view.active{display:block}
+@keyframes view-fade-in{0%{opacity:0;transform:translateY(4px)}100%{opacity:1;transform:translateY(0)}}
+.view.active{display:block;animation:view-fade-in .45s ease-out}
+@media (prefers-reduced-motion:reduce){.view.active{animation:none}}
 
 /* LANDING */
 #view-landing{padding-bottom:0;background:var(--cream2)}
@@ -81,7 +83,22 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
 @media (prefers-reduced-motion:reduce){
   .hero.play-anim .anim-logo,.hero.play-anim .anim-title,.hero.play-anim .anim-sub,.hero.play-anim .anim-btn-wrap{animation:none;opacity:1;transform:none}
   .hero.play-anim .btn-glow,.hero.no-anim .btn-glow{animation:none}
+  .start-wrap.is-bursting .rise-dot{animation:none;opacity:0}
 }
+
+/* START BURST — rose dots rise on tap */
+.start-wrap{position:relative;display:inline-block}
+.rise-dot{position:absolute;top:50%;left:50%;width:3px;height:3px;border-radius:50%;background:#C97486;filter:blur(.5px);opacity:0;pointer-events:none;transform:translate(-50%,-50%)}
+@keyframes rise-up{0%{opacity:0;transform:translate(-50%,-50%)}30%{opacity:.55}100%{opacity:0;transform:translate(calc(-50% + var(--rx)),calc(-50% - 130px))}}
+@keyframes btn-press{0%,100%{transform:scale(1)}30%{transform:scale(.96)}60%{transform:scale(1.03)}}
+.start-wrap.is-bursting .btn-glow{animation:btn-press .6s ease-out}
+.start-wrap.is-bursting .rise-dot{animation:rise-up 2.8s cubic-bezier(.22,1,.36,1) forwards}
+.start-wrap.is-bursting .rise-dot:nth-child(2){--rx:-32px;animation-delay:0s}
+.start-wrap.is-bursting .rise-dot:nth-child(3){--rx:-12px;animation-delay:.15s}
+.start-wrap.is-bursting .rise-dot:nth-child(4){--rx:8px;animation-delay:.3s}
+.start-wrap.is-bursting .rise-dot:nth-child(5){--rx:28px;animation-delay:.08s}
+.start-wrap.is-bursting .rise-dot:nth-child(6){--rx:-20px;animation-delay:.4s}
+.start-wrap.is-bursting .rise-dot:nth-child(7){--rx:18px;animation-delay:.22s}
 .hero-btns{display:flex;gap:8px;justify-content:center}
 .btn-p{background:var(--cream);color:var(--dark);border:1.5px solid var(--dark);border-radius:999px;padding:10px 24px;font-size:13px;font-weight:500;font-family:var(--font);cursor:pointer;letter-spacing:.02em}
 .btn-p:hover{background:var(--cream2)}
@@ -272,7 +289,7 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
 <nav class="top">
   <div class="nav-inner">
     <div class="nav-logo" onclick="showView('landing')">
-      <svg width="28" height="28" viewBox="0 0 96 96" role="img" aria-label="Grüezi">
+      <svg width="28" height="28" viewBox="0 0 96 96" role="img" aria-label="Grüezi" style="border-radius:7px;box-shadow:0 0 0 2px var(--cream)">
         <rect width="96" height="96" rx="22" fill="#A8C8BC"/>
         <text x="48" y="72" text-anchor="middle" font-family="'Jost',sans-serif" font-size="58" font-weight="300" fill="#F7F3EC">G</text>
         <rect x="63" y="8" width="8" height="26" rx="2" fill="#D4788A"/>
@@ -297,7 +314,15 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
       <h1 class="hero-h1 anim-title">Gr<span>ü</span>ezi</h1>
       <p class="hero-sub anim-sub">your swiss german trainer</p>
       <div class="hero-btns anim-btn-wrap">
-        <button class="btn-p btn-glow" onclick="showView('lessons')">start</button>
+        <div class="start-wrap">
+          <button class="btn-p btn-glow" onclick="startBurst(this)">start</button>
+          <span class="rise-dot"></span>
+          <span class="rise-dot"></span>
+          <span class="rise-dot"></span>
+          <span class="rise-dot"></span>
+          <span class="rise-dot"></span>
+          <span class="rise-dot"></span>
+        </div>
       </div>
     </div>
   </div>
@@ -1059,6 +1084,16 @@ function unlockAll(){
   state.unlocked=true;
   localStorage.setItem('g_unlocked','true');
   showView('lessons');
+}
+
+function startBurst(btn){
+  const wrap=btn.parentElement;
+  wrap.classList.add('is-bursting');
+  renderLessons();
+  setTimeout(()=>{
+    showView('lessons');
+    wrap.classList.remove('is-bursting');
+  },2400);
 }
 
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
