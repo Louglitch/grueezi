@@ -23,6 +23,12 @@ html{font-size:16px}
 body{font-family:var(--font);background:var(--cream);color:var(--dark);min-height:100vh;-webkit-font-smoothing:antialiased}
 .inner{max-width:var(--col);margin:0 auto;padding:0 1.25rem}
 
+/* DESKTOP — wider column and proportional scale-up for readability */
+@media (min-width:768px){
+  :root{--col:720px}
+  html{font-size:17.5px}
+}
+
 /* NAV */
 nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:sticky;top:0;z-index:100}
 .nav-inner{max-width:var(--col);margin:0 auto;padding:0 1.25rem;width:100%;display:flex;align-items:center;justify-content:space-between}
@@ -35,12 +41,12 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
 /* VIEWS */
 .view{display:none;padding-bottom:72px}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#B8CDD4;border-top:0.5px solid #A8C0C8;display:flex;justify-content:space-around;z-index:100}
-.bnav-btn{flex:1;padding:9px 4px 11px;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;font-weight:300;color:var(--textm);font-family:var(--font);letter-spacing:.04em}
+.bnav-btn{flex:1;padding:9px 4px 11px;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:300;color:var(--textm);font-family:var(--font);letter-spacing:.04em}
 .bnav-btn.active{color:var(--dark)}
 .bnav-btn svg{stroke:currentColor}
 .bnav-btn.active svg{stroke:var(--dark)}
 @keyframes view-fade-in{0%{opacity:0;transform:translateY(4px)}100%{opacity:1;transform:translateY(0)}}
-.view.active{display:block;animation:view-fade-in .45s ease-out}
+.view.active{display:block;animation:view-fade-in .35s ease-out}
 @media (prefers-reduced-motion:reduce){.view.active{animation:none}}
 
 /* LANDING */
@@ -51,7 +57,7 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
 .hero-h1{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:300;color:var(--dark);line-height:1.2;letter-spacing:-.01em;margin-bottom:.6rem}
 .hero-h1 span{color:var(--rose)}
 .hero-sub{font-size:13px;font-weight:300;color:var(--textm);margin-bottom:1.75rem;letter-spacing:.02em}
-.hero .inner{overflow:hidden} /* keeps slide-in from making the page scrollable */
+#view-landing .hero .inner{overflow:hidden} /* keeps slide-in from making the page scrollable */
 
 /* LANDING ENTRANCE — plays once per session */
 @keyframes anim-from-top{0%{opacity:0;transform:translateY(-40px)}60%{opacity:1}100%{opacity:1;transform:translateY(0)}}
@@ -92,13 +98,13 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
 @keyframes rise-up{0%{opacity:0;transform:translate(-50%,-50%)}30%{opacity:.55}100%{opacity:0;transform:translate(calc(-50% + var(--rx)),calc(-50% - 130px))}}
 @keyframes btn-press{0%,100%{transform:scale(1)}30%{transform:scale(.96)}60%{transform:scale(1.03)}}
 .start-wrap.is-bursting .btn-glow{animation:btn-press .6s ease-out}
-.start-wrap.is-bursting .rise-dot{animation:rise-up 2.8s cubic-bezier(.22,1,.36,1) forwards}
+.start-wrap.is-bursting .rise-dot{animation:rise-up 2s cubic-bezier(.22,1,.36,1) forwards}
 .start-wrap.is-bursting .rise-dot:nth-child(2){--rx:-32px;animation-delay:0s}
-.start-wrap.is-bursting .rise-dot:nth-child(3){--rx:-12px;animation-delay:.15s}
-.start-wrap.is-bursting .rise-dot:nth-child(4){--rx:8px;animation-delay:.3s}
-.start-wrap.is-bursting .rise-dot:nth-child(5){--rx:28px;animation-delay:.08s}
-.start-wrap.is-bursting .rise-dot:nth-child(6){--rx:-20px;animation-delay:.4s}
-.start-wrap.is-bursting .rise-dot:nth-child(7){--rx:18px;animation-delay:.22s}
+.start-wrap.is-bursting .rise-dot:nth-child(3){--rx:-12px;animation-delay:.1s}
+.start-wrap.is-bursting .rise-dot:nth-child(4){--rx:8px;animation-delay:.2s}
+.start-wrap.is-bursting .rise-dot:nth-child(5){--rx:28px;animation-delay:.05s}
+.start-wrap.is-bursting .rise-dot:nth-child(6){--rx:-20px;animation-delay:.28s}
+.start-wrap.is-bursting .rise-dot:nth-child(7){--rx:18px;animation-delay:.15s}
 .hero-btns{display:flex;gap:8px;justify-content:center}
 .btn-p{background:var(--cream);color:var(--dark);border:1.5px solid var(--dark);border-radius:999px;padding:10px 24px;font-size:13px;font-weight:500;font-family:var(--font);cursor:pointer;letter-spacing:.02em}
 .btn-p:hover{background:var(--cream2)}
@@ -112,7 +118,7 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
 .pw-hero{padding-bottom:3.5rem}
 .pw-btns{display:flex;flex-direction:column;gap:10px;max-width:240px;margin:1.5rem auto 0}
 .pw-btns .btn-p,.pw-btns .btn-cream{width:100%}
-.pw-or{text-align:center;font-family:var(--font);font-size:10px;font-weight:300;color:var(--texts);letter-spacing:.1em;text-transform:uppercase;margin:4px 0}
+.pw-or{text-align:center;font-family:var(--font);font-size:11px;font-weight:300;color:var(--texts);margin:6px 0}
 .pw-tagline{font-size:11px;color:var(--textm);letter-spacing:.04em;margin:1.75rem 0 0;font-weight:300;text-align:center}
 .features{background:var(--cream2);padding:1.75rem 1.25rem 2.5rem}
 .features-inner{max-width:var(--col);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
@@ -147,14 +153,14 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
 .lesson-row:hover{background:rgba(200,221,212,.12)}
 .lesson-row.locked-row{opacity:.4;cursor:default}
 .lesson-row.locked-row:hover{background:white}
-.lr-num{font-size:10px;font-weight:300;color:var(--texts);width:16px;flex-shrink:0}
+.lr-num{font-size:11px;font-weight:300;color:var(--texts);width:16px;flex-shrink:0}
 .lr-main{flex:1;min-width:0}
 .lr-title{font-size:14px;font-weight:400;color:var(--dark);margin-bottom:1px}
 .lr-sub{font-size:10px;font-weight:300;color:var(--texts)}
 .lr-right{display:flex;align-items:center;gap:7px;flex-shrink:0}
 .pbar{width:40px;height:3px;background:var(--cream2);border-radius:2px;overflow:hidden}
 .pfill{height:100%;background:var(--sage);border-radius:2px}
-.pill{font-size:9px;padding:2px 7px;border-radius:999px;white-space:nowrap}
+.pill{font-size:10px;padding:2px 7px;border-radius:999px;white-space:nowrap}
 .p-free{background:rgba(111,168,152,.15);color:var(--sage)}
 .p-done{background:rgba(111,168,152,.25);color:var(--darkm)}
 .p-active{background:#B8CEDE;color:#2C4A5A}
@@ -216,7 +222,7 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
 
 /* ME VIEW */
 .me-section{margin-bottom:1.25rem}
-.me-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--texts);margin-bottom:.5rem;font-weight:400;padding-left:2px}
+.me-label{font-size:12px;font-weight:500;color:var(--dark);margin-bottom:.5rem;padding:0 0 0 2px;letter-spacing:.01em}
 .me-card{background:white;border:0.5px solid var(--cream2);border-radius:14px;padding:1rem 1.125rem}
 .me-stat{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0}
 .me-stat:not(:last-child){border-bottom:0.5px solid var(--cream2)}
@@ -233,7 +239,7 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
 .me-tier-current{background:rgba(168,200,188,.12);border-color:rgba(111,168,152,.3)}
 .me-tier-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
 .me-tier-name{font-size:13px;font-weight:400;color:var(--dark);text-transform:lowercase}
-.me-tier-price{font-size:10px;font-weight:300;color:var(--textm)}
+.me-tier-price{font-size:11px;font-weight:300;color:var(--textm)}
 .me-tier-sub{font-size:10px;font-weight:300;color:var(--texts);line-height:1.4}
 .me-restore{font-size:10px;color:var(--texts);text-align:center;margin-top:.75rem;font-weight:300}
 .me-restore a{color:var(--dark);text-decoration:underline;cursor:pointer}
@@ -343,7 +349,7 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
 <div id="view-lessons" class="view">
   <div class="inner">
     <div class="page-header">
-      <div class="page-title">Your lessons<span class="u-dots"><i></i><i></i></span></div>
+      <div class="page-title">lessons<span class="u-dots"><i></i><i></i></span></div>
       <div class="page-sub">3 lessons free · tap to begin</div>
     </div>
 
@@ -377,7 +383,7 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
 <div id="view-account" class="view">
   <div class="inner">
     <div class="page-header">
-      <div class="page-title">Account<span class="u-dots"><i></i><i></i></span></div>
+      <div class="page-title">account<span class="u-dots"><i></i><i></i></span></div>
     </div>
 
     <div class="me-section">
@@ -452,7 +458,7 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
 <div id="view-about" class="view">
   <div class="inner">
     <div class="page-header">
-      <div class="page-title">About<span class="u-dots"><i></i><i></i></span></div>
+      <div class="page-title">about<span class="u-dots"><i></i><i></i></span></div>
       <div class="page-sub">the person behind the voice</div>
     </div>
     <div class="about-split">
@@ -468,8 +474,8 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
         <p class="about-sig">— Deborah</p>
         <p class="about-note">A note on dialect — Swiss German has many regional flavours. The lessons here teach <strong>Züritüütsch</strong>, the Zürich dialect, which is the variety I grew up speaking.</p>
         <div class="contact-section">
-          <a class="contact-btn" href="https://calendly.com/deborahmurielblum-info/new-meeting" target="_blank">Book a session</a>
-          <a class="contact-btn soft" href="mailto:info@deborahmurielblum.com">Get in touch</a>
+          <a class="contact-btn" href="https://calendly.com/deborahmurielblum-info/new-meeting" target="_blank">book a session</a>
+          <a class="contact-btn soft" href="mailto:info@deborahmurielblum.com">get in touch</a>
         </div>
       </div>
     </div>
@@ -497,68 +503,68 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
 <script>
 const PILLARS=[
   {name:"Pillar 1 — First words",free:true,lessons:[
-    {id:1,title:"Greetings",phrases:[
+    {id:1,title:"greetings",phrases:[
       {chde:"Grüezi",phon:"GROO-et-see",hd:"Guten Tag",en:"Hello / Good day",note:"The universal Swiss hello — works anywhere, anytime, with anyone.",culture:"In Switzerland, greeting people properly matters. Saying Grüezi to a stranger in a lift or on a hiking trail is completely normal — even expected. Silence would be rude.<br><br><em>The word Grüezi derives from 'Gott grüez i Euch' — 'God greet you' — a medieval blessing that shortened over centuries into the two-syllable greeting used today across German-speaking Switzerland.</em>"},
       {chde:"Hoi",phon:"hoy",hd:"Hi",en:"Hi",note:"Casual. What friends say.",culture:"Hoi comes from the same root as the English 'hi' — Swiss German absorbed it naturally. Use it with people your age or younger. With your landlord, stick to Grüezi.<br><br><em>Hoi entered Swiss German in the 20th century, influenced by English 'hi' through international contact, radio and later television. Its adoption shows how Swiss German absorbs foreign influences without formality or resistance.</em>"},
       {chde:"Uf Widerluege",phon:"oof VEE-der-loo-eh-geh",hd:"Auf Wiedersehen",en:"Goodbye (formal)",note:"Literally 'until seeing again'. Use with shopkeepers, doctors, elderly neighbours.",culture:"The formal goodbye. Swiss formality isn't stiff — it's respectful. People notice and appreciate it.<br><br><em>Uf Widerluege preserves an older German grammatical form — the dative case — that has largely disappeared from modern High German. Swiss German is linguistically conservative, retaining features that the northern dialects dropped centuries ago.</em>"}
     ]},
-    {id:2,title:"Numbers",phrases:[
+    {id:2,title:"numbers",phrases:[
       {chde:"Eis",phon:"ice",hd:"Eins",en:"One",note:"The -s ending disappears.",culture:"Swiss German numbers shift sounds from High German. Eis instead of Eins.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Füüf",phon:"füüf",hd:"Fünf",en:"Five",note:"Hold the double ü.",culture:"The double vowel is distinctly Swiss.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Zää",phon:"tsää",hd:"Zehn",en:"Ten",note:"The ä replaces the e.",culture:"Zehn becomes Zää — the vowel completely transforms.<br><br><em>Placeholder — Deborah to review.</em>"}
     ]},
-    {id:3,title:"Swearwords",phrases:[
+    {id:3,title:"swearwords",phrases:[
       {chde:"Gopfriedstutz",phon:"GOPF-reed-shtoots",hd:"Verdammt nochmal",en:"For heaven's sake",note:"The classic. Old-fashioned, used by everyone, never offensive.",culture:"Swiss German has an extraordinary tradition of creative mild swearing. Gopfriedstutz replaced stronger words centuries ago. Completely acceptable in any company.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Hergott",phon:"HAIR-got",hd:"Herrgott",en:"Good lord",note:"Literally 'lord god'. A sigh of exasperation.",culture:"Used when something goes mildly wrong. Grandparents and parents say it all day.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Sapperlot",phon:"ZAP-per-lot",hd:"Donnerwetter",en:"Good gracious",note:"Old, almost theatrical exclamation.",culture:"Grandparents love this one. Adds character without ever being rude.<br><br><em>Placeholder — Deborah to review.</em>"}
     ]}
   ]},
   {name:"Pillar 2 — First phrases",free:false,lessons:[
-    {id:4,title:"Tourist",phrases:[
+    {id:4,title:"tourist",phrases:[
       {chde:"Wo isch...?",phon:"voh ish",hd:"Wo ist...?",en:"Where is...?",note:"Placeholder — Deborah to draft.",culture:"Placeholder.<br><br><em>Draft pending.</em>"},
       {chde:"Wie chum i nach...?",phon:"vee khoom ee nakh",hd:"Wie komme ich nach...?",en:"How do I get to...?",note:"Placeholder — Deborah to draft.",culture:"Placeholder.<br><br><em>Draft pending.</em>"},
       {chde:"Es Billett, bitte",phon:"es bee-YET BIT-teh",hd:"Eine Fahrkarte, bitte",en:"A ticket, please",note:"Placeholder — Deborah to draft.",culture:"Placeholder.<br><br><em>Draft pending.</em>"}
     ]},
-    {id:5,title:"Beiz",phrases:[
+    {id:5,title:"beiz",phrases:[
       {chde:"En Kafi, bitte",phon:"en KAH-fee BIT-teh",hd:"Einen Kaffee, bitte",en:"A coffee, please",note:"Beiz = local café or pub.",culture:"Beiz is one of the most Swiss words — a local café, pub or restaurant with character. Every neighbourhood has one. Ordering in Swiss German immediately marks you as someone who's making an effort.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Zahle, bitte",phon:"TSAH-leh BIT-teh",hd:"Zahlen, bitte",en:"The bill, please",note:"Swiss restaurants won't bring it until you ask.",culture:"Swiss service culture respects your space — the bill comes only when you ask. Zahle, bitte is essential daily vocabulary.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Proscht!",phon:"prohsht",hd:"Prost!",en:"Cheers!",note:"Look everyone in the eye when you clink.",culture:"Eye contact when clinking glasses is taken seriously in Switzerland. Legend says avoiding it brings seven years of bad luck.<br><br><em>Placeholder — Deborah to review.</em>"}
     ]},
-    {id:6,title:"Freizeit",phrases:[
+    {id:6,title:"freizeit",phrases:[
       {chde:"Was machsch hüt?",phon:"vas MAKHSH hüt",hd:"Was machst du heute?",en:"What are you doing today?",note:"Placeholder — Deborah to draft.",culture:"Placeholder.<br><br><em>Draft pending.</em>"},
       {chde:"Gömmer go wandere?",phon:"GUH-mer goh VAN-deh-reh",hd:"Gehen wir wandern?",en:"Shall we go hiking?",note:"Placeholder — Deborah to draft.",culture:"Placeholder.<br><br><em>Draft pending.</em>"},
       {chde:"Gömmer go schwimme?",phon:"GUH-mer goh SHVIM-meh",hd:"Gehen wir schwimmen?",en:"Shall we go swimming?",note:"Placeholder — Deborah to draft.",culture:"Placeholder.<br><br><em>Draft pending.</em>"}
     ]}
   ]},
   {name:"Pillar 3 — First understandings",free:false,lessons:[
-    {id:7,title:"Humour",phrases:[
+    {id:7,title:"humour",phrases:[
       {chde:"Das isch jetzt e Witz, gäll?",phon:"das ish yetst eh vits, gehl",hd:"Das ist jetzt ein Witz, oder?",en:"That's a joke, right?",note:"Swiss humour is dry — sometimes you need to check.",culture:"Swiss humour is famously understated. A Swiss joke can land so flat that you genuinely don't know if it's a joke. Asking is fine — it's almost part of the game.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Bisch dänne",phon:"bish DEN-neh",hd:"Klar / Stimmt",en:"Of course / Yeah right",note:"Sarcastic agreement. Tone is everything.",culture:"Bisch dänne literally means 'are you then' — used with rising sarcastic intonation to mean 'sure, sure' or 'as if'. Understanding when this is sincere vs sarcastic is a real test of dialect comprehension.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Das git's doch nöd",phon:"das gits dokh nöt",hd:"Das gibt's doch nicht",en:"That can't be true",note:"Mild disbelief, usually amused.",culture:"Used when something is too absurd or too perfect. Swiss people say this constantly — it's a verbal shrug of recognition that life is strange.<br><br><em>Placeholder — Deborah to review.</em>"}
     ]},
-    {id:8,title:"Food",phrases:[
+    {id:8,title:"food",phrases:[
       {chde:"Rösti",phon:"RÖSH-tee",hd:"Rösti",en:"Rösti (potato dish)",note:"The Swiss national hash brown.",culture:"Rösti is sacred. Originally a farmer's breakfast, now eaten anytime. The 'Röstigraben' (rösti ditch) is the linguistic-cultural divide between German and French Switzerland.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Fondue",phon:"fon-DOO",hd:"Fondue",en:"Fondue",note:"Don't lose your bread in the pot — old rule.",culture:"Fondue is winter ritual. Tradition says if you drop your bread, you owe everyone a round of kirsch — or, if you're female, you kiss your neighbour. Modern Swiss take this lightly.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Z'Vieri",phon:"TSFEE-eh-ree",hd:"Zvieri",en:"Afternoon snack",note:"Around 4pm. Sacred Swiss ritual.",culture:"Z'Vieri (literally 'at four') is the afternoon snack break — bread, cheese, fruit, chocolate. Children especially have Z'Vieri every day in kindergarten and school.<br><br><em>Placeholder — Deborah to review.</em>"}
     ]},
-    {id:9,title:"Traditions",phrases:[
+    {id:9,title:"traditions",phrases:[
       {chde:"Fasnacht",phon:"FAHS-nakht",hd:"Fastnacht",en:"Carnival",note:"Late winter chaos with masks and music.",culture:"Fasnacht is the Swiss carnival — wildest in Basel and Lucerne. Basler Fasnacht starts at 4am on Monday with the Morgestraich, and the whole city marches in masks for three days. Loud, weird, beloved.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"1. Auguscht",phon:"AIRSH-teh OW-goosht",hd:"1. August",en:"Swiss National Day",note:"August 1st — fireworks, bonfires, sausages.",culture:"1. Auguscht celebrates the 1291 founding of the Swiss Confederation. Every village does fireworks and bonfires. President addresses the nation. Sausages and bread on a fire pit, neighbours together.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Samichlaus",phon:"ZAH-mee-klows",hd:"Nikolaus",en:"St. Nicholas",note:"December 6th — comes with Schmutzli.",culture:"On Dec 6th, Samichlaus (St Nicholas) visits children with peanuts, mandarins and chocolate. He's accompanied by Schmutzli — a darker figure who used to scare bad kids. Modern Schmutzli just looks gentle.<br><br><em>Placeholder — Deborah to review.</em>"}
     ]}
   ]},
   {name:"Pillar 4 — First cultural steps",free:false,lessons:[
-    {id:10,title:"Hochdeutsch",phrases:[
+    {id:10,title:"hochdeutsch",phrases:[
       {chde:"Velo",phon:"VAY-loh",hd:"Fahrrad",en:"Bicycle",note:"Swiss use Velo (French origin), Germans say Fahrrad.",culture:"One of the most marked differences. Swiss German uses many French-origin words for everyday objects: Velo, Trottoir (sidewalk), Coiffeur (hairdresser). Germans use German equivalents.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Znacht",phon:"TSNAKHT",hd:"Abendessen",en:"Dinner",note:"Literally 'at night' — Swiss prefer compact forms.",culture:"Swiss German loves compressed time words: Zmorge (breakfast), Znüni (mid-morning), Zmittag (lunch), Zvieri (afternoon snack), Znacht (dinner). High German uses longer phrases.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Glacé",phon:"glah-SAY",hd:"Eis",en:"Ice cream",note:"French word — Germans just say Eis.",culture:"Asking for 'Eis' in Switzerland might get you ice cubes. Swiss German keeps Glacé for ice cream — a French loanword that stayed. Small everyday clues to the country's multilingual layers.<br><br><em>Placeholder — Deborah to review.</em>"}
     ]},
-    {id:11,title:"Regional",phrases:[
+    {id:11,title:"regional",phrases:[
       {chde:"Chuchichäschtli",phon:"CHOO-chee-CHESH-tlee",hd:"Küchenschrank",en:"Kitchen cupboard",note:"The ultimate test word — different in every region.",culture:"Chuchichäschtli contains the CH sound four times in different positions. Every Swiss German region pronounces it slightly differently — Bernese softens it, Zürich sharpens it, Wallis adds its own twist.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Bärndütsch",phon:"BERN-düch",hd:"Berndeutsch",en:"Bernese dialect",note:"Slower, rounder than Zürich German.",culture:"Bernese is the dialect of the capital region — famously slower and softer. Stereotype: 'Berner reden langsam, aber denken klar.' (Bernese speak slowly but think clearly.) National treasure Mani Matter wrote his songs in this dialect.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Wallisertitsch",phon:"VAL-li-ser-titch",hd:"Walliserdeutsch",en:"Valaisan dialect",note:"Almost incomprehensible — even to other Swiss.",culture:"Wallisertitsch (the dialect of canton Valais, deep in the Alps) preserves Old High German features the rest of Switzerland lost. Speakers from Zürich often struggle to understand it. Linguistically remarkable, culturally proud.<br><br><em>Placeholder — Deborah to review.</em>"}
     ]},
-    {id:12,title:"History",phrases:[
+    {id:12,title:"history",phrases:[
       {chde:"1291",phon:"twelve-ninety-one",hd:"1291",en:"Founding of the Confederation",note:"The Rütlischwur — three cantons swear an alliance.",culture:"On August 1st 1291, representatives of Uri, Schwyz and Unterwalden allegedly met on the Rütli meadow and swore mutual defence against Habsburg rule. Whether this exact event happened is debated, but the date is sacred.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Wilhelm Tell",phon:"VIL-helm tell",hd:"Wilhelm Tell",en:"William Tell",note:"The crossbow, the apple, the founding myth.",culture:"Wilhelm Tell — the legendary archer who shot an apple from his son's head and helped overthrow Habsburg tyranny. Probably never existed. Yet his story shaped Swiss identity for 700 years. Schiller's 1804 play immortalised him in Europe.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Neutralität",phon:"noy-trah-lee-TÄT",hd:"Neutralität",en:"Neutrality",note:"The 1815 principle that defines modern Switzerland.",culture:"Switzerland's permanent armed neutrality was recognised at the Congress of Vienna in 1815. It allowed the country to stay out of two world wars and to host international institutions — Red Cross, UN Geneva, WHO. It's not pacifism — it's strategic distance.<br><br><em>Placeholder — Deborah to review.</em>"}
@@ -745,7 +751,7 @@ function renderLessons(){
         <div class="lr-right">
           <div class="pbar"><div class="pfill" style="width:${pct}%"></div></div>
           <span class="pill ${pillClass}">${pillText}</span>
-          ${!locked?`<button class="lr-btn" onclick="event.stopPropagation();openLesson(${l.id})">${prog.length>0?'Continue':'Start'} →</button>`:''}
+          ${!locked?`<button class="lr-btn" onclick="event.stopPropagation();openLesson(${l.id})">${prog.length>0?'continue':'start'} →</button>`:''}
         </div>`;
       if(!locked)row.onclick=e=>{if(e.target.tagName!=='BUTTON')openLesson(l.id);};
       list.appendChild(row);
@@ -762,7 +768,7 @@ function renderLessons(){
     <div class="me-card">
       <div class="me-stat"><span class="me-stat-label">Deborah's voice recordings</span><span class="me-plan-pill">soon</span></div>
       <div class="me-stat"><span class="me-stat-label">"Los gaahts" — voice cue on start</span><span class="me-plan-pill">soon</span></div>
-      <div class="me-stat"><span class="me-stat-label">Premium · pronunciation feedback</span><span class="me-plan-pill">soon</span></div>
+      <div class="me-stat"><span class="me-stat-label">premium · pronunciation feedback</span><span class="me-plan-pill">soon</span></div>
     </div>`;
   container.appendChild(works);
 }
@@ -965,7 +971,7 @@ function startBurst(btn){
   setTimeout(()=>{
     showView('lessons');
     wrap.classList.remove('is-bursting');
-  },2400);
+  },1600);
 }
 
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
