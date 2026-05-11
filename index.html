@@ -140,7 +140,8 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
 
 /* PILLARS */
 .pillar-section{margin-bottom:1.25rem}
-.pillar-label{font-size:12px;font-weight:500;color:var(--dark);padding:16px 0 6px;margin-bottom:2px;letter-spacing:.01em}
+.pillar-label{font-size:12px;font-weight:500;color:var(--dark);padding:16px 0 2px;margin-bottom:0;letter-spacing:.01em}
+.pillar-sub{font-size:11px;font-weight:300;color:var(--texts);line-height:1.5;margin-bottom:.6rem;padding-left:2px}
 .lessons-list{display:flex;flex-direction:column;gap:1px;background:var(--cream2);border-radius:18px;overflow:hidden;border:0.5px solid var(--cream2)}
 .lesson-row{background:white;padding:11px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .1s}
 .lesson-row:hover{background:rgba(200,221,212,.12)}
@@ -252,12 +253,14 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
 .about-note{font-size:11px;font-weight:300;color:var(--textm);line-height:1.7;margin-bottom:1.25rem;padding:.75rem 1rem;background:rgba(168,200,188,.18);border-left:2px solid var(--sage);border-radius:6px}
 .about-note strong{font-weight:500;color:var(--dark)}
 .contact-section{padding-top:1.25rem;border-top:0.5px solid var(--beige)}
-.about-split{display:flex;flex-direction:column;align-items:center;gap:1.5rem;padding:1.5rem 0 2rem}
-.about-photo-wrap{position:relative;width:100%;display:flex;justify-content:center}
-.about-photo{width:200px;height:200px;object-fit:cover;object-position:center top;border-radius:16px;display:block;background:var(--cream2)}
-.about-text{display:flex;flex-direction:column;gap:0;width:100%}
-@media(max-width:600px){
-  .about-photo{width:180px;height:180px}
+.about-split{display:grid;grid-template-columns:40% 1fr;gap:1.5rem;align-items:start;padding:1.5rem 0 2rem}
+.about-photo-wrap{position:relative}
+.about-photo{width:100%;aspect-ratio:1;object-fit:cover;object-position:center top;border-radius:16px;display:block;background:var(--cream2)}
+.about-text{display:flex;flex-direction:column;gap:0}
+@media(max-width:520px){
+  .about-split{grid-template-columns:1fr;gap:1.25rem}
+  .about-photo-wrap{display:flex;justify-content:center}
+  .about-photo{max-width:180px}
 }
 
 .contact-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--texts);margin-bottom:.75rem;font-weight:400}
@@ -464,7 +467,7 @@ nav.top{background:#B8CDD4;height:52px;display:flex;align-items:center;position:
         <p class="about-sig">— Deborah</p>
         <p class="about-note">A note on dialect — Swiss German has many regional flavours. The lessons here teach <strong>Züritüütsch</strong>, the Zürich dialect, which is the variety I grew up speaking.</p>
         <div class="contact-section">
-          <a class="contact-btn" href="https://calendly.com/deborahmurielblum-info/new-meeting" target="_blank">Book a private lesson</a>
+          <a class="contact-btn" href="https://calendly.com/deborahmurielblum-info/new-meeting" target="_blank">Book a session</a>
           <a class="contact-btn soft" href="mailto:info@deborahmurielblum.com">Get in touch</a>
         </div>
       </div>
@@ -496,12 +499,7 @@ const PILLARS=[
     {id:1,title:"Greetings",phrases:[
       {chde:"Grüezi",phon:"GROO-et-see",hd:"Guten Tag",en:"Hello / Good day",note:"The universal Swiss hello — works anywhere, anytime, with anyone.",culture:"In Switzerland, greeting people properly matters. Saying Grüezi to a stranger in a lift or on a hiking trail is completely normal — even expected. Silence would be rude.<br><br><em>The word Grüezi derives from 'Gott grüez i Euch' — 'God greet you' — a medieval blessing that shortened over centuries into the two-syllable greeting used today across German-speaking Switzerland.</em>"},
       {chde:"Hoi",phon:"hoy",hd:"Hi",en:"Hi",note:"Casual. What friends say.",culture:"Hoi comes from the same root as the English 'hi' — Swiss German absorbed it naturally. Use it with people your age or younger. With your landlord, stick to Grüezi.<br><br><em>Hoi entered Swiss German in the 20th century, influenced by English 'hi' through international contact, radio and later television. Its adoption shows how Swiss German absorbs foreign influences without formality or resistance.</em>"},
-      {chde:"Wie gaats?",phon:"vee gaats",hd:"Wie geht es dir?",en:"How are you?",note:"Expect 'Danke, guet' back. Swiss keep it short.",culture:"Swiss directness is a cultural feature, not rudeness. When someone asks 'Wie gaats?' they mean it, but they also don't want a long answer. 'Guet, merci' is perfect.<br><br><em>The rising intonation at the end of questions like Wie gaats? is a distinctive Swiss German feature. Linguists note it differs from High German patterns and may reflect older Alemannic speech rhythms preserved in the Alpine region.</em>"},
-      {chde:"Guet, merci",phon:"goot, mair-see",hd:"Gut, danke",en:"Good, thanks",note:"Half Swiss German, half French — perfectly normal.",culture:"Switzerland has 4 official languages — German, French, Italian and Romansh. French bleeds into everyday Swiss German naturally, especially in cities. Merci is completely standard.<br><br><em>Merci entered Swiss German from French in the 18th and 19th centuries, when French was the prestige language of European courts and culture. Switzerland's multilingual reality meant French vocabulary crossed naturally into German-speaking cantons — and stayed.</em>"},
-      {chde:"Tschüss",phon:"chüss",hd:"Tschüss",en:"Bye",note:"Same as High German but softer.",culture:"Swiss German borrowed Tschüss from High German, but also uses Tschau — from Italian ciao. Switzerland absorbs neighbouring languages without thinking about it.<br><br><em>Tschau — from Italian ciao — entered Swiss German through Ticino, Switzerland's Italian-speaking canton. It crossed the Gotthard into German-speaking Switzerland in the 20th century and is now completely standard, a small daily reminder of Switzerland's internal multilingualism.</em>"},
-      {chde:"Uf Widerluege",phon:"oof VEE-der-loo-eh-geh",hd:"Auf Wiedersehen",en:"Goodbye (formal)",note:"Literally 'until seeing again'.",culture:"The formal goodbye. Use it with shopkeepers, doctors, elderly neighbours. Swiss formality isn't stiff — it's respectful. People notice and appreciate it.<br><br><em>Uf Widerluege preserves an older German grammatical form — the dative case — that has largely disappeared from modern High German. Swiss German is linguistically conservative, retaining features that the northern dialects dropped centuries ago.</em>"},
-      {chde:"Guten Morge",phon:"GOO-ten MOR-geh",hd:"Guten Morgen",en:"Good morning",note:"Swiss drop the -n. 'Morge!' alone works too.",culture:"One of the clearest markers of Swiss German: the -en ending almost always disappears. Morgen becomes Morge, Sieben becomes Sibe. The language flows shorter and rounder than High German.<br><br><em>The shortening of Morgen to Morge is part of a systematic sound change in Alemannic dialects — the language family Swiss German belongs to — where final syllables were reduced over centuries. The same process turned Guten into Guet and Sieben into Sibe.</em>"},
-      {chde:"Guet Nacht",phon:"goot nakht",hd:"Gute Nacht",en:"Good night",note:"Guet not Gute — the -e ending disappears.",culture:"Guet is one of the most distinctive Swiss sounds. The High German 'gut' becomes 'guet' — an extra vowel sound that marks you immediately as speaking dialect, not textbook German.<br><br><em>Guet preserves a Middle High German vowel sound — the diphthong ue — that was standardised away in High German but survived in the Swiss Alpine dialects. When you say Guet Nacht you are using a form of German that is over 700 years old.</em>"}
+      {chde:"Uf Widerluege",phon:"oof VEE-der-loo-eh-geh",hd:"Auf Wiedersehen",en:"Goodbye (formal)",note:"Literally 'until seeing again'. Use with shopkeepers, doctors, elderly neighbours.",culture:"The formal goodbye. Swiss formality isn't stiff — it's respectful. People notice and appreciate it.<br><br><em>Uf Widerluege preserves an older German grammatical form — the dative case — that has largely disappeared from modern High German. Swiss German is linguistically conservative, retaining features that the northern dialects dropped centuries ago.</em>"}
     ]},
     {id:2,title:"Numbers 1–10",phrases:[
       {chde:"Eis",phon:"ice",hd:"Eins",en:"One",note:"Sounds like 'ice'.",culture:"Swiss German numbers differ significantly from High German. Eis instead of Eins — the -s ending disappears. This pattern repeats throughout the dialect."},
@@ -830,12 +828,25 @@ function renderLessons(){
   PILLARS.forEach(pillar=>{
     const section=document.createElement('div');
     section.className='pillar-section';
-    const pillarNames=['first words','first phrases','first understandings','first cultural steps','book private coaching'];
+    const pillarMeta=[
+      {name:'first words',sub:'the absolute basics — what to say before anything else'},
+      {name:'first phrases',sub:'getting through your first days — moving around &amp; meeting people'},
+      {name:'first understandings',sub:'how the swiss think — what makes them laugh, eat, celebrate'},
+      {name:'first culture steps',sub:'going deeper — dialect history, regional differences, swiss roots'},
+      {name:'book a session',sub:'need a real human? Deborah teaches one-to-one'}
+    ];
     const pillarIdx=PILLARS.indexOf(pillar);
+    const meta=pillarMeta[pillarIdx]||{name:pillar.lessons[0].title,sub:''};
     const label=document.createElement('div');
     label.className='pillar-label';
-    label.textContent=pillarNames[pillarIdx]||pillar.lessons[0].title;
+    label.textContent=meta.name;
     section.appendChild(label);
+    if(meta.sub){
+      const subtitle=document.createElement('div');
+      subtitle.className='pillar-sub';
+      subtitle.innerHTML=meta.sub;
+      section.appendChild(subtitle);
+    }
     if(pillarIdx===4){
       const bookBtn=document.createElement('a');
       bookBtn.href='https://calendly.com/deborahmurielblum-info/new-meeting';
