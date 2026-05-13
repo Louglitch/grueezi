@@ -495,23 +495,6 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
 .chapter-next-arrow:hover{transform:scale(1.05)}
 .next-chapter-label{font-size:10px;color:var(--texts);letter-spacing:.04em;font-weight:300}
 
-/* CHAPTER TRANSITION OVERLAY — brief celebration between info chapters */
-.chapter-transition{position:fixed;inset:0;background:var(--bg);display:none;align-items:center;justify-content:center;z-index:900;opacity:0;transition:opacity .35s ease;padding:1.25rem}
-.chapter-transition.active{display:flex;opacity:1;animation:ct-fade-in .35s ease forwards}
-.chapter-transition.fading{display:flex;opacity:0}
-@keyframes ct-fade-in{from{opacity:0}to{opacity:1}}
-.ct-inner{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;max-width:320px;width:100%;padding-bottom:60px}
-.ct-stamp{width:28px;height:28px;border-radius:50%;background:var(--gz-sage);box-shadow:0 0 0 5px color-mix(in srgb, var(--gz-sage) 22%, transparent);display:flex;align-items:center;justify-content:center;margin-bottom:16px;animation:ct-stamp-land .55s cubic-bezier(.22,1,.36,1) forwards;opacity:0;transform:scale(.4)}
-@keyframes ct-stamp-land{0%{opacity:0;transform:scale(.4) rotate(-12deg)}60%{transform:scale(1.1) rotate(2deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
-.ct-wiiter{font-size:22px;font-weight:300;color:var(--rose);margin-bottom:8px;letter-spacing:.01em;opacity:0;animation:ct-fade-up .5s ease .25s forwards}
-.ct-next-label{font-size:9px;color:var(--texts);letter-spacing:.15em;text-transform:uppercase;margin-bottom:2px;opacity:0;animation:ct-fade-up .5s ease .45s forwards}
-.ct-next-title{font-size:14px;color:var(--dark);font-weight:300;opacity:0;animation:ct-fade-up .5s ease .55s forwards}
-@keyframes ct-fade-up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.ct-horizon{position:absolute;bottom:0;left:0;right:0;width:100%;height:40px;opacity:0;animation:ct-fade-up .5s ease .65s forwards}
-@media (prefers-reduced-motion:reduce){
-  .ct-stamp,.ct-wiiter,.ct-next-label,.ct-next-title,.ct-horizon{animation:none;opacity:1;transform:none}
-}
-
 
 .stage-row{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
 .stage-row > #stage-content{flex:1;min-width:0}
@@ -847,9 +830,6 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
 </div>
 
 <!-- SWISS PASSPORT — completion overlay (fires once when all 36 phrases done) -->
-<!-- CHAPTER TRANSITION — brief celebration between info chapters -->
-<div class="chapter-transition" id="chapter-transition" aria-hidden="true"></div>
-
 <div class="passport-overlay" id="passport-overlay" role="dialog" aria-modal="true" aria-label="Swiss pass earned">
   <div class="passport-flash"></div>
   <svg class="passport-svg" viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg" aria-label="Swiss Pass">
@@ -1439,53 +1419,15 @@ function completeInfoChapter(){
   if(!state.quizScores[lesson.id]) state.quizScores[lesson.id] = {correct:0, total:0};
   save();
   stopChapterAudio();
-  // Show transition then route to next chapter (or back to lessons)
+  // Directly route to next chapter (or back to lessons)
   const nextLesson = getNextInfoChapter(lesson.id);
-  showChapterTransition(lesson.title, nextLesson, ()=>{
-    // After transition fades out
-    if(nextLesson){
-      openLesson(nextLesson.id);
-    } else {
-      // All info chapters done — fire passport ONLY if everything else also done
-      maybeShowPassport();
-      showView('lessons');
-    }
-  });
-}
-
-function showChapterTransition(currentTitle, nextLesson, onDone){
-  const overlay = document.getElementById('chapter-transition');
-  if(!overlay){ if(onDone) onDone(); return; }
-  const nextTitle = nextLesson ? nextLesson.title : 'finished';
-  overlay.innerHTML = `
-    <div class="ct-inner">
-      <div class="ct-stamp">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <div class="ct-wiiter">wiiter…</div>
-      <div class="ct-next-label">${nextLesson ? 'next chapter' : 'all chapters read'}</div>
-      <div class="ct-next-title">${nextTitle}</div>
-      <svg class="ct-horizon" viewBox="0 0 200 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path fill="var(--sage)" opacity="0.35" d="M0,40 L0,28 L40,12 L70,26 L100,8 L140,22 L170,14 L200,20 L200,40 Z"/>
-      </svg>
-    </div>
-  `;
-  overlay.classList.add('active');
-  // Auto-dismiss after 1.8s, or on tap
-  let dismissed = false;
-  const dismiss = () => {
-    if(dismissed) return;
-    dismissed = true;
-    overlay.classList.remove('active');
-    overlay.classList.add('fading');
-    setTimeout(()=>{
-      overlay.classList.remove('fading');
-      overlay.innerHTML = '';
-      if(onDone) onDone();
-    }, 280);
-  };
-  overlay.onclick = dismiss;
-  setTimeout(dismiss, 1800);
+  if(nextLesson){
+    openLesson(nextLesson.id);
+  } else {
+    // All info chapters done — fire passport ONLY if everything else also done
+    maybeShowPassport();
+    showView('lessons');
+  }
 }
 
 // Chapter audio playback — uses speechSynthesis to read lesson.info aloud in chosen language
