@@ -366,15 +366,26 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
 .stage-pip.active{background:var(--mint)}
 
 /* WORD STAGE */
-.word-card{background:var(--card);border-radius:20px;border:0.5px solid var(--cream2);padding:2rem 1.5rem;text-align:center;margin-bottom:1rem}
-.wc-chde{font-size:2.5rem;font-weight:300;color:var(--dark);margin-bottom:.25rem;letter-spacing:.01em}
-.wc-phonetic{font-size:12px;font-weight:300;font-style:italic;color:var(--texts);margin-bottom:1.25rem}
-.wc-audio{width:48px;height:48px;border-radius:50%;background:var(--dark);border:none;margin:0 auto .875rem;display:flex;align-items:center;justify-content:center;cursor:pointer}
-.wc-audio:hover{background:var(--sage)}
-.wc-audio svg{width:16px;height:16px;fill:var(--cream)}
-.wc-translations{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-.wc-tr{font-size:12px;font-weight:300;color:var(--textm)}
-.wc-tr span{color:var(--texts);margin-right:4px;font-size:10px}
+.word-card{background:var(--card);border-radius:20px;border:0.5px solid var(--cream2);padding:2.25rem 1.5rem 2rem;text-align:center;margin-bottom:1rem}
+.wc-chde{font-size:2.75rem;font-weight:300;color:var(--dark);margin-bottom:.4rem;letter-spacing:-.01em;line-height:1}
+.wc-phonetic{font-size:13px;font-weight:300;color:var(--texts);margin-bottom:1.5rem;opacity:.7;letter-spacing:.04em}
+.wc-audio{width:72px;height:72px;border-radius:50%;background:var(--sage);border:none;margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(168,200,188,.4);transition:transform .15s ease, background .15s ease}
+.wc-audio:hover{transform:scale(1.04);background:var(--mint)}
+.wc-audio:active{transform:scale(.96)}
+.wc-audio svg{width:22px;height:22px;fill:var(--cream)}
+.wc-translations{display:flex;flex-direction:column;gap:.25rem;align-items:center}
+.wc-en{font-size:1.25rem;font-weight:400;color:var(--dark);letter-spacing:-.005em}
+.wc-hd{font-size:13px;font-weight:300;color:var(--texts);opacity:.6;font-style:italic}
+.ghost-next{background:none;border:none;font-family:'Jost',sans-serif;font-size:13px;font-weight:300;color:var(--dark);opacity:.55;letter-spacing:.04em;cursor:pointer;padding:8px 16px;transition:opacity .15s ease}
+.ghost-next:hover{opacity:.95}
+.ghost-next:disabled{opacity:.25;cursor:default}
+.ghost-next:disabled:hover{opacity:.25}
+
+
+/* End-of-lesson quiz card */
+.quiz-card{background:var(--card);border-radius:20px;border:0.5px solid var(--cream2);padding:1.75rem 1.5rem;text-align:center;margin-bottom:1rem}
+.quiz-progress{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--texts);opacity:.5;margin-bottom:.5rem}
+.quiz-prompt{font-size:14px;font-weight:300;color:var(--textm);margin-bottom:1.25rem;opacity:.8}
 
 /* SENTENCE STAGE */
 .sentence-card{background:var(--card);border-radius:20px;border:0.5px solid var(--cream2);padding:1.5rem;margin-bottom:1rem}
@@ -710,12 +721,10 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
       <div id="stage-content"></div>
-      <button class="stage-arrow stage-arrow-next" id="btn-next" onclick="nextItem()" aria-label="next">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-      </button>
+      <button class="ghost-next" id="btn-next" onclick="onNextClick()" aria-label="next">next →</button>
     </div>
     <div class="stage-ack">
-      <button class="got-it-btn" id="got-it-btn" onclick="nextItem()">got it</button>
+      
     </div>
   </div>
 </div>
@@ -899,7 +908,22 @@ applyMode(localStorage.getItem('g_mode') || 'mint');
 
 const PILLARS=[
     {name:"Words",free:true,lessons:[
-{id:2,title:"numbers",info:"Counting in Swiss German. Mostly tracks High German, but the sounds shift everywhere. The first ten are essential — prices, addresses, time, phone numbers. After ten, it gets weird (twenty-one is 'one-and-twenty'). First 10 free, then unlock for the full system up to 100.",free:false,previewPhrases:10,phrases:[
+{id:1,title:"hi, bye",info:"How Swiss people open and close interactions \u2014 and why it matters more than you think. Saying Gr\u00fcezi to a stranger isn't optional, it's expected. Silence is rude.",free:true,phrases:[
+      {chde:"Gr\u00fcezi",phon:"GROO-et-see",hd:"Guten Tag",en:"Hello / Good day",note:"",culture:"In Switzerland, greeting people properly matters. Saying Gr\u00fcezi to a stranger in a lift or on a hiking trail is completely normal \u2014 even expected. Silence would be rude.<br><br><em>The word Gr\u00fcezi derives from 'Gott gr\u00fcez i Euch' \u2014 'God greet you' \u2014 a medieval blessing that shortened over centuries into the two-syllable greeting used today across German-speaking Switzerland.</em>"},
+      {chde:"Guete Morge",phon:"GOO-eh-teh MOR-geh",hd:"Guten Morgen",en:"Good morning",note:"",culture:"Used until around 10am. Said even to strangers in lifts, hallways, bakeries.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"Sch\u00f6ne Abig",phon:"SHUH-neh AH-big",hd:"Sch\u00f6nen Abend",en:"Good evening",note:"",culture:"From late afternoon onward. A polite way to mark the end of a visit or shop interaction.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"Hoi",phon:"hoy",hd:"Hi",en:"Hi",note:"Casual. What friends say.",culture:"Hoi comes from the same root as the English 'hi' \u2014 Swiss German absorbed it naturally. Use it with people your age or younger. With your landlord, stick to Gr\u00fcezi.<br><br><em>Hoi entered Swiss German in the 20th century, influenced by English 'hi' through international contact, radio and later television.</em>"},
+      {chde:"Sali / Z\u00e4me",phon:"SAH-lee / TSEH-meh",hd:"Hallo / zusammen",en:"Hi / together",note:"Sali = singular casual, Z\u00e4me = greeting a group.",culture:"Sali comes from French 'salut' \u2014 another loanword that stayed in Swiss German. Z\u00e4me literally means 'together' and is said when entering a room with multiple people.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"Wie gahts?",phon:"vee GAHTS",hd:"Wie geht's?",en:"How's it going?",note:"The everyday opener.",culture:"Said constantly but rarely answered in depth. Standard reply: G\u00fcet, danke (good, thanks). Like English 'how are you' \u2014 phatic rather than literal.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"Wie h\u00e4schis?",phon:"vee HEH-shis",hd:"Wie hast du es?",en:"How are you doing?",note:"More personal than wie gahts.",culture:"Literally 'how do you have it'. A warmer, more personal version often used between people who know each other.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"En guete",phon:"en GOO-eh-teh",hd:"Guten Appetit",en:"Enjoy your meal",note:"Said before eating, even at canteens.",culture:"En guete is the universal Swiss table opener. Said to everyone before the first bite. Not saying it feels rude. Family, colleagues, strangers at the next table \u2014 everyone says it.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"I hei\u00dfe...",phon:"ee HAI-seh",hd:"Ich hei\u00dfe...",en:"My name is...",note:"Self-introduction.",culture:"Used at parties, in shops, anywhere you need to introduce yourself. Followed by your name, then often a handshake.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"Uf Widerluege",phon:"oof VEE-der-loo-eh-geh",hd:"Auf Wiedersehen",en:"Goodbye (formal)",note:"Literally 'until seeing again'. Use with shopkeepers, doctors, elderly neighbours.",culture:"The formal goodbye. Swiss formality isn't stiff \u2014 it's respectful. People notice and appreciate it.<br><br><em>Uf Widerluege preserves an older German grammatical form \u2014 the dative case \u2014 that has largely disappeared from modern High German.</em>"},
+      {chde:"Uf Widerseh",phon:"oof VEE-der-zeh",hd:"Auf Wiedersehen",en:"Goodbye (semi-formal)",note:"Slightly less formal than Uf Widerluege.",culture:"Common alternative. Used in slightly less ceremonial contexts but still respectful.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"Adi\u00e4 / Adj\u00f6",phon:"a-dee-EH / a-DYUH",hd:"Tsch\u00fcss",en:"Bye (casual)",note:"From French 'adieu'. Swiss-german kept it.",culture:"Another French loanword. More casual than Uf Widerluege but warmer than Tschau. Often used between friends.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"Tschau",phon:"chow",hd:"Tsch\u00fcss",en:"Bye",note:"Italian-origin, universal in Switzerland.",culture:"From Italian 'ciao'. Used widely across Switzerland, especially among younger people. Italian influence runs deep \u2014 Italian is the third national language.<br><br><em>Placeholder \u2014 Deborah to review.</em>"}
+    ]},
+    {id:2,title:"numbers",info:"Counting in Swiss German. Mostly tracks High German, but the sounds shift everywhere. The first ten are essential — prices, addresses, time, phone numbers. After ten, it gets weird (twenty-one is 'one-and-twenty'). First 10 free, then unlock for the full system up to 100.",free:false,phrases:[
       {chde:"Eis",phon:"ice",hd:"Eins",en:"One",note:"The -s ending disappears.",culture:"Swiss German numbers shift sounds from High German. Eis instead of Eins.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Zwöi",phon:"tsvöy",hd:"Zwei",en:"Two",note:"The ei becomes öi — a soft Swiss diphthong.",culture:"Zwei across the border, Zwöi here. Same number, completely different mouth shape.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Drüü",phon:"drüü",hd:"Drei",en:"Three",note:"Drei becomes drüü — vowel completely transforms.",culture:"Drüü is the Swiss German three. Hold the double ü long. Sounds nothing like German drei.<br><br><em>Placeholder — Deborah to review.</em>"},
@@ -916,47 +940,32 @@ const PILLARS=[
       {chde:"Achtefüfzg",phon:"akh-teh-füfts-g",hd:"Achtundfünfzig",en:"Fifty-eight",note:"You'll hear this fused into one word at Swiss cash registers.",culture:"In real conversation, multi-digit numbers blur into one word. Listen for the rhythm: unit-and-tens.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Hundert",phon:"hoon-dert",hd:"Hundert",en:"One hundred",note:"Identical to High German.",culture:"Hundert is the same across all German-speaking regions. After 100, numbers stay regular and predictable.<br><br><em>Placeholder — Deborah to review.</em>"}
     ]},
-    {id:1,title:"hi/byes",info:"How Swiss people open and close interactions \u2014 and why it matters more than you think. Saying Gr\u00fcezi to a stranger isn't optional, it's expected. Silence is rude.",free:true,phrases:[
-      {chde:"Gr\u00fcezi",phon:"GROO-et-see",hd:"Guten Tag",en:"Hello / Good day",note:"",culture:"In Switzerland, greeting people properly matters. Saying Gr\u00fcezi to a stranger in a lift or on a hiking trail is completely normal \u2014 even expected. Silence would be rude.<br><br><em>The word Gr\u00fcezi derives from 'Gott gr\u00fcez i Euch' \u2014 'God greet you' \u2014 a medieval blessing that shortened over centuries into the two-syllable greeting used today across German-speaking Switzerland.</em>"},
-      {chde:"Guete Morge",phon:"GOO-eh-teh MOR-geh",hd:"Guten Morgen",en:"Good morning",note:"",culture:"Used until around 10am. Said even to strangers in lifts, hallways, bakeries.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"Sch\u00f6ne Abig",phon:"SHUH-neh AH-big",hd:"Sch\u00f6nen Abend",en:"Good evening",note:"",culture:"From late afternoon onward. A polite way to mark the end of a visit or shop interaction.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"Hoi",phon:"hoy",hd:"Hi",en:"Hi",note:"Casual. What friends say.",culture:"Hoi comes from the same root as the English 'hi' \u2014 Swiss German absorbed it naturally. Use it with people your age or younger. With your landlord, stick to Gr\u00fcezi.<br><br><em>Hoi entered Swiss German in the 20th century, influenced by English 'hi' through international contact, radio and later television.</em>"},
-      {chde:"Sali / Z\u00e4me",phon:"SAH-lee / TSEH-meh",hd:"Hallo / zusammen",en:"Hi / together",note:"Sali = singular casual, Z\u00e4me = greeting a group.",culture:"Sali comes from French 'salut' \u2014 another loanword that stayed in Swiss German. Z\u00e4me literally means 'together' and is said when entering a room with multiple people.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"Wie gahts?",phon:"vee GAHTS",hd:"Wie geht's?",en:"How's it going?",note:"The everyday opener.",culture:"Said constantly but rarely answered in depth. Standard reply: G\u00fcet, danke (good, thanks). Like English 'how are you' \u2014 phatic rather than literal.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"Wie h\u00e4schis?",phon:"vee HEH-shis",hd:"Wie hast du es?",en:"How are you doing?",note:"More personal than wie gahts.",culture:"Literally 'how do you have it'. A warmer, more personal version often used between people who know each other.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"En guete",phon:"en GOO-eh-teh",hd:"Guten Appetit",en:"Enjoy your meal",note:"Said before eating, even at canteens.",culture:"En guete is the universal Swiss table opener. Said to everyone before the first bite. Not saying it feels rude. Family, colleagues, strangers at the next table \u2014 everyone says it.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"I hei\u00dfe...",phon:"ee HAI-seh",hd:"Ich hei\u00dfe...",en:"My name is...",note:"Self-introduction.",culture:"Used at parties, in shops, anywhere you need to introduce yourself. Followed by your name, then often a handshake.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"Uf Widerluege",phon:"oof VEE-der-loo-eh-geh",hd:"Auf Wiedersehen",en:"Goodbye (formal)",note:"Literally 'until seeing again'. Use with shopkeepers, doctors, elderly neighbours.",culture:"The formal goodbye. Swiss formality isn't stiff \u2014 it's respectful. People notice and appreciate it.<br><br><em>Uf Widerluege preserves an older German grammatical form \u2014 the dative case \u2014 that has largely disappeared from modern High German.</em>"},
-      {chde:"Uf Widerseh",phon:"oof VEE-der-zeh",hd:"Auf Wiedersehen",en:"Goodbye (semi-formal)",note:"Slightly less formal than Uf Widerluege.",culture:"Common alternative. Used in slightly less ceremonial contexts but still respectful.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"Adi\u00e4 / Adj\u00f6",phon:"a-dee-EH / a-DYUH",hd:"Tsch\u00fcss",en:"Bye (casual)",note:"From French 'adieu'. Swiss-german kept it.",culture:"Another French loanword. More casual than Uf Widerluege but warmer than Tschau. Often used between friends.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"Tschau",phon:"chow",hd:"Tsch\u00fcss",en:"Bye",note:"Italian-origin, universal in Switzerland.",culture:"From Italian 'ciao'. Used widely across Switzerland, especially among younger people. Italian influence runs deep \u2014 Italian is the third national language.<br><br><em>Placeholder \u2014 Deborah to review.</em>"}
+    {id:13,title:"animals",info:"The Swiss countryside has more livestock than people. 1.5 million cows for 8.7 million humans. Learn the animals that live in mountains, forests, and barns \u2014 and a few national mascots.",free:false,phrases:[
+      {chde:"Chue",phon:"CHOO-eh",hd:"Kuh",en:"cow",note:"The national mascot. 1.5 million in Switzerland, one per six humans.",culture:"Cows are sacred in Swiss culture. They have names, bells, and summer pastures in the Alps. The annual Alpabzug (cow descent) is celebrated with flower crowns and parades.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"Hund",phon:"HOOND",hd:"Hund",en:"dog",note:"Allowed in restaurants, trains, sometimes hospitals.",culture:"Dogs are full members of Swiss society. Every region has favored breeds. Bernese Mountain Dogs and Saint Bernards are national icons.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"Chatz",phon:"KHATS",hd:"Katze",en:"cat",note:"Universal background staff in Swiss households.",culture:"Cats are quietly omnipresent. Swiss law actually protects cats' right to roam outdoors \u2014 a national peculiarity.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"Vogl",phon:"FOH-gel",hd:"der Vogel",en:"bird",note:"Common around lakes and city parks.",culture:"Switzerland sits on major migration routes. The Wasservogelreservoir at Lake Constance hosts hundreds of thousands of birds each winter.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"St\u00e4ibock",phon:"SHTAY-bock",hd:"der Steinbock",en:"ibex",note:"The mountain icon with curled horns.",culture:"The ibex is the symbol of the canton Graub\u00fcnden and one of Switzerland's most photographed animals. Nearly extinct in 1900, now thriving across the Alps.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"Murmeltier",phon:"MOOR-mel-teer",hd:"Murmeltier",en:"marmot",note:"Whistles at hikers from the rocks.",culture:"Marmots are the alarm system of the Alps. Their high-pitched whistle warns the colony \u2014 and is one of the defining sounds of Swiss summer hiking.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"Fuchs",phon:"FOOKS",hd:"Fuchs",en:"fox",note:"Common in both forests and city outskirts.",culture:"Foxes have adapted to Swiss suburbs over the past 30 years. You'll see them on quiet streets at dawn. Folk tales paint them as clever tricksters.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"G\u00e4mse",phon:"GEM-zeh",hd:"die G\u00e4mse",en:"chamois",note:"A goat-antelope native to alpine cliffs.",culture:"The chamois is built for vertical rock. They can climb walls that look impossible. Their hair is used to make the soft cloths called G\u00e4msleder.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"Adler",phon:"AH-dler",hd:"Adler",en:"eagle",note:"On most cantonal flags.",culture:"The golden eagle returned to Switzerland in the 20th century after near-extinction. About 350 pairs now breed in the Alps.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"B\u00e4r",phon:"BAIR",hd:"der B\u00e4r",en:"bear",note:"Eliminated in 1904, started returning in 2005.",culture:"Bears are the official emblem of Bern (the capital is named after them). Wild bears wander in from Italy occasionally \u2014 each one makes the news.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"B\u00e4rnhardiner",phon:"BAIRN-hard-een-er",hd:"der Bernhardiner",en:"saint bernard",note:"The rescue dog with the brandy barrel.",culture:"The Saint Bernard breed was developed at the Great Saint Bernard Hospice in the Alps. They saved travelers from avalanches for centuries. The brandy barrel is myth \u2014 but a beloved one.<br><br><em>Placeholder \u2014 Deborah to review.</em>"}
     ]},
-    {id:13,title:"animals",info:"The Swiss countryside has more livestock than people. 1.5 million cows for 8.7 million humans. Learn the animals that live in mountains, forests, and barns \u2014 and a few national mascots.",free:false,previewPhrases:5,phrases:[
-      {chde:"d'Chueh",phon:"d-khoo-eh",hd:"die Kuh",en:"the cow",note:"The national mascot. 1.5 million in Switzerland, one per six humans.",culture:"Cows are sacred in Swiss culture. They have names, bells, and summer pastures in the Alps. The annual Alpabzug (cow descent) is celebrated with flower crowns and parades.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"de Hund",phon:"de hoond",hd:"der Hund",en:"the dog",note:"Allowed in restaurants, trains, sometimes hospitals.",culture:"Dogs are full members of Swiss society. Every region has favored breeds. Bernese Mountain Dogs and Saint Bernards are national icons.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"d'Chatz",phon:"d-khats",hd:"die Katze",en:"the cat",note:"Universal background staff in Swiss households.",culture:"Cats are quietly omnipresent. Swiss law actually protects cats' right to roam outdoors \u2014 a national peculiarity.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"de V\u00f6gel",phon:"de FUH-gl",hd:"der Vogel",en:"the bird",note:"Common around lakes and city parks.",culture:"Switzerland sits on major migration routes. The Wasservogelreservoir at Lake Constance hosts hundreds of thousands of birds each winter.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"de St\u00e4ibock",phon:"de shtay-bock",hd:"der Steinbock",en:"the ibex",note:"The mountain icon with curled horns.",culture:"The ibex is the symbol of the canton Graub\u00fcnden and one of Switzerland's most photographed animals. Nearly extinct in 1900, now thriving across the Alps.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"d'Murmeltier",phon:"d-moor-mel-teer",hd:"das Murmeltier",en:"the marmot",note:"Whistles at hikers from the rocks.",culture:"Marmots are the alarm system of the Alps. Their high-pitched whistle warns the colony \u2014 and is one of the defining sounds of Swiss summer hiking.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"de Fuchs",phon:"de fooks",hd:"der Fuchs",en:"the fox",note:"Common in both forests and city outskirts.",culture:"Foxes have adapted to Swiss suburbs over the past 30 years. You'll see them on quiet streets at dawn. Folk tales paint them as clever tricksters.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"d'G\u00e4mse",phon:"d-gem-zeh",hd:"die G\u00e4mse",en:"the chamois",note:"A goat-antelope native to alpine cliffs.",culture:"The chamois is built for vertical rock. They can climb walls that look impossible. Their hair is used to make the soft cloths called G\u00e4msleder.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"de Adler",phon:"de ah-dler",hd:"der Adler",en:"the eagle",note:"On most cantonal flags.",culture:"The golden eagle returned to Switzerland in the 20th century after near-extinction. About 350 pairs now breed in the Alps.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"de B\u00e4r",phon:"de bair",hd:"der B\u00e4r",en:"the bear",note:"Eliminated in 1904, started returning in 2005.",culture:"Bears are the official emblem of Bern (the capital is named after them). Wild bears wander in from Italy occasionally \u2014 each one makes the news.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"de B\u00e4rnhardiner",phon:"de bairn-hard-een-er",hd:"der Bernhardiner",en:"the saint bernard",note:"The rescue dog with the brandy barrel.",culture:"The Saint Bernard breed was developed at the Great Saint Bernard Hospice in the Alps. They saved travelers from avalanches for centuries. The brandy barrel is myth \u2014 but a beloved one.<br><br><em>Placeholder \u2014 Deborah to review.</em>"}
-    ]},
-    {id:16,title:"fruits",info:"Swiss markets, farm stands, and grocery stores. The fruit you'll learn to ask for, with Swiss-german names that often differ from Hochdeutsch.",free:false,previewPhrases:2,phrases:[
+    {id:16,title:"fruits",info:"Swiss markets, farm stands, and grocery stores. The fruit you'll learn to ask for, with Swiss-german names that often differ from Hochdeutsch.",free:false,phrases:[
       {chde:"\u00d6pfel",phon:"UH-pfel",hd:"Apfel",en:"apple",note:"The most common fruit in Switzerland. Hundreds of regional varieties.",culture:"Switzerland has hundreds of native apple varieties \u2014 Boskoop, Goldparm\u00e4ne, Gravensteiner. Most supermarkets carry only a few; farmers' markets carry the rest.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
       {chde:"Banan\u00e4",phon:"ba-NA-neh",hd:"Banane",en:"banana",note:"The \u00e4 ending is Swiss-typical.",culture:"Imported fruit. The Swiss pronounce it with a soft -\u00e4 ending instead of the German -e. Tiny clue you're in the Alps.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
       {chde:"Bira",phon:"BEE-ra",hd:"Birne",en:"pear",note:"Common in autumn markets.",culture:"Pears are central to Swiss autumn. Birnbrot (pear bread) is a winter speciality with dried pears, nuts and spices baked into a dense loaf.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"Riibe",phon:"REE-beh",hd:"Trauben",en:"grapes",note:"From Italian-speaking Ticino mostly.",culture:"Ticino, the Italian-speaking south, has Swiss wine country. Merlot from Ticino is sold across Switzerland.<br><br><em>Placeholder \u2014 Deborah to review.</em>"}
+      
     ]},
-    {id:17,title:"clothes",info:"Swiss winter is real. The vocabulary for warm clothes appears more often than in many countries. Plus a few hints of dialect humour \u2014 like the famous T-sch\u00f6pli.",free:false,previewPhrases:2,phrases:[
+    {id:17,title:"clothes",info:"Swiss winter is real. The vocabulary for warm clothes appears more often than in many countries. Plus a few hints of dialect humour \u2014 like the famous T-sch\u00f6pli.",free:false,phrases:[
       {chde:"Tsch\u00f6pe",phon:"CHUH-peh",hd:"Jacke",en:"jacket",note:"Used across most of Swiss-german Switzerland.",culture:"Tsch\u00f6pe (jacket) appears in the famous Bernese soft swear 'l\u00e4ck du mir am Tsch\u00f6pli' \u2014 a diminutive version. Swiss-german loves diminutives.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"H\u00f6sli",phon:"HUH-zlee",hd:"Hose",en:"trousers / pants",note:"H\u00f6sli is diminutive \u2014 affectionate.",culture:"The -li ending is the swiss-german diminutive. Adds warmth or smallness. H\u00f6sli is more affectionate than the standard Hose.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"Hos\u00e4",phon:"HO-zeh",hd:"Hose",en:"pants",note:"H\u00f6sli is diminutive \u2014 affectionate.",culture:"The -li ending is the swiss-german diminutive. Adds warmth or smallness. H\u00f6sli is more affectionate than the standard Hose.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
       {chde:"Schueh",phon:"SHOO-eh",hd:"Schuhe",en:"shoes",note:"The plural is the same form.",culture:"Switzerland produces well-respected hiking boots (Lowa, Meindl) \u2014 a quiet point of national pride. Most Swiss own a dedicated hiking pair.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
       {chde:"M\u00fctze",phon:"MUEH-tseh",hd:"M\u00fctze",en:"hat / beanie",note:"Same as Hochdeutsch.",culture:"Winter mandatory. Locals will tell newcomers 'd'M\u00fctze ufsetze!' (put your hat on!) without irony.<br><br><em>Placeholder \u2014 Deborah to review.</em>"}
     ]},
-    {id:3,title:"swearwords",info:"Swiss German has an extraordinary tradition of creative mild swearing. These are old-fashioned, used by everyone, and never offensive. Grandparents say them all day. First one free as a taste.",free:false,previewPhrases:1,phrases:[
+    {id:3,title:"swear words",info:"Swiss German has an extraordinary tradition of creative mild swearing. These are old-fashioned, used by everyone, and never offensive. Grandparents say them all day. First one free as a taste.",free:false,phrases:[
       {chde:"Gopfriedstutz",phon:"GOPF-reed-shtoots",hd:"Verdammt nochmal",en:"For heaven's sake",note:"The classic. Old-fashioned, used by everyone, never offensive.",culture:"Swiss German has an extraordinary tradition of creative mild swearing. Gopfriedstutz replaced stronger words centuries ago. Completely acceptable in any company.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
       {chde:"Hergott",phon:"HAIR-got",hd:"Herrgott",en:"Good lord",note:"Literally 'lord god'. A sigh of exasperation.",culture:"Used when something goes mildly wrong. Grandparents and parents say it all day.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
       {chde:"Sapperlot",phon:"ZAP-per-lot",hd:"Donnerwetter",en:"Good gracious",note:"Old, almost theatrical exclamation.",culture:"Grandparents love this one. Adds character without ever being rude.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
@@ -969,7 +978,7 @@ const PILLARS=[
     ]}
   ]},
   {name:"Phrases",free:false,lessons:[
-    {id:4,title:"tourist",info:"How to find your way around. Stations, streets, tickets, directions. The phrases that solve 80% of being-new-here problems. First phrase free as a preview.",free:false,previewPhrases:1,phrases:[
+    {id:4,title:"tourist",info:"How to find your way around. Stations, streets, tickets, directions. The phrases that solve 80% of being-new-here problems. First phrase free as a preview.",free:true,phrases:[
       {chde:"Wo isch...?",phon:"voh ish",hd:"Wo ist...?",en:"Where is...?",note:"The universal opener for finding things.",culture:"Wo isch is the polite, simple way to ask where something is — a station, toilet, exit, restaurant. Drop the noun on the end and people will usually point or walk you partway there.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Wie chum i nach...?",phon:"vee khoom ee nakh",hd:"Wie komme ich nach...?",en:"How do I get to...?",note:"For asking directions to a destination.",culture:"Use this when you need a route, not just a location. Swiss people will often pull out their phones and walk you through SBB transit options if it's complicated.<br><br><em>Placeholder — Deborah to review.</em>"},
       {chde:"Es Billett, bitte",phon:"es bee-YET BIT-teh",hd:"Eine Fahrkarte, bitte",en:"A ticket, please",note:"Billett — a French word that stayed in Swiss German.",culture:"Billett is the everyday word for ticket in Switzerland, borrowed from French centuries ago and never replaced. Germans use Fahrkarte. Tiny clue to the country's multilingual layers.<br><br><em>Placeholder — Deborah to review.</em>"}
@@ -989,7 +998,7 @@ const PILLARS=[
       {chde:"Gömmer go wandere?",phon:"GUH-mer goh VAN-deh-reh",hd:"Gehen wir wandern?",en:"Shall we go hiking?",note:"Placeholder — Deborah to draft.",culture:"Placeholder.<br><br><em>Draft pending.</em>"},
       {chde:"Gömmer go schwimme?",phon:"GUH-mer goh SHVIM-meh",hd:"Gehen wir schwimmen?",en:"Shall we go swimming?",note:"Placeholder — Deborah to draft.",culture:"Placeholder.<br><br><em>Draft pending.</em>"}
     ]},
-    {id:15,title:"swear phrases",info:"Multi-word Swiss German expressions of command, frustration, and friendly bossiness. The voice of a Swiss grandmother getting things back in order.",free:false,previewPhrases:1,phrases:[
+    {id:15,title:"swear phrases",info:"Multi-word Swiss German expressions of command, frustration, and friendly bossiness. The voice of a Swiss grandmother getting things back in order.",free:false,phrases:[
       {chde:"H\u00f6r uf!",phon:"HOOR oof",hd:"H\u00f6r auf!",en:"Stop it!",note:"Direct command. Used with kids, dogs, anyone.",culture:"Said sharply, this stops behavior. Said gently, it's a request to ease up. Tone makes the meaning.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
       {chde:"Jetzt langts!",phon:"yetst LANGTS",hd:"Jetzt reicht's!",en:"That's enough!",note:"The classic Swiss grandmother phrase.",culture:"'Langts' = 'reaches' \u2014 it has reached its limit. Final-sounding. After this phrase, no more discussion.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
       {chde:"Was wetsch?",phon:"vas VETSH",hd:"Was willst du?",en:"What do you want?",note:"Can be friendly or sharp depending on tone.",culture:"Asked in shops as a polite opener. Asked by an annoyed person as a sharp challenge. Same words, opposite meanings.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
@@ -1008,6 +1017,7 @@ const state={
   currentLessonId:null,
   currentPhraseIdx:0,
   currentStage:0,
+  quizState:null,
   listenAnswered:false,
   stageScores:{correct:0,total:0},
   unlocked:localStorage.getItem('g_unlocked')==='true',
@@ -1018,7 +1028,7 @@ const state={
   chapterLang:'en'
 };
 
-const STAGES=['Word','Sentence','Listen'];
+const STAGES=['Word'];
 
 function save(){
   localStorage.setItem('g_progress',JSON.stringify(state.progress));
@@ -1094,7 +1104,7 @@ function getAllLessons(){
   PILLARS.forEach(p=>p.lessons.forEach(l=>{
     // lesson-level `free` overrides pillar-level if explicitly set; otherwise inherits pillar
     const free = (typeof l.free === 'boolean') ? l.free : p.free;
-    all.push({...l, free, previewPhrases: l.previewPhrases || 0});
+    all.push({...l, free});
   }));
   return all;
 }
@@ -1103,12 +1113,19 @@ function getLessonById(id){
   return getAllLessons().find(l=>l.id===id);
 }
 
-// returns: 'full' (fully accessible), 'preview' (preview only, paywall on phrase 2+), 'locked' (paywall on open)
+// returns: 'full' (accessible) or 'locked' (paywall on open)
 function getLessonAccess(lesson){
   if(state.unlocked) return 'full';
   if(lesson.free) return 'full';
-  if(lesson.previewPhrases > 0) return 'preview';
   return 'locked';
+}
+
+
+function toggleSimulatePaid(){
+  state.unlocked = !state.unlocked;
+  if(state.unlocked){ localStorage.setItem('g_unlocked','true'); }
+  else { localStorage.removeItem('g_unlocked'); }
+  renderAccount();
 }
 
 function renderAccount(){
@@ -1199,8 +1216,7 @@ function renderCollection(){
     let cls = isEarned ? 'stamp-earned' : 'stamp-locked';
     if(isActive) cls += ' stamp-active';
     const action = locked ? `showView('paywall')` : `openLesson(${l.id})`;
-    const previewPrefix = access==='preview' ? 'preview · ' : '';
-    const label = `${isEarned?'earned · ':''}${locked?'locked · ':''}${previewPrefix}${l.title}`;
+    const label = `${isEarned?'earned · ':''}${locked?'locked · ':''}${l.title}`;
     return `<button class="stamp ${cls}" onclick="${action}" aria-label="${label}" title="${label}"></button>`;
   }).join('');
   host.innerHTML = `
@@ -1241,19 +1257,17 @@ function renderLessons(){
     const list=document.createElement('div');
     list.className='lessons-list';
     pillar.lessons.forEach(rawLesson=>{
-      const l = getLessonById(rawLesson.id); // merged lesson with resolved free + previewPhrases
+      const l = getLessonById(rawLesson.id); // merged lesson with resolved free flag
       const access = getLessonAccess(l);
       const locked = (access === 'locked');
-      const isPreview = (access === 'preview');
       const prog=state.progress[l.id]||[];
       const pct=Math.round(prog.length/l.phrases.length*100);
       const qs=state.quizScores[l.id];
       const quizDone=qs&&qs.total>0;
       let pillText,pillClass;
       if(locked){pillText='locked';pillClass='p-locked';}
-      else if(isPreview){pillText='preview';pillClass='p-preview';}
       else if(pct===100&&quizDone){pillText='done';pillClass='p-done';}
-      else if(prog.length>0){pillText='in progress';pillClass='p-active';}
+      else if(prog.length>0){pillText='continue';pillClass='p-active';}
       else{pillText=l.free?'free':'unlocked';pillClass='p-free';}
       const row=document.createElement('div');
       row.className='lesson-row'+(locked?' locked-row':'');
@@ -1264,9 +1278,13 @@ function renderLessons(){
         <div class="lr-right">
           <div class="pbar"><div class="pfill" style="width:${pct}%"></div></div>
           <span class="pill ${pillClass}">${pillText}</span>
-          ${!locked?`<button class="lr-btn" onclick="event.stopPropagation();openLesson(${l.id})">${prog.length>0?'continue':(isPreview?'try':'start')} →</button>`:''}
         </div>`;
-      if(!locked)row.onclick=e=>{if(e.target.tagName!=='BUTTON')openLesson(l.id);};
+      // Whole row is tappable — opens lesson if accessible, bounces to paywall if locked
+      row.onclick=()=>{
+        if(locked){ showView('paywall'); }
+        else { openLesson(l.id); }
+      };
+      row.style.cursor='pointer';
       list.appendChild(row);
     });
     section.appendChild(list);
@@ -1300,8 +1318,8 @@ function runSearch(q){
       const merged = getLessonById(lesson.id);
       const access = getLessonAccess(merged);
       lesson.phrases.forEach((p,idx)=>{
-        // a phrase is locked if the lesson is locked, OR if it's a preview lesson and the phrase is past the preview limit
-        const phraseLocked = access === 'locked' || (access === 'preview' && idx >= merged.previewPhrases);
+        // a phrase is locked iff its lesson is locked
+        const phraseLocked = access === 'locked';
         all.push({
           chde:p.chde,phon:p.phon,hd:p.hd,en:p.en,note:p.note||'',
           lessonId:lesson.id,lessonTitle:lesson.title,phraseIdx:idx,
@@ -1351,14 +1369,11 @@ function openLesson(id, startPhraseIdx){
   const access = getLessonAccess(lesson);
   if(access === 'locked'){showView('paywall');return;}
   state.currentLessonId=id;
-  // for preview lessons, only phrases within previewPhrases are reachable from a jump
   let startIdx = typeof startPhraseIdx==='number' && startPhraseIdx>=0 && startPhraseIdx<lesson.phrases.length ? startPhraseIdx : 0;
-  if(access === 'preview' && startIdx >= lesson.previewPhrases){
-    startIdx = 0; // bounce jumps to phrase 0 for preview lessons
-  }
   state.currentPhraseIdx = startIdx;
   state.currentStage=0;
   state.stageScores={correct:0,total:0};
+  state.quizState=null;
   updateStreak();
   // Route to chapter intro ONLY for Info-pillar reading-only lessons
   // Words/Phrases lessons go straight to phrase stages, even if they have an info field
@@ -1534,55 +1549,22 @@ function renderStage(){
   nextBtn.disabled=false;
   if(gotItBtn) gotItBtn.disabled=false;
 
-  if(state.currentStage===0){
-    // WORD
-    content.innerHTML=`
-      <div class="word-card">
-        <div class="wc-chde">${phrase.chde}</div>
-        <div class="wc-phonetic">${phrase.phon}</div>
-        <button class="wc-audio" onclick="speak('${phrase.chde.replace(/'/g,"\\'")}')">
-          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        </button>
-        <div class="wc-translations">
-          <div class="wc-tr"><span>EN</span>${phrase.en}</div>
-        </div>
-      </div>`;
-  } else if(state.currentStage===1){
-    // SENTENCE
-    content.innerHTML=`
-      <div class="sentence-card">
-        <div class="sc-audio">
-          <button class="sc-audio-btn" onclick="speak('${phrase.chde.replace(/'/g,"\\'")}')">
-            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          </button>
-          <span class="sc-audio-label">Tap to hear Deborah</span>
-        </div>
-        <div class="sc-phrase">${phrase.chde}</div>
-        <div class="sc-phonetic">${phrase.phon}</div>
-        <div class="sc-row">
-          <div class="sc-tr"><span>English</span>${phrase.en}</div>
-        </div>
-        <div class="sc-note">${phrase.note}</div>
-      </div>`;
-  } else if(state.currentStage===2){
-    // LISTEN
-    state.listenAnswered=false;
-    nextBtn.disabled=true;
-    if(gotItBtn) gotItBtn.disabled=true;
-    const others=lesson.phrases.filter(p=>p.en!==phrase.en).sort(()=>Math.random()-.5).slice(0,3);
-    const opts=[phrase.en,...others.map(p=>p.en)].sort(()=>Math.random()-.5);
-    content.innerHTML=`
-      <div class="listen-card">
-        <div class="listen-prompt">Listen and choose what you heard</div>
-        <button class="listen-btn" onclick="speak('${phrase.chde.replace(/'/g,"\\'")}')">
-          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        </button>
-        <div class="listen-grid" id="listen-opts">
-          ${opts.map(o=>`<button class="lopt" onclick="listenAnswer(this,'${o.replace(/'/g,"\\'")}','${phrase.en.replace(/'/g,"\\'")}')"> ${o}</button>`).join('')}
-        </div>
-      </div>`;
-    speak(phrase.chde);
-  }
+  // SINGLE-CARD WORD FLOW — chde + phon at top, big audio center, en + hd below
+  const hd = phrase.hd || phrase.de || '';
+  content.innerHTML=`
+    <div class="word-card">
+      <div class="wc-chde">${phrase.chde}</div>
+      <div class="wc-phonetic">${phrase.phon||''}</div>
+      <button class="wc-audio" onclick="speak('${phrase.chde.replace(/'/g,"\\'")}')">
+        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </button>
+      <div class="wc-translations">
+        <div class="wc-en">${phrase.en}</div>
+        ${hd?`<div class="wc-hd">${hd}</div>`:''}
+      </div>
+    </div>`;
+  // Auto-play audio on word load — the audio IS the point
+  setTimeout(()=>{try{speak(phrase.chde);}catch(e){}}, 200);
 }
 
 function listenAnswer(btn,chosen,correct){
@@ -1602,53 +1584,133 @@ function listenAnswer(btn,chosen,correct){
   if(gotItBtn2) gotItBtn2.disabled=false;
 }
 
+function onNextClick(){
+  // If a quiz is active, advance the quiz instead
+  if(state.quizState && state.quizState.questions && state.quizState.answered){
+    quizNext();
+  } else {
+    nextItem();
+  }
+}
+
 function nextItem(){
   const lesson=getLessonById(state.currentLessonId);
   const access=getLessonAccess(lesson);
-  if(state.currentStage<2){
-    state.currentStage++;
+  // Mark current phrase as learned
+  if(!state.progress[state.currentLessonId])state.progress[state.currentLessonId]=[];
+  if(!state.progress[state.currentLessonId].includes(state.currentPhraseIdx)){
+    state.progress[state.currentLessonId].push(state.currentPhraseIdx);
+  }
+  save();
+  if(state.currentPhraseIdx<lesson.phrases.length-1){
+    // Next phrase
+    state.currentPhraseIdx++;
+    state.currentStage=0;
     renderStage();
   } else {
-    // Mark phrase as learned
-    if(!state.progress[state.currentLessonId])state.progress[state.currentLessonId]=[];
-    if(!state.progress[state.currentLessonId].includes(state.currentPhraseIdx)){
-      state.progress[state.currentLessonId].push(state.currentPhraseIdx);
-    }
-    save();
-    // PREVIEW boundary: if this was the last allowed preview phrase, route to paywall
-    if(access === 'preview' && state.currentPhraseIdx >= lesson.previewPhrases - 1 && state.currentPhraseIdx < lesson.phrases.length - 1){
-      showView('paywall');
-      return;
-    }
-    if(state.currentPhraseIdx<lesson.phrases.length-1){
-      state.currentPhraseIdx++;
-      state.currentStage=0;
-      renderStage();
+    // Lesson complete — go to end-of-lesson quiz (if lesson has 4+ phrases) or skip to complete
+    if(lesson.phrases.length >= 4){
+      showLessonQuiz();
     } else {
-      // Lesson complete
-      if(!state.quizScores[state.currentLessonId])state.quizScores[state.currentLessonId]={correct:0,total:0};
-      state.quizScores[state.currentLessonId].correct+=state.stageScores.correct;
-      state.quizScores[state.currentLessonId].total+=state.stageScores.total;
-      // Award stamp (idempotent)
-      if(!state.stamps.includes(state.currentLessonId)){
-        state.stamps.push(state.currentLessonId);
-        state.stamps.sort((a,b)=>a-b);
-      }
-      save();
-      // Check for full passport — all phrases learned
-      maybeShowPassport();
-      showComplete();
+      finishLesson();
     }
   }
 }
 
+// Called after quiz or directly if quiz skipped — finalizes the lesson
+function finishLesson(){
+  const lesson=getLessonById(state.currentLessonId);
+  if(!state.quizScores[state.currentLessonId])state.quizScores[state.currentLessonId]={correct:0,total:0};
+  state.quizScores[state.currentLessonId].correct+=state.stageScores.correct;
+  state.quizScores[state.currentLessonId].total+=state.stageScores.total;
+  // Award stamp (idempotent)
+  if(!state.stamps.includes(state.currentLessonId)){
+    state.stamps.push(state.currentLessonId);
+    state.stamps.sort((a,b)=>a-b);
+  }
+  save();
+  // Check for full passport — all phrases learned
+  maybeShowPassport();
+  showComplete();
+}
+
+// END-OF-LESSON QUIZ — hear chde, pick english from 4 options
+function showLessonQuiz(){
+  const lesson=getLessonById(state.currentLessonId);
+  // Pick up to 5 questions from lesson phrases, shuffled
+  const pool=lesson.phrases.slice().sort(()=>Math.random()-.5);
+  const questions=pool.slice(0, Math.min(5, pool.length));
+  state.quizState={
+    questions:questions,
+    currentIdx:0,
+    correct:0,
+    answered:false
+  };
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion(){
+  const q = state.quizState.questions[state.quizState.currentIdx];
+  const lesson = getLessonById(state.currentLessonId);
+  // 3 wrong options drawn from same lesson
+  const others = lesson.phrases.filter(p=>p.en!==q.en).sort(()=>Math.random()-.5).slice(0,3);
+  const opts = [q.en, ...others.map(p=>p.en)].sort(()=>Math.random()-.5);
+  const content = document.getElementById('stage-content');
+  content.innerHTML = `
+    <div class="quiz-card">
+      <div class="quiz-progress">${state.quizState.currentIdx+1} / ${state.quizState.questions.length}</div>
+      <div class="quiz-prompt">listen, then pick the meaning</div>
+      <button class="listen-btn" onclick="speak('${q.chde.replace(/'/g,"\\'")}')">
+        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </button>
+      <div class="listen-grid" id="listen-opts">
+        ${opts.map(o=>`<button class="lopt" onclick="quizAnswer(this,'${o.replace(/'/g,"\\'")}','${q.en.replace(/'/g,"\\'")}')">${o}</button>`).join('')}
+      </div>
+    </div>`;
+  state.quizState.answered=false;
+  document.getElementById('btn-next').disabled=true;
+  const gotItBtn = document.getElementById('got-it-btn');
+  if(gotItBtn) gotItBtn.disabled=true;
+  // Auto-play the swiss audio (this is the actual prompt)
+  setTimeout(()=>speak(q.chde), 300);
+}
+
+function quizAnswer(btn, chosen, correct){
+  if(state.quizState.answered)return;
+  state.quizState.answered=true;
+  document.querySelectorAll('.lopt').forEach(b=>b.disabled=true);
+  state.stageScores.total++;
+  if(chosen===correct){
+    btn.classList.add('correct');
+    state.stageScores.correct++;
+    state.quizState.correct++;
+  }else{
+    btn.classList.add('wrong');
+    document.querySelectorAll('.lopt').forEach(b=>{if(b.textContent.trim()===correct)b.classList.add('correct');});
+  }
+  document.getElementById('btn-next').disabled=false;
+  const gotItBtn = document.getElementById('got-it-btn');
+  if(gotItBtn) gotItBtn.disabled=false;
+}
+
+// Override what next does during quiz mode
+function quizNext(){
+  state.quizState.currentIdx++;
+  if(state.quizState.currentIdx < state.quizState.questions.length){
+    renderQuizQuestion();
+  } else {
+    finishLesson();
+  }
+}
+
 function prevItem(){
-  if(state.currentStage>0){
-    state.currentStage--;
-    renderStage();
-  } else if(state.currentPhraseIdx>0){
+  // In quiz mode, prev is disabled (you can't undo answers)
+  if(state.quizState && state.quizState.questions){
+    return;
+  }
+  if(state.currentPhraseIdx>0){
     state.currentPhraseIdx--;
-    state.currentStage=2;
+    state.currentStage=0;
     renderStage();
   }
 }
