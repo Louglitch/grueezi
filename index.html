@@ -1728,7 +1728,7 @@ function renderStage(){
   const nextBtn=document.getElementById('btn-next');
   const gotItBtn=document.getElementById('got-it-btn');
   nextBtn.disabled=false;
-  if(gotItBtn) gotItnextBtn.disabled=false;
+  if(gotItBtn) gotItBtn.disabled=false;
 
   // SINGLE-CARD WORD FLOW — chde + phon at top, arrows flank big audio, en + hd below
   const hd = phrase.hd || phrase.de || '';
@@ -1879,7 +1879,7 @@ function quizAnswer(btn, chosen, correct){
   }
   document.getElementById('btn-next').disabled=false;
   const gotItBtn = document.getElementById('got-it-btn');
-  if(gotItBtn) gotItnextBtn.disabled=false;
+  if(gotItBtn) gotItBtn.disabled=false;
 }
 
 // Override what  does during quiz mode
@@ -1996,12 +1996,23 @@ function completeContinue(){
 }
 
 function speak(text){
-  if('speechSynthesis' in window){
-    const u=new SpeechSynthesisUtterance(text);
-    u.lang='de-CH';u.rate=0.85;
-    speechSynthesis.cancel();
-    speechSynthesis.speak(u);
+  if(!('speechSynthesis' in window)) return;
+  const u=new SpeechSynthesisUtterance(text);
+  u.rate=0.85;
+  // Pick the best available German voice. Prefer de-CH > de-DE > any 'de' voice > default.
+  const voices = speechSynthesis.getVoices();
+  const pick = voices.find(v=>/^de-CH/i.test(v.lang))
+            || voices.find(v=>/^de-DE/i.test(v.lang))
+            || voices.find(v=>/^de/i.test(v.lang));
+  if(pick){
+    u.voice = pick;
+    u.lang = pick.lang;
+  } else {
+    // No german voice on this device — set lang anyway, let the OS try
+    u.lang = 'de-DE';
   }
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
 }
 
 function maybeShowPassport(){
@@ -2154,6 +2165,14 @@ function startBurst(btn){
 
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 renderLessons();
+
+// Warm up speech-synthesis voices — Chrome/Edge load them async, so first speak() call
+// often has empty voice list. This forces them to be available before the user clicks audio.
+if('speechSynthesis' in window){
+  speechSynthesis.getVoices(); // kick the request
+  // Some browsers fire voiceschanged after; no-op handler is enough to ensure they cache
+  speechSynthesis.onvoiceschanged = function(){ speechSynthesis.getVoices(); };
+}
 
 // landing entrance — plays once per session
 (function(){
