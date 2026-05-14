@@ -360,12 +360,48 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
 .lr-btn:hover{background:color-mix(in srgb, var(--mint) 20%, transparent)}
 
 /* STAGE INDICATOR */
-.stage-bar{display:flex;gap:4px;margin-bottom:1rem}
-.stage-pip{flex:1;height:3px;border-radius:2px;background:var(--cream2)}
-.stage-pip.done{background:var(--sage)}
-.stage-pip.active{background:var(--mint)}
+/* stage header — matched arrows + word-progress dots in center */
+.stage-header{display:flex;align-items:center;gap:12px;padding:14px 0 8px}
+.stage-arrow{
+  flex-shrink:0;width:36px;height:36px;border-radius:10px;
+  background:transparent;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text);opacity:.55;
+  transition:opacity .15s ease, background .15s ease;
+}
+.stage-arrow:hover{opacity:.95;background:rgba(0,0,0,.04)}
+.stage-arrow svg{width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.stage-arrow:disabled{opacity:.18;pointer-events:none}
+.word-progress{flex:1;display:flex;gap:6px;justify-content:center;align-items:center;flex-wrap:wrap}
+.word-progress i{width:6px;height:6px;border-radius:50%;background:var(--cream2);display:block;transition:background .2s ease}
+.word-progress i.done{background:var(--sage)}
+.word-progress i.active{background:var(--mint)}
+/* Pink mode — active dot in rose */
+body[data-mode="pink"] .word-progress i.active{background:var(--rose)}
+/* Dark mode — colors adjust */
+body[data-mode="dark"] .word-progress i.done{background:var(--mint)}
 
 /* WORD STAGE */
+/* WORD STAGE */
+#view-stage{position:relative}
+.stage-mountains{
+  position:fixed;left:0;right:0;
+  bottom:50px;  /* sits directly above the bottom nav */
+  width:100%;height:60px;
+  pointer-events:none;z-index:99;  /* under nav (z:100), above content */
+  display:none;
+}
+#view-stage.active .stage-mountains{display:block}
+.stage-mountain-back{fill:var(--gz-mint, #A8C8BC);opacity:.20}
+.stage-mountain-front{fill:var(--gz-mint, #A8C8BC);opacity:.34}
+/* Pink mode */
+body[data-mode="pink"] .stage-mountain-back{opacity:.24}
+body[data-mode="pink"] .stage-mountain-front{opacity:.40}
+/* Dark mode mountains */
+body[data-mode="dark"] .stage-mountain-back{fill:#3a4e46;opacity:.36}
+body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
+#view-stage .inner{position:relative;z-index:1}
+
 .word-card{background:var(--card);border-radius:20px;border:0.5px solid var(--cream2);padding:2.25rem 1.5rem 2rem;text-align:center;margin-bottom:1rem}
 .wc-chde{font-size:2.75rem;font-weight:300;color:var(--dark);margin-bottom:.4rem;letter-spacing:-.01em;line-height:1}
 .wc-phonetic{font-size:13px;font-weight:300;color:var(--texts);margin-bottom:1.5rem;opacity:.7;letter-spacing:.04em}
@@ -509,18 +545,13 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
 .chapter-cta{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:1.5rem}
 .chapter-begin-btn{padding:11px 32px;border-radius:999px;border:1.5px solid var(--dark);background:transparent;color:var(--dark);font-size:13px;font-family:var(--font);font-weight:400;letter-spacing:.02em;cursor:pointer;transition:background .15s ease, color .15s ease}
 .chapter-begin-btn:hover{background:var(--dark);color:var(--cream)}
-.chapter-next-arrow{width:44px;height:44px;border-radius:50%;border:none;background:var(--dark);color:var(--cream);display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;transition:transform .15s ease, opacity .15s ease}
-.chapter-next-arrow:hover{transform:scale(1.05)}
-.next-chapter-label{font-size:10px;color:var(--texts);letter-spacing:.04em;font-weight:300}
+.chapter--arrow{width:44px;height:44px;border-radius:50%;border:none;background:var(--dark);color:var(--cream);display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;transition:transform .15s ease, opacity .15s ease}
+.chapter--arrow:hover{transform:scale(1.05)}
+.-chapter-label{font-size:10px;color:var(--texts);letter-spacing:.04em;font-weight:300}
 
 
-.stage-row{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
 .stage-row > #stage-content{flex:1;min-width:0}
 .stage-arrow{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;flex-shrink:0;font-family:var(--font);transition:background .15s ease, color .15s ease, border-color .15s ease}
-.stage-arrow-back{border:0.5px solid var(--beige);background:transparent;color:var(--textm)}
-.stage-arrow-back:hover{background:var(--cream2);color:var(--dark)}
-.stage-arrow-next{border:none;background:var(--dark);color:var(--cream)}
-.stage-arrow-next:hover{background:var(--darkm)}
 .stage-arrow:disabled{opacity:.35;cursor:default}
 
 /* STAGE ACK — got-it pill below card */
@@ -598,8 +629,8 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
 /* BOTTOM NAV */
 
 
-.back-btn{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:300;color:var(--textm);background:none;border:none;cursor:pointer;margin-top:1.25rem;margin-bottom:.5rem;font-family:var(--font);padding:0}
-.back-btn:hover{color:var(--dark)}
+.-btn{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:300;color:var(--textm);background:none;border:none;cursor:pointer;margin-top:1.25rem;margin-bottom:.5rem;font-family:var(--font);padding:0}
+.-btn:hover{color:var(--dark)}
 
 @media(min-width:600px){
   .features-inner{grid-template-columns:repeat(4,1fr)}
@@ -711,21 +742,22 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
 
 <!-- LESSON STAGE VIEW -->
 <div id="view-stage" class="view">
+  <svg class="stage-mountains" viewBox="0 0 1000 200" preserveAspectRatio="none" aria-hidden="true">
+    <path class="stage-mountain-back" d="M0,200 L0,110 L120,60 L220,120 L340,40 L460,100 L590,30 L720,110 L830,55 L920,115 L1000,75 L1000,200 Z"/>
+    <path class="stage-mountain-front" d="M0,200 L0,150 L100,130 L200,160 L310,115 L420,150 L540,110 L660,150 L780,125 L880,155 L960,135 L1000,140 L1000,200 Z"/>
+  </svg>
   <div class="inner">
-    <div class="page-header">
-      <div class="page-title" id="stage-lesson-title"></div>
-    </div>
-    <div class="stage-bar" id="stage-bar"></div>
-    <div class="stage-row">
-      <button class="stage-arrow stage-arrow-back" id="btn-prev" onclick="prevItem()" aria-label="back">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    <div class="stage-header">
+      <button class="stage-arrow" id="btn-prev" onclick="prevItem()" aria-label="back">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
-      <div id="stage-content"></div>
-      <button class="ghost-next" id="btn-next" onclick="onNextClick()" aria-label="next">next →</button>
+      <div class="word-progress" id="stage-bar"></div>
+      <button class="stage-arrow" id="btn-next" onclick="onNextClick()" aria-label="next">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
     </div>
-    <div class="stage-ack">
-      
-    </div>
+    <div id="stage-content"></div>
+    <div class="stage-ack"></div>
   </div>
 </div>
 
@@ -753,7 +785,7 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
   <div class="hero pw-hero">
     <!-- TODO: replace with Deborah's actual mountain sketches scanned + traced -->
     <svg class="pw-mountains" viewBox="0 0 1000 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <!-- back range — darker, taller -->
+      <!--  range — darker, taller -->
       <path class="mountain-back" d="M0,320 L0,140 L120,60 L220,150 L340,40 L460,120 L590,30 L720,140 L830,70 L920,150 L1000,90 L1000,320 Z"/>
       <!-- front range — chunkier, lower -->
       <path class="mountain-front" d="M0,320 L0,210 L90,180 L170,230 L280,170 L390,220 L500,150 L620,210 L740,160 L860,220 L950,180 L1000,200 L1000,320 Z"/>
@@ -916,7 +948,7 @@ const PILLARS=[
       {chde:"Sali / Z\u00e4me",phon:"SAH-lee / TSEH-meh",hd:"Hallo / zusammen",en:"Hi / together",note:"Sali = singular casual, Z\u00e4me = greeting a group.",culture:"Sali comes from French 'salut' \u2014 another loanword that stayed in Swiss German. Z\u00e4me literally means 'together' and is said when entering a room with multiple people.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
       {chde:"Wie gahts?",phon:"vee GAHTS",hd:"Wie geht's?",en:"How's it going?",note:"The everyday opener.",culture:"Said constantly but rarely answered in depth. Standard reply: G\u00fcet, danke (good, thanks). Like English 'how are you' \u2014 phatic rather than literal.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
       {chde:"Wie h\u00e4schis?",phon:"vee HEH-shis",hd:"Wie hast du es?",en:"How are you doing?",note:"More personal than wie gahts.",culture:"Literally 'how do you have it'. A warmer, more personal version often used between people who know each other.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"En guete",phon:"en GOO-eh-teh",hd:"Guten Appetit",en:"Enjoy your meal",note:"Said before eating, even at canteens.",culture:"En guete is the universal Swiss table opener. Said to everyone before the first bite. Not saying it feels rude. Family, colleagues, strangers at the next table \u2014 everyone says it.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"En guete",phon:"en GOO-eh-teh",hd:"Guten Appetit",en:"Enjoy your meal",note:"Said before eating, even at canteens.",culture:"En guete is the universal Swiss table opener. Said to everyone before the first bite. Not saying it feels rude. Family, colleagues, strangers at the  table \u2014 everyone says it.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
       {chde:"I hei\u00dfe...",phon:"ee HAI-seh",hd:"Ich hei\u00dfe...",en:"My name is...",note:"Self-introduction.",culture:"Used at parties, in shops, anywhere you need to introduce yourself. Followed by your name, then often a handshake.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
       {chde:"Uf Widerluege",phon:"oof VEE-der-loo-eh-geh",hd:"Auf Wiedersehen",en:"Goodbye (formal)",note:"Literally 'until seeing again'. Use with shopkeepers, doctors, elderly neighbours.",culture:"The formal goodbye. Swiss formality isn't stiff \u2014 it's respectful. People notice and appreciate it.<br><br><em>Uf Widerluege preserves an older German grammatical form \u2014 the dative case \u2014 that has largely disappeared from modern High German.</em>"},
       {chde:"Uf Widerseh",phon:"oof VEE-der-zeh",hd:"Auf Wiedersehen",en:"Goodbye (semi-formal)",note:"Slightly less formal than Uf Widerluege.",culture:"Common alternative. Used in slightly less ceremonial contexts but still respectful.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
@@ -943,7 +975,7 @@ const PILLARS=[
     {id:13,title:"animals",info:"The Swiss countryside has more livestock than people. 1.5 million cows for 8.7 million humans. Learn the animals that live in mountains, forests, and barns \u2014 and a few national mascots.",free:false,phrases:[
       {chde:"Chue",phon:"CHOO-eh",hd:"Kuh",en:"cow",note:"The national mascot. 1.5 million in Switzerland, one per six humans.",culture:"Cows are sacred in Swiss culture. They have names, bells, and summer pastures in the Alps. The annual Alpabzug (cow descent) is celebrated with flower crowns and parades.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
       {chde:"Hund",phon:"HOOND",hd:"Hund",en:"dog",note:"Allowed in restaurants, trains, sometimes hospitals.",culture:"Dogs are full members of Swiss society. Every region has favored breeds. Bernese Mountain Dogs and Saint Bernards are national icons.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
-      {chde:"Chatz",phon:"KHATS",hd:"Katze",en:"cat",note:"Universal background staff in Swiss households.",culture:"Cats are quietly omnipresent. Swiss law actually protects cats' right to roam outdoors \u2014 a national peculiarity.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
+      {chde:"Chatz",phon:"KHATS",hd:"Katze",en:"cat",note:"Universal ground staff in Swiss households.",culture:"Cats are quietly omnipresent. Swiss law actually protects cats' right to roam outdoors \u2014 a national peculiarity.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
       {chde:"Vogl",phon:"FOH-gel",hd:"der Vogel",en:"bird",note:"Common around lakes and city parks.",culture:"Switzerland sits on major migration routes. The Wasservogelreservoir at Lake Constance hosts hundreds of thousands of birds each winter.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
       {chde:"St\u00e4ibock",phon:"SHTAY-bock",hd:"der Steinbock",en:"ibex",note:"The mountain icon with curled horns.",culture:"The ibex is the symbol of the canton Graub\u00fcnden and one of Switzerland's most photographed animals. Nearly extinct in 1900, now thriving across the Alps.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
       {chde:"Murmeltier",phon:"MOOR-mel-teer",hd:"Murmeltier",en:"marmot",note:"Whistles at hikers from the rocks.",culture:"Marmots are the alarm system of the Alps. Their high-pitched whistle warns the colony \u2014 and is one of the defining sounds of Swiss summer hiking.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
@@ -998,7 +1030,7 @@ const PILLARS=[
       {chde:"Gömmer go wandere?",phon:"GUH-mer goh VAN-deh-reh",hd:"Gehen wir wandern?",en:"Shall we go hiking?",note:"Placeholder — Deborah to draft.",culture:"Placeholder.<br><br><em>Draft pending.</em>"},
       {chde:"Gömmer go schwimme?",phon:"GUH-mer goh SHVIM-meh",hd:"Gehen wir schwimmen?",en:"Shall we go swimming?",note:"Placeholder — Deborah to draft.",culture:"Placeholder.<br><br><em>Draft pending.</em>"}
     ]},
-    {id:15,title:"swear phrases",info:"Multi-word Swiss German expressions of command, frustration, and friendly bossiness. The voice of a Swiss grandmother getting things back in order.",free:false,phrases:[
+    {id:15,title:"swear phrases",info:"Multi-word Swiss German expressions of command, frustration, and friendly bossiness. The voice of a Swiss grandmother getting things  in order.",free:false,phrases:[
       {chde:"H\u00f6r uf!",phon:"HOOR oof",hd:"H\u00f6r auf!",en:"Stop it!",note:"Direct command. Used with kids, dogs, anyone.",culture:"Said sharply, this stops behavior. Said gently, it's a request to ease up. Tone makes the meaning.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
       {chde:"Jetzt langts!",phon:"yetst LANGTS",hd:"Jetzt reicht's!",en:"That's enough!",note:"The classic Swiss grandmother phrase.",culture:"'Langts' = 'reaches' \u2014 it has reached its limit. Final-sounding. After this phrase, no more discussion.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
       {chde:"Was wetsch?",phon:"vas VETSH",hd:"Was willst du?",en:"What do you want?",note:"Can be friendly or sharp depending on tone.",culture:"Asked in shops as a polite opener. Asked by an annoyed person as a sharp challenge. Same words, opposite meanings.<br><br><em>Placeholder \u2014 Deborah to review.</em>"},
@@ -1048,7 +1080,7 @@ function updateStreak(){
   }
 }
 
-// view history stack — last 10 views, used by global back button
+// view history stack — last 10 views, used by global  button
 const viewHistory = [];
 function showView(v){
   // Stop any in-progress chapter audio when navigating away
@@ -1072,7 +1104,7 @@ function showView(v){
   if(btn)btn.classList.add('active');
   if(v==='lessons')renderLessons();
   if(v==='account')renderAccount();
-  // toggle global back button visibility — hidden on landing
+  // toggle global  button visibility — hidden on landing
   const gbb = document.getElementById('global-back-btn');
   if(gbb) gbb.style.display = (v === 'landing') ? 'none' : 'flex';
   window.scrollTo(0,0);
@@ -1094,7 +1126,7 @@ function goBack(){
     if(gbb) gbb.style.display = (prev === 'landing') ? 'none' : 'flex';
     window.scrollTo(0,0);
   } else {
-    // no history → fall back to lessons
+    // no history → fall  to lessons
     showView('lessons');
   }
 }
@@ -1383,7 +1415,6 @@ function openLesson(id, startPhraseIdx){
     return;
   }
   // Otherwise go straight to stage
-  document.getElementById('stage-lesson-title').textContent=lesson.title;
   renderStage();
   showView('stage');
 }
@@ -1404,14 +1435,14 @@ function renderChapter(lesson){
   document.getElementById('chapter-body').innerHTML = getInfoForLang(lesson.info, lang);
   const cta = document.getElementById('chapter-cta');
   if(lesson.infoOnly){
-    // Info-only lesson — chapter IS the entire lesson, next-chapter arrow finishes it
+    // Info-only lesson — chapter IS the entire lesson, -chapter arrow finishes it
     const nextLesson = getNextInfoChapter(lesson.id);
-    const nextLabel = nextLesson ? `<span class="next-chapter-label">next: ${nextLesson.title}</span>` : '';
+    const nextLabel = nextLesson ? `<span class="next-chapter-label">: ${nextLesson.title}</span>` : '';
     cta.innerHTML = `
-      <button class="chapter-next-arrow" onclick="completeInfoChapter()" aria-label="next chapter">
+      <button class="chapter--arrow" onclick="completeInfoChapter()" aria-label=" chapter">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
-      ${nextLabel}
+      ${Label}
     `;
   } else {
     // Lesson has phrases to learn — chapter is the intro page before stages
@@ -1425,7 +1456,7 @@ function renderChapter(lesson){
   });
 }
 
-// Find the next info-only lesson after the current one
+// Find the  info-only lesson after the current one
 function getNextInfoChapter(currentLessonId){
   const all = getAllLessons();
   const currentIdx = all.findIndex(l => l.id === currentLessonId);
@@ -1448,7 +1479,7 @@ function completeInfoChapter(){
   if(!state.quizScores[lesson.id]) state.quizScores[lesson.id] = {correct:0, total:0};
   save();
   stopChapterAudio();
-  // Directly route to next chapter (or back to lessons)
+  // Directly route to  chapter (or  to lessons)
   const nextLesson = getNextInfoChapter(lesson.id);
   if(nextLesson){
     openLesson(nextLesson.id);
@@ -1459,7 +1490,7 @@ function completeInfoChapter(){
   }
 }
 
-// Chapter audio playback — uses speechSynthesis to read lesson.info aloud in chosen language
+// Chapter audio play — uses speechSynthesis to read lesson.info aloud in chosen language
 let chapterUtterance = null;
 function toggleChapterPlay(){
   const btn = document.getElementById('chapter-play-btn');
@@ -1524,18 +1555,23 @@ function enterStageFromChapter(){
   // Called when user taps "begin" on chapter intro page
   const lesson = getLessonById(state.currentLessonId);
   if(!lesson) return;
-  document.getElementById('stage-lesson-title').textContent = lesson.title;
+  
   renderStage();
   showView('stage');
 }
 
 function renderStageBar(){
   const bar=document.getElementById('stage-bar');
+  if(!bar) return;
   bar.innerHTML='';
-  STAGES.forEach((s,i)=>{
-    const pip=document.createElement('div');
-    pip.className='stage-pip'+(i<state.currentStage?' done':i===state.currentStage?' active':'');
-    bar.appendChild(pip);
+  const lesson=getLessonById(state.currentLessonId);
+  if(!lesson || !lesson.phrases) return;
+  // One dot per word in the lesson
+  lesson.phrases.forEach((p,i)=>{
+    const dot=document.createElement('i');
+    if(i < state.currentPhraseIdx){ dot.className='done'; }
+    else if(i === state.currentPhraseIdx){ dot.className='active'; }
+    bar.appendChild(dot);
   });
 }
 
@@ -1544,9 +1580,9 @@ function renderStage(){
   const lesson=getLessonById(state.currentLessonId);
   const phrase=lesson.phrases[state.currentPhraseIdx];
   const content=document.getElementById('stage-content');
-  const nextBtn=document.getElementById('btn-next');
+  const Btn=document.getElementById('btn-');
   const gotItBtn=document.getElementById('got-it-btn');
-  nextBtn.disabled=false;
+  Btn.disabled=false;
   if(gotItBtn) gotItBtn.disabled=false;
 
   // SINGLE-CARD WORD FLOW — chde + phon at top, big audio center, en + hd below
@@ -1579,7 +1615,7 @@ function listenAnswer(btn,chosen,correct){
     btn.classList.add('wrong');
     document.querySelectorAll('.lopt').forEach(b=>{if(b.textContent.trim()===correct)b.classList.add('correct');});
   }
-  document.getElementById('btn-next').disabled=false;
+  document.getElementById('btn-').disabled=false;
   const gotItBtn2=document.getElementById('got-it-btn');
   if(gotItBtn2) gotItBtn2.disabled=false;
 }
@@ -1589,11 +1625,11 @@ function onNextClick(){
   if(state.quizState && state.quizState.questions && state.quizState.answered){
     quizNext();
   } else {
-    nextItem();
+    Item();
   }
 }
 
-function nextItem(){
+function Item(){
   const lesson=getLessonById(state.currentLessonId);
   const access=getLessonAccess(lesson);
   // Mark current phrase as learned
@@ -1668,7 +1704,7 @@ function renderQuizQuestion(){
       </div>
     </div>`;
   state.quizState.answered=false;
-  document.getElementById('btn-next').disabled=true;
+  document.getElementById('btn-').disabled=true;
   const gotItBtn = document.getElementById('got-it-btn');
   if(gotItBtn) gotItBtn.disabled=true;
   // Auto-play the swiss audio (this is the actual prompt)
@@ -1688,12 +1724,12 @@ function quizAnswer(btn, chosen, correct){
     btn.classList.add('wrong');
     document.querySelectorAll('.lopt').forEach(b=>{if(b.textContent.trim()===correct)b.classList.add('correct');});
   }
-  document.getElementById('btn-next').disabled=false;
+  document.getElementById('btn-').disabled=false;
   const gotItBtn = document.getElementById('got-it-btn');
   if(gotItBtn) gotItBtn.disabled=false;
 }
 
-// Override what next does during quiz mode
+// Override what  does during quiz mode
 function quizNext(){
   state.quizState.currentIdx++;
   if(state.quizState.currentIdx < state.quizState.questions.length){
@@ -1734,12 +1770,12 @@ function showComplete(){
     countEl.textContent=`stamp ${state.stamps.length} of ${getAllLessons().length} collected`;
   }
   const allLessons=getAllLessons();
-  const next=allLessons.find(l=>l.id===state.currentLessonId+1);
+  const nextLesson=allLessons.find(l=>l.id===state.currentLessonId+1);
   const btn=document.getElementById('next-lesson-btn');
-  if(next){
-    const pillar=PILLARS.find(p=>p.lessons.some(l=>l.id===next.id));
+  if(nextLesson){
+    const pillar=PILLARS.find(p=>p.lessons.some(l=>l.id===nextLesson.id));
     if(pillar.free||state.unlocked){
-      btn.style.display='inline-block';btn.textContent='Next lesson →';btn.onclick=()=>openLesson(next.id);
+      btn.style.display='inline-block';btn.textContent='Next lesson →';btn.onclick=()=>openLesson(nextLesson.id);
     } else {
       btn.style.display='inline-block';btn.textContent='Unlock more →';btn.onclick=()=>showView('paywall');
     }
