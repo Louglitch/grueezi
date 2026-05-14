@@ -326,15 +326,113 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
 .stamp-passport.earned{background:#FF1B6B;border-color:#FF1B6B}
 .stamp-passport.earned::before,.stamp-passport.earned::after{background:#FFFFFF;opacity:1}
 
-/* COMPLETE STAMP — big numbered stamp lands on lesson-complete screen */
-@keyframes stamp-land{
-  0%{transform:scale(.3) rotate(-22deg);opacity:0}
-  55%{transform:scale(1.12) rotate(3deg);opacity:1}
-  100%{transform:scale(1) rotate(0);opacity:1}
+/* COMPLETE STAMP — postage-stamp style with icon & lesson name inside */
+@keyframes stamp-slam{
+  0%{transform:scale(1.7) rotate(-22deg);opacity:0}
+  40%{transform:scale(1.1) rotate(-4deg);opacity:1}
+  100%{transform:scale(1) rotate(-4deg);opacity:1}
 }
-.complete-stamp{width:64px;height:64px;border-radius:50%;background:var(--rose);color:var(--cream);display:flex;align-items:center;justify-content:center;font-family:var(--font);font-size:22px;font-weight:500;margin:0 auto 1rem;box-shadow:0 0 0 4px var(--petal);animation:stamp-land .65s cubic-bezier(.22,1,.36,1) forwards}
-.complete-stamp-line{font-family:var(--font);font-size:10px;font-weight:300;color:var(--rose-deep);opacity:.65;margin-top:.25rem;letter-spacing:.04em}
-@media (prefers-reduced-motion:reduce){.complete-stamp{animation:none;opacity:1}}
+.complete-stamp-wrap{margin:0 auto;position:relative;display:flex;align-items:center;justify-content:center;min-height:180px}
+.complete-stamp{
+  width:130px;height:160px;background:var(--cream);
+  position:relative;display:flex;align-items:center;justify-content:center;
+  -webkit-mask:
+    radial-gradient(circle 5px at top, transparent 98%, #000 100%) top/12px 12px repeat-x,
+    radial-gradient(circle 5px at bottom, transparent 98%, #000 100%) bottom/12px 12px repeat-x,
+    radial-gradient(circle 5px at left, transparent 98%, #000 100%) left/12px 12px repeat-y,
+    radial-gradient(circle 5px at right, transparent 98%, #000 100%) right/12px 12px repeat-y,
+    linear-gradient(#000,#000);
+  mask:
+    radial-gradient(circle 5px at top, transparent 98%, #000 100%) top/12px 12px repeat-x,
+    radial-gradient(circle 5px at bottom, transparent 98%, #000 100%) bottom/12px 12px repeat-x,
+    radial-gradient(circle 5px at left, transparent 98%, #000 100%) left/12px 12px repeat-y,
+    radial-gradient(circle 5px at right, transparent 98%, #000 100%) right/12px 12px repeat-y,
+    linear-gradient(#000,#000);
+  filter:drop-shadow(0 3px 8px rgba(122,48,64,.20));
+  padding:8px;
+  z-index:3;
+  animation:stamp-slam .6s cubic-bezier(.22,1.5,.36,1) forwards;
+}
+.complete-stamp-inner{
+  width:100%;height:100%;
+  background:var(--petal);
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+  padding:10px 8px 8px;
+  position:relative;
+  border:1px solid rgba(212,120,138,.4);
+}
+.complete-stamp-top{font-size:8px;font-weight:500;color:var(--rose-deep);letter-spacing:.22em;text-transform:uppercase;line-height:1}
+.complete-stamp-icon{width:54px;height:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.complete-stamp-icon svg{width:100%;height:100%}
+.complete-stamp-icon .icon-fill{fill:var(--rose-deep)}
+.complete-stamp-icon .icon-stroke{stroke:var(--rose-deep);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.complete-stamp-num{font-size:24px;font-weight:500;color:var(--rose-deep);line-height:1;letter-spacing:-.02em}
+.complete-stamp-name{font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--rose-deep);line-height:1;text-align:center;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.complete-stamp{animation:none;opacity:1;transform:rotate(-4deg)}}
+
+/* CONFETTI BURST — palette colors, fires on lesson complete */
+.complete-confetti{position:absolute;top:50%;left:50%;width:7px;height:11px;opacity:0;pointer-events:none;transform:translate(-50%,-50%) rotate(0deg);z-index:2;border-radius:1px}
+.complete-confetti.cc-rose{background:var(--rose)}
+.complete-confetti.cc-deep{background:var(--rose-deep)}
+.complete-confetti.cc-mint{background:var(--mint)}
+.complete-confetti.cc-sage{background:var(--sage)}
+.complete-confetti.cc-cream{background:var(--cream2)}
+.complete-confetti.cc-round{border-radius:50%;width:6px;height:6px}
+.complete-confetti.cc-small{width:5px;height:8px}
+.complete-confetti.cc-tiny{width:4px;height:4px;border-radius:50%}
+.complete.is-firing .complete-confetti{animation:cc-burst 1.9s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes cc-burst{
+  0%{opacity:0;transform:translate(-50%,-50%) rotate(0deg)}
+  12%{opacity:1}
+  100%{opacity:0;transform:translate(calc(-50% + var(--cx,0px)),calc(-50% + var(--cy,-100px))) rotate(var(--cr,360deg))}
+}
+.complete.is-firing .complete-confetti:nth-child(1){--cx:-90px;--cy:-100px;--cr:480deg;animation-delay:.00s}
+.complete.is-firing .complete-confetti:nth-child(2){--cx:-65px;--cy:-130px;--cr:-360deg;animation-delay:.03s}
+.complete.is-firing .complete-confetti:nth-child(3){--cx:-40px;--cy:-150px;--cr:420deg;animation-delay:.06s}
+.complete.is-firing .complete-confetti:nth-child(4){--cx:-15px;--cy:-160px;--cr:-540deg;animation-delay:.09s}
+.complete.is-firing .complete-confetti:nth-child(5){--cx:15px;--cy:-160px;--cr:300deg;animation-delay:.12s}
+.complete.is-firing .complete-confetti:nth-child(6){--cx:40px;--cy:-150px;--cr:-420deg;animation-delay:.15s}
+.complete.is-firing .complete-confetti:nth-child(7){--cx:65px;--cy:-130px;--cr:540deg;animation-delay:.18s}
+.complete.is-firing .complete-confetti:nth-child(8){--cx:90px;--cy:-100px;--cr:-300deg;animation-delay:.21s}
+.complete.is-firing .complete-confetti:nth-child(9){--cx:-120px;--cy:-80px;--cr:360deg;animation-delay:.24s}
+.complete.is-firing .complete-confetti:nth-child(10){--cx:120px;--cy:-80px;--cr:-480deg;animation-delay:.27s}
+.complete.is-firing .complete-confetti:nth-child(11){--cx:-105px;--cy:-50px;--cr:420deg;animation-delay:.30s}
+.complete.is-firing .complete-confetti:nth-child(12){--cx:105px;--cy:-50px;--cr:-360deg;animation-delay:.33s}
+.complete.is-firing .complete-confetti:nth-child(13){--cx:-80px;--cy:-30px;--cr:240deg;animation-delay:.36s}
+.complete.is-firing .complete-confetti:nth-child(14){--cx:80px;--cy:-30px;--cr:-240deg;animation-delay:.39s}
+.complete.is-firing .complete-confetti:nth-child(15){--cx:-55px;--cy:-20px;--cr:480deg;animation-delay:.42s}
+.complete.is-firing .complete-confetti:nth-child(16){--cx:55px;--cy:-20px;--cr:-420deg;animation-delay:.45s}
+.complete.is-firing .complete-confetti:nth-child(17){--cx:0px;--cy:-180px;--cr:540deg;animation-delay:.05s}
+.complete.is-firing .complete-confetti:nth-child(18){--cx:-30px;--cy:-180px;--cr:-300deg;animation-delay:.08s}
+.complete.is-firing .complete-confetti:nth-child(19){--cx:30px;--cy:-180px;--cr:300deg;animation-delay:.11s}
+.complete.is-firing .complete-confetti:nth-child(20){--cx:-140px;--cy:-100px;--cr:420deg;animation-delay:.14s}
+.complete.is-firing .complete-confetti:nth-child(21){--cx:140px;--cy:-100px;--cr:-540deg;animation-delay:.17s}
+.complete.is-firing .complete-confetti:nth-child(22){--cx:-130px;--cy:-130px;--cr:360deg;animation-delay:.20s}
+.complete.is-firing .complete-confetti:nth-child(23){--cx:130px;--cy:-130px;--cr:-360deg;animation-delay:.23s}
+.complete.is-firing .complete-confetti:nth-child(24){--cx:-50px;--cy:-110px;--cr:480deg;animation-delay:.26s}
+.complete.is-firing .complete-confetti:nth-child(25){--cx:50px;--cy:-110px;--cr:-480deg;animation-delay:.29s}
+.complete.is-firing .complete-confetti:nth-child(26){--cx:-90px;--cy:-160px;--cr:420deg;animation-delay:.32s}
+.complete.is-firing .complete-confetti:nth-child(27){--cx:90px;--cy:-160px;--cr:-420deg;animation-delay:.35s}
+.complete.is-firing .complete-confetti:nth-child(28){--cx:-110px;--cy:-110px;--cr:300deg;animation-delay:.38s}
+.complete.is-firing .complete-confetti:nth-child(29){--cx:110px;--cy:-110px;--cr:-300deg;animation-delay:.41s}
+.complete.is-firing .complete-confetti:nth-child(30){--cx:-25px;--cy:-110px;--cr:540deg;animation-delay:.44s}
+.complete.is-firing .complete-confetti:nth-child(31){--cx:25px;--cy:-110px;--cr:-540deg;animation-delay:.47s}
+.complete.is-firing .complete-confetti:nth-child(32){--cx:0px;--cy:-130px;--cr:360deg;animation-delay:.50s}
+@media (prefers-reduced-motion:reduce){
+  .complete.is-firing .complete-confetti{animation:none;opacity:0}
+}
+
+/* CONTINUE ARROW — same chevron language as stage arrows, bigger & rose-tinted */
+.complete-arrow{
+  flex-shrink:0;width:48px;height:48px;border-radius:14px;
+  background:transparent;border:none;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  color:var(--rose-deep);opacity:.85;
+  transition:opacity .15s ease, background .15s ease, transform .15s ease;
+  margin-top:1.2rem;
+}
+.complete-arrow:hover{opacity:1;background:rgba(212,120,138,.10);transform:translateX(2px)}
+.complete-arrow svg{width:22px;height:22px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
 
 /* PILLARS */
 .pillar-section{margin-bottom:1.25rem}
@@ -633,11 +731,7 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
 }
 
 /* COMPLETE */
-.complete{background:var(--petal);border-radius:14px;padding:2rem;text-align:center;margin-bottom:1rem}
-.complete-title{font-size:2rem;font-weight:300;color:var(--rose-deep);margin-bottom:.5rem}
-.complete-sub{font-size:12px;font-weight:300;color:var(--rose-deep);opacity:.8;margin-bottom:1.5rem;line-height:1.7}
-.complete-btn{background:var(--dark);color:var(--cream);border:none;border-radius:9px;padding:10px 20px;font-size:12px;font-family:var(--font);cursor:pointer;margin:4px;font-weight:400}
-.complete-btn:hover{background:var(--darkm)}
+.complete{background:var(--petal);border-radius:14px;padding:2rem;text-align:center;margin-bottom:1rem;position:relative;overflow:visible;display:flex;flex-direction:column;align-items:center}
 
 /* BOTTOM NAV */
 
@@ -828,14 +922,52 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
 <!-- COMPLETE -->
 <div id="view-complete" class="view">
   <div class="inner">
-    <div class="complete">
-      <div class="complete-stamp" id="complete-stamp"></div>
-      <div class="complete-title" id="complete-title">Guet gmacht.</div>
-      <div class="complete-sub" id="complete-sub"></div>
-      <div class="complete-stamp-line" id="complete-stamp-line"></div>
-      <div style="margin-top:1.5rem">
-        <button class="complete-btn" id="complete-cta-btn" onclick="completeContinue()">continue →</button>
+    <div class="complete" id="complete-card">
+      <span class="complete-confetti cc-rose"></span>
+      <span class="complete-confetti cc-mint cc-small"></span>
+      <span class="complete-confetti cc-deep"></span>
+      <span class="complete-confetti cc-sage cc-round"></span>
+      <span class="complete-confetti cc-rose cc-small"></span>
+      <span class="complete-confetti cc-cream"></span>
+      <span class="complete-confetti cc-mint"></span>
+      <span class="complete-confetti cc-deep cc-round"></span>
+      <span class="complete-confetti cc-sage cc-small"></span>
+      <span class="complete-confetti cc-rose"></span>
+      <span class="complete-confetti cc-mint cc-round"></span>
+      <span class="complete-confetti cc-deep cc-small"></span>
+      <span class="complete-confetti cc-cream cc-round"></span>
+      <span class="complete-confetti cc-sage"></span>
+      <span class="complete-confetti cc-rose cc-round"></span>
+      <span class="complete-confetti cc-mint cc-small"></span>
+      <span class="complete-confetti cc-rose cc-tiny"></span>
+      <span class="complete-confetti cc-mint cc-tiny"></span>
+      <span class="complete-confetti cc-sage cc-tiny"></span>
+      <span class="complete-confetti cc-deep"></span>
+      <span class="complete-confetti cc-cream cc-small"></span>
+      <span class="complete-confetti cc-rose cc-round"></span>
+      <span class="complete-confetti cc-mint"></span>
+      <span class="complete-confetti cc-rose cc-small"></span>
+      <span class="complete-confetti cc-sage cc-round"></span>
+      <span class="complete-confetti cc-deep cc-tiny"></span>
+      <span class="complete-confetti cc-cream"></span>
+      <span class="complete-confetti cc-mint cc-round"></span>
+      <span class="complete-confetti cc-rose"></span>
+      <span class="complete-confetti cc-sage"></span>
+      <span class="complete-confetti cc-deep cc-small"></span>
+      <span class="complete-confetti cc-mint cc-tiny"></span>
+      <div class="complete-stamp-wrap">
+        <div class="complete-stamp" id="complete-stamp">
+          <div class="complete-stamp-inner">
+            <div class="complete-stamp-top">helvetia</div>
+            <div class="complete-stamp-icon" id="complete-stamp-icon"></div>
+            <div class="complete-stamp-num" id="complete-stamp-num">0</div>
+            <div class="complete-stamp-name" id="complete-stamp-name"></div>
+          </div>
+        </div>
       </div>
+      <button class="complete-arrow" id="complete-cta-btn" onclick="completeContinue()" aria-label="continue">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
     </div>
   </div>
 </div>
@@ -1772,43 +1904,78 @@ function prevItem(){
   }
 }
 
+// SVG icons for each lesson, keyed by id. Stroke style for outline icons, fill for filled.
+function getLessonStampIcon(lessonId){
+  const icons = {
+    // 1 hi, bye → speech bubble
+    1: '<svg viewBox="0 0 54 32"><path class="icon-stroke" d="M 8 6 Q 8 4 10 4 L 32 4 Q 34 4 34 6 L 34 18 Q 34 20 32 20 L 18 20 L 12 26 L 14 20 L 10 20 Q 8 20 8 18 Z"/></svg>',
+    // 2 numbers → 123
+    2: '<svg viewBox="0 0 54 32"><text x="27" y="22" text-anchor="middle" font-family="Jost" font-size="18" font-weight="500" class="icon-fill" style="fill:var(--rose-deep)">123</text></svg>',
+    // 3 swear words → !#@
+    3: '<svg viewBox="0 0 54 32"><text x="27" y="22" text-anchor="middle" font-family="Jost" font-size="18" font-weight="500" style="fill:var(--rose-deep)">!#@</text></svg>',
+    // 4 tourist → mountain (two-peak)
+    4: '<svg viewBox="0 0 54 32"><path class="icon-fill" d="M 4 28 L 18 8 L 28 22 L 18 28 Z"/><path class="icon-fill" d="M 22 28 L 36 6 L 50 28 Z" opacity=".75"/><circle cx="36" cy="9" r="2.5" fill="#fff" opacity=".7"/></svg>',
+    // 5 beiz → cup
+    5: '<svg viewBox="0 0 54 32"><path class="icon-stroke" d="M 18 8 L 18 22 Q 18 26 22 26 L 32 26 Q 36 26 36 22 L 36 8 Z M 36 12 L 42 12 L 42 18 L 36 18"/><path class="icon-stroke" d="M 27 26 L 27 30"/><path class="icon-stroke" d="M 21 30 L 33 30"/></svg>',
+    // 6 freizeit → wave
+    6: '<svg viewBox="0 0 54 32"><path class="icon-stroke" d="M 4 18 Q 10 12 16 18 Q 22 24 28 18 Q 34 12 40 18 Q 46 24 50 18"/><path class="icon-stroke" d="M 4 24 Q 10 18 16 24 Q 22 30 28 24 Q 34 18 40 24 Q 46 30 50 24"/></svg>',
+    // 7 humour → smiley
+    7: '<svg viewBox="0 0 54 32"><circle class="icon-stroke" cx="27" cy="16" r="10"/><circle class="icon-fill" cx="23" cy="14" r="1.5"/><circle class="icon-fill" cx="31" cy="14" r="1.5"/><path class="icon-stroke" d="M 22 19 Q 27 23 32 19"/></svg>',
+    // 9 traditions → flame
+    9: '<svg viewBox="0 0 54 32"><path class="icon-fill" d="M 27 4 Q 22 10 24 16 Q 26 14 27 12 Q 28 18 32 22 Q 36 18 34 12 Q 32 14 30 14 Q 32 8 27 4 Z"/><path class="icon-fill" d="M 20 28 L 34 28 Q 34 26 33 24 L 21 24 Q 20 26 20 28 Z" opacity=".7"/></svg>',
+    // 11 alemannisch → speech arc / dialect
+    11: '<svg viewBox="0 0 54 32"><path class="icon-stroke" d="M 10 18 Q 10 8 20 8 L 34 8 Q 44 8 44 18 Q 44 24 38 26 L 36 30 L 32 26 L 20 26 Q 10 26 10 18 Z"/><circle class="icon-fill" cx="22" cy="17" r="1.5"/><circle class="icon-fill" cx="27" cy="17" r="1.5"/><circle class="icon-fill" cx="32" cy="17" r="1.5"/></svg>',
+    // 12 history → shield
+    12: '<svg viewBox="0 0 54 32"><path class="icon-stroke" d="M 27 4 L 38 8 L 38 18 Q 38 24 27 28 Q 16 24 16 18 L 16 8 Z"/><path class="icon-stroke" d="M 22 16 L 26 19 L 32 12"/></svg>',
+    // 13 animals → cow head
+    13: '<svg viewBox="0 0 54 32"><ellipse class="icon-stroke" cx="27" cy="18" rx="11" ry="8"/><ellipse class="icon-stroke" cx="18" cy="14" rx="3" ry="2"/><ellipse class="icon-stroke" cx="36" cy="14" rx="3" ry="2"/><circle class="icon-fill" cx="23" cy="17" r="1"/><circle class="icon-fill" cx="31" cy="17" r="1"/><ellipse class="icon-fill" cx="27" cy="22" rx="2" ry="1.5" opacity=".5"/></svg>',
+    // 15 swear phrases → !#@ (variant)
+    15: '<svg viewBox="0 0 54 32"><text x="27" y="22" text-anchor="middle" font-family="Jost" font-size="16" font-weight="500" style="fill:var(--rose-deep)">!?#@</text></svg>',
+    // 16 fruits → apple
+    16: '<svg viewBox="0 0 54 32"><circle class="icon-fill" cx="27" cy="18" r="9"/><path class="icon-stroke" d="M 27 9 L 28 4 L 32 4"/><path class="icon-stroke" d="M 27 9 Q 25 7 22 7" style="fill:var(--rose-deep);stroke:none"/></svg>',
+    // 17 clothes → shirt
+    17: '<svg viewBox="0 0 54 32"><path class="icon-stroke" d="M 16 10 L 22 5 L 27 9 L 32 5 L 38 10 L 38 26 L 16 26 Z"/></svg>',
+  };
+  // Fallback: mountain
+  return icons[lessonId] || icons[4];
+}
+
 function showComplete(){
   const lesson=getLessonById(state.currentLessonId);
-  const pct=state.stageScores.total>0?Math.round(state.stageScores.correct/state.stageScores.total*100):100;
-  document.getElementById('complete-title').textContent=pct>=80?'Wunderbar.':'Guet gmacht.';
-  document.getElementById('complete-sub').textContent=`${lesson.title} complete · ${pct}% on quiz`;
-  // stamp visual + count line
+  // Populate stamp content
+  const numEl=document.getElementById('complete-stamp-num');
+  const nameEl=document.getElementById('complete-stamp-name');
+  const iconEl=document.getElementById('complete-stamp-icon');
+  const cardEl=document.getElementById('complete-card');
+  if(numEl) numEl.textContent=String(state.currentLessonId).padStart(2,'0');
+  if(nameEl) nameEl.textContent=lesson.title;
+  if(iconEl) iconEl.innerHTML=getLessonStampIcon(state.currentLessonId);
+  // Restart stamp slam animation
   const stampEl=document.getElementById('complete-stamp');
   if(stampEl){
-    stampEl.textContent=state.currentLessonId;
-    // restart animation
     stampEl.style.animation='none';
     void stampEl.offsetWidth;
     stampEl.style.animation='';
   }
-  const countEl=document.getElementById('complete-stamp-line');
-  if(countEl){
-    countEl.textContent=`stamp ${state.stamps.length} of ${getAllLessons().length} collected`;
+  // Fire confetti — toggle is-firing class to restart all confetti animations
+  if(cardEl){
+    cardEl.classList.remove('is-firing');
+    void cardEl.offsetWidth;
+    cardEl.classList.add('is-firing');
   }
   // Decide what "continue" means based on what's next
   const allLessons=getAllLessons();
   const nextLesson=allLessons.find(l=>l.id===state.currentLessonId+1);
   const btn=document.getElementById('complete-cta-btn');
   if(nextLesson){
-    const pillar=PILLARS.find(p=>p.lessons.some(l=>l.id===nextLesson.id));
     const access = getLessonAccess(nextLesson);
     if(access === 'full'){
-      btn.textContent='continue →';
       btn.dataset.action='next-lesson';
       btn.dataset.target=nextLesson.id;
     } else {
-      // Next lesson is locked — continue routes through paywall
-      btn.textContent='continue →';
       btn.dataset.action='paywall';
     }
   } else {
-    // No more lessons
-    btn.textContent='back to lessons →';
     btn.dataset.action='lessons';
   }
   showView('complete');
