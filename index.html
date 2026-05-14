@@ -147,7 +147,9 @@ nav.top{background:var(--nav-bg);height:52px;display:flex;align-items:center;pos
 .hero-inner{max-width:var(--col);margin:0 auto}
 .hero-mark{margin:0 auto 1.25rem;display:block;border-radius:22px;box-shadow:0 0 0 4px var(--cream)}
 .hero-h1{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:300;color:var(--hero-text);line-height:1.2;letter-spacing:-.01em;margin-bottom:.6rem}
-.hero-h1 span{color:var(--hero-text-accent)}
+.hero-h1 > span:not([class]){color:var(--hero-text-accent)}
+.beta-pill{display:inline-block;font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--rose-deep);background:rgba(245,224,228,.7);padding:2px 7px;border-radius:999px;margin-left:8px;vertical-align:middle;line-height:1.6;font-family:var(--font);transform:translateY(-3px)}
+.beta-pill-sm{display:inline-block;font-size:8px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--rose-deep);background:rgba(245,224,228,.7);padding:1px 6px;border-radius:999px;margin-left:6px;vertical-align:middle;line-height:1.6;font-family:var(--font);transform:translateY(-1px)}
 .hero-sub{font-size:13px;font-weight:300;color:var(--hero-text);opacity:.85;margin-bottom:1.75rem;letter-spacing:.02em}
 #view-landing .hero .inner{overflow:hidden} /* keeps slide-in from making the page scrollable */
 
@@ -249,6 +251,22 @@ body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:
 .pw-btns .btn-p,.pw-btns .btn-cream{width:100%}
 .pw-or{text-align:center;font-family:var(--font);font-size:11px;font-weight:300;color:var(--texts);margin:6px 0}
 .pw-tagline{font-size:11px;color:var(--textm);letter-spacing:.04em;margin:1.75rem 0 0;font-weight:300;text-align:center}
+.pw-already{background:transparent;border:none;color:var(--dark);font-family:var(--font);font-size:12px;font-weight:400;letter-spacing:.02em;cursor:pointer;padding:10px 0;margin-top:8px;display:inline-flex;align-items:center;justify-content:center;gap:6px;opacity:.85;transition:opacity .15s ease, transform .15s ease}
+.pw-already:hover{opacity:1;transform:translateX(2px)}
+.pw-already svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* SIGN-IN screen */
+.signin-card{padding:1.5rem 0}
+.signin-form{display:flex;flex-direction:column;gap:12px;max-width:320px;margin:1.5rem auto}
+.signin-input{width:100%;padding:13px 16px;font-family:var(--font);font-size:14px;font-weight:300;color:var(--dark);background:var(--card);border:0.5px solid var(--beige);border-radius:12px;outline:none;transition:border-color .15s}
+.signin-input:focus{border-color:var(--rose)}
+.signin-input::placeholder{color:var(--texts);opacity:.7}
+#signin-btn{width:100%}
+.signin-status{font-size:12px;color:var(--texts);text-align:center;min-height:18px;line-height:1.5;font-weight:300}
+.signin-status.ok{color:var(--sage)}
+.signin-status.err{color:var(--rose-deep)}
+.signin-help{font-size:11px;color:var(--texts);text-align:center;margin:1.25rem 0 0;line-height:1.6;font-weight:300}
+.signin-help a{color:var(--dark);text-decoration:underline;text-decoration-color:rgba(44,56,48,.3);text-underline-offset:2px}
 .features{background:var(--cream2);padding:1.75rem 1.25rem 2.5rem}
 .features-inner{max-width:var(--col);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
 .feat{display:flex;gap:8px;align-items:flex-start}
@@ -778,7 +796,7 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
         <circle class="logo-accent" cx="64" cy="18" r="5.5"/>
         <circle class="logo-accent" cx="80" cy="18" r="5.5"/>
       </svg>
-      <h1 class="hero-h1 anim-title">Gr<span>ü</span>ezi</h1>
+      <h1 class="hero-h1 anim-title">Gr<span>ü</span>ezi<span class="beta-pill">beta</span></h1>
       <p class="hero-sub anim-sub">your swiss german trainer</p>
       <div class="hero-btns anim-btn-wrap">
         <div class="start-wrap">
@@ -905,16 +923,35 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
         <circle class="logo-accent" cx="64" cy="18" r="5.5"/>
         <circle class="logo-accent" cx="80" cy="18" r="5.5"/>
       </svg>
-      <h1 class="hero-h1">unlock full access</h1>
+      <h1 class="hero-h1">unlock full access<span class="beta-pill-sm">beta</span></h1>
       <div class="pw-btns">
-        <button class="btn-p" onclick="window.open('https://deborahmurielblum.gumroad.com/l/ugdfe','_blank')">€7 / month</button>
-        <button class="btn-cream" onclick="window.open('https://deborahmurielblum.gumroad.com/l/ugdfe','_blank')">€29 once</button>
+        <button class="btn-p" onclick="window.open(LS_MONTHLY,'_blank')">€7 / month</button>
+        <button class="btn-cream" onclick="window.open(LS_LIFETIME,'_blank')">€29 once</button>
+        <button class="pw-already" onclick="showView('signin')">already bought? sign in <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
         <!-- TODO: book a session — hidden until launch ready, €60 / 60 min
         <div class="pw-or">or</div>
         <a class="btn-cream" href="https://calendly.com/deborahmurielblum-info/new-meeting" target="_blank" style="text-decoration:none;display:block;text-align:center">book a session</a>
         -->
       </div>
       <p class="pw-tagline">chuchichäschtli<span class="u-dots"><i></i><i></i></span></p>
+    </div>
+  </div>
+</div>
+
+<!-- SIGN IN — for existing customers entering email to receive magic link -->
+<div id="view-signin" class="view">
+  <div class="inner">
+    <div class="signin-card">
+      <div class="page-header" style="margin-bottom:1rem">
+        <div class="page-title">sign in<span class="u-dots"><i></i><i></i></span><span class="beta-pill-sm">beta</span></div>
+        <div class="page-sub" id="signin-sub">enter the email you used to buy grüezi · we'll send you a magic link</div>
+      </div>
+      <div class="signin-form">
+        <input type="email" id="signin-email" class="signin-input" placeholder="your@email.com" autocomplete="email" inputmode="email"/>
+        <button class="btn-p" id="signin-btn" onclick="requestMagicLink()">send magic link</button>
+        <div class="signin-status" id="signin-status"></div>
+      </div>
+      <p class="signin-help">No magic link? Check spam, or <a href="mailto:info@deborahmurielblum.com">email Deborah</a>.</p>
     </div>
   </div>
 </div>
@@ -1190,6 +1227,12 @@ const PILLARS=[
   ]}
 ];
 
+// === Grüezi API (Cloudflare Worker) ===
+const GRUEEZI_API = 'https://grueezi-api.deborahmuriel-blum.workers.dev';
+// Lemon Squeezy checkout URLs
+const LS_MONTHLY  = 'https://grueezi.lemonsqueezy.com/checkout/buy/e4610157-5fb1-4c52-8f8f-20900ef3341e';
+const LS_LIFETIME = 'https://grueezi.lemonsqueezy.com/checkout/buy/cfdade4e-d179-48c2-bc0b-93ec6d0d5547';
+
 const state={
   currentLessonId:null,
   currentPhraseIdx:0,
@@ -1202,7 +1245,11 @@ const state={
   quizScores:JSON.parse(localStorage.getItem('g_quiz')||'{}'),
   streak:JSON.parse(localStorage.getItem('g_streak')||'{"days":[],"count":0}'),
   stamps:JSON.parse(localStorage.getItem('g_stamps')||'[]'),
-  chapterLang:'en'
+  chapterLang:'en',
+  // Auth/sync state
+  session:localStorage.getItem('g_session')||null,
+  email:localStorage.getItem('g_email')||null,
+  plan:localStorage.getItem('g_plan')||null,
 };
 
 const STAGES=['Word'];
@@ -1244,7 +1291,7 @@ function showView(v){
   document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
   document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('active'));
-  const map={landing:'lessons',lessons:'lessons',stage:'lessons',chapter:'lessons',paywall:'account',complete:'lessons',account:'account',about:'about'};
+  const map={landing:'lessons',lessons:'lessons',stage:'lessons',chapter:'lessons',paywall:'account',signin:'account',complete:'lessons',account:'account',about:'about'};
   const btn=document.getElementById('bnav-'+(map[v]||'lessons'));
   if(btn)btn.classList.add('active');
   if(v==='lessons')renderLessons();
@@ -1262,7 +1309,7 @@ function goBack(){
     document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
     document.getElementById('view-'+prev).classList.add('active');
     document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('active'));
-    const map={landing:'lessons',lessons:'lessons',stage:'lessons',chapter:'lessons',paywall:'account',complete:'lessons',account:'account',about:'about'};
+    const map={landing:'lessons',lessons:'lessons',stage:'lessons',chapter:'lessons',paywall:'account',signin:'account',complete:'lessons',account:'account',about:'about'};
     const btn=document.getElementById('bnav-'+(map[prev]||'lessons'));
     if(btn)btn.classList.add('active');
     if(prev==='lessons')renderLessons();
@@ -1309,16 +1356,25 @@ function renderAccount(){
   const card=document.getElementById('me-account-card');
   const currentMode = document.body.getAttribute('data-mode') || 'mint';
   const membershipInner = state.unlocked
-    ? `<span class="me-row-text">membership · full access</span>
+    ? `<span class="me-row-text">membership · full access${state.plan ? ' · '+state.plan : ''}</span>
        <span class="me-plan-pill">current</span>`
     : `<span class="me-row-text">membership · free</span>
        <button class="me-btn-soft" onclick="showView('paywall')">upgrade</button>`;
   const manageRow = state.unlocked
     ? `<div class="me-row me-row-divided">
          <span class="me-row-text">manage subscription</span>
-         <a class="me-btn-soft" href="https://app.gumroad.com/library" target="_blank" style="text-decoration:none">manage</a>
+         <a class="me-btn-soft" href="https://grueezi.lemonsqueezy.com/billing" target="_blank" style="text-decoration:none">manage</a>
        </div>`
     : '';
+  const accountRow = state.email
+    ? `<div class="me-row me-row-divided">
+         <span class="me-row-text" style="overflow:hidden;text-overflow:ellipsis">signed in · ${state.email}</span>
+         <button class="me-btn-soft" onclick="signOutAccount()">sign out</button>
+       </div>`
+    : `<div class="me-row me-row-divided">
+         <span class="me-row-text">already bought on another device?</span>
+         <button class="me-btn-soft" onclick="showView('signin')">sign in</button>
+       </div>`;
   card.innerHTML = `
     <div class="me-row">
       <span class="me-row-text" style="display:inline-flex;align-items:center;gap:8px"><span class="u-dots" aria-hidden="true"><i></i><i></i></span>mode</span>
@@ -1335,11 +1391,18 @@ function renderAccount(){
     </div>
     <div class="me-row me-row-divided">${membershipInner}</div>
     ${manageRow}
+    ${accountRow}
     <div class="me-row me-row-divided">
       <span class="me-row-text">reset progress on this device</span>
       <button class="me-btn-soft" onclick="resetProgress()">reset</button>
     </div>
   `;
+}
+
+function signOutAccount(){
+  if(confirm('Sign out? Your unlock will be removed on this device. Your subscription is unaffected — sign back in anytime.')){
+    logOutCloud();
+  }
 }
 
 function setModeFromUI(m){
@@ -2161,6 +2224,192 @@ function startBurst(btn){
     showView('lessons');
     wrap.classList.remove('is-bursting');
   },1600);
+}
+
+// ====== AUTH & SYNC (Cloudflare Worker backend) ======
+
+// POST to /auth/start — asks worker to send a magic link to the email
+async function requestMagicLink(){
+  const emailInput = document.getElementById('signin-email');
+  const status = document.getElementById('signin-status');
+  const btn = document.getElementById('signin-btn');
+  const email = (emailInput.value || '').trim().toLowerCase();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
+    status.textContent = 'please enter a valid email';
+    status.className = 'signin-status err';
+    return;
+  }
+  btn.disabled = true;
+  status.textContent = 'sending magic link…';
+  status.className = 'signin-status';
+  try {
+    const res = await fetch(GRUEEZI_API + '/auth/start', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email})
+    });
+    const data = await res.json();
+    if(!res.ok){
+      status.textContent = data.error || 'something went wrong';
+      status.className = 'signin-status err';
+      btn.disabled = false;
+      return;
+    }
+    status.textContent = 'check your email · link arrives in ~1 minute';
+    status.className = 'signin-status ok';
+    emailInput.value = '';
+    // Keep btn disabled for a bit to prevent spam-clicks
+    setTimeout(()=>{ btn.disabled = false; }, 30000);
+  } catch(err){
+    console.error('auth/start error:', err);
+    status.textContent = 'connection error · try again';
+    status.className = 'signin-status err';
+    btn.disabled = false;
+  }
+}
+
+// GET /auth/verify?token=… — exchange magic token for session
+async function verifyMagicToken(token){
+  try {
+    const res = await fetch(GRUEEZI_API + '/auth/verify?token=' + encodeURIComponent(token));
+    const data = await res.json();
+    if(!res.ok || !data.ok){
+      console.warn('Magic verify failed:', data);
+      return false;
+    }
+    state.session = data.session;
+    state.email = data.email;
+    localStorage.setItem('g_session', data.session);
+    localStorage.setItem('g_email', data.email);
+    // Now check status to unlock
+    await refreshStatus();
+    return true;
+  } catch(err){
+    console.error('verify error:', err);
+    return false;
+  }
+}
+
+// GET /status?session=… — pull current unlock status from worker
+async function refreshStatus(){
+  if(!state.session) return;
+  try {
+    const res = await fetch(GRUEEZI_API + '/status?session=' + encodeURIComponent(state.session));
+    const data = await res.json();
+    if(data.error === 'session expired'){
+      // Session no longer valid — clear locally
+      logOutCloud();
+      return;
+    }
+    const wasUnlocked = state.unlocked;
+    state.unlocked = !!data.unlocked;
+    state.plan = data.plan || null;
+    if(state.unlocked){
+      localStorage.setItem('g_unlocked','true');
+      localStorage.setItem('g_plan', state.plan || '');
+    } else {
+      localStorage.removeItem('g_unlocked');
+      localStorage.removeItem('g_plan');
+    }
+    // If newly unlocked — pull progress from cloud
+    if(state.unlocked && !wasUnlocked){
+      await pullProgress();
+    }
+    renderLessons();
+    renderAccount();
+  } catch(err){
+    console.error('status error:', err);
+  }
+}
+
+// POST /sync — save current progress to cloud (paid users only)
+async function pushProgress(){
+  if(!state.session || !state.unlocked) return;
+  try {
+    await fetch(GRUEEZI_API + '/sync?session=' + encodeURIComponent(state.session), {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        progress: state.progress,
+        quizScores: state.quizScores,
+        stamps: state.stamps,
+        streak: state.streak,
+      })
+    });
+  } catch(err){
+    console.warn('sync push failed (will retry next save):', err);
+  }
+}
+
+// GET /sync — load progress from cloud (for new device login)
+async function pullProgress(){
+  if(!state.session) return;
+  try {
+    const res = await fetch(GRUEEZI_API + '/sync?session=' + encodeURIComponent(state.session));
+    const data = await res.json();
+    if(!data.progress) return;
+    const p = data.progress;
+    // Merge — cloud wins if it has more
+    if(p.progress) state.progress = p.progress;
+    if(p.quizScores) state.quizScores = p.quizScores;
+    if(p.stamps) state.stamps = p.stamps;
+    if(p.streak) state.streak = p.streak;
+    localStorage.setItem('g_progress', JSON.stringify(state.progress));
+    localStorage.setItem('g_quiz', JSON.stringify(state.quizScores));
+    localStorage.setItem('g_stamps', JSON.stringify(state.stamps));
+    localStorage.setItem('g_streak', JSON.stringify(state.streak));
+  } catch(err){
+    console.warn('sync pull failed:', err);
+  }
+}
+
+// Logout — clear session, locally
+function logOutCloud(){
+  state.session = null;
+  state.email = null;
+  state.unlocked = false;
+  state.plan = null;
+  localStorage.removeItem('g_session');
+  localStorage.removeItem('g_email');
+  localStorage.removeItem('g_unlocked');
+  localStorage.removeItem('g_plan');
+  renderLessons();
+  renderAccount();
+}
+
+// Wrap save() to also sync to cloud (paid users only)
+const _originalSave = save;
+save = function(){
+  _originalSave();
+  // Fire-and-forget cloud sync — non-blocking
+  if(state.unlocked && state.session){
+    pushProgress();
+  }
+};
+
+// Magic link handler — on page load, check for ?magic=TOKEN
+(async function handleMagicLink(){
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('magic');
+  if(!token) return;
+  // Clean URL immediately so reload doesn't re-attempt
+  const cleanUrl = window.location.pathname + window.location.hash;
+  window.history.replaceState({}, '', cleanUrl);
+  const ok = await verifyMagicToken(token);
+  if(ok){
+    // Tiny welcome confirmation
+    setTimeout(()=>{
+      showView('lessons');
+    }, 300);
+  } else {
+    alert('Magic link expired or invalid. Please request a new one.');
+    showView('signin');
+  }
+})();
+
+// On boot, if we have a session, refresh status (catches subscription changes, cancellations)
+if(state.session){
+  refreshStatus();
 }
 
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
