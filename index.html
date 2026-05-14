@@ -409,6 +409,19 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
 .wc-audio:hover{transform:scale(1.04);background:var(--mint)}
 .wc-audio:active{transform:scale(.96)}
 .wc-audio svg{width:22px;height:22px;fill:var(--cream)}
+/* arrows flank the audio button — one thumb zone */
+.wc-control-row{display:flex;align-items:center;justify-content:center;gap:18px;margin:0 auto 1.5rem}
+.wc-control-row .wc-audio{margin:0}
+.wc-arrow{
+  width:38px;height:38px;border-radius:50%;background:transparent;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text);opacity:.5;
+  transition:opacity .15s ease, background .15s ease;
+}
+.wc-arrow:hover{opacity:.95;background:rgba(0,0,0,.04)}
+.wc-arrow:active{opacity:1}
+.wc-arrow svg{width:18px;height:18px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.wc-arrow:disabled{opacity:.18;pointer-events:none}
 .wc-translations{display:flex;flex-direction:column;gap:.25rem;align-items:center}
 .wc-en{font-size:1.25rem;font-weight:400;color:var(--dark);letter-spacing:-.005em}
 .wc-hd{font-size:13px;font-weight:300;color:var(--texts);opacity:.6;font-style:italic}
@@ -748,15 +761,16 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
   </svg>
   <div class="inner">
     <div class="stage-header">
-      <button class="stage-arrow" id="btn-prev" onclick="prevItem()" aria-label="back">
-        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
       <div class="word-progress" id="stage-bar"></div>
-      <button class="stage-arrow" id="btn-next" onclick="onNextClick()" aria-label="next">
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </button>
     </div>
     <div id="stage-content"></div>
+    <!-- buttons live inside the card now, near the audio -->
+    <button class="stage-arrow" id="btn-prev" onclick="prevItem()" aria-label="back" style="display:none">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="stage-arrow" id="btn-next" onclick="onNextClick()" aria-label="next" style="display:none">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
     <div class="stage-ack"></div>
   </div>
 </div>
@@ -1580,20 +1594,28 @@ function renderStage(){
   const lesson=getLessonById(state.currentLessonId);
   const phrase=lesson.phrases[state.currentPhraseIdx];
   const content=document.getElementById('stage-content');
-  const Btn=document.getElementById('btn-');
+  const nextBtn=document.getElementById('btn-next');
   const gotItBtn=document.getElementById('got-it-btn');
-  Btn.disabled=false;
-  if(gotItBtn) gotItBtn.disabled=false;
+  nextBtn.disabled=false;
+  if(gotItBtn) gotItnextBtn.disabled=false;
 
-  // SINGLE-CARD WORD FLOW — chde + phon at top, big audio center, en + hd below
+  // SINGLE-CARD WORD FLOW — chde + phon at top, arrows flank big audio, en + hd below
   const hd = phrase.hd || phrase.de || '';
   content.innerHTML=`
     <div class="word-card">
       <div class="wc-chde">${phrase.chde}</div>
       <div class="wc-phonetic">${phrase.phon||''}</div>
-      <button class="wc-audio" onclick="speak('${phrase.chde.replace(/'/g,"\\'")}')">
-        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-      </button>
+      <div class="wc-control-row">
+        <button class="wc-arrow" onclick="prevItem()" aria-label="back">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="wc-audio" onclick="speak('${phrase.chde.replace(/'/g,"\\'")}')">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+        <button class="wc-arrow" onclick="onNextClick()" aria-label="next">
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
       <div class="wc-translations">
         <div class="wc-en">${phrase.en}</div>
         ${hd?`<div class="wc-hd">${hd}</div>`:''}
@@ -1615,7 +1637,7 @@ function listenAnswer(btn,chosen,correct){
     btn.classList.add('wrong');
     document.querySelectorAll('.lopt').forEach(b=>{if(b.textContent.trim()===correct)b.classList.add('correct');});
   }
-  document.getElementById('btn-').disabled=false;
+  document.getElementById('btn-next').disabled=false;
   const gotItBtn2=document.getElementById('got-it-btn');
   if(gotItBtn2) gotItBtn2.disabled=false;
 }
@@ -1704,7 +1726,7 @@ function renderQuizQuestion(){
       </div>
     </div>`;
   state.quizState.answered=false;
-  document.getElementById('btn-').disabled=true;
+  document.getElementById('btn-next').disabled=true;
   const gotItBtn = document.getElementById('got-it-btn');
   if(gotItBtn) gotItBtn.disabled=true;
   // Auto-play the swiss audio (this is the actual prompt)
@@ -1724,9 +1746,9 @@ function quizAnswer(btn, chosen, correct){
     btn.classList.add('wrong');
     document.querySelectorAll('.lopt').forEach(b=>{if(b.textContent.trim()===correct)b.classList.add('correct');});
   }
-  document.getElementById('btn-').disabled=false;
+  document.getElementById('btn-next').disabled=false;
   const gotItBtn = document.getElementById('got-it-btn');
-  if(gotItBtn) gotItBtn.disabled=false;
+  if(gotItBtn) gotItnextBtn.disabled=false;
 }
 
 // Override what  does during quiz mode
