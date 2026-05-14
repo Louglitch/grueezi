@@ -834,8 +834,7 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
       <div class="complete-sub" id="complete-sub"></div>
       <div class="complete-stamp-line" id="complete-stamp-line"></div>
       <div style="margin-top:1.5rem">
-        <button class="complete-btn" onclick="showView('lessons')">All lessons</button>
-        <button class="complete-btn" id="next-lesson-btn" style="display:none">Next lesson →</button>
+        <button class="complete-btn" id="complete-cta-btn" onclick="completeContinue()">continue →</button>
       </div>
     </div>
   </div>
@@ -1777,7 +1776,7 @@ function showComplete(){
   const lesson=getLessonById(state.currentLessonId);
   const pct=state.stageScores.total>0?Math.round(state.stageScores.correct/state.stageScores.total*100):100;
   document.getElementById('complete-title').textContent=pct>=80?'Wunderbar.':'Guet gmacht.';
-  document.getElementById('complete-sub').textContent=`${lesson.title} complete · ${pct}% on listen quiz`;
+  document.getElementById('complete-sub').textContent=`${lesson.title} complete · ${pct}% on quiz`;
   // stamp visual + count line
   const stampEl=document.getElementById('complete-stamp');
   if(stampEl){
@@ -1791,18 +1790,42 @@ function showComplete(){
   if(countEl){
     countEl.textContent=`stamp ${state.stamps.length} of ${getAllLessons().length} collected`;
   }
+  // Decide what "continue" means based on what's next
   const allLessons=getAllLessons();
   const nextLesson=allLessons.find(l=>l.id===state.currentLessonId+1);
-  const btn=document.getElementById('next-lesson-btn');
+  const btn=document.getElementById('complete-cta-btn');
   if(nextLesson){
     const pillar=PILLARS.find(p=>p.lessons.some(l=>l.id===nextLesson.id));
-    if(pillar.free||state.unlocked){
-      btn.style.display='inline-block';btn.textContent='Next lesson →';btn.onclick=()=>openLesson(nextLesson.id);
+    const access = getLessonAccess(nextLesson);
+    if(access === 'full'){
+      btn.textContent='continue →';
+      btn.dataset.action='next-lesson';
+      btn.dataset.target=nextLesson.id;
     } else {
-      btn.style.display='inline-block';btn.textContent='Unlock more →';btn.onclick=()=>showView('paywall');
+      // Next lesson is locked — continue routes through paywall
+      btn.textContent='continue →';
+      btn.dataset.action='paywall';
     }
-  } else {btn.style.display='none';}
+  } else {
+    // No more lessons
+    btn.textContent='back to lessons →';
+    btn.dataset.action='lessons';
+  }
   showView('complete');
+}
+
+// Called when user taps the single continue button
+function completeContinue(){
+  const btn=document.getElementById('complete-cta-btn');
+  const action=btn.dataset.action;
+  if(action==='next-lesson'){
+    const id=parseInt(btn.dataset.target,10);
+    openLesson(id);
+  } else if(action==='paywall'){
+    showView('paywall');
+  } else {
+    showView('lessons');
+  }
 }
 
 function speak(text){
