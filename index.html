@@ -96,14 +96,14 @@ body[data-mode="dark"]{
   --logo-bg:#A8C8BC;--logo-fg:#1A1A1C;--logo-accent:#D4788A;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{font-size:16px}
+html{font-size:17px}
 body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;transition:background .3s ease,color .3s ease}
 .inner{max-width:var(--col);margin:0 auto;padding:0 1.25rem}
 
 /* DESKTOP — wider column and proportional scale-up for readability */
 @media (min-width:768px){
   :root{--col:720px}
-  html{font-size:17.5px}
+  html{font-size:18.5px}
   .hero{padding:4rem 1.25rem 7rem}
   .features{padding:2.5rem 1.25rem 3.5rem}
   .features-inner{gap:1.75rem}
@@ -114,7 +114,62 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 
 /* NAV */
 nav.top{background:var(--nav-bg);height:52px;display:flex;align-items:center;position:sticky;top:0;z-index:100}
+
+/* GLOBAL MOUNTAINS — thin strip below top nav on every page */
+.global-horizon{
+  position:sticky;top:52px;left:0;right:0;width:100%;
+  height:34px;pointer-events:none;z-index:99;
+  background:var(--nav-bg);
+  border-bottom:0.5px solid color-mix(in srgb, var(--mint) 30%, transparent);
+  overflow:hidden;
+}
+.global-horizon svg{display:block;width:100%;height:100%}
+.global-horizon .mountain-back{fill:var(--mint);opacity:.32}
+.global-horizon .mountain-front{fill:var(--mint);opacity:.55}
+.global-horizon .star,.global-horizon .moon{display:none}
+body[data-mode="pink"] .global-horizon{border-bottom-color:rgba(255,255,255,.15)}
+body[data-mode="pink"] .global-horizon .mountain-back{fill:#FFFFFF;opacity:.22}
+body[data-mode="pink"] .global-horizon .mountain-front{fill:#FFFFFF;opacity:.38}
+body[data-mode="dark"] .global-horizon{border-bottom-color:rgba(168,200,188,.12)}
+body[data-mode="dark"] .global-horizon .mountain-back{fill:var(--mint);opacity:.22}
+body[data-mode="dark"] .global-horizon .mountain-front{fill:var(--mint);opacity:.38}
+body[data-mode="dark"] .global-horizon .star{display:block;fill:#FFE9A8;opacity:.85}
+body[data-mode="dark"] .global-horizon .star-rose{fill:#D4788A;opacity:.7}
+body[data-mode="dark"] .global-horizon .moon{display:block;fill:#FFE9A8;opacity:.9}
+body[data-mode="dark"] .global-horizon .moon-shadow{fill:var(--nav-bg)}
+/* gentle twinkle */
+@keyframes gz-twinkle { 0%,100%{opacity:.85} 50%{opacity:.45} }
+body[data-mode="dark"] .global-horizon .star{animation:gz-twinkle 4s ease-in-out infinite}
+body[data-mode="dark"] .global-horizon .star:nth-child(odd){animation-delay:1.2s}
+body[data-mode="dark"] .global-horizon .star:nth-child(3n){animation-delay:2.6s}
+/* On landing, hide the global strip — hero already has the giant mountains */
+body.on-landing .global-horizon{display:none}
 .nav-inner{max-width:var(--col);margin:0 auto;padding:0 1.25rem;width:100%;display:flex;align-items:center;justify-content:space-between}
+.nav-left{display:flex;align-items:center;gap:11px}
+.nav-login-btn{
+  background:transparent;border:none;color:var(--nav-text);
+  cursor:pointer;padding:4px 6px;
+  display:inline-flex;align-items:center;gap:6px;line-height:1;
+  border-radius:999px;
+  transition:opacity .15s ease, transform .15s ease;
+}
+.nav-login-btn:hover{opacity:.85;transform:scale(1.04)}
+.nav-login-icon{
+  width:30px;height:30px;border-radius:50%;
+  background:transparent;border:1px solid var(--nav-text);color:var(--nav-text);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s, color .15s, border-color .15s;
+}
+.nav-login-icon svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.nav-login-btn.signed-in .nav-login-icon{background:var(--mint);border-color:var(--mint);color:var(--dark)}
+.nav-login-btn.signed-in .nav-login-icon svg{stroke-width:2}
+.nav-login-dots{display:inline-flex;gap:3px;align-items:center}
+.nav-login-dots i{
+  width:4px;height:4px;border-radius:50%;display:inline-block;
+  background:transparent;border:1px solid var(--rose);opacity:.55;
+  transition:background .2s ease, opacity .2s ease;
+}
+.nav-login-btn.signed-in .nav-login-dots i{background:var(--rose);border-color:var(--rose);opacity:1}
 .nav-logo{display:flex;align-items:center;gap:11px;cursor:pointer;text-decoration:none}
 .nav-wordmark{font-size:16px;font-weight:400;color:var(--nav-wordmark);letter-spacing:.02em}
 .nav-wordmark span{color:var(--nav-accent)}
@@ -304,6 +359,7 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
 .search-input:focus{border-color:var(--sage)}
 .search-input::placeholder{color:var(--texts)}
 .search-results{margin-top:.6rem;display:flex;flex-direction:column;gap:6px;max-height:60vh;overflow-y:auto}
+.search-section-label{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;opacity:.55;font-weight:500;padding:.5rem 0 .15rem;color:var(--textm)}
 .search-result{background:var(--card);border:0.5px solid var(--cream2);border-radius:12px;padding:9px 13px;cursor:pointer;transition:background .1s ease}
 .search-result:hover{background:var(--bg-alt)}
 .sr-chde{font-size:14px;font-weight:400;color:var(--dark);margin-bottom:2px}
@@ -518,8 +574,8 @@ body[data-mode="dark"] .stage-mountain-back{fill:#3a4e46;opacity:.36}
 body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
 #view-stage .inner{position:relative;z-index:1}
 
-.word-card{background:var(--card);border-radius:20px;border:0.5px solid var(--cream2);padding:2.25rem 1.5rem 2rem;text-align:center;margin-bottom:1rem}
-.wc-chde{font-size:2.75rem;font-weight:300;color:var(--dark);margin-bottom:.4rem;letter-spacing:-.01em;line-height:1}
+.word-card{background:var(--card);border-radius:20px;border:0.5px solid var(--cream2);padding:2.25rem 1.5rem 2rem;text-align:center;margin-bottom:1rem;min-height:340px;display:flex;flex-direction:column;justify-content:center;-webkit-transform:translateZ(0);transform:translateZ(0);overflow:hidden;isolation:isolate}
+.wc-chde{font-size:clamp(1.6rem, 7vw, 2.75rem);font-weight:300;color:var(--dark);margin-bottom:.4rem;letter-spacing:-.01em;line-height:1.05;min-height:5.5rem;display:flex;align-items:center;justify-content:center;text-wrap:balance;word-break:break-word}
 .wc-phonetic{font-size:13px;font-weight:300;color:var(--texts);margin-bottom:1.5rem;opacity:.7;letter-spacing:.04em}
 .wc-audio{width:72px;height:72px;border-radius:50%;background:var(--sage);border:none;margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(168,200,188,.4);transition:transform .15s ease, background .15s ease}
 .wc-audio:hover{transform:scale(1.04);background:var(--mint)}
@@ -613,15 +669,27 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
 .me-restore a{color:var(--dark);text-decoration:underline;cursor:pointer}
 
 /* MODE PICKER — 3 swatches in account settings */
-.mode-swatches{display:flex;gap:8px;align-items:center}
-.mode-swatch{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--beige);cursor:pointer;padding:0;position:relative;transition:transform .15s ease, border-color .15s ease}
+.mode-swatches{display:flex;gap:10px;align-items:center}
+.mode-swatch{
+  width:24px;height:24px;border-radius:50%;
+  border:1px solid rgba(0,0,0,.12);
+  cursor:pointer;padding:0;position:relative;
+  transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
 .mode-swatch:hover{transform:scale(1.08)}
-.mode-swatch.active{border-color:var(--dark);box-shadow:0 0 0 2px var(--cream)}
+.mode-swatch.active{
+  border:1.5px solid var(--dark);
+  box-shadow:0 0 0 2px var(--cream), 0 0 0 3px var(--dark);
+}
+/* mint mode → cream outer with mint dot */
 .mode-swatch[data-mode="mint"]{background:#F2EDE2}
-.mode-swatch[data-mode="mint"]::after{content:'';position:absolute;inset:25%;border-radius:50%;background:#A8C8BC}
-.mode-swatch[data-mode="pink"]{background:#E91E80}
+.mode-swatch[data-mode="mint"]::after{content:'';position:absolute;inset:28%;border-radius:50%;background:#A8C8BC}
+/* pink mode → pink outer with cream dot (rose accent + cream pearl) */
+.mode-swatch[data-mode="pink"]{background:#D4788A}
+.mode-swatch[data-mode="pink"]::after{content:'';position:absolute;inset:28%;border-radius:50%;background:#F2EDE2}
+/* dark mode → charcoal outer with mint dot (echo of mint sky) */
 .mode-swatch[data-mode="dark"]{background:#1A1A1C}
-.mode-swatch[data-mode="dark"]::after{content:'';position:absolute;inset:25%;border-radius:50%;background:#A8C8BC}
+.mode-swatch[data-mode="dark"]::after{content:'';position:absolute;inset:28%;border-radius:50%;background:#A8C8BC}
 
 /* LANGUAGE PILLS — account screen, EN/DE toggle shell (DE disabled for now) */
 .lang-pills{display:flex;gap:3px;background:var(--card);border-radius:999px;padding:2px;flex-shrink:0;border:1px solid var(--beige)}
@@ -766,20 +834,55 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
 
 <nav class="top">
   <div class="nav-inner">
-    <div class="nav-logo" onclick="showView('landing')">
-      <svg class="logo-svg" width="28" height="28" viewBox="0 0 96 96" role="img" aria-label="Grüezi" style="border-radius:7px;box-shadow:0 0 0 2px var(--cream)">
-        <rect class="logo-bg" width="96" height="96" rx="22"/>
-        <text class="logo-fg" x="48" y="72" text-anchor="middle" font-family="'Jost',sans-serif" font-size="58" font-weight="300">G</text>
-        <circle class="logo-accent" cx="64" cy="18" r="5.5"/>
-        <circle class="logo-accent" cx="80" cy="18" r="5.5"/>
-      </svg>
-      <div class="nav-wordmark">Gr<span>ü</span>ezi</div>
+    <div class="nav-left">
+      <div class="nav-logo" onclick="showView('landing')">
+        <svg class="logo-svg" width="30" height="30" viewBox="-4 -4 104 104" role="img" aria-label="Grüezi" style="border-radius:8px;overflow:visible">
+          <rect class="logo-bg" x="0" y="0" width="96" height="96" rx="22"/>
+          <text class="logo-fg" x="48" y="72" text-anchor="middle" font-family="'Jost',sans-serif" font-size="58" font-weight="300">G</text>
+          <circle class="logo-accent" cx="64" cy="18" r="5.5"/>
+          <circle class="logo-accent" cx="80" cy="18" r="5.5"/>
+        </svg>
+        <div class="nav-wordmark">Gr<span>ü</span>ezi</div>
+      </div>
+      <button class="global-back-btn" id="global-back-btn" onclick="goBack()" aria-label="back" style="display:none">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
     </div>
-    <button class="global-back-btn" id="global-back-btn" onclick="goBack()" aria-label="back" style="display:none">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    <button class="nav-login-btn" id="nav-login-btn" onclick="navLoginTap()" aria-label="sign in">
+      <span class="nav-login-icon" id="nav-login-icon">
+        <!-- person icon when signed out, checkmark when signed in (swapped via JS) -->
+        <svg viewBox="0 0 24 24" id="nav-login-svg"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg>
+      </span>
+      <span class="nav-login-dots" aria-hidden="true"><i></i><i></i></span>
     </button>
   </div>
 </nav>
+
+<!-- GLOBAL HORIZON — thin mountain strip below the nav, on every page except landing -->
+<div class="global-horizon" aria-hidden="true">
+  <svg viewBox="0 0 1000 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- moon (dark mode only) — crescent on top-right -->
+    <g class="moon-group">
+      <circle class="moon" cx="900" cy="22" r="9"/>
+      <circle class="moon-shadow" cx="895" cy="20" r="8"/>
+    </g>
+    <!-- stars (dark mode only) — scattered across the sky -->
+    <circle class="star" cx="60" cy="18" r="1.2"/>
+    <circle class="star" cx="140" cy="10" r="1.5"/>
+    <circle class="star star-rose" cx="220" cy="22" r="1.3"/>
+    <circle class="star" cx="310" cy="14" r="1"/>
+    <circle class="star" cx="380" cy="24" r="1.4"/>
+    <circle class="star star-rose" cx="450" cy="8" r="1.1"/>
+    <circle class="star" cx="520" cy="20" r="1.6"/>
+    <circle class="star" cx="600" cy="12" r="1.2"/>
+    <circle class="star" cx="680" cy="26" r="1.3"/>
+    <circle class="star star-rose" cx="760" cy="16" r="1"/>
+    <circle class="star" cx="820" cy="28" r="1.5"/>
+    <!-- mountains -->
+    <path class="mountain-back" d="M0,80 L0,46 L80,28 L170,52 L260,18 L360,42 L450,14 L560,46 L660,22 L760,46 L850,26 L920,46 L1000,32 L1000,80 Z"/>
+    <path class="mountain-front" d="M0,80 L0,60 L80,52 L160,64 L240,46 L340,58 L430,42 L530,56 L620,46 L710,58 L800,48 L880,60 L960,52 L1000,56 L1000,80 Z"/>
+  </svg>
+</div>
 
 <!-- LANDING -->
 <div id="view-landing" class="view active">
@@ -826,12 +929,9 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
   <div class="inner">
     <div class="page-header lessons-header">
       <div class="page-title">lessons<span class="u-dots"><i></i><i></i></span></div>
-      <button class="search-btn" id="search-toggle" onclick="toggleSearch()" aria-label="search phrases">
-        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
-      </button>
     </div>
     <div class="search-panel" id="search-panel" hidden>
-      <input type="text" class="search-input" id="search-input" placeholder="search phrases…" oninput="runSearch(this.value)" autocomplete="off"/>
+      <input type="text" class="search-input" id="search-input" placeholder="search phrases or categories…" oninput="runSearch(this.value)" autocomplete="off"/>
       <div class="search-results" id="search-results"></div>
     </div>
 
@@ -891,7 +991,7 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
 <div id="view-account" class="view">
   <div class="inner">
     <div class="page-header">
-      <div class="page-title">account<span class="u-dots"><i></i><i></i></span></div>
+      <div class="page-title">settings<span class="u-dots"><i></i><i></i></span></div>
     </div>
 
     <div class="me-card" id="me-account-card">
@@ -1086,16 +1186,16 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
 
 <nav class="bottom-nav">
   <button class="bnav-btn" id="bnav-account" onclick="showView('account')">
-    <svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg>
-    account
+    <svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    settings
   </button>
   <button class="bnav-btn active" id="bnav-lessons" onclick="showView('lessons')">
     <svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
     lessons
   </button>
-  <button class="bnav-btn" id="bnav-about" onclick="showView('about')">
-    <svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-    about
+  <button class="bnav-btn" id="bnav-search" onclick="openSearchFromNav()">
+    <svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+    search
   </button>
 </nav>
 
@@ -1117,8 +1217,22 @@ function applyMode(m){
   const meta = document.querySelector('meta[name="theme-color"]');
   if(meta) meta.setAttribute('content', themeColors[m]);
 }
+
+// On the landing page, ALWAYS show mint regardless of saved preference —
+// the user-chosen mode kicks in on lessons/chapter/etc.
+function syncBodyModeForView(viewName){
+  const userMode = localStorage.getItem('g_mode') || 'mint';
+  if(viewName === 'landing'){
+    document.body.setAttribute('data-mode', 'mint');
+  } else {
+    document.body.setAttribute('data-mode', userMode);
+  }
+}
 // apply immediately (script runs in body, body element exists)
 applyMode(localStorage.getItem('g_mode') || 'mint');
+// And force mint on landing every time (boot starts on landing)
+document.body.setAttribute('data-mode', 'mint');
+document.body.classList.add('on-landing');
 
 const PILLARS=[
     {name:"Words",free:true,lessons:[
@@ -1290,8 +1404,12 @@ function showView(v){
   }
   document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
+  // Force mint on landing, restore user mode elsewhere
+  if(typeof syncBodyModeForView === 'function') syncBodyModeForView(v);
+  // Toggle on-landing class so global horizon strip hides on landing
+  document.body.classList.toggle('on-landing', v === 'landing');
   document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('active'));
-  const map={landing:'lessons',lessons:'lessons',stage:'lessons',chapter:'lessons',paywall:'account',signin:'account',complete:'lessons',account:'account',about:'about'};
+  const map={landing:'lessons',lessons:'lessons',stage:'lessons',chapter:'lessons',paywall:'account',signin:'account',complete:'lessons',account:'account',about:'lessons'};
   const btn=document.getElementById('bnav-'+(map[v]||'lessons'));
   if(btn)btn.classList.add('active');
   if(v==='lessons')renderLessons();
@@ -1300,6 +1418,57 @@ function showView(v){
   const gbb = document.getElementById('global-back-btn');
   if(gbb) gbb.style.display = (v === 'landing') ? 'none' : 'flex';
   window.scrollTo(0,0);
+  // Sync with browser history so iPhone swipe-back / Android back button work
+  try{
+    if(!window.__gz_navigating){
+      history.pushState({view:v}, '', '#'+v);
+    }
+  }catch(e){/* ignore on file:// */}
+}
+
+// Opens lessons view and auto-expands the search panel — bound to the bottom-nav search button
+function openSearchFromNav(){
+  showView('lessons');
+  // Wait a tick so view-lessons is active, then unhide the search panel + focus input
+  setTimeout(()=>{
+    const panel = document.getElementById('search-panel');
+    const input = document.getElementById('search-input');
+    if(panel){ panel.removeAttribute('hidden'); }
+    if(input){ input.focus(); }
+    // Mark the bnav-search button active visually
+    document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('active'));
+    const btn = document.getElementById('bnav-search');
+    if(btn) btn.classList.add('active');
+  }, 50);
+}
+
+// Tap on the top-right login icon — if signed in → settings, else → sign-in view
+function navLoginTap(){
+  if(state.email){
+    showView('account');
+  } else {
+    showView('signin');
+  }
+}
+
+// Refresh the top-right login icon based on signed-in state
+function refreshNavLogin(){
+  const btn = document.getElementById('nav-login-btn');
+  const svg = document.getElementById('nav-login-svg');
+  if(!btn || !svg) return;
+  if(state.email){
+    // Signed in — checkmark + mint fill + filled rose dots
+    svg.innerHTML = '<polyline points="20 6 9 17 4 12"/>';
+    btn.classList.add('signed-in');
+    btn.setAttribute('aria-label','signed in — open settings');
+    btn.setAttribute('title','signed in as '+state.email+' · tap for settings');
+  } else {
+    // Signed out — person silhouette + empty rose dots
+    svg.innerHTML = '<circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>';
+    btn.classList.remove('signed-in');
+    btn.setAttribute('aria-label','sign in');
+    btn.setAttribute('title','sign in');
+  }
 }
 
 function goBack(){
@@ -1309,7 +1478,7 @@ function goBack(){
     document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
     document.getElementById('view-'+prev).classList.add('active');
     document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('active'));
-    const map={landing:'lessons',lessons:'lessons',stage:'lessons',chapter:'lessons',paywall:'account',signin:'account',complete:'lessons',account:'account',about:'about'};
+    const map={landing:'lessons',lessons:'lessons',stage:'lessons',chapter:'lessons',paywall:'account',signin:'account',complete:'lessons',account:'account',about:'lessons'};
     const btn=document.getElementById('bnav-'+(map[prev]||'lessons'));
     if(btn)btn.classList.add('active');
     if(prev==='lessons')renderLessons();
@@ -1396,7 +1565,12 @@ function renderAccount(){
       <span class="me-row-text">reset progress on this device</span>
       <button class="me-btn-soft" onclick="resetProgress()">reset</button>
     </div>
+    <div class="me-row me-row-divided">
+      <span class="me-row-text">about grüezi · deborah</span>
+      <button class="me-btn-soft" onclick="showView('about')">read</button>
+    </div>
   `;
+  refreshNavLogin();
 }
 
 function signOutAccount(){
@@ -1535,15 +1709,16 @@ function renderLessons(){
 function toggleSearch(){
   const panel=document.getElementById('search-panel');
   const btn=document.getElementById('search-toggle');
+  if(!panel) return;
   const isHidden=panel.hasAttribute('hidden');
   if(isHidden){
     panel.removeAttribute('hidden');
-    btn.classList.add('open');
+    if(btn) btn.classList.add('open');
     setTimeout(()=>{const i=document.getElementById('search-input');if(i)i.focus();},50);
     runSearch(''); // show all
   } else {
     panel.setAttribute('hidden','');
-    btn.classList.remove('open');
+    if(btn) btn.classList.remove('open');
     const i=document.getElementById('search-input');if(i)i.value='';
   }
 }
@@ -1552,13 +1727,33 @@ function runSearch(q){
   const results=document.getElementById('search-results');
   if(!results) return;
   const query=(q||'').trim().toLowerCase();
+  // 1. Match LESSONS (categories) by title — show these on top
+  const lessonMatches = [];
+  if(query){
+    PILLARS.forEach(pillar=>{
+      pillar.lessons.forEach(lesson=>{
+        const merged = getLessonById(lesson.id);
+        if(merged.title.toLowerCase().includes(query) || pillar.title.toLowerCase().includes(query)){
+          const access = getLessonAccess(merged);
+          lessonMatches.push({
+            lessonId: lesson.id,
+            title: merged.title,
+            pillarTitle: pillar.title,
+            phraseCount: (lesson.phrases||[]).length,
+            locked: access === 'locked',
+            infoOnly: !!merged.infoOnly,
+          });
+        }
+      });
+    });
+  }
+  // 2. Match PHRASES (words/translations)
   const all=[];
   PILLARS.forEach(pillar=>{
     pillar.lessons.forEach(lesson=>{
       const merged = getLessonById(lesson.id);
       const access = getLessonAccess(merged);
       lesson.phrases.forEach((p,idx)=>{
-        // a phrase is locked iff its lesson is locked
         const phraseLocked = access === 'locked';
         all.push({
           chde:p.chde,phon:p.phon,hd:p.hd,en:p.en,note:p.note||'',
@@ -1568,7 +1763,7 @@ function runSearch(q){
       });
     });
   });
-  const matches=query
+  const phraseMatches=query
     ? all.filter(r=>
         r.chde.toLowerCase().includes(query) ||
         r.hd.toLowerCase().includes(query) ||
@@ -1576,19 +1771,49 @@ function runSearch(q){
         r.note.toLowerCase().includes(query)
       )
     : all;
-  if(matches.length===0){
-    results.innerHTML=`<div class="search-empty">no phrases match "${escapeHtml(query)}"</div>`;
+  // Render
+  if(lessonMatches.length===0 && phraseMatches.length===0){
+    results.innerHTML=`<div class="search-empty">no matches for "${escapeHtml(query)}"</div>`;
     return;
   }
-  results.innerHTML=matches.map(r=>{
-    const lockBadge=r.locked?`<span class="search-locked">locked</span>`:'';
-    const onclick=r.locked?`showView('paywall')`:`jumpToPhrase(${r.lessonId},${r.phraseIdx})`;
-    return `<div class="search-result" onclick="${onclick}">
-      <div class="sr-chde">${escapeHtml(r.chde)}${lockBadge}</div>
-      <div class="sr-en">${escapeHtml(r.en)}</div>
-      <div class="sr-meta">lesson ${r.lessonId} · ${escapeHtml(r.lessonTitle)}</div>
-    </div>`;
-  }).join('');
+  let html = '';
+  // Category section
+  if(lessonMatches.length > 0){
+    html += `<div class="search-section-label">categories</div>`;
+    html += lessonMatches.map(L=>{
+      const lockBadge = L.locked ? `<span class="search-locked">locked</span>` : '';
+      const onclick = L.locked ? `showView('paywall')` : `jumpToLesson(${L.lessonId})`;
+      const countLabel = L.infoOnly ? 'reading' : `${L.phraseCount} phrase${L.phraseCount===1?'':'s'}`;
+      return `<div class="search-result" onclick="${onclick}">
+        <div class="sr-chde">${escapeHtml(L.title)}${lockBadge}</div>
+        <div class="sr-meta">${escapeHtml(L.pillarTitle)} · ${countLabel}</div>
+      </div>`;
+    }).join('');
+  }
+  // Phrases section
+  if(phraseMatches.length > 0){
+    if(lessonMatches.length > 0){
+      html += `<div class="search-section-label">phrases</div>`;
+    }
+    html += phraseMatches.map(r=>{
+      const lockBadge=r.locked?`<span class="search-locked">locked</span>`:'';
+      const onclick=r.locked?`showView('paywall')`:`jumpToPhrase(${r.lessonId},${r.phraseIdx})`;
+      return `<div class="search-result" onclick="${onclick}">
+        <div class="sr-chde">${escapeHtml(r.chde)}${lockBadge}</div>
+        <div class="sr-en">${escapeHtml(r.en)}</div>
+        <div class="sr-meta">lesson ${r.lessonId} · ${escapeHtml(r.lessonTitle)}</div>
+      </div>`;
+    }).join('');
+  }
+  results.innerHTML = html;
+}
+
+function jumpToLesson(lessonId){
+  // close search panel
+  const panel=document.getElementById('search-panel');
+  if(panel){panel.setAttribute('hidden','');}
+  const i=document.getElementById('search-input');if(i)i.value='';
+  openLesson(lessonId);
 }
 
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
@@ -1650,7 +1875,7 @@ function renderChapter(lesson){
       <button class="chapter--arrow" onclick="completeInfoChapter()" aria-label=" chapter">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
-      ${Label}
+      ${nextLabel}
     `;
   } else {
     // Lesson has phrases to learn — chapter is the intro page before stages
@@ -1920,6 +2145,7 @@ function renderQuizQuestion(){
       </div>
     </div>`;
   state.quizState.answered=false;
+  state.quizState.wrongAttempts=0;
   document.getElementById('btn-next').disabled=true;
   const gotItBtn = document.getElementById('got-it-btn');
   if(gotItBtn) gotItBtn.disabled=true;
@@ -1929,20 +2155,49 @@ function renderQuizQuestion(){
 
 function quizAnswer(btn, chosen, correct){
   if(state.quizState.answered)return;
-  state.quizState.answered=true;
-  document.querySelectorAll('.lopt').forEach(b=>b.disabled=true);
-  state.stageScores.total++;
   if(chosen===correct){
-    btn.classList.add('correct');
+    // CORRECT — lock state, show green, auto-advance after a beat
+    state.quizState.answered=true;
+    document.querySelectorAll('.lopt').forEach(b=>b.disabled=true);
+    state.stageScores.total++;
     state.stageScores.correct++;
     state.quizState.correct++;
-  }else{
+    btn.classList.add('correct');
+    document.getElementById('btn-next').disabled=false;
+    const gotItBtn = document.getElementById('got-it-btn');
+    if(gotItBtn) gotItBtn.disabled=false;
+    // Auto-advance after 900ms — feels snappy, no need to find a next button
+    setTimeout(()=>{ quizNext(); }, 900);
+  } else {
+    // WRONG — flash red, allow retry. Track attempts so we don't loop forever.
+    state.quizState.wrongAttempts = (state.quizState.wrongAttempts || 0) + 1;
     btn.classList.add('wrong');
-    document.querySelectorAll('.lopt').forEach(b=>{if(b.textContent.trim()===correct)b.classList.add('correct');});
+    btn.disabled = true;
+    // After 700ms, clear all states on the buttons so user can try again
+    setTimeout(()=>{
+      document.querySelectorAll('.lopt').forEach(b=>{
+        b.classList.remove('wrong');
+      });
+      // Keep the wrong one disabled so they don't repick it
+    }, 700);
+    // After 3 wrong attempts on the same question, reveal the correct answer + move on
+    if(state.quizState.wrongAttempts >= 3){
+      state.quizState.answered=true;
+      state.stageScores.total++;
+      document.querySelectorAll('.lopt').forEach(b=>{
+        b.disabled = true;
+        if(b.textContent.trim() === correct) b.classList.add('correct');
+      });
+      // Speak the correct phrase so it sticks
+      const q = state.quizState.questions[state.quizState.currentIdx];
+      setTimeout(()=>speak(q.chde), 400);
+      // Then advance after a longer beat (give them time to read + hear)
+      setTimeout(()=>{
+        state.quizState.wrongAttempts = 0;
+        quizNext();
+      }, 1800);
+    }
   }
-  document.getElementById('btn-next').disabled=false;
-  const gotItBtn = document.getElementById('got-it-btn');
-  if(gotItBtn) gotItBtn.disabled=false;
 }
 
 // Override what  does during quiz mode
@@ -2412,8 +2667,35 @@ if(state.session){
   refreshStatus();
 }
 
-if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+  // When SW activates a new version, reload once so the user lands on the fresh build.
+  // Guard with sessionStorage so we don't loop.
+  navigator.serviceWorker.addEventListener('message', (e) => {
+    if(e.data && e.data.type === 'SW_UPDATED'){
+      const last = sessionStorage.getItem('g_sw_version');
+      if(last !== e.data.version){
+        sessionStorage.setItem('g_sw_version', e.data.version);
+        // Soft reload — keeps the same URL hash so user stays on their view
+        setTimeout(()=>location.reload(), 100);
+      }
+    }
+  });
+}
 renderLessons();
+if(typeof refreshNavLogin === 'function') refreshNavLogin();
+
+// Restore last view from URL hash on boot — so refresh stays put instead of bouncing to landing
+(function(){
+  const hash = (location.hash || '').replace('#','');
+  // Only restore "safe" views — stage / chapter / complete need lesson context which isn't persisted
+  const safeViews = ['lessons','account','about','signin','paywall'];
+  if(hash && safeViews.includes(hash)){
+    window.__gz_navigating = true;
+    try{ showView(hash); }
+    finally{ window.__gz_navigating = false; }
+  }
+})();
 
 // Warm up speech-synthesis voices — Chrome/Edge load them async, so first speak() call
 // often has empty voice list. This forces them to be available before the user clicks audio.
@@ -2430,6 +2712,47 @@ if('speechSynthesis' in window){
   const seen=sessionStorage.getItem('g_landing_seen');
   hero.classList.add(seen?'no-anim':'play-anim');
   if(!seen)sessionStorage.setItem('g_landing_seen','1');
+})();
+
+// Browser history sync — iPhone swipe-back, Android back button → internal goBack
+(function(){
+  // Seed initial state so first popstate has something to compare
+  try{
+    if(!history.state){
+      const initial = (location.hash || '').replace('#','') || 'landing';
+      history.replaceState({view: initial}, '', '#'+initial);
+    }
+  }catch(e){}
+  window.addEventListener('popstate', function(e){
+    // Set flag so showView doesn't re-pushState while we're responding to user back-nav
+    window.__gz_navigating = true;
+    try{
+      // Prefer the state object if present, else fall back to our internal history
+      if(e.state && e.state.view){
+        const v = e.state.view;
+        document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+        const target = document.getElementById('view-'+v);
+        if(target){
+          target.classList.add('active');
+          document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('active'));
+          const map={landing:'lessons',lessons:'lessons',stage:'lessons',chapter:'lessons',paywall:'account',signin:'account',complete:'lessons',account:'account',about:'lessons'};
+          const btn=document.getElementById('bnav-'+(map[v]||'lessons'));
+          if(btn)btn.classList.add('active');
+          if(v==='lessons')renderLessons();
+          if(v==='account')renderAccount();
+          const gbb = document.getElementById('global-back-btn');
+          if(gbb) gbb.style.display = (v === 'landing') ? 'none' : 'flex';
+          window.scrollTo(0,0);
+        } else {
+          goBack();
+        }
+      } else {
+        goBack();
+      }
+    }finally{
+      window.__gz_navigating = false;
+    }
+  });
 })();
 </script>
 </body>
