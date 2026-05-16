@@ -136,10 +136,8 @@ nav.top{background:var(--nav-bg);height:52px;display:flex;align-items:center;pos
 .global-horizon .mountain-front{fill:var(--mint);opacity:.8}
 /* Dark-sky decorations: hidden by default, only visible in dark mode */
 .global-horizon .dark-sky{display:none}
-body[data-mode="pink"] .global-horizon{background:#D67BA0}
-body[data-mode="pink"] .global-horizon .mountain-back{fill:#FFFFFF;opacity:.55}
-body[data-mode="pink"] .global-horizon .mountain-front{fill:#FFFFFF;opacity:.85}
-body[data-mode="dark"] .global-horizon{background:#1A1A1C}
+body[data-mode="pink"] .global-horizon .mountain-back{fill:#C56689;opacity:.42}
+body[data-mode="pink"] .global-horizon .mountain-front{fill:#B85578;opacity:.55}
 body[data-mode="dark"] .global-horizon .mountain-back{fill:var(--mint);opacity:.4}
 body[data-mode="dark"] .global-horizon .mountain-front{fill:var(--mint);opacity:.62}
 body[data-mode="dark"] .global-horizon .dark-sky{display:block}
@@ -223,8 +221,8 @@ body[data-mode="pink"] .hero::after{opacity:.35}
 body[data-mode="dark"] .hero-mountains .mountain-back{fill:var(--sage);opacity:.55}
 body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:.75}
 /* pink mode mountains stay white-on-rose (OG design) but soft */
-body[data-mode="pink"] .hero-mountains .mountain-back{fill:#FFFFFF;opacity:.32}
-body[data-mode="pink"] .hero-mountains .mountain-front{fill:#FFFFFF;opacity:.5}
+body[data-mode="pink"] .hero-mountains .mountain-back{fill:#C56689;opacity:.42}
+body[data-mode="pink"] .hero-mountains .mountain-front{fill:#B85578;opacity:.55}
 .hero-inner{max-width:var(--col);margin:0 auto}
 .hero-mark{margin:0 auto 1.25rem;display:block;border-radius:22px;box-shadow:0 0 0 4px var(--cream)}
 .hero-h1{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:300;color:var(--hero-text);line-height:1.2;letter-spacing:-.01em;margin-bottom:.6rem}
@@ -345,8 +343,8 @@ body[data-mode="pink"] .pw-sky .cross:nth-of-type(5n){animation-delay:0.8s}
 .account-horizon{display:none;width:100%;height:90px;margin-top:3rem;pointer-events:none}
 .account-horizon .mountain-back{fill:var(--sage);opacity:.22}
 .account-horizon .mountain-front{fill:var(--sage);opacity:.32}
-body[data-mode="pink"] .account-horizon .mountain-back{fill:#FFFFFF;opacity:.18}
-body[data-mode="pink"] .account-horizon .mountain-front{fill:#FFFFFF;opacity:.28}
+body[data-mode="pink"] .account-horizon .mountain-back{fill:#C56689;opacity:.28}
+body[data-mode="pink"] .account-horizon .mountain-front{fill:#B85578;opacity:.38}
 body[data-mode="dark"] .account-horizon .mountain-back{fill:var(--sage);opacity:.28}
 body[data-mode="dark"] .account-horizon .mountain-front{fill:var(--sage);opacity:.4}
 @media (min-width:768px){
@@ -400,8 +398,8 @@ body[data-mode="pink"] .hero-sky .cross:nth-of-type(5n){animation-delay:0.8s}
 
 .hero-mountains .mountain-back{fill:var(--sage);opacity:.32}
 .hero-mountains .mountain-front{fill:var(--sage);opacity:.48}
-body[data-mode="pink"] .hero-mountains .mountain-back{fill:#FFFFFF;opacity:.22}
-body[data-mode="pink"] .hero-mountains .mountain-front{fill:#FFFFFF;opacity:.38}
+body[data-mode="pink"] .hero-mountains .mountain-back{fill:#C56689;opacity:.42}
+body[data-mode="pink"] .hero-mountains .mountain-front{fill:#B85578;opacity:.55}
 body[data-mode="dark"] .hero-mountains .mountain-back{fill:var(--sage);opacity:.4}
 body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:.55}
 @media (min-width:768px){
@@ -1042,7 +1040,7 @@ body[data-mode="dark"] .lang-pill.active{background:var(--mint);color:#1A1A1C}
     <g class="dark-sky">
       <!-- moon crescent in upper-right -->
       <circle class="moon" cx="900" cy="22" r="11" fill="#FFE9A8"/>
-      <circle class="moon-shadow" cx="895" cy="19" r="9.5"/>
+      <circle class="moon-shadow" cx="896" cy="20" r="10"/>
       <!-- stars scattered in the upper sky zone above the mountains -->
       <circle class="star" cx="60" cy="18" r="1.4" fill="#FFE9A8"/>
       <circle class="star" cx="140" cy="10" r="1.7" fill="#FFE9A8"/>
@@ -1067,41 +1065,67 @@ body[data-mode="dark"] .lang-pill.active{background:var(--mint);color:#1A1A1C}
   <div class="hero hero-landing">
     <!-- HERO-SKY: dark-mode only (stars + crescent moon). hidden in mint/pink. -->
     <svg class="hero-sky" viewBox="0 0 1000 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <radialGradient id="starGlowY" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#FFE9A8" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#FFE9A8" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="starGlowR" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#D4788A" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#D4788A" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
       <g class="dark-sky">
-        <!-- crescent moon top-right -->
-        <circle class="moon" cx="850" cy="80" r="32" fill="#FFE9A8"/>
-        <circle class="moon-shadow" cx="838" cy="72" r="28"/>
-        <!-- big stars (twinkly) -->
-        <circle class="star big" cx="120" cy="50" r="2.4" fill="#FFE9A8"/>
-        <circle class="star big" cx="260" cy="35" r="3.0" fill="#FFE9A8"/>
-        <circle class="star big star-rose" cx="430" cy="80" r="2.6" fill="#D4788A"/>
-        <circle class="star big" cx="580" cy="45" r="3.2" fill="#FFE9A8"/>
-        <circle class="star big" cx="700" cy="100" r="2.6" fill="#FFE9A8"/>
-        <circle class="star big star-rose" cx="180" cy="180" r="2.2" fill="#D4788A"/>
-        <circle class="star big" cx="350" cy="200" r="2.4" fill="#FFE9A8"/>
-        <circle class="star big" cx="500" cy="170" r="2.8" fill="#FFE9A8"/>
-        <circle class="star big" cx="640" cy="220" r="2.2" fill="#FFE9A8"/>
-        <!-- tiny background stars -->
-        <circle class="star sm" cx="60" cy="120" r="1.2" fill="#FFE9A8"/>
-        <circle class="star sm" cx="200" cy="90" r="1.4" fill="#FFE9A8"/>
-        <circle class="star sm" cx="320" cy="140" r="1.3" fill="#FFE9A8"/>
-        <circle class="star sm" cx="470" cy="35" r="1.4" fill="#FFE9A8"/>
-        <circle class="star sm star-rose" cx="540" cy="220" r="1.2" fill="#D4788A"/>
-        <circle class="star sm" cx="610" cy="135" r="1.5" fill="#FFE9A8"/>
-        <circle class="star sm" cx="740" cy="60" r="1.3" fill="#FFE9A8"/>
-        <circle class="star sm" cx="290" cy="270" r="1.4" fill="#FFE9A8"/>
-        <circle class="star sm" cx="450" cy="280" r="1.2" fill="#FFE9A8"/>
-        <circle class="star sm" cx="780" cy="200" r="1.4" fill="#FFE9A8"/>
-        <circle class="star sm star-rose" cx="100" cy="240" r="1.2" fill="#D4788A"/>
+        <circle class="moon" cx="870" cy="65" r="18" fill="#FFE9A8"/>
+        <circle class="moon-shadow" cx="864" cy="62" r="16.5"/>
+        <circle class="star-glow" cx="60" cy="35" r="6" fill="url(#starGlowY)"/>
+        <circle class="star big" cx="60" cy="35" r="1.1" fill="#FFE9A8"/>
+        <circle class="star-glow" cx="155" cy="55" r="7" fill="url(#starGlowY)"/>
+        <circle class="star big" cx="155" cy="55" r="1.3" fill="#FFE9A8"/>
+        <circle class="star-glow" cx="250" cy="30" r="6" fill="url(#starGlowR)"/>
+        <circle class="star big star-rose" cx="250" cy="30" r="1.1" fill="#D4788A"/>
+        <circle class="star-glow" cx="340" cy="75" r="7" fill="url(#starGlowY)"/>
+        <circle class="star big" cx="340" cy="75" r="1.4" fill="#FFE9A8"/>
+        <circle class="star-glow" cx="455" cy="40" r="6" fill="url(#starGlowY)"/>
+        <circle class="star big" cx="455" cy="40" r="1.2" fill="#FFE9A8"/>
+        <circle class="star-glow" cx="560" cy="90" r="7" fill="url(#starGlowY)"/>
+        <circle class="star big" cx="560" cy="90" r="1.3" fill="#FFE9A8"/>
+        <circle class="star-glow" cx="670" cy="35" r="6" fill="url(#starGlowR)"/>
+        <circle class="star big star-rose" cx="670" cy="35" r="1.1" fill="#D4788A"/>
+        <circle class="star-glow" cx="755" cy="120" r="6" fill="url(#starGlowY)"/>
+        <circle class="star big" cx="755" cy="120" r="1.2" fill="#FFE9A8"/>
+        <circle class="star-glow" cx="40" cy="135" r="6" fill="url(#starGlowY)"/>
+        <circle class="star big" cx="40" cy="135" r="1.2" fill="#FFE9A8"/>
+        <circle class="star-glow" cx="90" cy="215" r="7" fill="url(#starGlowR)"/>
+        <circle class="star big star-rose" cx="90" cy="215" r="1.3" fill="#D4788A"/>
+        <circle class="star-glow" cx="55" cy="295" r="6" fill="url(#starGlowY)"/>
+        <circle class="star big" cx="55" cy="295" r="1.1" fill="#FFE9A8"/>
+        <circle class="star-glow" cx="935" cy="160" r="7" fill="url(#starGlowY)"/>
+        <circle class="star big" cx="935" cy="160" r="1.3" fill="#FFE9A8"/>
+        <circle class="star-glow" cx="900" cy="240" r="6" fill="url(#starGlowR)"/>
+        <circle class="star big star-rose" cx="900" cy="240" r="1.1" fill="#D4788A"/>
+        <circle class="star-glow" cx="950" cy="320" r="6" fill="url(#starGlowY)"/>
+        <circle class="star big" cx="950" cy="320" r="1.2" fill="#FFE9A8"/>
+        <circle class="star sm" cx="170" cy="115" r="0.9" fill="#FFE9A8"/>
+        <circle class="star sm" cx="295" cy="155" r="1.0" fill="#FFE9A8"/>
+        <circle class="star sm" cx="520" cy="195" r="0.9" fill="#FFE9A8"/>
+        <circle class="star sm" cx="615" cy="170" r="1.0" fill="#FFE9A8"/>
+        <circle class="star sm" cx="740" cy="225" r="0.9" fill="#FFE9A8"/>
+        <circle class="star sm star-rose" cx="200" cy="260" r="0.9" fill="#D4788A"/>
+        <circle class="star sm" cx="380" cy="290" r="1.0" fill="#FFE9A8"/>
+        <circle class="star sm" cx="610" cy="295" r="0.9" fill="#FFE9A8"/>
+        <circle class="star sm" cx="820" cy="275" r="1.0" fill="#FFE9A8"/>
       </g>
       <!-- ===== PINK MODE: tiny swiss crosses, soft rose, halo kept around logo ===== -->
       <g class="pink-sky">
-        <g class="cross rose" transform="translate(130,60) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross rose" transform="translate(860,50) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross rose" transform="translate(240,160) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross rose" transform="translate(760,170) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross rose" transform="translate(90,260) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross rose" transform="translate(910,270) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(80,40) scale(0.85)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(200,80) scale(0.85)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(780,50) scale(0.85)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(900,90) scale(0.85)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(150,180) scale(0.85)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(840,200) scale(0.85)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(60,290) scale(0.85)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(940,310) scale(0.85)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
       </g>
     </svg>
     <!-- TODO: replace with Deborah's actual mountain sketches scanned + traced -->
@@ -1228,38 +1252,67 @@ body[data-mode="dark"] .lang-pill.active{background:var(--mint);color:#1A1A1C}
   <div class="hero pw-hero">
     <!-- PW-SKY: dark-mode only (stars + crescent moon). hidden in mint/pink. -->
     <svg class="pw-sky" viewBox="0 0 1000 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <radialGradient id="pwStarGlowY" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#FFE9A8" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#FFE9A8" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="pwStarGlowR" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#D4788A" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#D4788A" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
       <g class="dark-sky">
-        <circle class="moon" cx="850" cy="80" r="32" fill="#FFE9A8"/>
-        <circle class="moon-shadow" cx="838" cy="72" r="28"/>
-        <circle class="star big" cx="120" cy="50" r="2.4" fill="#FFE9A8"/>
-        <circle class="star big" cx="260" cy="35" r="3.0" fill="#FFE9A8"/>
-        <circle class="star big star-rose" cx="430" cy="80" r="2.6" fill="#D4788A"/>
-        <circle class="star big" cx="580" cy="45" r="3.2" fill="#FFE9A8"/>
-        <circle class="star big" cx="700" cy="100" r="2.6" fill="#FFE9A8"/>
-        <circle class="star big star-rose" cx="180" cy="180" r="2.2" fill="#D4788A"/>
-        <circle class="star big" cx="350" cy="200" r="2.4" fill="#FFE9A8"/>
-        <circle class="star big" cx="500" cy="170" r="2.8" fill="#FFE9A8"/>
-        <circle class="star big" cx="640" cy="220" r="2.2" fill="#FFE9A8"/>
-        <circle class="star sm" cx="60" cy="120" r="1.2" fill="#FFE9A8"/>
-        <circle class="star sm" cx="200" cy="90" r="1.4" fill="#FFE9A8"/>
-        <circle class="star sm" cx="320" cy="140" r="1.3" fill="#FFE9A8"/>
-        <circle class="star sm" cx="470" cy="35" r="1.4" fill="#FFE9A8"/>
-        <circle class="star sm star-rose" cx="540" cy="220" r="1.2" fill="#D4788A"/>
-        <circle class="star sm" cx="610" cy="135" r="1.5" fill="#FFE9A8"/>
-        <circle class="star sm" cx="740" cy="60" r="1.3" fill="#FFE9A8"/>
-        <circle class="star sm" cx="290" cy="270" r="1.4" fill="#FFE9A8"/>
-        <circle class="star sm" cx="450" cy="280" r="1.2" fill="#FFE9A8"/>
-        <circle class="star sm" cx="780" cy="200" r="1.4" fill="#FFE9A8"/>
-        <circle class="star sm star-rose" cx="100" cy="240" r="1.2" fill="#D4788A"/>
+        <circle class="moon" cx="870" cy="65" r="18" fill="#FFE9A8"/>
+        <circle class="moon-shadow" cx="864" cy="62" r="16.5"/>
+        <circle class="star-glow" cx="60" cy="35" r="6" fill="url(#pwStarGlowY)"/>
+        <circle class="star big" cx="60" cy="35" r="1.1" fill="#FFE9A8"/>
+        <circle class="star-glow" cx="155" cy="55" r="7" fill="url(#pwStarGlowY)"/>
+        <circle class="star big" cx="155" cy="55" r="1.3" fill="#FFE9A8"/>
+        <circle class="star-glow" cx="250" cy="30" r="6" fill="url(#pwStarGlowR)"/>
+        <circle class="star big star-rose" cx="250" cy="30" r="1.1" fill="#D4788A"/>
+        <circle class="star-glow" cx="340" cy="75" r="7" fill="url(#pwStarGlowY)"/>
+        <circle class="star big" cx="340" cy="75" r="1.4" fill="#FFE9A8"/>
+        <circle class="star-glow" cx="455" cy="40" r="6" fill="url(#pwStarGlowY)"/>
+        <circle class="star big" cx="455" cy="40" r="1.2" fill="#FFE9A8"/>
+        <circle class="star-glow" cx="560" cy="90" r="7" fill="url(#pwStarGlowY)"/>
+        <circle class="star big" cx="560" cy="90" r="1.3" fill="#FFE9A8"/>
+        <circle class="star-glow" cx="670" cy="35" r="6" fill="url(#pwStarGlowR)"/>
+        <circle class="star big star-rose" cx="670" cy="35" r="1.1" fill="#D4788A"/>
+        <circle class="star-glow" cx="755" cy="120" r="6" fill="url(#pwStarGlowY)"/>
+        <circle class="star big" cx="755" cy="120" r="1.2" fill="#FFE9A8"/>
+        <circle class="star-glow" cx="40" cy="135" r="6" fill="url(#pwStarGlowY)"/>
+        <circle class="star big" cx="40" cy="135" r="1.2" fill="#FFE9A8"/>
+        <circle class="star-glow" cx="90" cy="215" r="7" fill="url(#pwStarGlowR)"/>
+        <circle class="star big star-rose" cx="90" cy="215" r="1.3" fill="#D4788A"/>
+        <circle class="star-glow" cx="55" cy="295" r="6" fill="url(#pwStarGlowY)"/>
+        <circle class="star big" cx="55" cy="295" r="1.1" fill="#FFE9A8"/>
+        <circle class="star-glow" cx="935" cy="160" r="7" fill="url(#pwStarGlowY)"/>
+        <circle class="star big" cx="935" cy="160" r="1.3" fill="#FFE9A8"/>
+        <circle class="star-glow" cx="900" cy="240" r="6" fill="url(#pwStarGlowR)"/>
+        <circle class="star big star-rose" cx="900" cy="240" r="1.1" fill="#D4788A"/>
+        <circle class="star-glow" cx="950" cy="320" r="6" fill="url(#pwStarGlowY)"/>
+        <circle class="star big" cx="950" cy="320" r="1.2" fill="#FFE9A8"/>
+        <circle class="star sm" cx="170" cy="115" r="0.9" fill="#FFE9A8"/>
+        <circle class="star sm" cx="295" cy="155" r="1.0" fill="#FFE9A8"/>
+        <circle class="star sm" cx="520" cy="195" r="0.9" fill="#FFE9A8"/>
+        <circle class="star sm" cx="615" cy="170" r="1.0" fill="#FFE9A8"/>
+        <circle class="star sm" cx="740" cy="225" r="0.9" fill="#FFE9A8"/>
+        <circle class="star sm star-rose" cx="200" cy="260" r="0.9" fill="#D4788A"/>
+        <circle class="star sm" cx="380" cy="290" r="1.0" fill="#FFE9A8"/>
+        <circle class="star sm" cx="610" cy="295" r="0.9" fill="#FFE9A8"/>
+        <circle class="star sm" cx="820" cy="275" r="1.0" fill="#FFE9A8"/>
       </g>
       <!-- ===== PINK MODE: tiny swiss crosses, soft rose, halo kept around logo ===== -->
       <g class="pink-sky">
-        <g class="cross rose" transform="translate(130,60) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross rose" transform="translate(860,50) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross rose" transform="translate(240,160) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross rose" transform="translate(760,170) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross rose" transform="translate(90,260) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross rose" transform="translate(910,270) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(80,40) scale(0.85)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(200,80) scale(0.85)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(780,50) scale(0.85)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(900,90) scale(0.85)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(150,180) scale(0.85)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(840,200) scale(0.85)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(60,290) scale(0.85)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(940,310) scale(0.85)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
       </g>
     </svg>
     <div class="inner">

@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'grueezi-v6-2026-05-16-horizon-bg-fix';
+const CACHE_VERSION = 'grueezi-v8-2026-05-16-pink-mountains-organic-stars';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
