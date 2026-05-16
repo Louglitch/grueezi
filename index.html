@@ -136,8 +136,10 @@ nav.top{background:var(--nav-bg);height:52px;display:flex;align-items:center;pos
 .global-horizon .mountain-front{fill:var(--mint);opacity:.8}
 /* Dark-sky decorations: hidden by default, only visible in dark mode */
 .global-horizon .dark-sky{display:none}
+body[data-mode="pink"] .global-horizon{background:#D67BA0}
 body[data-mode="pink"] .global-horizon .mountain-back{fill:#FFFFFF;opacity:.55}
 body[data-mode="pink"] .global-horizon .mountain-front{fill:#FFFFFF;opacity:.85}
+body[data-mode="dark"] .global-horizon{background:#1A1A1C}
 body[data-mode="dark"] .global-horizon .mountain-back{fill:var(--mint);opacity:.4}
 body[data-mode="dark"] .global-horizon .mountain-front{fill:var(--mint);opacity:.62}
 body[data-mode="dark"] .global-horizon .dark-sky{display:block}
@@ -293,17 +295,6 @@ body[data-mode="pink"] .hero-mountains .mountain-front{fill:#FFFFFF;opacity:.5}
 @media (min-width:768px){
   .pw-hero{padding:4.5rem 1.25rem 11rem;min-height:680px}
 }
-.pw-mountains{position:absolute;left:0;right:0;bottom:0;width:100%;height:180px;max-height:45%;pointer-events:none;z-index:0;transition:opacity .3s ease}
-@media (min-width:768px){
-  .pw-mountains{height:220px;max-height:48%}
-}
-.pw-mountains .mountain-back{fill:var(--sage);opacity:.42}
-.pw-mountains .mountain-front{fill:var(--sage);opacity:.55}
-body[data-mode="mint"] .pw-mountains{opacity:.7}
-body[data-mode="pink"] .pw-mountains .mountain-back{fill:#FFFFFF;opacity:.28}
-body[data-mode="pink"] .pw-mountains .mountain-front{fill:#FFFFFF;opacity:.42}
-body[data-mode="dark"] .pw-mountains .mountain-back{fill:var(--sage);opacity:.55}
-body[data-mode="dark"] .pw-mountains .mountain-front{fill:var(--sage);opacity:.7}
 /* paywall hero same gradient-fade so mountains stay attached */
 .pw-hero::after{
   content:'';position:absolute;left:0;right:0;bottom:0;height:40px;
@@ -1103,19 +1094,14 @@ body[data-mode="dark"] .lang-pill.active{background:var(--mint);color:#1A1A1C}
         <circle class="star sm" cx="780" cy="200" r="1.4" fill="#FFE9A8"/>
         <circle class="star sm star-rose" cx="100" cy="240" r="1.2" fill="#D4788A"/>
       </g>
-      <!-- ===== PINK MODE: scattered swiss crosses ===== -->
+      <!-- ===== PINK MODE: tiny swiss crosses, soft rose, halo kept around logo ===== -->
       <g class="pink-sky">
-        <g class="cross" transform="translate(120,40) scale(1.8)" fill="#FFFFFF"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross rose" transform="translate(280,75) scale(2.2)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross" transform="translate(450,30) scale(2)" fill="#FFFFFF"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross" transform="translate(620,90) scale(2.4)" fill="#FFFFFF"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross rose" transform="translate(780,45) scale(1.8)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross" transform="translate(180,170) scale(1.6)" fill="#FFFFFF"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross rose" transform="translate(360,210) scale(2)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross" transform="translate(540,180) scale(2.2)" fill="#FFFFFF"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross" transform="translate(720,230) scale(1.8)" fill="#FFFFFF"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross rose" transform="translate(100,280) scale(1.6)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross" transform="translate(280,320) scale(1.8)" fill="#FFFFFF"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(130,60) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(860,50) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(240,160) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(760,170) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(90,260) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(910,270) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
       </g>
     </svg>
     <!-- TODO: replace with Deborah's actual mountain sketches scanned + traced -->
@@ -1266,27 +1252,15 @@ body[data-mode="dark"] .lang-pill.active{background:var(--mint);color:#1A1A1C}
         <circle class="star sm" cx="780" cy="200" r="1.4" fill="#FFE9A8"/>
         <circle class="star sm star-rose" cx="100" cy="240" r="1.2" fill="#D4788A"/>
       </g>
-      <!-- ===== PINK MODE: scattered swiss crosses ===== -->
+      <!-- ===== PINK MODE: tiny swiss crosses, soft rose, halo kept around logo ===== -->
       <g class="pink-sky">
-        <g class="cross" transform="translate(120,40) scale(1.8)" fill="#FFFFFF"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross rose" transform="translate(280,75) scale(2.2)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross" transform="translate(450,30) scale(2)" fill="#FFFFFF"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross" transform="translate(620,90) scale(2.4)" fill="#FFFFFF"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross rose" transform="translate(780,45) scale(1.8)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross" transform="translate(180,170) scale(1.6)" fill="#FFFFFF"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross rose" transform="translate(360,210) scale(2)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross" transform="translate(540,180) scale(2.2)" fill="#FFFFFF"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross" transform="translate(720,230) scale(1.8)" fill="#FFFFFF"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross rose" transform="translate(100,280) scale(1.6)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
-        <g class="cross" transform="translate(280,320) scale(1.8)" fill="#FFFFFF"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(130,60) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(860,50) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(240,160) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(760,170) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(90,260) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
+        <g class="cross rose" transform="translate(910,270) scale(1)" fill="#FFE9F0"><rect x="-2" y="-7" width="4" height="14" rx="0.5"/><rect x="-7" y="-2" width="14" height="4" rx="0.5"/></g>
       </g>
-    </svg>
-    <!-- TODO: replace with Deborah's actual mountain sketches scanned + traced -->
-    <svg class="pw-mountains" viewBox="0 0 1000 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <!--  range — darker, taller -->
-      <path class="mountain-back" d="M0,320 L0,140 L120,60 L220,150 L340,40 L460,120 L590,30 L720,140 L830,70 L920,150 L1000,90 L1000,320 Z"/>
-      <!-- front range — chunkier, lower -->
-      <path class="mountain-front" d="M0,320 L0,210 L90,180 L170,230 L280,170 L390,220 L500,150 L620,210 L740,160 L860,220 L950,180 L1000,200 L1000,320 Z"/>
     </svg>
     <div class="inner">
       <svg class="hero-mark logo-svg dev-unlock-target" width="64" height="64" viewBox="0 0 96 96" role="img" aria-label="Grüezi" title="long-press for dev unlock">
