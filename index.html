@@ -114,7 +114,7 @@ button,a{-webkit-user-select:none;user-select:none}
 @media (min-width:768px){
   :root{--col:720px}
   html{font-size:18.5px}
-  .features{padding:2.5rem 1.25rem 3.5rem}
+  .features{padding:2.5rem 1.25rem calc(9rem + env(safe-area-inset-bottom, 0px))}
   .features-inner{gap:1.75rem}
   .page-header{padding:2.5rem 0 1rem;margin-bottom:1.5rem}
   .view{padding-bottom:calc(130px + env(safe-area-inset-bottom, 0px))}
@@ -205,7 +205,7 @@ body.on-landing .global-horizon{display:none}
 
 /* LANDING */
 #view-landing{padding-bottom:0;background:var(--cream2)}
-.hero{background:var(--mint-light);padding:3.5rem 1.25rem 9rem;text-align:center;transition:background .4s ease;position:relative;min-height:520px}
+.hero{background:var(--mint-light);padding:2rem 1.25rem 6rem;text-align:center;transition:background .4s ease;position:relative;min-height:380px}
 @media (min-width:768px){
   .hero{padding:4.5rem 1.25rem 11rem;min-height:620px}
 }
@@ -348,7 +348,7 @@ body[data-mode="dark"] .account-horizon .mountain-front{fill:var(--sage);opacity
 /* LANDING HERO MOUNTAINS — horizon behind the start button, only in empty lower zone */
 .hero-landing{position:relative;overflow:hidden}
 .hero-landing .hero-inner{position:relative;z-index:2}
-.hero-mountains{position:absolute;left:0;right:0;bottom:0;width:100%;height:180px;max-height:42%;pointer-events:none;z-index:1;display:block}
+.hero-mountains{position:absolute;left:0;right:0;bottom:0;width:100%;height:140px;max-height:38%;pointer-events:none;z-index:1;display:block}
 
 /* === HERO SKY · dark mode stars+moon · pink mode swiss crosses === */
 .hero-sky{
@@ -415,7 +415,7 @@ body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:
 .signin-status.err{color:var(--rose-deep)}
 .signin-help{font-size:11px;color:var(--texts);text-align:center;margin:1.25rem 0 0;line-height:1.6;font-weight:300}
 .signin-help a{color:var(--dark);text-decoration:underline;text-decoration-color:rgba(44,56,48,.3);text-underline-offset:2px}
-.features{background:var(--cream2);padding:1.75rem 1.25rem 2.5rem}
+.features{background:var(--cream2);padding:1.5rem 1.25rem calc(5rem + env(safe-area-inset-bottom, 0px))}
 .features-inner{max-width:var(--col);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
 .feat{display:flex;gap:8px;align-items:flex-start}
 .feat-dot{width:5px;height:5px;border-radius:50%;background:var(--sage);flex-shrink:0;margin-top:6px;animation:feat-twinkle 4s ease-in-out infinite;transform-origin:center}

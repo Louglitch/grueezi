@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'grueezi-v11-2026-05-16-ios-android-compat';
+const CACHE_VERSION = 'grueezi-v14-2026-05-16-compact-hero-fit-viewport';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
