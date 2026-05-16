@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'grueezi-v8-2026-05-16-pink-mountains-organic-stars';
+const CACHE_VERSION = 'grueezi-v11-2026-05-16-ios-android-compat';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately

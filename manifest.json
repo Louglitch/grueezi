@@ -10,10 +10,16 @@
   "lang": "en",
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect width='96' height='96' rx='22' fill='%23A8C8BC'/><text x='48' y='72' text-anchor='middle' font-family='Georgia,serif' font-size='62' fill='%23F7F3EC'>G</text><rect x='63' y='8' width='8' height='26' rx='2' fill='%23D4788A'/><rect x='52' y='17' width='30' height='8' rx='2' fill='%23D4788A'/></svg>",
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect width='96' height='96' rx='22' fill='%23A8C8BC'/><text x='48' y='72' text-anchor='middle' font-family='Jost,sans-serif' font-weight='300' font-size='58' fill='%23F2EDE2'>G</text><circle cx='64' cy='18' r='5.5' fill='%23D4788A'/><circle cx='80' cy='18' r='5.5' fill='%23D4788A'/></svg>",
       "sizes": "96x96",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect width='96' height='96' fill='%23A8C8BC'/><text x='48' y='62' text-anchor='middle' font-family='Jost,sans-serif' font-weight='300' font-size='40' fill='%23F2EDE2'>G</text><circle cx='59' cy='34' r='3.8' fill='%23D4788A'/><circle cx='70' cy='34' r='3.8' fill='%23D4788A'/></svg>",
+      "sizes": "96x96",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
     }
   ],
   "categories": ["education", "language"],
