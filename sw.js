@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'grueezi-v19-2026-05-17-fix-white-flash-fouc';
+const CACHE_VERSION = 'grueezi-v20-2026-05-17-html-mode-vars-and-font-preload';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately

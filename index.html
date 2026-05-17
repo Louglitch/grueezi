@@ -19,6 +19,8 @@
 <meta name="apple-mobile-web-app-title" content="Grüezi"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<!-- Preload Jost 300 (default weight) so SVG logo doesn't reflow during font-swap. -->
+<link rel="preload" as="font" type="font/woff2" href="https://fonts.gstatic.com/s/jost/v15/92zPtBhPNqw79Ij1E865zBUv7myjI.woff2" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
 <style>
 /* MODE VARIABLES — three modes, one composition.
@@ -34,6 +36,7 @@
 }
 
 :root,
+html[data-mode="mint"],
 body[data-mode="mint"]{
   /* surfaces — cream dominates */
   --bg:#F2EDE2;--bg-alt:#E8E2D2;
@@ -60,6 +63,7 @@ body[data-mode="mint"]{
 }
 
 /* pink mode — soft dusky rose hero, warm cream page */
+html[data-mode="pink"],
 body[data-mode="pink"]{
   --bg:#FAF6EE;--bg-alt:#F0EADE;
   --card:#FFFFFF;
@@ -83,6 +87,7 @@ body[data-mode="pink"]{
 }
 
 /* dark mode — smoky charcoal, mint + rose pop */
+html[data-mode="dark"],
 body[data-mode="dark"]{
   --bg:#1A1A1C;--bg-alt:#28282B;
   --card:#28282B;
