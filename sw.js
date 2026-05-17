@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'grueezi-v17-2026-05-16-burst-shapes-match-dot-motion';
+const CACHE_VERSION = 'grueezi-v18-2026-05-17-hello-email-rewire';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
