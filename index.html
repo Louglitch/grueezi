@@ -106,7 +106,8 @@ body[data-mode="dark"]{
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{font-size:17px;-webkit-text-size-adjust:100%}
-body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;min-height:100dvh;-webkit-font-smoothing:antialiased;transition:background .3s ease,color .3s ease;overscroll-behavior-y:none}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;min-height:100dvh;-webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
+body.preload-done{transition:background .3s ease,color .3s ease}
 button,a{-webkit-user-select:none;user-select:none}
 .inner{max-width:var(--col);margin:0 auto;padding:0 1.25rem}
 
@@ -266,9 +267,25 @@ body[data-mode="pink"] .hero-mountains .mountain-front{fill:#B85578;opacity:.55}
   .start-wrap.is-bursting .rise-dot{animation:none;opacity:0}
 }
 
-/* START BURST — rose dots rise on tap */
+/* START BURST — particles rise on tap. Same size, same motion, only shape/color changes per mode:
+   mint  → rose dot (default)
+   pink  → soft cream-pink swiss cross
+   dark  → warm-cream star
+   All 3px, all use the same rise-up keyframes. */
 .start-wrap{position:relative;display:inline-block}
 .rise-dot{position:absolute;top:50%;left:50%;width:3px;height:3px;border-radius:50%;background:var(--rise-dot);filter:blur(.5px);opacity:0;pointer-events:none;transform:translate(-50%,-50%)}
+/* PINK: tiny cream-pink swiss cross drawn with a mask, same 3px footprint */
+body[data-mode="pink"] .rise-dot{
+  width:6px;height:6px;border-radius:0;background:#FFE9F0;filter:none;
+  -webkit-mask:
+    linear-gradient(#000,#000) center/2px 100% no-repeat,
+    linear-gradient(#000,#000) center/100% 2px no-repeat;
+  mask:
+    linear-gradient(#000,#000) center/2px 100% no-repeat,
+    linear-gradient(#000,#000) center/100% 2px no-repeat;
+}
+/* DARK: tiny warm-cream pinpoint star, same 3px footprint */
+body[data-mode="dark"] .rise-dot{background:#FFE9A8}
 @keyframes rise-up{0%{opacity:0;transform:translate(-50%,-50%)}30%{opacity:.55}100%{opacity:0;transform:translate(calc(-50% + var(--rx)),calc(-50% - 130px))}}
 @keyframes btn-press{0%,100%{transform:scale(1)}30%{transform:scale(.96)}60%{transform:scale(1.03)}}
 .start-wrap.is-bursting .btn-glow{animation:btn-press .6s ease-out}
@@ -995,8 +1012,28 @@ body[data-mode="dark"] .lang-pill.active{background:var(--mint);color:#1A1A1C}
   .features-inner{grid-template-columns:repeat(4,1fr)}
 }
 </style>
+<script>
+// CRITICAL: capture mode early so we can apply it the moment body opens (next line).
+// Setting theme-color here prevents iOS status bar from flashing.
+(function(){
+  try {
+    var m = localStorage.getItem('g_mode') || 'mint';
+    if(m !== 'mint' && m !== 'pink' && m !== 'dark') m = 'mint';
+    window.__gz_mode = m;
+    var themeColors = {mint:'#F2EDE2', pink:'#E91E80', dark:'#1A1A1C'};
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if(meta) meta.setAttribute('content', themeColors[m]);
+  } catch(e) { window.__gz_mode = 'mint'; }
+})();
+</script>
 </head>
 <body>
+<script>
+// Apply mode + on-landing immediately, before any content renders.
+// This is the second half of the FOUC prevention (HEAD script captured mode into window.__gz_mode).
+document.body.setAttribute('data-mode', window.__gz_mode || 'mint');
+document.body.classList.add('on-landing');
+</script>
 
 <nav class="top">
   <div class="nav-inner">
@@ -1066,8 +1103,7 @@ body[data-mode="dark"] .lang-pill.active{background:var(--mint);color:#1A1A1C}
         </radialGradient>
       </defs>
       <g class="dark-sky">
-        <circle class="moon" cx="870" cy="65" r="16" fill="#EDE8DF"/>
-        <circle class="moon-shadow" cx="867" cy="63.5" r="15"/>
+        <!-- moon removed from landing hero (v16) — still present on paywall + global horizon -->
         <circle class="star-glow" cx="60" cy="35" r="6" fill="url(#starGlowY)"/>
         <circle class="star big" cx="60" cy="35" r="1.1" fill="#FFE9A8"/>
         <circle class="star-glow" cx="155" cy="55" r="7" fill="url(#starGlowY)"/>
@@ -1525,9 +1561,8 @@ function syncBodyModeForView(viewName){
   const userMode = lsGet('g_mode') || 'mint';
   document.body.setAttribute('data-mode', userMode);
 }
-// apply immediately (script runs in body, body element exists)
+// mode is already applied at body open (see inline script). This function is used for runtime mode switching.
 applyMode(lsGet('g_mode') || 'mint');
-document.body.classList.add('on-landing');
 
 // Measure bottom-nav height and expose as --nav-h so the global-horizon strip sits flush to it.
 // Re-measure on resize (orientation change, browser chrome show/hide on mobile).
@@ -1542,6 +1577,13 @@ window.addEventListener('resize', measureNavHeight);
 // Initial attempt after a tick (in case nav not yet laid out)
 setTimeout(measureNavHeight, 0);
 setTimeout(measureNavHeight, 200);
+
+// Mark preload done so background transitions can animate on mode switches without flashing on initial load
+requestAnimationFrame(function(){
+  requestAnimationFrame(function(){
+    document.body.classList.add('preload-done');
+  });
+});
 
 const PILLARS=[
     {name:"Words",free:true,lessons:[
