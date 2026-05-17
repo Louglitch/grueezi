@@ -105,7 +105,12 @@ body[data-mode="dark"]{
   --logo-bg:#A8C8BC;--logo-fg:#1A1A1C;--logo-accent:#D4788A;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{font-size:17px;-webkit-text-size-adjust:100%}
+html{font-size:17px;-webkit-text-size-adjust:100%;background:#F2EDE2}
+/* FOUC-fix: paint html bg in the correct mode-color BEFORE body opens.
+   These rules fire from the inline script in HEAD that sets html[data-mode]. */
+html[data-mode="mint"]{background:#F2EDE2}
+html[data-mode="pink"]{background:#FAF6EE}
+html[data-mode="dark"]{background:#1A1A1C}
 body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;min-height:100dvh;-webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
 body.preload-done{transition:background .3s ease,color .3s ease}
 button,a{-webkit-user-select:none;user-select:none}
@@ -1013,17 +1018,23 @@ body[data-mode="dark"] .lang-pill.active{background:var(--mint);color:#1A1A1C}
 }
 </style>
 <script>
-// CRITICAL: capture mode early so we can apply it the moment body opens (next line).
-// Setting theme-color here prevents iOS status bar from flashing.
+// CRITICAL FOUC PREVENTION:
+// We set data-mode on the <html> element (not just body) from this HEAD inline script.
+// That way the CSS cascade is correct BEFORE the body element even opens, eliminating
+// the brief white-flash that otherwise appears during SW-triggered reloads and cold loads.
 (function(){
   try {
     var m = localStorage.getItem('g_mode') || 'mint';
     if(m !== 'mint' && m !== 'pink' && m !== 'dark') m = 'mint';
     window.__gz_mode = m;
-    var themeColors = {mint:'#F2EDE2', pink:'#E91E80', dark:'#1A1A1C'};
+    document.documentElement.setAttribute('data-mode', m);
+    var themeColors = {mint:'#F2EDE2', pink:'#D67BA0', dark:'#1A1A1C'};
     var meta = document.querySelector('meta[name="theme-color"]');
     if(meta) meta.setAttribute('content', themeColors[m]);
-  } catch(e) { window.__gz_mode = 'mint'; }
+  } catch(e) {
+    window.__gz_mode = 'mint';
+    document.documentElement.setAttribute('data-mode', 'mint');
+  }
 })();
 </script>
 </head>
