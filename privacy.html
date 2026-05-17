@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#F2EDE2"/>
+<meta name="robots" content="index,follow"/>
+<title>Datenschutz · Privacy — Becoming Schwiizer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#F2EDE2;--text:#2C3830;--mint:#A8C8BC;--rose:#D4788A;--muted:#5A6F60}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:'Jost',system-ui,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+body{min-height:100vh;padding:2.5rem 1.5rem 4rem;line-height:1.65}
+.wrap{max-width:560px;margin:0 auto}
+.logo{display:inline-flex;align-items:center;gap:11px;text-decoration:none;color:var(--text);margin-bottom:2.5rem}
+.logo-sq{width:32px;height:32px;background:var(--mint);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#F2EDE2;font-weight:300;font-size:22px;position:relative;line-height:1}
+.logo-sq::before,.logo-sq::after{content:"";position:absolute;width:5px;height:5px;border-radius:50%;background:var(--rose);top:4px}
+.logo-sq::before{right:8px}
+.logo-sq::after{right:2px}
+.logo-text{font-size:18px;font-weight:300}
+.logo-text span{color:var(--rose)}
+h1{font-size:26px;font-weight:300;letter-spacing:-0.01em;margin-bottom:.5rem}
+.sub{color:var(--muted);font-size:14px;margin-bottom:2rem}
+.lang-tabs{display:flex;gap:.5rem;margin-bottom:2.5rem;border-bottom:1px solid #E0DACA;padding-bottom:1rem}
+.lang-tabs button{background:none;border:none;font-family:inherit;font-size:13px;color:var(--muted);cursor:pointer;padding:.35rem .8rem;border-radius:999px;letter-spacing:.05em;text-transform:uppercase}
+.lang-tabs button.active{background:var(--mint);color:#F2EDE2;font-weight:400}
+section{margin-bottom:1.5rem}
+h2{font-size:15px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:.4rem;margin-top:1.4rem}
+p{margin:.4rem 0}
+ul{margin:.4rem 0 .4rem 1.2rem;padding:0}
+li{margin:.2rem 0}
+a{color:var(--text);text-decoration:underline;text-decoration-color:var(--mint);text-underline-offset:3px}
+a:hover{text-decoration-color:var(--rose)}
+.lang-body{display:none}
+.lang-body.active{display:block}
+.intro{margin-bottom:.5rem}
+.foot{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #E0DACA;font-size:13px;color:var(--muted)}
+.foot a{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="logo" href="/"><span class="logo-sq">s</span><span class="logo-text">schw<span>ii</span>zer</span></a>
+
+  <h1>Datenschutz · Privacy</h1>
+  <p class="sub">Stand: 17. Mai 2026</p>
+
+  <div class="lang-tabs">
+    <button class="active" data-lang="de">Deutsch</button>
+    <button data-lang="en">English</button>
+  </div>
+
+  <div class="lang-body active" data-lang="de">
+    <p class="intro">Becoming Schwiizer ist eine App zum Lernen von Schweizerdeutsch. Wir wollen Deine Daten so wenig wie möglich anfassen und sie nie weiterverkaufen. Hier steht, was wir trotzdem brauchen und warum.</p>
+
+    <section>
+      <h2>Verantwortliche</h2>
+      <p>Deborah Muriel Blum, Berlin · <a href="mailto:hello@schwiizer.app">hello@schwiizer.app</a> · Vollständige Anschrift: <a href="/impressum">Impressum</a></p>
+    </section>
+
+    <section>
+      <h2>Was wir speichern</h2>
+      <ul>
+        <li><strong>E-Mail-Adresse</strong> — wenn Du Dich mit einem Magic-Link einloggst. Damit erkennen wir Dich beim nächsten Besuch und können Dir Magic-Links und Kaufbelege schicken. Rechtsgrundlage: Vertrag (Art. 6 (1) b DSGVO).</li>
+        <li><strong>Zahlungsdaten</strong> — werden direkt von Stripe bzw. Lemon Squeezy erhoben, nicht von uns. Wir sehen nur eine Bestätigung, dass die Zahlung erfolgt ist.</li>
+        <li><strong>Lernfortschritt</strong> — wird primär lokal in Deinem Browser (localStorage) gespeichert. Nur falls Du eingeloggt bist, sichern wir den Fortschritt auch auf unserem Server, damit Du das Gerät wechseln kannst.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Was wir nicht tun</h2>
+      <ul>
+        <li>Keine Werbe-Cookies, keine Tracker, kein Google Analytics.</li>
+        <li>Keine Weitergabe an Werbenetzwerke oder Dritte zu Marketingzwecken.</li>
+        <li>Keine Profiling-Algorithmen.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Dienstleister, die wir nutzen</h2>
+      <p>Diese Anbieter verarbeiten in unserem Auftrag Daten:</p>
+      <ul>
+        <li><strong>Stripe</strong> (Irland/USA) — Zahlungsabwicklung. <a href="https://stripe.com/de/privacy" target="_blank" rel="noopener">Datenschutz</a></li>
+        <li><strong>Lemon Squeezy</strong> (USA) — alternative Zahlungsabwicklung. <a href="https://www.lemonsqueezy.com/privacy" target="_blank" rel="noopener">Datenschutz</a></li>
+        <li><strong>Cloudflare</strong> (USA) — Hosting der Login-Backend-Infrastruktur (KV-Speicher, Workers). <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Datenschutz</a></li>
+        <li><strong>Resend</strong> (USA) — Versand von Login-E-Mails. <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener">Datenschutz</a></li>
+        <li><strong>Porkbun</strong> (USA) — Domain & E-Mail-Weiterleitung. <a href="https://porkbun.com/privacy" target="_blank" rel="noopener">Datenschutz</a></li>
+        <li><strong>Google (Gmail)</strong> — interner Empfang weitergeleiteter E-Mails an hello@schwiizer.app.</li>
+        <li><strong>GitHub Pages</strong> (USA) — Auslieferung der statischen App-Dateien. <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">Datenschutz</a></li>
+      </ul>
+      <p>Übertragungen in die USA stützen sich auf das EU-US Data Privacy Framework und Standardvertragsklauseln.</p>
+    </section>
+
+    <section>
+      <h2>Wie lange wir Daten behalten</h2>
+      <p>E-Mail und Lernfortschritt bleiben gespeichert, solange Dein Konto besteht. Schreib uns an <a href="mailto:hello@schwiizer.app">hello@schwiizer.app</a> für Löschung. Zahlungsbelege müssen wir steuerrechtlich 10 Jahre aufbewahren.</p>
+    </section>
+
+    <section>
+      <h2>Deine Rechte</h2>
+      <p>Auskunft, Berichtigung, Löschung, Einschränkung, Widerspruch, Datenübertragbarkeit (Art. 15–22 DSGVO). Anfragen per Mail an <a href="mailto:hello@schwiizer.app">hello@schwiizer.app</a>. Beschwerderecht bei der Berliner Beauftragten für Datenschutz und Informationsfreiheit.</p>
+    </section>
+  </div>
+
+  <div class="lang-body" data-lang="en">
+    <p class="intro">Becoming Schwiizer is an app for learning Swiss German. We want to touch your data as little as possible and never resell it. Here's what we do need and why.</p>
+
+    <section>
+      <h2>Controller</h2>
+      <p>Deborah Muriel Blum, Berlin · <a href="mailto:hello@schwiizer.app">hello@schwiizer.app</a> · Full address: <a href="/impressum">Impressum</a></p>
+    </section>
+
+    <section>
+      <h2>What we store</h2>
+      <ul>
+        <li><strong>Email address</strong> — if you sign in with a magic link. Used to recognize you next time and send login + receipt emails. Legal basis: contract (Art. 6 (1) b GDPR).</li>
+        <li><strong>Payment data</strong> — collected directly by Stripe / Lemon Squeezy, never by us. We only see a confirmation that payment was made.</li>
+        <li><strong>Learning progress</strong> — stored primarily in your browser (localStorage). Only if signed in, we sync progress to our server so you can switch devices.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>What we don't do</h2>
+      <ul>
+        <li>No ad cookies, no trackers, no Google Analytics.</li>
+        <li>No sharing with ad networks or third parties for marketing.</li>
+        <li>No profiling algorithms.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Service providers</h2>
+      <p>These providers process data on our behalf:</p>
+      <ul>
+        <li><strong>Stripe</strong> (Ireland/US) — payment processing</li>
+        <li><strong>Lemon Squeezy</strong> (US) — alternative payment processing</li>
+        <li><strong>Cloudflare</strong> (US) — login backend hosting (KV store, Workers)</li>
+        <li><strong>Resend</strong> (US) — sending login emails</li>
+        <li><strong>Porkbun</strong> (US) — domain & email forwarding</li>
+        <li><strong>Google (Gmail)</strong> — internal receipt of forwarded mail to hello@schwiizer.app</li>
+        <li><strong>GitHub Pages</strong> (US) — static app file hosting</li>
+      </ul>
+      <p>Transfers to the US are based on the EU-US Data Privacy Framework and Standard Contractual Clauses.</p>
+    </section>
+
+    <section>
+      <h2>Retention</h2>
+      <p>Email and progress: as long as your account exists. Email us at <a href="mailto:hello@schwiizer.app">hello@schwiizer.app</a> for deletion. Payment records must be kept 10 years for tax law reasons.</p>
+    </section>
+
+    <section>
+      <h2>Your rights</h2>
+      <p>Access, rectification, erasure, restriction, objection, portability (GDPR Art. 15–22). Requests to <a href="mailto:hello@schwiizer.app">hello@schwiizer.app</a>. Right to complain to the Berlin data protection authority.</p>
+    </section>
+  </div>
+
+  <div class="foot">
+    <a href="/">← Back to app</a> &nbsp;·&nbsp; <a href="/impressum">Impressum</a> &nbsp;·&nbsp; <a href="/terms">Terms</a>
+  </div>
+</div>
+<script>
+document.querySelectorAll('.lang-tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const lang = btn.dataset.lang;
+    document.querySelectorAll('.lang-tabs button').forEach(b => b.classList.toggle('active', b === btn));
+    document.querySelectorAll('.lang-body').forEach(body => body.classList.toggle('active', body.dataset.lang === lang));
+    document.documentElement.lang = lang;
+  });
+});
+</script>
+</body>
+</html>

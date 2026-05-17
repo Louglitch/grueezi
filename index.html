@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <meta name="theme-color" content="#A8C8BC"/>
 <meta name="description" content="Swiss German — real dialect, real voice, offline-ready."/>
-<title>Grüezi — Swiss German</title>
+<title>Becoming Schwiizer · Swiss German with Helvi</title>
 <link rel="manifest" href="manifest.json"/>
 <!-- Favicon: inline SVG for browser tabs (current 2-dot logo, NOT the old cross) -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect width='96' height='96' rx='22' fill='%23A8C8BC'/><text x='48' y='72' text-anchor='middle' font-family='Jost,sans-serif' font-size='58' font-weight='300' fill='%23F2EDE2'>G</text><circle cx='64' cy='18' r='5.5' fill='%23D4788A'/><circle cx='80' cy='18' r='5.5' fill='%23D4788A'/></svg>"/>
@@ -16,7 +16,7 @@
 <!-- Apple PWA metadata so iphone treats it like a standalone app -->
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
-<meta name="apple-mobile-web-app-title" content="Grüezi"/>
+<meta name="apple-mobile-web-app-title" content="Schwiizer"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <!-- Preload Jost 300 (default weight) so SVG logo doesn't reflow during font-swap. -->
@@ -238,7 +238,10 @@ body[data-mode="pink"] .hero-mountains .mountain-front{fill:#B85578;opacity:.55}
 .hero-inner{max-width:var(--col);margin:0 auto}
 .hero-mark{margin:0 auto 1.25rem;display:block;border-radius:22px;box-shadow:0 0 0 4px var(--cream)}
 .hero-h1{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:300;color:var(--hero-text);line-height:1.2;letter-spacing:-.01em;margin-bottom:.6rem}
-.hero-h1 > span:not([class]){color:var(--hero-text-accent)}
+.hero-h1 span:not([class]){color:var(--hero-text-accent)}
+.hero-h1-stack{display:flex;flex-direction:column;align-items:center;line-height:1.05}
+.becoming-line{display:block;font-size:.42em;letter-spacing:.04em;opacity:.7;font-weight:300;margin-bottom:.05em}
+.schwiizer-line{display:inline-flex;align-items:baseline;gap:.4em}
 .beta-pill{display:inline-block;font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--rose-deep);background:rgba(245,224,228,.7);padding:2px 7px;border-radius:999px;margin-left:8px;vertical-align:middle;line-height:1.6;font-family:var(--font);transform:translateY(-3px)}
 .beta-pill-sm{display:inline-block;font-size:8px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--rose-deep);background:rgba(245,224,228,.7);padding:1px 6px;border-radius:999px;margin-left:6px;vertical-align:middle;line-height:1.6;font-family:var(--font);transform:translateY(-1px)}
 .hero-sub{font-size:13px;font-weight:300;color:var(--hero-text);opacity:.85;margin-bottom:1.75rem;letter-spacing:.02em}
@@ -1055,13 +1058,13 @@ document.body.classList.add('on-landing');
   <div class="nav-inner">
     <div class="nav-left">
       <div class="nav-logo" onclick="showView('landing')">
-        <svg class="logo-svg" width="30" height="30" viewBox="-4 -4 104 104" role="img" aria-label="Grüezi" style="border-radius:8px;overflow:visible">
+        <svg class="logo-svg" width="30" height="30" viewBox="-4 -4 104 104" role="img" aria-label="Becoming Schwiizer" style="border-radius:8px;overflow:visible">
           <rect class="logo-bg" x="0" y="0" width="96" height="96" rx="22"/>
-          <text class="logo-fg" x="48" y="72" text-anchor="middle" font-family="'Jost',sans-serif" font-size="58" font-weight="300">G</text>
+          <text class="logo-fg" x="48" y="72" text-anchor="middle" font-family="'Jost',sans-serif" font-size="62" font-weight="300">s</text>
           <circle class="logo-accent" cx="64" cy="18" r="5.5"/>
           <circle class="logo-accent" cx="80" cy="18" r="5.5"/>
         </svg>
-        <div class="nav-wordmark">Gr<span>ü</span>ezi</div>
+        <div class="nav-wordmark">schw<span>ii</span>zer</div>
       </div>
       <button class="global-back-btn" id="global-back-btn" onclick="goBack()" aria-label="back" style="display:none">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -1176,13 +1179,13 @@ document.body.classList.add('on-landing');
       <path class="mountain-front" d="M0,200 L0,150 L100,130 L200,160 L310,115 L420,150 L540,110 L660,150 L780,125 L880,155 L960,135 L1000,140 L1000,200 Z"/>
     </svg>
     <div class="hero-inner">
-      <svg class="hero-mark anim-logo logo-svg" width="72" height="72" viewBox="0 0 96 96" role="img" aria-label="Grüezi">
+      <svg class="hero-mark anim-logo logo-svg" width="72" height="72" viewBox="0 0 96 96" role="img" aria-label="Becoming Schwiizer">
         <rect class="logo-bg" width="96" height="96" rx="22"/>
-        <text class="logo-fg" x="48" y="72" text-anchor="middle" font-family="'Jost',sans-serif" font-size="58" font-weight="300">G</text>
+        <text class="logo-fg" x="48" y="72" text-anchor="middle" font-family="'Jost',sans-serif" font-size="62" font-weight="300">s</text>
         <circle class="logo-accent" cx="64" cy="18" r="5.5"/>
         <circle class="logo-accent" cx="80" cy="18" r="5.5"/>
       </svg>
-      <h1 class="hero-h1 anim-title">Gr<span>ü</span>ezi<span class="beta-pill">beta</span></h1>
+      <h1 class="hero-h1 hero-h1-stack anim-title"><span class="becoming-line">becoming</span><span class="schwiizer-line">schw<span>ii</span>zer<span class="beta-pill">beta</span></span></h1>
       <p class="hero-sub anim-sub">your swiss german trainer</p>
       <div class="hero-btns anim-btn-wrap">
         <div class="start-wrap">
@@ -1358,9 +1361,9 @@ document.body.classList.add('on-landing');
       </g>
     </svg>
     <div class="inner">
-      <svg class="hero-mark logo-svg dev-unlock-target" width="64" height="64" viewBox="0 0 96 96" role="img" aria-label="Grüezi" title="long-press for dev unlock">
+      <svg class="hero-mark logo-svg dev-unlock-target" width="64" height="64" viewBox="0 0 96 96" role="img" aria-label="Becoming Schwiizer" title="long-press for dev unlock">
         <rect class="logo-bg" width="96" height="96" rx="22"/>
-        <text class="logo-fg" x="48" y="72" text-anchor="middle" font-family="'Jost',sans-serif" font-size="58" font-weight="300">G</text>
+        <text class="logo-fg" x="48" y="72" text-anchor="middle" font-family="'Jost',sans-serif" font-size="62" font-weight="300">s</text>
         <circle class="logo-accent" cx="64" cy="18" r="5.5"/>
         <circle class="logo-accent" cx="80" cy="18" r="5.5"/>
       </svg>
@@ -1385,14 +1388,14 @@ document.body.classList.add('on-landing');
     <div class="signin-card">
       <div class="page-header" style="margin-bottom:1rem">
         <div class="page-title">sign in<span class="u-dots"><i></i><i></i></span><span class="beta-pill-sm">beta</span></div>
-        <div class="page-sub" id="signin-sub">enter the email you used to buy grüezi · we'll send you a magic link</div>
+        <div class="page-sub" id="signin-sub">enter the email you used to buy becoming schwiizer · we'll send you a magic link</div>
       </div>
       <div class="signin-form">
         <input type="email" id="signin-email" class="signin-input" placeholder="your@email.com" autocomplete="email" inputmode="email"/>
         <button class="btn-p" id="signin-btn" onclick="requestMagicLink()">send magic link</button>
         <div class="signin-status" id="signin-status"></div>
       </div>
-      <p class="signin-help">No magic link? Check spam, or <a href="mailto:hello@grueezi.app">email us</a>.</p>
+      <p class="signin-help">No magic link? Check spam, or <a href="mailto:hello@schwiizer.app">email us</a>.</p>
     </div>
   </div>
 </div>
@@ -1474,14 +1477,14 @@ document.body.classList.add('on-landing');
           <a class="contact-btn" href="https://calendly.com/deborahmurielblum-info/new-meeting" target="_blank">book a session</a>
           -->
           <div class="danka-burst">
-            <a class="contact-btn" href="mailto:hello@grueezi.app" onclick="dankaBurst(event, this)">get in touch</a>
+            <a class="contact-btn" href="mailto:hello@schwiizer.app" onclick="dankaBurst(event, this)">get in touch</a>
             <span class="danka-label">dankä</span>
             <span class="danka-confetti"></span><span class="danka-confetti"></span><span class="danka-confetti"></span>
             <span class="danka-confetti"></span><span class="danka-confetti"></span><span class="danka-confetti"></span>
             <span class="danka-confetti"></span><span class="danka-confetti"></span><span class="danka-confetti"></span>
           </div>
           <div class="danka-burst">
-            <a class="contact-btn drop-a-word" href="mailto:hello@grueezi.app?subject=Swiss%20German%20wish%20word&body=Hoi%20Deborah%2C%0A%0Athe%20word%20I%27d%20love%20to%20learn%3A%0A%0A%0A%0Awhy%20it%20matters%20to%20me%3A%0A%0A%0A%0A%E2%80%94" aria-label="wish a swiss german word" onclick="dankaBurst(event, this)">
+            <a class="contact-btn drop-a-word" href="mailto:hello@schwiizer.app?subject=Swiss%20German%20wish%20word&body=Hoi%20Deborah%2C%0A%0Athe%20word%20I%27d%20love%20to%20learn%3A%0A%0A%0A%0Awhy%20it%20matters%20to%20me%3A%0A%0A%0A%0A%E2%80%94" aria-label="wish a swiss german word" onclick="dankaBurst(event, this)">
               <svg class="basket-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M4 6h16v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6z"/>
                 <path d="M4 6l8 7 8-7"/>
@@ -1708,8 +1711,9 @@ const PILLARS=[
   ]}
 ];
 
-// === Grüezi API (Cloudflare Worker) ===
-const GRUEEZI_API = 'https://grueezi-api.deborahmuriel-blum.workers.dev';
+// === Schwiizer API (Cloudflare Worker) ===
+// Note: Worker URL keeps the legacy "grueezi-api" hostname — internal infrastructure, never user-facing.
+const SCHWIIZER_API = 'https://grueezi-api.deborahmuriel-blum.workers.dev';
 // Lemon Squeezy checkout URLs
 const LS_MONTHLY  = 'https://grueezi.lemonsqueezy.com/checkout/buy/e4610157-5fb1-4c52-8f8f-20900ef3341e';
 const LS_LIFETIME = 'https://grueezi.lemonsqueezy.com/checkout/buy/cfdade4e-d179-48c2-bc0b-93ec6d0d5547';
@@ -2037,7 +2041,7 @@ function renderAccount(){
       </div>
       <div class="me-row me-row-divided">
         <span class="me-row-text me-row-text-with-icon">
-          <span class="me-row-icon">${ic.info}</span>about grüezi · deborah
+          <span class="me-row-icon">${ic.info}</span>about becoming schwiizer · deborah
         </span>
         <button class="me-btn-icon" onclick="showView('about')" aria-label="read about">${ic.chevron}</button>
       </div>
@@ -2048,7 +2052,7 @@ function renderAccount(){
   const libraryNote = `
     <div class="lib-note">
       <span class="lib-icon">${ic.book}</span>
-      <span>we're <strong>continuously updating the library</strong> — thank you for being part of grüezi <span style="color:var(--rose)">··</span> <a href="mailto:hello@grueezi.app?subject=Gr%C3%BCezi%20feedback&body=Hoi%20Deborah%2C%0A%0A">share what you'd like to learn — or report a bug ›</a></span>
+      <span>we're <strong>continuously updating the library</strong> — thank you for being part of becoming schwiizer <span style="color:var(--rose)">··</span> <a href="mailto:hello@schwiizer.app?subject=Schwiizer%20feedback&body=Hoi%20Deborah%2C%0A%0A">share what you'd like to learn — or report a bug ›</a></span>
     </div>
   `;
 
@@ -2973,7 +2977,7 @@ async function requestMagicLink(){
   status.textContent = 'sending magic link…';
   status.className = 'signin-status';
   try {
-    const res = await fetch(GRUEEZI_API + '/auth/start', {
+    const res = await fetch(SCHWIIZER_API + '/auth/start', {
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({email})
@@ -3001,7 +3005,7 @@ async function requestMagicLink(){
 // GET /auth/verify?token=… — exchange magic token for session
 async function verifyMagicToken(token){
   try {
-    const res = await fetch(GRUEEZI_API + '/auth/verify?token=' + encodeURIComponent(token));
+    const res = await fetch(SCHWIIZER_API + '/auth/verify?token=' + encodeURIComponent(token));
     const data = await res.json();
     if(!res.ok || !data.ok){
       console.warn('Magic verify failed:', data);
@@ -3024,7 +3028,7 @@ async function verifyMagicToken(token){
 async function refreshStatus(){
   if(!state.session) return;
   try {
-    const res = await fetch(GRUEEZI_API + '/status?session=' + encodeURIComponent(state.session));
+    const res = await fetch(SCHWIIZER_API + '/status?session=' + encodeURIComponent(state.session));
     const data = await res.json();
     if(data.error === 'session expired'){
       // Session no longer valid — clear locally
@@ -3056,7 +3060,7 @@ async function refreshStatus(){
 async function pushProgress(){
   if(!state.session || !state.unlocked) return;
   try {
-    await fetch(GRUEEZI_API + '/sync?session=' + encodeURIComponent(state.session), {
+    await fetch(SCHWIIZER_API + '/sync?session=' + encodeURIComponent(state.session), {
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
@@ -3075,7 +3079,7 @@ async function pushProgress(){
 async function pullProgress(){
   if(!state.session) return;
   try {
-    const res = await fetch(GRUEEZI_API + '/sync?session=' + encodeURIComponent(state.session));
+    const res = await fetch(SCHWIIZER_API + '/sync?session=' + encodeURIComponent(state.session));
     const data = await res.json();
     if(!data.progress) return;
     const p = data.progress;
