@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v21-2026-05-17-rename-from-grueezi';
+const CACHE_VERSION = 'schwiizer-v22-2026-05-18-200-entries';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
