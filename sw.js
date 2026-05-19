@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v23-2026-05-19-fouc-fix';
+const CACHE_VERSION = 'schwiizer-v25-2026-05-19-non-blocking-fonts';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately

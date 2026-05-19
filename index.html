@@ -8,7 +8,7 @@
 <title>Becoming Schwiizer · Swiss German with Helvi</title>
 <link rel="manifest" href="manifest.json"/>
 <!-- Favicon: inline SVG for browser tabs (current 2-dot logo, NOT the old cross) -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect width='96' height='96' rx='22' fill='%23A8C8BC'/><text x='48' y='72' text-anchor='middle' font-family='Jost,sans-serif' font-size='58' font-weight='300' fill='%23F2EDE2'>G</text><circle cx='64' cy='18' r='5.5' fill='%23D4788A'/><circle cx='80' cy='18' r='5.5' fill='%23D4788A'/></svg>"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect width='96' height='96' rx='22' fill='%23A8C8BC'/><text x='48' y='72' text-anchor='middle' font-family='Jost,sans-serif' font-size='62' font-weight='300' fill='%23F2EDE2'>s</text><circle cx='64' cy='18' r='5.5' fill='%23D4788A'/><circle cx='80' cy='18' r='5.5' fill='%23D4788A'/></svg>"/>
 <!-- PNG fallback for browsers that don't support SVG favicons (older safari, etc.) -->
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
 <!-- Apple home-screen icon: iphones use this when "Add to Home Screen" -->
@@ -21,7 +21,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <!-- Preload Jost 300 (default weight) so SVG logo doesn't reflow during font-swap. -->
 <link rel="preload" as="font" type="font/woff2" href="https://fonts.gstatic.com/s/jost/v15/92zPtBhPNqw79Ij1E865zBUv7myjI.woff2" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<!-- Non-blocking Google Fonts stylesheet: load as 'print' (no render-block), swap to 'all' once loaded. -->
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+<noscript><link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/></noscript>
 <style>
 /* MODE VARIABLES — three modes, one composition.
    CONSTANTS across all modes: mint (#A8C8BC) for logo, rose (#D4788A) for ü-dots.
@@ -3299,18 +3301,11 @@ if(state.session){
 
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js').catch(()=>{});
-  // When SW activates a new version, reload once so the user lands on the fresh build.
-  // Guard with sessionStorage so we don't loop.
-  navigator.serviceWorker.addEventListener('message', (e) => {
-    if(e.data && e.data.type === 'SW_UPDATED'){
-      const last = sessionStorage.getItem('g_sw_version');
-      if(last !== e.data.version){
-        sessionStorage.setItem('g_sw_version', e.data.version);
-        // Soft reload — keeps the same URL hash so user stays on their view
-        setTimeout(()=>location.reload(), 100);
-      }
-    }
-  });
+  // Note: previously we auto-reloaded on SW_UPDATED postMessage, but that caused a
+  // visible double-reload on cache-version bumps. The SW's skipWaiting + clients.claim
+  // already serves fresh files on the next navigation, so a soft reload is unnecessary.
+  // If we ever need to force-refresh open tabs again, do it from the SW with a
+  // conditional check that the client was already controlled BEFORE this activation.
 }
 renderLessons();
 if(typeof refreshNavLogin === 'function') refreshNavLogin();
