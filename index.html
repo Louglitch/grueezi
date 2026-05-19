@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background:#F2EDE2">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
@@ -1036,6 +1036,9 @@ body[data-mode="dark"] .lang-pill.active{background:var(--mint);color:#1A1A1C}
     if(m !== 'mint' && m !== 'pink' && m !== 'dark') m = 'mint';
     window.__gz_mode = m;
     document.documentElement.setAttribute('data-mode', m);
+    // FOUC-fix: also override the static mint fallback for pink/dark users
+    var bgs = {mint:'#F2EDE2', pink:'#FAF6EE', dark:'#1A1A1C'};
+    document.documentElement.style.background = bgs[m];
     var themeColors = {mint:'#F2EDE2', pink:'#D67BA0', dark:'#1A1A1C'};
     var meta = document.querySelector('meta[name="theme-color"]');
     if(meta) meta.setAttribute('content', themeColors[m]);
