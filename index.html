@@ -1569,6 +1569,112 @@ function lsRemove(k){
 
 // mode — mint (default) | pink | dark
 const MODES = ['mint','pink','dark'];
+
+/* ===== i18n: whole-app German toggle (Change 2) ===== */
+let APP_LANG = lsGet('g_lang') || 'en';   // 'en' | 'de'
+
+const I18N = {
+  en:{
+    settings:"settings", lessons:"lessons", search:"search", about:"about",
+    signin:"sign in", mode:"mode", language:"language", account:"account",
+    appearance:"appearance", more:"more",
+    free:"free", locked:"locked", done:"done", unlocked:"unlocked", cont:"continue",
+    upgrade:"upgrade", manage:"manage", signout:"sign out",
+    resetProgress:"reset progress on this device",
+    aboutRow:"about becoming schwiizer · deborah",
+    quizPrompt:"listen, then pick the meaning",
+    begin:"begin", trainer:"your swiss german trainer", start:"start",
+    unlockTitle:"unlock full access", already:"already bought? sign in",
+    sendLink:"send magic link",
+    membership:"membership", upgradeSub:"unlock all lessons + new content",
+    libNote:"we're continuously updating the library — thank you for being part of becoming schwiizer",
+    signedIn:"signed in", membershipMeta:"all lessons + future content unlocked",
+    upgradeTitle:"upgrade · €7/mo · €29 lifetime", upgradeMeta:"unlock all 14 lessons + new content",
+    alreadyDevice:"already bought on another device?",
+    libLead:"we're <strong>continuously updating the library</strong> — thank you for being part of becoming schwiizer",
+    libLink:"share what you'd like to learn — or report a bug ›",
+    sound:"sound", cheers:"helvi & cheers", on:"on", off:"off"
+  },
+  de:{
+    settings:"einstellungen", lessons:"lektionen", search:"suche", about:"über",
+    signin:"anmelden", mode:"modus", language:"sprache", account:"konto",
+    appearance:"darstellung", more:"mehr",
+    free:"gratis", locked:"gesperrt", done:"fertig", unlocked:"frei", cont:"weiter",
+    upgrade:"freischalten", manage:"verwalten", signout:"abmelden",
+    resetProgress:"fortschritt auf diesem gerät zurücksetzen",
+    aboutRow:"über becoming schwiizer · deborah",
+    quizPrompt:"hören, dann die bedeutung wählen",
+    begin:"los", trainer:"dein schweizerdeutsch-trainer", start:"start",
+    unlockTitle:"vollzugriff freischalten", already:"schon gekauft? anmelden",
+    sendLink:"magic link senden",
+    membership:"mitgliedschaft", upgradeSub:"alle lektionen + neue inhalte freischalten",
+    libNote:"wir erweitern die bibliothek laufend — danke, dass du bei becoming schwiizer dabei bist",
+    signedIn:"angemeldet", membershipMeta:"alle lektionen + zukünftige inhalte freigeschaltet",
+    upgradeTitle:"freischalten · €7/Mt. · €29 einmalig", upgradeMeta:"alle 14 lektionen + neue inhalte freischalten",
+    alreadyDevice:"schon auf einem anderen gerät gekauft?",
+    libLead:"wir <strong>erweitern die bibliothek laufend</strong> — danke, dass du bei becoming schwiizer dabei bist",
+    libLink:"sag uns, was du lernen möchtest — oder melde einen fehler ›",
+    sound:"ton", cheers:"helvi & jubel", on:"an", off:"aus"
+  }
+};
+
+function t(key){
+  const lang = APP_LANG || 'en';
+  return (I18N[lang] && I18N[lang][key]) || I18N.en[key] || key;
+}
+
+function setAppLang(lang){
+  if(lang!=='en' && lang!=='de') lang='en';
+  APP_LANG = lang;
+  lsSet('g_lang', lang);
+  applyStaticTranslations();
+  renderLessons();
+  renderAccount();
+}
+
+// Translate static UI bits that aren't re-rendered by JS (nav, landing).
+function applyStaticTranslations(){
+  const set=(sel,val)=>{const el=document.querySelector(sel);if(el)el.textContent=val;};
+  document.querySelectorAll('#bnav-account').forEach(b=>{
+    b.childNodes[b.childNodes.length-1].textContent = t('settings');
+  });
+  document.querySelectorAll('#bnav-lessons').forEach(b=>{
+    b.childNodes[b.childNodes.length-1].textContent = t('lessons');
+  });
+  document.querySelectorAll('#bnav-search').forEach(b=>{
+    b.childNodes[b.childNodes.length-1].textContent = t('search');
+  });
+  set('.hero-sub.anim-sub', t('trainer'));
+  const startBtn=document.querySelector('.start-wrap .btn-p'); if(startBtn) startBtn.textContent=t('start');
+  // page titles — replace only the leading text node so the u-dots / beta spans survive
+  const setTitle=(sel,val)=>{const el=document.querySelector(sel); if(el&&el.firstChild&&el.firstChild.nodeType===3) el.firstChild.nodeValue=val;};
+  setTitle('#view-account .page-title', t('settings'));
+  setTitle('#view-about .page-title', t('about'));
+  setTitle('#view-signin .page-title', t('signin'));
+  setTitle('#lessons-page-title', t('lessons'));
+}
+
+/* ===== mute toggles: master sound + celebrations (Change 5) ===== */
+let SOUND_ON  = lsGet('g_sound')  !== 'off';   // master
+let CHEERS_ON = lsGet('g_cheers') !== 'off';   // Helvi + win voice
+
+function setSound(on){
+  SOUND_ON = !!on;
+  lsSet('g_sound', on ? 'on' : 'off');
+  if(!on && 'speechSynthesis' in window) speechSynthesis.cancel();
+  renderAccount();
+}
+function setCheers(on){
+  CHEERS_ON = !!on;
+  lsSet('g_cheers', on ? 'on' : 'off');
+  renderAccount();
+}
+// kind 'word' → core learning audio (master mute only); 'cheer' → congrats (master OR cheers mute)
+function canPlay(kind){
+  if(!SOUND_ON) return false;
+  if(kind === 'cheer' && !CHEERS_ON) return false;
+  return true;
+}
 function applyMode(m){
   if(!MODES.includes(m)) m = 'mint';
   document.body.setAttribute('data-mode', m);
@@ -1861,6 +1967,96 @@ const PILLARS=[
   ,
     {id:27,title:"money",infoOnly:true,info:{en:"Switzerland is famously expensive and nobody complains less convincingly than the Swiss themselves. The country quietly tops every cost-of-living list and quietly shrugs.<br><br>But Switzerland wasn't always rich. Centuries ago, the Alpine cantons were overpopulated and poor — so poor that for 400 years Switzerland's main export wasn't chocolate or watches, it was war. Young men called Reisläufer left their mountain villages to fight as mercenaries for whoever paid — French kings, Italian dukes, the Pope. The Swiss Guard at the Vatican, founded in 1506, is the last surviving piece of that economy. Mercenary recruitment was officially banned in 1851.<br><br>The other piece of poverty hung on much longer. The Verdingkinder system auctioned off poor rural children as farm labour, often into abuse, well into the 1980s. The federal government formally apologised in 2014 and approved reparations in 2017. The wealth is recent; the memory is closer than outsiders assume.<br><br>The Swiss franc (CHF) is one of the world's safe-haven currencies. When Europe panics, money flows here. The franc is so stable the Swiss National Bank occasionally has to push it <em>down</em> — too strong a franc hurts exports.<br><br>No euro, no plan to join. Switzerland sits inside Europe geographically but outside the EU institutionally. The bilateral agreements are a renegotiated mess — one of the few things Swiss seem perpetually anxious about.<br><br>Yet many Swiss casually drive over the border to Konstanz, Lörrach, Annemasse for cheaper groceries. The cars line up on Saturday mornings. Einkaufstourismus is its own quiet ritual — half thrift, half mini-adventure.<br><br>Inside Switzerland, though, the culture isn't <em>Geiz ist geil</em>. The Swiss buy once, buy quality, and keep things for decades. A 400-franc raclette grill, used yearly for thirty years, costs less per use than the cheap version replaced every five. The math justifies the indulgence.",de:"Die Schweiz ist berühmt teuer und niemand jammert unglaubwürdiger als die Schweizer selbst. Das Land steht still an der Spitze jeder Lebenshaltungskosten-Liste und zuckt still mit den Schultern.<br><br>Doch die Schweiz war nicht immer reich. Vor Jahrhunderten waren die Alpenkantone überbevölkert und arm — so arm, dass der Hauptexport der Schweiz 400 Jahre lang nicht Schokolade oder Uhren war, sondern Krieg. Junge Männer, Reisläufer genannt, verliessen ihre Bergdörfer, um als Söldner für jeden zu kämpfen, der bezahlte — französische Könige, italienische Herzöge, den Papst. Die Schweizergarde im Vatikan, gegründet 1506, ist das letzte Überbleibsel dieser Wirtschaft. Die Söldnerwerbung wurde 1851 offiziell verboten.<br><br>Das andere Stück der Armut hielt sich viel länger. Das Verdingkinder-System verschacherte arme Landkinder als Bauernknechte, oft in Missbrauch hinein, bis weit in die 1980er. Der Bundesrat entschuldigte sich offiziell 2014 und beschloss 2017 Wiedergutmachung. Der Reichtum ist jung; die Erinnerung ist näher, als Aussenstehende denken.<br><br>Der Schweizer Franken (CHF) ist eine der sichersten Reservewährungen der Welt. Wenn Europa Panik kriegt, fliesst das Geld hierher. Der Franken ist so stabil, dass die Schweizerische Nationalbank ihn gelegentlich <em>nach unten</em> drücken muss — ein zu starker Franken schadet dem Export.<br><br>Kein Euro, keine Pläne beizutreten. Die Schweiz liegt geografisch mitten in Europa, institutionell aber ausserhalb der EU. Die bilateralen Verträge sind ein dauerverhandeltes Chaos — eines der wenigen Dinge, bei denen die Schweizer dauernervös wirken.<br><br>Trotzdem fahren viele Schweizer wie selbstverständlich über die Grenze nach Konstanz, Lörrach, Annemasse zum günstigeren Einkauf. Samstagmorgens stehen die Autos Schlange. Einkaufstourismus ist sein eigenes stilles Ritual — halb Sparmassnahme, halb Mini-Abenteuer.<br><br>Im Inneren der Schweiz herrscht aber nicht <em>Geiz ist geil</em>. Die Schweizer kaufen einmal, kaufen Qualität und behalten Sachen jahrzehntelang. Ein 400-Franken-Racletteofen, jedes Jahr gebraucht für dreissig Jahre, kostet pro Nutzung weniger als die billige Version, die alle fünf ersetzt wird. Die Rechnung rechtfertigt den Luxus.",ch:"D'Schwiiz isch berüemt tüür und niemert jammeret unglaubhafter als d'Schwiizer säuber. S'Land staht still zoberscht uf jedere Lebens-Choschte-Lischtä und zuckt still mit de Schultere.<br><br>Aber d'Schwiiz isch nöd immer riich gsi. Vor Jahrhundert sind d'Alpechantone überbevölkeret und arm gsi — so arm, dass de Hauptexport vo de Schwiiz 400 Jahr lang nöd Schoggi oder Uhre gsi isch, sondern Chrieg. Junge Manne, sogenannti Reisläufer, händ ihri Bärgdörfer verlah, zum als Söldner für jede z'chämpfä, wo zahlt het — französischi Chönig, italienischi Herzög, de Papscht. D'Schwiizergarde im Vatikan, 1506 gegründet, isch s'letscht Stück vo dere Wirtschaft. D'Söldner-Aaschtellig isch 1851 offiziell verbote worde.<br><br>S'anderä Stück Armuet isch viel länger blibe. S'Verdingchind-Syschtem het armi Landchind als Buurechnächt verschachert, oft in Missbruuch ine, bis spaht ide 1980er. De Bundesrat het sich 2014 offiziell entschuldiget und 2017 Wiedergutmachig beschlosse. De Riichtum isch jung; d'Erinnerig isch näher als Useständigi meinet.<br><br>De Schwiizer Frankä (CHF) isch eini vo de sicherschte Reservewährige uf de Wält. Wänn Europa Panik chunt, fliesst s'Gäld da häre. De Frankä isch so stabil, dass d'Schwiizerischi National-Bank en ab und zu <em>abe</em> drucke muess — en z'starkä Frankä schadet em Export.<br><br>Kei Euro, kei Plän bizuetretä. D'Schwiiz lyt geografisch mitte i Europa, institutionell aber usserhalb vo de EU. D'bilaterale Verträg sind es dueverhandelts Chaos — eis vo de weni Sache, wo d'Schwiizer dueneverve si chönd.<br><br>Trotzdem fahret vieli Schwiizer ganz selbschtverständlich über d'Gränze uf Konstanz, Lörrach, Annemasse zum günstigere Iichaufe. Samschtigmorge stönd d'Auto Schlange. Einkaufstourismus isch sis eigne stille Ritual — halb Sparä, halb Mini-Abenteuer.<br><br>Inä de Schwiiz aber gilt nöd <em>Geiz ist geil</em>. D'Schwiizer chaufed eimal, chaufed Qualität und behalted d'Sache Jahrzähnt lang. En 400-Frankä-Raclette-Ofe, jedes Jahr brucht für driisg Jahr, choschtet pro Nutzig weniger als di billigi Version, wo alli füüf ersetzt wird. D'Rächnig rächtfertigt de Luxus."},phrases:[]},
     {id:28,title:"drinks",infoOnly:true,info:{en:"Switzerland has three national drinks. Not wine, not beer — though both exist. Ice tea, milk, and Rivella.<br><br><strong>Ice tea.</strong> Switzerland didn't just adopt ice tea — it invented bottled ice tea. In 1983 a Migros developer came back from a US trip excited about brewed tea over ice. Bischofszell Food Ltd. cracked the industrial process and became the first producer in the world of bottled ice tea at scale. Recipe: black tea, rose hips, sugar, lemon — unchanged for forty years. Switzerland drinks 30 litres per person per year, European champion by a wide margin. Coop Ice Tea fights the eternal supermarket rivalry; most people develop a tribal preference by age seven. You'll find it at weddings, funerals, construction sites, and Wandervereine canteens halfway up a mountain.<br><br><strong>Milk.</strong> Swiss dairy isn't a product — it's an infrastructure. Cows on every Alp, milk vending machines in villages, fresh raw milk sold direct from farms. The reason it's everywhere and cheap: heavy subsidies. Swiss agricultural policy props up dairy farming to keep alpine pastures grazed, mountain villages alive, and the picture-postcard landscape intact. The cheese industry depends on milk. The chocolate industry depends on milk. Even Rivella depends on milk.<br><br><strong>Rivella.</strong> Invented 1952 by Robert Barth, named after the Ticino village Riva San Vitale and the Italian <em>rivelazione</em> — revelation. The genius: it's made from milk whey, the leftover liquid from cheesemaking that was being thrown away. With over 450 Swiss cheese varieties producing rivers of whey, Barth turned waste into a national soft drink. Slightly sweet, slightly sour, a hint of something agricultural underneath the fizz. Red is original; Blue is sugar-free. Foreigners are confused; the Swiss are loyal.<br><br>Rivella was the first diet soft drink launched in Europe (1959). The pattern repeats across the trinity: take a local agricultural reality, make it national, refuse to be replaced by global brands. Coca-Cola exists in Switzerland but doesn't dominate the way it does elsewhere.",de:"Die Schweiz hat drei Nationalgetränke. Nicht Wein, nicht Bier — die gibt's auch. Eistee, Milch und Rivella.<br><br><strong>Eistee.</strong> Die Schweiz hat Eistee nicht einfach übernommen — sie hat den abgefüllten Eistee erfunden. 1983 kam ein Migros-Entwickler von einer USA-Reise zurück, begeistert von gebrühtem Tee über Eis. Bischofszell Food Ltd. löste den industriellen Prozess und wurde weltweit erster Hersteller von abgefülltem Eistee im grossen Massstab. Rezept: Schwarztee, Hagebutten, Zucker, Zitrone — seit 40 Jahren unverändert. Die Schweiz trinkt 30 Liter pro Kopf und Jahr, mit grossem Abstand europäischer Spitzenreiter. Coop-Eistee führt die ewige Supermarkt-Rivalität; die meisten entwickeln bis zum siebten Lebensjahr eine klare Stammespräferenz. Du findest ihn an Hochzeiten, Beerdigungen, auf Baustellen und in Wandervereinskantinen mitten am Berg.<br><br><strong>Milch.</strong> Schweizer Milchwirtschaft ist kein Produkt — sie ist Infrastruktur. Kühe auf jeder Alp, Milchautomaten in Dörfern, frische Rohmilch direkt vom Hof. Der Grund, warum sie überall und günstig ist: starke Subventionen. Die Schweizer Agrarpolitik stützt die Milchwirtschaft, um Alpweiden beweidet, Bergdörfer lebendig und die Postkartenlandschaft intakt zu halten. Die Käseindustrie hängt an der Milch. Die Schokoladenindustrie hängt an der Milch. Sogar Rivella hängt an der Milch.<br><br><strong>Rivella.</strong> Erfunden 1952 von Robert Barth, benannt nach dem Tessiner Dorf Riva San Vitale und dem italienischen <em>rivelazione</em> — Offenbarung. Der Geniestreich: hergestellt aus Milchmolke, der Restflüssigkeit aus der Käserei, die weggeschüttet wurde. Mit über 450 Schweizer Käsesorten, die Flüsse von Molke produzieren, machte Barth aus Abfall ein Nationalgetränk. Leicht süss, leicht sauer, ein Hauch von etwas Landwirtschaftlichem unter der Kohlensäure. Rot ist Original; Blau ist zuckerfrei. Ausländer sind verwirrt; die Schweizer sind treu.<br><br>Rivella war 1959 das erste Diätgetränk Europas. Das Muster wiederholt sich in der ganzen Trinität: eine lokale landwirtschaftliche Realität nehmen, sie national machen, sich weigern, von globalen Marken ersetzt zu werden. Coca-Cola gibt es in der Schweiz, aber es dominiert nicht so wie anderswo.",ch:"D'Schwiiz het drei Nationalgetränk. Nöd Wii, nöd Bier — die gits au. Iistee, Milch und Rivella.<br><br><strong>Iistee.</strong> D'Schwiiz het Iistee nöd eifach übernoh — si het de abgfüllte Iistee erfunde. 1983 isch en Migros-Entwickler vom ene USA-Tripp zrugg cho, begeischteret vom brüete Tee über Iis. Bischofszell Food Ltd. het de industrielle Prozess glöst und isch de erscht Herschteller wältwiit vo abgfüllte Iistee im grosse Maaschtab worde. Rezäpt: Schwarztee, Hagebuttä, Zucker, Zitronä — sit 40 Jahr unveränderet. D'Schwiiz trinkt 30 Liter pro Chopf und Jahr, mit grossem Abschtand europäische Spitzeriter. Coop-Iistee chämpft d'ewig Supermarkt-Rivalität; di meischte entwickled bis zum siebte Läbensjahr en klari Stammespräferenz. Du findsch en a Hochziite, Beerdigungä, uf Buustelle und i Wandervereins-Chantinä mitte am Bärg.<br><br><strong>Milch.</strong> D'Schwiizer Milchwirtschaft isch kei Produkt — si isch Infraschtruktur. Chüe uf jedere Alp, Milchautomate i Dörfer, frischi Rohmilch direkt vom Hof. De Grund, wieso si überall und günschtig isch: starki Subventione. D'Schwiizer Agrarpolitik schtützt d'Milchwirtschaft, zum Alpweide beweidet, Bärgdörfer läbendig und d'Poschtchartä-Landschaft intakt z'haltä. D'Chäs-Induschtrie hänkt a de Milch. D'Schoggi-Induschtrie hänkt a de Milch. Sogar Rivella hänkt a de Milch.<br><br><strong>Rivella.</strong> Erfunde 1952 vom Robert Barth, benamset nach em Tessiner Dorf Riva San Vitale und em italienische <em>rivelazione</em> — Offebahrig. De Geniestreich: gmacht us Milchmolkä, de Reschtflüssigkeit us de Chäserei, wo wäggschüttet worde isch. Mit über 450 Schwiizer Chäs-Sorte, wo Flüss vo Molkä produziered, het de Barth us Abfall es Nationalgetränk gmacht. Liecht süess, liecht suur, en Huuch vo öppis Landwirtschaftlichem under de Cholasäuri. Rot isch Original; Blau isch zuckerfrei. Usländer sind verwirrt; d'Schwiizer sind treu.<br><br>Rivella isch 1959 s'erscht Diätgetränk vo Europa gsi. S'Muschter wiederholt sich i de ganze Trinität: e lokali landwirtschaftlichi Realität näh, si national machä, sich wiigerä, vo globale Marke ersetzt z'werdä. Coca-Cola gits i de Schwiiz, aber es dominiert nöd so wie anderswo."},phrases:[]}
+  ]},
+  {name:"Pass",free:false,einb:true,lessons:[
+    {id:40,title:"einbürgerungstest",free:false,einbquiz:true,
+     info:{
+       en:"A practice run at the Swiss citizenship test (Einbürgerungstest). The real cantonal test is 48 questions — you need 29 right to pass. This is independent prep, <strong>not the official test</strong>, and passing here is no guarantee. Topics: geography, history, politics, federalism, society.<br><br>Pick the right answer. Wrong ones get marked; the correct one lights up.",
+       de:"Eine Übung für den Schweizer Einbürgerungstest. Der echte kantonale Test hat 48 Fragen — du brauchst 29 richtige zum Bestehen. Dies ist eine unabhängige Vorbereitung, <strong>nicht der offizielle Test</strong>, und Bestehen hier ist keine Garantie. Themen: Geografie, Geschichte, Politik, Föderalismus, Gesellschaft.<br><br>Wähle die richtige Antwort. Falsche werden markiert; die richtige leuchtet auf.",
+       ch:"Es Üebig für de Schwiizer Iibürgerigs-Tescht. De ächt kantonal Tescht het 48 Frage — du bruuchsch 29 richtigi zum Bestah. Das isch ä unabhängigi Vorbereitig, <strong>nöd de offiziell Tescht</strong>, und Bestah da isch kei Garantie."
+     },
+     quiz:[
+       {q:{en:"Which three cantons formed the alliance of 1291?",de:"Welche drei Kantone schlossen 1291 den Bund?"},
+        options:["Uri, Schwyz, Unterwalden","Zürich, Bern, Luzern","Genf, Waadt, Wallis","Tessin, Graubünden, Glarus"],answer:0,
+        note:{en:"The three Waldstätte swore the founding alliance — the origin of the Confederation.",de:"Die drei Waldstätte schworen den Gründungsbund — der Ursprung der Eidgenossenschaft."}},
+
+       {q:{en:"What is the Latin name of Switzerland?",de:"Wie lautet der lateinische Name der Schweiz?"},
+        options:["Confoederatio Helvetica","Republica Helvetica","Helvetia Federalis","Confoederatio Alpina"],answer:0,
+        note:{en:"Confoederatio Helvetica — the source of the CH abbreviation, from the Celtic Helvetii.",de:"Confoederatio Helvetica — Ursprung der Abkürzung CH, von den keltischen Helvetiern."}},
+
+       {q:{en:"How many cantons does Switzerland have?",de:"Wie viele Kantone hat die Schweiz?"},
+        options:["26","23","20","29"],answer:0,
+        note:{en:"26 cantons, each with its own constitution, government and courts.",de:"26 Kantone, jeder mit eigener Verfassung, Regierung und Gerichten."}},
+
+       {q:{en:"How many members does the Federal Council (Bundesrat) have?",de:"Wie viele Mitglieder hat der Bundesrat?"},
+        options:["7","5","9","11"],answer:0,
+        note:{en:"Seven federal ministers; the presidency rotates yearly among them.",de:"Sieben Bundesräte; die Präsidentschaft rotiert jährlich unter ihnen."}},
+
+       {q:{en:"What are the two direct-democracy instruments of the Swiss people?",de:"Welche zwei direktdemokratischen Instrumente hat das Schweizer Volk?"},
+        options:["Initiative and Referendum","Petition and Veto","Vote and Election","Motion and Appeal"],answer:0,
+        note:{en:"The Volksinitiative and the Referendum let citizens shape and block laws directly.",de:"Volksinitiative und Referendum lassen Bürger Gesetze direkt gestalten und blockieren."}},
+
+       {q:{en:"What principle defines Swiss foreign policy?",de:"Welcher Grundsatz prägt die Schweizer Aussenpolitik?"},
+        options:["Neutrality","Expansion","Alliance","Isolation"],answer:0,
+        note:{en:"Switzerland does not take part in armed conflicts between other states — neutrality since 1815.",de:"Die Schweiz beteiligt sich nicht an bewaffneten Konflikten — Neutralität seit 1815."}},
+
+       {q:{en:"How many official languages does Switzerland have?",de:"Wie viele Amtssprachen hat die Schweiz?"},
+        options:["Four","Three","Two","Five"],answer:0,
+        note:{en:"German, French, Italian and Romansh.",de:"Deutsch, Französisch, Italienisch und Rätoromanisch."}},
+
+       {q:{en:"What is the Swiss national day?",de:"Wann ist der Schweizer Nationalfeiertag?"},
+        options:["1 August","1 May","14 July","6 December"],answer:0,
+        note:{en:"The 1st of August, marked with bonfires and fireworks nationwide.",de:"Der 1. August, gefeiert mit Höhenfeuern und Feuerwerk im ganzen Land."}},
+
+       {q:{en:"What is the capital of Switzerland?",de:"Was ist die Hauptstadt der Schweiz?"},
+        options:["Bern","Zürich","Geneva","Basel"],answer:0,
+        note:{en:"Bern is the federal city (Bundesstadt) — seat of government.",de:"Bern ist die Bundesstadt — Sitz der Regierung."}},
+
+       {q:{en:"Which two chambers form the Federal Assembly?",de:"Welche zwei Kammern bilden die Bundesversammlung?"},
+        options:["National Council and Council of States","Senate and Congress","Upper and Lower House","Assembly and Cabinet"],answer:0,
+        note:{en:"Nationalrat (people) and Ständerat (cantons) together form the parliament.",de:"Nationalrat (Volk) und Ständerat (Kantone) bilden zusammen das Parlament."}},
+
+       {q:{en:"How many seats does each full canton have in the Council of States?",de:"Wie viele Sitze hat jeder Vollkanton im Ständerat?"},
+        options:["Two","One","Three","Four"],answer:0,
+        note:{en:"Each full canton has two seats; half-cantons have one.",de:"Jeder Vollkanton hat zwei Sitze; Halbkantone einen."}},
+
+       {q:{en:"What was the Reformation split of 16th-century Switzerland?",de:"Welche Spaltung brachte die Reformation im 16. Jahrhundert?"},
+        options:["Reformed and Catholic","North and South","Rich and Poor","German and French"],answer:0,
+        note:{en:"Switzerland divided into Reformed (Protestant) and Catholic camps.",de:"Die Schweiz teilte sich in Reformierte und Katholiken."}},
+
+       {q:{en:"Roughly how many people live in Switzerland?",de:"Wie viele Menschen leben ungefähr in der Schweiz?"},
+        options:["About 9 million","About 5 million","About 15 million","About 20 million"],answer:0,
+        note:{en:"Around 9 million residents.",de:"Rund 9 Millionen Einwohner."}},
+
+       {q:{en:"What is the Gotthard Base Tunnel known for?",de:"Wofür ist der Gotthard-Basistunnel bekannt?"},
+        options:["Longest railway tunnel in the world","Highest bridge in Europe","Oldest road in Switzerland","Largest dam in the Alps"],answer:0,
+        note:{en:"At 57 km it is the world's longest railway tunnel.",de:"Mit 57 km der längste Eisenbahntunnel der Welt."}},
+
+       {q:{en:"How are powers divided in the Swiss federal system?",de:"Wie ist die Macht im Schweizer Bundesstaat aufgeteilt?"},
+        options:["Federal, cantonal and communal","King, parliament and church","Army, police and courts","North, centre and south"],answer:0,
+        note:{en:"Power is split across the Confederation, the cantons and the communes.",de:"Die Macht ist auf Bund, Kantone und Gemeinden aufgeteilt."}},
+
+       {q:{en:"What does the executive branch do?",de:"Was macht die ausführende Staatsgewalt?"},
+        options:["Carries out the laws (e.g. Federal Council)","Makes the laws","Judges the laws","Writes the constitution"],answer:0,
+        note:{en:"The executive (Bundesrat) carries out the laws.",de:"Die Exekutive (Bundesrat) führt die Gesetze aus."}},
+
+       {q:{en:"What does the legislative branch do?",de:"Was macht die gesetzgebende Staatsgewalt?"},
+        options:["Makes the laws (Parliament)","Carries out the laws","Judges disputes","Commands the army"],answer:0,
+        note:{en:"The legislature (Parliament) makes the laws.",de:"Die Legislative (Parlament) macht die Gesetze."}},
+
+       {q:{en:"How can citizens demand a change to the constitution?",de:"Wie können Bürger eine Verfassungsänderung verlangen?"},
+        options:["With a popular initiative","With a petition","By writing to the Bundesrat","By voting in an election"],answer:0,
+        note:{en:"A Volksinitiative lets citizens demand a binding constitutional change.",de:"Eine Volksinitiative erlaubt eine verbindliche Verfassungsänderung."}},
+
+       {q:{en:"Which landmark sits in Lucerne?",de:"Welches Wahrzeichen steht in Luzern?"},
+        options:["Chapel Bridge with water tower","Matterhorn","Rhine Falls","Château de Chillon"],answer:0,
+        note:{en:"The Kapellbrücke with its water tower is Lucerne's icon.",de:"Die Kapellbrücke mit Wasserturm ist Luzerns Wahrzeichen."}},
+
+       {q:{en:"Must the state itself also obey the law?",de:"Muss sich auch der Staat an die Gesetze halten?"},
+        options:["Yes, the state is bound by law too","No, the state is above the law","Only in wartime","Only the cantons"],answer:0,
+        note:{en:"Rule of law: the state itself must obey the laws.",de:"Rechtsstaat: Auch der Staat muss sich an die Gesetze halten."}}
+     ],
+     phrases:[]}
   ]}
 ];
 
@@ -1961,7 +2157,7 @@ function openSearchFromNav(){
     if(panel){ panel.removeAttribute('hidden'); }
     if(input){ input.focus(); input.value=''; }
     // Change the page title so user sees they're in search mode
-    if(title){ title.innerHTML = 'search<span class="u-dots"><i></i><i></i></span>'; }
+    if(title){ title.innerHTML = t('search')+'<span class="u-dots"><i></i><i></i></span>'; }
     // Show all phrases as a browseable list (typing then filters them)
     runSearch('');
     // Mark the bnav-search button active visually
@@ -1974,7 +2170,7 @@ function openSearchFromNav(){
 // Reset lessons page title back to "lessons" (called when user re-enters lessons normally)
 function resetLessonsPageTitle(){
   const title = document.getElementById('lessons-page-title');
-  if(title){ title.innerHTML = 'lessons<span class="u-dots"><i></i><i></i></span>'; }
+  if(title){ title.innerHTML = t('lessons')+'<span class="u-dots"><i></i><i></i></span>'; }
   const panel = document.getElementById('search-panel');
   // also hide search panel since we're now in plain lessons mode
   if(panel){ panel.setAttribute('hidden',''); }
@@ -2076,15 +2272,17 @@ function renderAccount(){
     chevron: '<svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>',
     star: '<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
     check: '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',
+    sound: '<svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>',
+    cheer: '<svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4-6.3-4.6L5.7 21.4 8 14 2 9.4h7.6z"/></svg>',
   };
 
   // === appearance section: mode + language ===
   const appearanceSection = `
-    <div class="me-section-label">appearance</div>
+    <div class="me-section-label">${t('appearance')}</div>
     <div class="me-card">
       <div class="me-row">
         <span class="me-row-text me-row-text-with-icon">
-          <span class="me-row-icon">${ic.mode}</span>mode
+          <span class="me-row-icon">${ic.mode}</span>${t('mode')}
         </span>
         <div class="mode-pills">
           ${MODES.map(m=>`<button class="${m===currentMode?'active':''}" data-mode="${m}" aria-label="${m} mode" onclick="setModeFromUI('${m}')"><span class="mp-dot"></span>${m}</button>`).join('')}
@@ -2092,11 +2290,29 @@ function renderAccount(){
       </div>
       <div class="me-row me-row-divided">
         <span class="me-row-text me-row-text-with-icon">
-          <span class="me-row-icon">${ic.lang}</span>language
+          <span class="me-row-icon">${ic.lang}</span>${t('language')}
         </span>
         <div class="lang-pills">
-          <button class="lang-pill-account active" aria-label="english (active)">EN</button>
-          <button class="lang-pill-account disabled" aria-label="german (coming soon)" title="coming soon" disabled>DE</button>
+          <button class="lang-pill-account ${APP_LANG==='en'?'active':''}" onclick="setAppLang('en')" aria-label="english">EN</button>
+          <button class="lang-pill-account ${APP_LANG==='de'?'active':''}" onclick="setAppLang('de')" aria-label="deutsch">DE</button>
+        </div>
+      </div>
+      <div class="me-row me-row-divided">
+        <span class="me-row-text me-row-text-with-icon">
+          <span class="me-row-icon">${ic.sound}</span>${t('sound')}
+        </span>
+        <div class="mode-pills">
+          <button class="${SOUND_ON?'active':''}" onclick="setSound(true)">${t('on')}</button>
+          <button class="${!SOUND_ON?'active':''}" onclick="setSound(false)">${t('off')}</button>
+        </div>
+      </div>
+      <div class="me-row me-row-divided" style="${SOUND_ON?'':'opacity:.4;pointer-events:none'}">
+        <span class="me-row-text me-row-text-with-icon">
+          <span class="me-row-icon">${ic.cheer}</span>${t('cheers')}
+        </span>
+        <div class="mode-pills">
+          <button class="${CHEERS_ON?'active':''}" onclick="setCheers(true)">${t('on')}</button>
+          <button class="${!CHEERS_ON?'active':''}" onclick="setCheers(false)">${t('off')}</button>
         </div>
       </div>
     </div>
@@ -2112,70 +2328,70 @@ function renderAccount(){
   if(state.unlocked && state.email){
     // STATE 3 — signed in + paid (the happy path)
     accountSection = `
-      <div class="me-section-label">account</div>
+      <div class="me-section-label">${t('account')}</div>
       <div class="me-card">
         <div class="me-row">
           <span class="me-row-text-stacked">
             <span class="main">
-              <span class="me-row-icon" style="color:var(--mint);opacity:1">${ic.check}</span>${escapeHtml(state.email.split('@')[0] || 'signed in')}
+              <span class="me-row-icon" style="color:var(--mint);opacity:1">${ic.check}</span>${escapeHtml(state.email.split('@')[0] || t('signedIn'))}
             </span>
             <span class="meta">${escapeHtml(state.email)}</span>
           </span>
-          <button class="me-btn-icon" onclick="signOutAccount()" aria-label="sign out" title="sign out">${ic.signOut}</button>
+          <button class="me-btn-icon" onclick="signOutAccount()" aria-label="${t('signout')}" title="${t('signout')}">${ic.signOut}</button>
         </div>
         <div class="me-row me-row-divided">
           <span class="me-row-text-stacked">
             <span class="main">
-              <span class="me-row-icon" style="color:var(--rose);opacity:1">${ic.star}</span>membership · ${state.plan || 'lifetime'}
+              <span class="me-row-icon" style="color:var(--rose);opacity:1">${ic.star}</span>${t('membership')} · ${state.plan || 'lifetime'}
             </span>
-            <span class="meta">all lessons + future content unlocked</span>
+            <span class="meta">${t('membershipMeta')}</span>
           </span>
-          <a class="me-btn-icon" href="https://grueezi.lemonsqueezy.com/billing" target="_blank" aria-label="manage subscription" title="manage">${ic.chevron}</a>
+          <a class="me-btn-icon" href="https://grueezi.lemonsqueezy.com/billing" target="_blank" aria-label="${t('manage')}" title="${t('manage')}">${ic.chevron}</a>
         </div>
       </div>
     `;
   } else if(state.email){
     // STATE 2 — signed in but still free
     accountSection = `
-      <div class="me-section-label">account</div>
+      <div class="me-section-label">${t('account')}</div>
       <div class="me-card">
         <div class="me-row">
           <span class="me-row-text-stacked">
             <span class="main">
-              <span class="me-row-icon" style="color:var(--mint);opacity:1">${ic.check}</span>${escapeHtml(state.email.split('@')[0] || 'signed in')} · free
+              <span class="me-row-icon" style="color:var(--mint);opacity:1">${ic.check}</span>${escapeHtml(state.email.split('@')[0] || t('signedIn'))} · ${t('free')}
             </span>
             <span class="meta">${escapeHtml(state.email)}</span>
           </span>
-          <button class="me-btn-icon" onclick="signOutAccount()" aria-label="sign out" title="sign out">${ic.signOut}</button>
+          <button class="me-btn-icon" onclick="signOutAccount()" aria-label="${t('signout')}" title="${t('signout')}">${ic.signOut}</button>
         </div>
         <div class="me-row me-row-divided">
           <span class="me-row-text-stacked">
             <span class="main">
-              <span class="me-row-icon">${ic.heart}</span>upgrade · €7/mo · €29 lifetime
+              <span class="me-row-icon">${ic.heart}</span>${t('upgradeTitle')}
             </span>
-            <span class="meta">unlock all 14 lessons + new content</span>
+            <span class="meta">${t('upgradeMeta')}</span>
           </span>
-          <button class="me-btn-soft subtle" onclick="showView('paywall')">upgrade ›</button>
+          <button class="me-btn-soft subtle" onclick="showView('paywall')">${t('upgrade')} ›</button>
         </div>
       </div>
     `;
   } else {
     // STATE 1 — anonymous + free
     accountSection = `
-      <div class="me-section-label">account</div>
+      <div class="me-section-label">${t('account')}</div>
       <div class="me-card">
         <div class="me-row">
           <span class="me-row-text-stacked">
             <span class="main">
-              <span class="me-row-icon">${ic.heart}</span>upgrade · €7/mo · €29 lifetime
+              <span class="me-row-icon">${ic.heart}</span>${t('upgradeTitle')}
             </span>
-            <span class="meta">unlock all 14 lessons + new content</span>
+            <span class="meta">${t('upgradeMeta')}</span>
           </span>
-          <button class="me-btn-soft subtle" onclick="showView('paywall')">upgrade ›</button>
+          <button class="me-btn-soft subtle" onclick="showView('paywall')">${t('upgrade')} ›</button>
         </div>
         <div class="me-row me-row-divided" style="padding:9px 0">
           <span class="me-row-text-stacked">
-            <span class="meta" style="margin-left:0">already bought on another device? <a onclick="showView('signin')" style="color:var(--rose);text-decoration:none;border-bottom:0.5px solid rgba(212,120,138,.4);padding-bottom:1px;cursor:pointer">sign in ›</a></span>
+            <span class="meta" style="margin-left:0">${t('alreadyDevice')} <a onclick="showView('signin')" style="color:var(--rose);text-decoration:none;border-bottom:0.5px solid rgba(212,120,138,.4);padding-bottom:1px;cursor:pointer">${t('signin')} ›</a></span>
           </span>
         </div>
       </div>
@@ -2184,19 +2400,19 @@ function renderAccount(){
 
   // === more section: reset + about ===
   const moreSection = `
-    <div class="me-section-label">more</div>
+    <div class="me-section-label">${t('more')}</div>
     <div class="me-card">
       <div class="me-row">
         <span class="me-row-text me-row-text-with-icon">
-          <span class="me-row-icon">${ic.reset}</span>reset progress on this device
+          <span class="me-row-icon">${ic.reset}</span>${t('resetProgress')}
         </span>
-        <button class="me-btn-icon" onclick="resetProgress()" aria-label="reset progress">${ic.chevron}</button>
+        <button class="me-btn-icon" onclick="resetProgress()" aria-label="${t('resetProgress')}">${ic.chevron}</button>
       </div>
       <div class="me-row me-row-divided">
         <span class="me-row-text me-row-text-with-icon">
-          <span class="me-row-icon">${ic.info}</span>about becoming schwiizer · deborah
+          <span class="me-row-icon">${ic.info}</span>${t('aboutRow')}
         </span>
-        <button class="me-btn-icon" onclick="showView('about')" aria-label="read about">${ic.chevron}</button>
+        <button class="me-btn-icon" onclick="showView('about')" aria-label="${t('about')}">${ic.chevron}</button>
       </div>
     </div>
   `;
@@ -2205,7 +2421,7 @@ function renderAccount(){
   const libraryNote = `
     <div class="lib-note">
       <span class="lib-icon">${ic.book}</span>
-      <span>we're <strong>continuously updating the library</strong> — thank you for being part of becoming schwiizer <span style="color:var(--rose)">··</span> <a href="mailto:hello@schwiizer.app?subject=Schwiizer%20feedback&body=Hoi%20Deborah%2C%0A%0A">share what you'd like to learn — or report a bug ›</a></span>
+      <span>${t('libLead')} <span style="color:var(--rose)">··</span> <a href="mailto:hello@schwiizer.app?subject=Schwiizer%20feedback&body=Hoi%20Deborah%2C%0A%0A">${t('libLink')}</a></span>
     </div>
   `;
 
@@ -2319,10 +2535,10 @@ function renderLessons(){
       const qs=state.quizScores[l.id];
       const quizDone=qs&&qs.total>0;
       let pillText,pillClass;
-      if(locked){pillText='locked';pillClass='p-locked';}
-      else if(pct===100&&quizDone){pillText='done';pillClass='p-done';}
-      else if(prog.length>0){pillText='continue';pillClass='p-active';}
-      else{pillText=l.free?'free':'unlocked';pillClass='p-free';}
+      if(locked){pillText=t('locked');pillClass='p-locked';}
+      else if(pct===100&&quizDone){pillText=t('done');pillClass='p-done';}
+      else if(prog.length>0){pillText=t('cont');pillClass='p-active';}
+      else{pillText=l.free?t('free'):t('unlocked');pillClass='p-free';}
       const row=document.createElement('div');
       row.className='lesson-row'+(locked?' locked-row':'');
       row.innerHTML=`
@@ -2472,6 +2688,11 @@ function openLesson(id, startPhraseIdx){
   state.stageScores={correct:0,total:0};
   state.quizState=null;
   updateStreak();
+  // Route Einbürgerungstest lessons to the mock-test engine (Change 1)
+  if(lesson.einbquiz){
+    startEinbquiz(lesson);
+    return;
+  }
   // Route to chapter intro ONLY for Info-pillar reading-only lessons
   // Words/Phrases lessons go straight to phrase stages, even if they have an info field
   if(lesson.infoOnly && startIdx === 0){
@@ -2564,6 +2785,7 @@ function toggleChapterPlay(){
     stopChapterAudio();
     return;
   }
+  if(!canPlay('word')) return;   // master mute (Change 5)
   const lesson = getLessonById(state.currentLessonId);
   if(!lesson) return;
   const lang = state.chapterLang || 'en';
@@ -2945,7 +3167,8 @@ function completeContinue(){
   }
 }
 
-function speak(text){
+function speak(text, kind){
+  if(!canPlay(kind || 'word')) return;   // master/cheers mute (Change 5)
   if(!('speechSynthesis' in window)) return;
   const u=new SpeechSynthesisUtterance(text);
   u.rate=0.85;
@@ -2963,6 +3186,125 @@ function speak(text){
   }
   speechSynthesis.cancel();
   speechSynthesis.speak(u);
+}
+
+/* ===== Einbürgerungstest quiz engine (Change 1) ===== */
+function eqLang(){
+  try { return (typeof APP_LANG !== 'undefined' && APP_LANG) ? APP_LANG : 'en'; }
+  catch(e){ return 'en'; }
+}
+function eqText(obj){
+  if(!obj) return '';
+  if(typeof obj === 'string') return obj;
+  const l = eqLang();
+  return obj[l] || obj.en || obj.de || '';
+}
+function startEinbquiz(lesson){
+  const pool = (lesson.quiz || []).slice().sort(()=>Math.random()-0.5);
+  const take = Math.min(48, pool.length);
+  state.einbquiz = {
+    lessonId: lesson.id,
+    questions: pool.slice(0, take),
+    idx: 0,
+    correct: 0,
+    answered: false,
+    passMark: Math.ceil(take * 0.6)
+  };
+  renderEinbquizQuestion();
+  showView('stage');
+}
+function renderEinbquizQuestion(){
+  const eq = state.einbquiz;
+  const q = eq.questions[eq.idx];
+  const content = document.getElementById('stage-content');
+  const bar = document.getElementById('stage-bar');
+  if(bar){
+    bar.innerHTML = '';
+    eq.questions.forEach((_,i)=>{
+      const dot = document.createElement('i');
+      if(i < eq.idx) dot.className = 'done';
+      else if(i === eq.idx) dot.className = 'active';
+      bar.appendChild(dot);
+    });
+  }
+  const opts = q.options.map((o,i)=>({text:o, correct:i===q.answer}))
+                        .sort(()=>Math.random()-0.5);
+  content.innerHTML = `
+    <div class="quiz-card">
+      <div class="quiz-progress">${eq.idx+1} / ${eq.questions.length}</div>
+      <div class="quiz-prompt">${escapeHtml(eqText(q.q))}</div>
+      <div class="listen-grid" id="eq-opts">
+        ${opts.map(o=>`<button class="lopt" onclick="einbquizAnswer(this,${o.correct})">${escapeHtml(o.text)}</button>`).join('')}
+      </div>
+      <div class="quiz-prompt" id="eq-note" style="min-height:0;margin-top:1rem;display:none"></div>
+    </div>`;
+  eq.answered = false;
+  const nb = document.getElementById('btn-next');
+  if(nb){ nb.disabled = true; nb.style.display='none'; }
+}
+function einbquizAnswer(btn, isCorrect){
+  const eq = state.einbquiz;
+  if(eq.answered) return;
+  eq.answered = true;
+  document.querySelectorAll('#eq-opts .lopt').forEach(b=>b.disabled=true);
+  const q = eq.questions[eq.idx];
+  const correctText = q.options[q.answer];
+  if(isCorrect){
+    btn.classList.add('correct');
+    eq.correct++;
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('#eq-opts .lopt').forEach(b=>{
+      if(b.textContent.trim() === correctText) b.classList.add('correct');
+    });
+  }
+  const noteEl = document.getElementById('eq-note');
+  if(noteEl && q.note){
+    noteEl.innerHTML = eqText(q.note);
+    noteEl.style.display = 'block';
+  }
+  setTimeout(()=>{
+    eq.idx++;
+    if(eq.idx < eq.questions.length){
+      renderEinbquizQuestion();
+    } else {
+      finishEinbquiz();
+    }
+  }, 1600);
+}
+function finishEinbquiz(){
+  const eq = state.einbquiz;
+  const passed = eq.correct >= eq.passMark;
+  if(!state.stamps.includes(eq.lessonId)){
+    state.stamps.push(eq.lessonId);
+    state.stamps.sort((a,b)=>a-b);
+  }
+  if(!state.quizScores[eq.lessonId]) state.quizScores[eq.lessonId]={correct:0,total:0};
+  state.quizScores[eq.lessonId].correct = eq.correct;
+  state.quizScores[eq.lessonId].total = eq.questions.length;
+  state.progress[eq.lessonId] = [];
+  save();
+  const content = document.getElementById('stage-content');
+  const pct = Math.round(eq.correct / eq.questions.length * 100);
+  const head = passed
+    ? (eqLang()==='de' ? 'Bestanden!' : 'Passed!')
+    : (eqLang()==='de' ? 'Nicht ganz.' : 'Not quite.');
+  const sub = eqLang()==='de'
+    ? `${eq.correct} von ${eq.questions.length} richtig · ${eq.passMark} zum Bestehen`
+    : `${eq.correct} of ${eq.questions.length} correct · ${eq.passMark} to pass`;
+  const again = eqLang()==='de' ? 'Nochmal' : 'Try again';
+  const back  = eqLang()==='de' ? 'Zu den Lektionen' : 'Back to lessons';
+  content.innerHTML = `
+    <div class="quiz-card">
+      <div class="wc-chde" style="min-height:0;font-size:2rem">${head}</div>
+      <div class="quiz-prompt">${sub}</div>
+      <div class="quiz-prompt" style="font-size:2.2rem;color:${passed?'var(--sage)':'var(--rose)'}">${pct}%</div>
+      <div style="display:flex;gap:8px;justify-content:center;margin-top:1rem">
+        <button class="btn-p" onclick="startEinbquiz(getLessonById(${eq.lessonId}))">${again}</button>
+        <button class="btn-soft" onclick="showView('lessons')">${back}</button>
+      </div>
+    </div>`;
+  maybeShowPassport();
 }
 
 function maybeShowPassport(){
@@ -3308,6 +3650,7 @@ if('serviceWorker' in navigator){
   // conditional check that the client was already controlled BEFORE this activation.
 }
 renderLessons();
+applyStaticTranslations();   // whole-app German on boot (Change 2)
 if(typeof refreshNavLogin === 'function') refreshNavLogin();
 
 // Restore last view from URL hash on boot — so refresh stays put instead of bouncing to landing
