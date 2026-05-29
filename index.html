@@ -1207,10 +1207,10 @@ document.body.classList.add('on-landing');
   </div>
   <div class="features">
     <div class="features-inner">
-      <div class="feat"><div class="feat-dot"></div><div><div class="feat-title">real voice</div><div class="feat-sub">every phrase recorded by Deborah — native swiss german</div></div></div>
-      <div class="feat"><div class="feat-dot"></div><div><div class="feat-title">works offline</div><div class="feat-sub">on the train, in the mountains, no signal needed</div></div></div>
-      <div class="feat"><div class="feat-dot"></div><div><div class="feat-title">designed for focus</div><div class="feat-sub">the structure your brain will thank you for</div></div></div>
-      <div class="feat"><div class="feat-dot"></div><div><div class="feat-title">no owl will judge you</div><div class="feat-sub">3 lessons free — then €7/month or €29 once</div></div></div>
+      <div class="feat"><div class="feat-dot"></div><div><div class="feat-title" data-i18n="featVoiceT">real voice</div><div class="feat-sub" data-i18n="featVoiceS">every phrase recorded by Deborah — native swiss german</div></div></div>
+      <div class="feat"><div class="feat-dot"></div><div><div class="feat-title" data-i18n="featOfflineT">works offline</div><div class="feat-sub" data-i18n="featOfflineS">on the train, in the mountains, no signal needed</div></div></div>
+      <div class="feat"><div class="feat-dot"></div><div><div class="feat-title" data-i18n="featFocusT">designed for focus</div><div class="feat-sub" data-i18n="featFocusS">the structure your brain will thank you for</div></div></div>
+      <div class="feat"><div class="feat-dot"></div><div><div class="feat-title" data-i18n="featOwlT">no owl will judge you</div><div class="feat-sub" data-i18n="featOwlS">3 lessons free — then €7/month or €29 once</div></div></div>
     </div>
   </div>
 </div>
@@ -1393,14 +1393,14 @@ document.body.classList.add('on-landing');
     <div class="signin-card">
       <div class="page-header" style="margin-bottom:1rem">
         <div class="page-title">sign in<span class="u-dots"><i></i><i></i></span><span class="beta-pill-sm">beta</span></div>
-        <div class="page-sub" id="signin-sub">enter the email you used to buy becoming schwiizer · we'll send you a magic link</div>
+        <div class="page-sub" id="signin-sub" data-i18n="signinSub">enter the email you used to buy becoming schwiizer · we'll send you a magic link</div>
       </div>
       <div class="signin-form">
         <input type="email" id="signin-email" class="signin-input" placeholder="your@email.com" autocomplete="email" inputmode="email"/>
-        <button class="btn-p" id="signin-btn" onclick="requestMagicLink()">send magic link</button>
+        <button class="btn-p" id="signin-btn" onclick="requestMagicLink()" data-i18n="sendLink">send magic link</button>
         <div class="signin-status" id="signin-status"></div>
       </div>
-      <p class="signin-help">No magic link? Check spam, or <a href="mailto:hello@schwiizer.app">email us</a>.</p>
+      <p class="signin-help" data-i18n="signinHelp">No magic link? Check spam, or <a href="mailto:hello@schwiizer.app">email us</a>.</p>
     </div>
   </div>
 </div>
@@ -1463,26 +1463,26 @@ document.body.classList.add('on-landing');
   <div class="inner">
     <div class="page-header">
       <div class="page-title">about<span class="u-dots"><i></i><i></i></span></div>
-      <div class="page-sub">the person behind the voice</div>
+      <div class="page-sub" data-i18n="aboutSub">the person behind the voice</div>
     </div>
     <div class="about-split">
       <div class="about-photo-wrap">
         <img src="deborah.jpg" alt="Deborah Muriel Blum" class="about-photo" onerror="this.style.display='none'"/>
       </div>
       <div class="about-text">
-        <p class="about-p">Swiss · German · Berliner since 2010.</p>
-        <p class="about-p">Grew up speaking Swiss German and German first, then French and English arrived more or less at the same time — languages have always just been the thing.</p>
-        <p class="about-p">Actor, voice artist, language enthusiast — credits include Netflix, Warner Bros., Copenhagen English Theatre.</p>
-        <p class="about-p">For my environment it was hard to find the right Swiss German tool — so I built one.</p>
-        <p class="about-p">Have fun.</p>
+        <p class="about-p" data-i18n="aboutP1">Swiss · German · Berliner since 2010.</p>
+        <p class="about-p" data-i18n="aboutP2">Grew up speaking Swiss German and German first, then French and English arrived more or less at the same time — languages have always just been the thing.</p>
+        <p class="about-p" data-i18n="aboutP3">Actor, voice artist, language enthusiast — credits include Netflix, Warner Bros., Copenhagen English Theatre.</p>
+        <p class="about-p" data-i18n="aboutP4">For my environment it was hard to find the right Swiss German tool — so I built one.</p>
+        <p class="about-p" data-i18n="aboutP5">Have fun.</p>
         <p class="about-sig">— Deborah</p>
-        <p class="about-note">A note on dialect — Swiss German has many regional flavours. The lessons here teach <strong>Züridüütsch</strong>, the Zürich dialect, which is the variety I grew up speaking.</p>
+        <p class="about-note" data-i18n="aboutNote">A note on dialect — Swiss German has many regional flavours. The lessons here teach <strong>Züridüütsch</strong>, the Zürich dialect, which is the variety I grew up speaking.</p>
         <div class="contact-section">
           <!-- TODO: book a session — hidden until launch ready, €60 / 60 min
           <a class="contact-btn" href="https://calendly.com/deborahmurielblum-info/new-meeting" target="_blank">book a session</a>
           -->
           <div class="danka-burst">
-            <a class="contact-btn" href="mailto:hello@schwiizer.app" onclick="dankaBurst(event, this)">get in touch</a>
+            <a class="contact-btn" href="mailto:hello@schwiizer.app" onclick="dankaBurst(event, this)" data-i18n="aboutContact">get in touch</a>
             <span class="danka-label">dankä</span>
             <span class="danka-confetti"></span><span class="danka-confetti"></span><span class="danka-confetti"></span>
             <span class="danka-confetti"></span><span class="danka-confetti"></span><span class="danka-confetti"></span>
@@ -1494,14 +1494,14 @@ document.body.classList.add('on-landing');
                 <path d="M4 6h16v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6z"/>
                 <path d="M4 6l8 7 8-7"/>
               </svg>
-              <span>wish a word</span>
+              <span data-i18n="aboutWish">wish a word</span>
             </a>
             <span class="danka-label">dankä</span>
             <span class="danka-confetti"></span><span class="danka-confetti"></span><span class="danka-confetti"></span>
             <span class="danka-confetti"></span><span class="danka-confetti"></span><span class="danka-confetti"></span>
             <span class="danka-confetti"></span><span class="danka-confetti"></span><span class="danka-confetti"></span>
           </div>
-          <p class="drop-a-word-hint">missing a swiss german word you'd love to learn? Deborah collects them and adds them to the library — free, just a kind email.</p>
+          <p class="drop-a-word-hint" data-i18n="aboutHint">missing a swiss german word you'd love to learn? Deborah collects them and adds them to the library — free, just a kind email.</p>
         </div>
       </div>
     </div>
@@ -1593,7 +1593,22 @@ const I18N = {
     alreadyDevice:"already bought on another device?",
     libLead:"we're <strong>continuously updating the library</strong> — thank you for being part of becoming schwiizer",
     libLink:"share what you'd like to learn — or report a bug ›",
-    sound:"sound", cheers:"helvi & cheers", on:"on", off:"off"
+    sound:"sound", cheers:"helvi & cheers", on:"on", off:"off",
+    featVoiceT:"real voice", featVoiceS:"every phrase recorded by Deborah — native swiss german",
+    featOfflineT:"works offline", featOfflineS:"on the train, in the mountains, no signal needed",
+    featFocusT:"designed for focus", featFocusS:"the structure your brain will thank you for",
+    featOwlT:"no owl will judge you", featOwlS:"3 lessons free — then €7/month or €29 once",
+    signinSub:"enter the email you used to buy becoming schwiizer · we'll send you a magic link",
+    signinHelp:"No magic link? Check spam, or <a href=\"mailto:hello@schwiizer.app\">email us</a>.",
+    aboutSub:"the person behind the voice",
+    aboutP1:"Swiss · German · Berliner since 2010.",
+    aboutP2:"Grew up speaking Swiss German and German first, then French and English arrived more or less at the same time — languages have always just been the thing.",
+    aboutP3:"Actor, voice artist, language enthusiast — credits include Netflix, Warner Bros., Copenhagen English Theatre.",
+    aboutP4:"For my environment it was hard to find the right Swiss German tool — so I built one.",
+    aboutP5:"Have fun.",
+    aboutNote:"A note on dialect — Swiss German has many regional flavours. The lessons here teach <strong>Züridüütsch</strong>, the Zürich dialect, which is the variety I grew up speaking.",
+    aboutContact:"get in touch", aboutWish:"wish a word",
+    aboutHint:"missing a swiss german word you'd love to learn? Deborah collects them and adds them to the library — free, just a kind email."
   },
   de:{
     settings:"einstellungen", lessons:"lektionen", search:"suche", about:"über",
@@ -1614,7 +1629,22 @@ const I18N = {
     alreadyDevice:"schon auf einem anderen gerät gekauft?",
     libLead:"wir <strong>erweitern die bibliothek laufend</strong> — danke, dass du bei becoming schwiizer dabei bist",
     libLink:"sag uns, was du lernen möchtest — oder melde einen fehler ›",
-    sound:"ton", cheers:"helvi & jubel", on:"an", off:"aus"
+    sound:"ton", cheers:"helvi & jubel", on:"an", off:"aus",
+    featVoiceT:"echte stimme", featVoiceS:"jeder satz von Deborah aufgenommen — echtes schweizerdeutsch",
+    featOfflineT:"funktioniert offline", featOfflineS:"im zug, in den bergen, kein empfang nötig",
+    featFocusT:"für konzentration gemacht", featFocusS:"die struktur, für die dir dein kopf danken wird",
+    featOwlT:"keine eule verurteilt dich", featOwlS:"3 lektionen gratis — dann €7/monat oder €29 einmalig",
+    signinSub:"gib die e-mail-adresse ein, mit der du becoming schwiizer gekauft hast · wir senden dir einen magic link",
+    signinHelp:"Kein magic link? Schau im spam-ordner nach, oder <a href=\"mailto:hello@schwiizer.app\">schreib uns</a>.",
+    aboutSub:"die person hinter der stimme",
+    aboutP1:"Schweizerin · Deutsche · Berlinerin seit 2010.",
+    aboutP2:"Aufgewachsen mit Schweizerdeutsch und Deutsch, dann kamen Französisch und Englisch mehr oder weniger gleichzeitig dazu — sprachen waren schon immer mein ding.",
+    aboutP3:"Schauspielerin, sprecherin, sprachbegeistert — engagements u.a. bei Netflix, Warner Bros., Copenhagen English Theatre.",
+    aboutP4:"In meinem umfeld war es schwer, das richtige schweizerdeutsch-tool zu finden — also habe ich selbst eines gebaut.",
+    aboutP5:"Viel spass.",
+    aboutNote:"Ein hinweis zum dialekt — Schweizerdeutsch hat viele regionale färbungen. Die lektionen hier vermitteln <strong>Züritüütsch</strong>, den Zürcher dialekt, mit dem ich aufgewachsen bin.",
+    aboutContact:"kontakt aufnehmen", aboutWish:"wort wünschen",
+    aboutHint:"fehlt dir ein schweizerdeutsches wort, das du gern lernen würdest? Deborah sammelt sie und fügt sie der bibliothek hinzu — gratis, einfach eine nette e-mail."
   }
 };
 
@@ -1652,6 +1682,8 @@ function applyStaticTranslations(){
   setTitle('#view-about .page-title', t('about'));
   setTitle('#view-signin .page-title', t('signin'));
   setTitle('#lessons-page-title', t('lessons'));
+  // generic pass — any element tagged data-i18n gets its content swapped
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ el.innerHTML = t(el.getAttribute('data-i18n')); });
 }
 
 /* ===== mute toggles: master sound + celebrations (Change 5) ===== */
@@ -1674,6 +1706,19 @@ function canPlay(kind){
   if(!SOUND_ON) return false;
   if(kind === 'cheer' && !CHEERS_ON) return false;
   return true;
+}
+
+/* German lesson titles (Change 2) — shown when APP_LANG==='de'. Draft wording, easy to tweak. */
+const LESSON_TITLES_DE = {
+  1:"hallo & tschüss", 2:"zahlen", 3:"schimpfwörter", 4:"tourist", 5:"beiz",
+  6:"freizeit", 7:"sarkasmus", 9:"bräuche", 11:"alemannisch", 12:"geschichte",
+  13:"tiere", 15:"fluch-sätze", 16:"früchte", 17:"kleider", 18:"höflichkeit",
+  19:"smalltalk", 20:"farben", 21:"wochentage", 22:"geld", 23:"uhrzeit",
+  24:"richtungen", 25:"gefühle", 26:"einkaufen", 27:"geld", 28:"getränke",
+  40:"einbürgerungstest"
+};
+function lessonTitle(l){
+  return (APP_LANG==='de' && LESSON_TITLES_DE[l.id]) ? LESSON_TITLES_DE[l.id] : l.title;
 }
 function applyMode(m){
   if(!MODES.includes(m)) m = 'mint';
@@ -2543,7 +2588,7 @@ function renderLessons(){
       row.className='lesson-row'+(locked?' locked-row':'');
       row.innerHTML=`
         <div class="lr-main">
-          <div class="lr-title">${l.title}</div>
+          <div class="lr-title">${lessonTitle(l)}</div>
         </div>
         <div class="lr-right">
           <div class="pbar"><div class="pfill" style="width:${pct}%"></div></div>
@@ -2716,7 +2761,7 @@ function getInfoForLang(info, lang){
 }
 
 function renderChapter(lesson){
-  document.getElementById('chapter-title').textContent = lesson.title;
+  document.getElementById('chapter-title').textContent = lessonTitle(lesson);
   const lang = state.chapterLang || 'en';
   document.getElementById('chapter-body').innerHTML = getInfoForLang(lesson.info, lang);
   const cta = document.getElementById('chapter-cta');
