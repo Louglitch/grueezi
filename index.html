@@ -2401,6 +2401,9 @@ function getLessonById(id){
 
 // returns: 'full' (accessible) or 'locked' (paywall on open)
 function getLessonAccess(lesson){
+  // Local review build: opening the file directly (file://) unlocks everything for content review.
+  // The live site (https://schwiizer.app) is never affected — there hostname is set, so locking stays normal.
+  if(location.protocol === 'file:') return 'full';
   if(state.unlocked) return 'full';
   if(lesson.free) return 'full';
   return 'locked';
