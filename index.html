@@ -2398,11 +2398,7 @@ function getLessonById(id){
 }
 
 // returns: 'full' (accessible) or 'locked' (paywall on open)
-/* ⚠️ TEMP REVIEW BUILD — unlocks every lesson so Deborah can click through all of them.
-   MUST be set back to false (or this block removed) before publishing to live. */
-const REVIEW_UNLOCK_ALL = true;
 function getLessonAccess(lesson){
-  if(REVIEW_UNLOCK_ALL) return 'full';   // ⚠️ TEMP — remove before publish
   if(state.unlocked) return 'full';
   if(lesson.free) return 'full';
   return 'locked';
