@@ -239,6 +239,52 @@ body[data-mode="pink"] .hero-mountains .mountain-back{fill:#C56689;opacity:.42}
 body[data-mode="pink"] .hero-mountains .mountain-front{fill:#B85578;opacity:.55}
 .hero-inner{max-width:var(--col);margin:0 auto}
 .hero-mark{margin:0 auto 1.25rem;display:block;border-radius:22px;box-shadow:0 0 0 4px var(--cream)}
+/* ===== Helvi greeter (landing only, WIP check) — fully visible, touchable, roams the page ===== */
+#helvi-greeter{
+  position:fixed;right:clamp(12px,4vw,40px);bottom:clamp(12px,3vh,30px);z-index:40;display:none;pointer-events:none;
+  width:clamp(80px,13vw,124px);
+  --body:#A8C8BC;--stroke:#2C3830;--belly:#F2EDE2;--shine:#FFFFFF;--seam:#C8A878;
+  --cheek:#FFB0C4;--petal:#FFFFFF;--edel-center:#D4788A;--eye-base:#3A2A4A;--eye-pupil:#1A0A2A;
+}
+body[data-mode="pink"] #helvi-greeter{
+  --body:#D67BA0;--stroke:#7A3040;--belly:#FAF6EE;--shine:#FFFFFF;--seam:#C8A878;
+  --cheek:#FFD7E8;--petal:#FFFFFF;--edel-center:#FFFFFF;--eye-base:#4A1A2A;--eye-pupil:#2A0A18;
+}
+body[data-mode="dark"] #helvi-greeter{
+  --body:#A8C8BC;--stroke:#EDE8DF;--belly:#28282B;--shine:#F2EDE2;--seam:rgba(212,120,138,0.4);
+  --cheek:rgba(212,120,138,.55);--petal:#28282B;--edel-center:#D4788A;--eye-base:#0A050E;--eye-pupil:#000000;
+}
+/* waits in the corner — soft idle breathe + grounded shadow; tap = tiny nudge */
+body.on-landing #helvi-greeter{display:block;animation:helvi-appear .8s ease-out both}
+/* stays in her corner; the shadow sits at her feet */
+.helvi-drift-y{position:relative}
+.helvi-drift-y::after{content:'';position:absolute;left:50%;bottom:7%;width:54%;height:11px;background:rgba(0,0,0,.24);border-radius:50%;filter:blur(4px);transform:translateX(-50%);animation:helvi-shadow 4.2s ease-in-out infinite;z-index:0;pointer-events:none}
+#helvi-greeter svg{width:100%;height:auto;display:block;overflow:visible;filter:drop-shadow(0 4px 7px rgba(0,0,0,.15))}
+.helvi-bob{position:relative;z-index:1;animation:helvi-bob 4.6s ease-in-out infinite;transform-origin:50% 95%}
+.helvi-tap{display:block;width:100%;padding:0;border:none;background:none;cursor:pointer;pointer-events:auto;-webkit-tap-highlight-color:transparent;transform-origin:50% 92%}
+.helvi-tap.react{animation:helvi-jump 1.6s ease-in-out}
+/* hello speech bubble */
+.helvi-bubble{position:absolute;bottom:74%;right:32%;background:var(--cream,#F2EDE2);color:var(--text,#2C3830);font-family:var(--font,'Jost',sans-serif);font-weight:400;font-size:13px;letter-spacing:.01em;padding:5px 12px;border-radius:14px;white-space:nowrap;box-shadow:0 5px 14px rgba(0,0,0,.16);opacity:0;transform:translateY(6px) scale(.8);transform-origin:80% 120%;transition:opacity .22s ease,transform .28s cubic-bezier(.34,1.56,.64,1);pointer-events:none;z-index:3}
+.helvi-bubble::after{content:'';position:absolute;bottom:-4px;right:16px;width:10px;height:10px;background:inherit;transform:rotate(45deg);border-radius:2px}
+.helvi-bubble.show{opacity:1;transform:translateY(0) scale(1)}
+@keyframes helvi-appear{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes helvi-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes helvi-shadow{0%,100%{opacity:.22;transform:translateX(-50%) scaleX(1)}50%{opacity:.15;transform:translateX(-50%) scaleX(.86)}}
+@keyframes helvi-jump{
+  0%{transform:translateY(0) scale(1,1)}
+  7%{transform:translateY(0) scale(1.03,.97)}
+  26%{transform:translateY(-50px) scale(.99,1.02)}
+  42%{transform:translateY(-58px) scale(1,1)}
+  60%{transform:translateY(-55px) scale(1,1)}
+  74%{transform:translateY(-38px) scale(1,1)}
+  85%{transform:translateY(-18px) scale(1,1)}
+  95%{transform:translateY(0) scale(1.03,.97)}
+  100%{transform:translateY(0) scale(1,1)}
+}
+@media (prefers-reduced-motion:reduce){
+  .helvi-bob,.helvi-tap{animation:none}
+  .helvi-drift-y::after{animation:none}
+}
 .hero-h1{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:300;color:var(--hero-text);line-height:1.2;letter-spacing:-.01em;margin-bottom:.6rem}
 .hero-h1 span:not([class]){color:var(--hero-text-accent)}
 .hero-h1-stack{display:flex;flex-direction:column;align-items:center;line-height:1.05}
@@ -447,7 +493,7 @@ body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:
 .signin-status.err{color:var(--rose-deep)}
 .signin-help{font-size:11px;color:var(--texts);text-align:center;margin:1.25rem 0 0;line-height:1.6;font-weight:300}
 .signin-help a{color:var(--dark);text-decoration:underline;text-decoration-color:rgba(44,56,48,.3);text-underline-offset:2px}
-.features{background:var(--cream2);padding:1.5rem 1.25rem calc(5rem + env(safe-area-inset-bottom, 0px))}
+.features{background:var(--cream);padding:1.5rem 1.25rem calc(5rem + env(safe-area-inset-bottom, 0px))}
 .features-inner{max-width:var(--col);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
 .feat{display:flex;gap:8px;align-items:flex-start}
 .feat-dot{width:5px;height:5px;border-radius:50%;background:var(--sage);flex-shrink:0;margin-top:6px;animation:feat-twinkle 4s ease-in-out infinite;transform-origin:center}
@@ -1112,6 +1158,56 @@ document.body.classList.add('on-landing');
 </div>
 
 <!-- LANDING -->
+<!-- ===== Helvi greeter (WIP) — symbol defs + fixed corner avatar, landing only ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="helvi" viewBox="0 0 120 220" overflow="visible">
+    <ellipse cx="60" cy="155" rx="48" ry="44" fill="var(--body)" stroke="var(--stroke)" stroke-width="2.4"/>
+    <ellipse cx="60" cy="165" rx="26" ry="30" fill="var(--belly)" stroke="var(--stroke)" stroke-width="1.6"/>
+    <path d="M 42 158 Q 60 161, 78 158" fill="none" stroke="var(--seam)" stroke-width="1.2" opacity="0.5"/>
+    <path d="M 42 170 Q 60 173, 78 170" fill="none" stroke="var(--seam)" stroke-width="1.2" opacity="0.5"/>
+    <path d="M 42 182 Q 60 185, 78 182" fill="none" stroke="var(--seam)" stroke-width="1.2" opacity="0.5"/>
+    <ellipse cx="60" cy="90" rx="48" ry="44" fill="var(--body)" stroke="var(--stroke)" stroke-width="2.4"/>
+    <path d="M 95 70 Q 85 50, 70 46" fill="none" stroke="var(--shine)" stroke-width="3" opacity="0.35" stroke-linecap="round"/>
+    <g transform="translate(28, 48)">
+      <ellipse cx="0" cy="-5" rx="3.5" ry="5.5" fill="var(--petal)" stroke="var(--stroke)" stroke-width="0.8"/>
+      <ellipse cx="-4" cy="-2" rx="3.5" ry="5.5" transform="rotate(-55 -4 -2)" fill="var(--petal)" stroke="var(--stroke)" stroke-width="0.8"/>
+      <ellipse cx="4" cy="-2" rx="3.5" ry="5.5" transform="rotate(55 4 -2)" fill="var(--petal)" stroke="var(--stroke)" stroke-width="0.8"/>
+      <ellipse cx="-3" cy="3" rx="3.5" ry="5.5" transform="rotate(-110 -3 3)" fill="var(--petal)" stroke="var(--stroke)" stroke-width="0.8"/>
+      <ellipse cx="3" cy="3" rx="3.5" ry="5.5" transform="rotate(110 3 3)" fill="var(--petal)" stroke="var(--stroke)" stroke-width="0.8"/>
+      <circle cx="0" cy="0" r="2.2" fill="var(--edel-center)"/>
+    </g>
+    <path d="M 42 52 Q 46 30, 38 26 Q 32 36, 32 52 Z" fill="var(--body)" stroke="var(--stroke)" stroke-width="1.8"/>
+    <path d="M 65 48 Q 67 24, 59 24 Q 53 30, 53 46 Z" fill="var(--body)" stroke="var(--stroke)" stroke-width="1.8"/>
+    <path d="M 78 52 Q 76 28, 68 32 L 78 56 Z" fill="var(--body)" stroke="var(--stroke)" stroke-width="1.8"/>
+    <path d="M 60 102 Q 44 108, 42 118 Q 42 130, 56 132 Q 70 132, 76 122 Q 76 112, 60 102 Z" fill="var(--body)" stroke="var(--stroke)" stroke-width="1.8"/>
+    <ellipse cx="53" cy="120" rx="1.3" ry="1.1" fill="var(--stroke)"/>
+    <ellipse cx="67" cy="120" rx="1.3" ry="1.1" fill="var(--stroke)"/>
+    <path d="M 55 126 Q 60 130, 65 126" fill="none" stroke="var(--stroke)" stroke-width="1.6" stroke-linecap="round"/>
+    <ellipse cx="32" cy="106" rx="6" ry="4" fill="var(--cheek)" opacity="0.75"/>
+    <ellipse cx="88" cy="106" rx="6" ry="4" fill="var(--cheek)" opacity="0.75"/>
+    <ellipse cx="43" cy="86" rx="9" ry="11" fill="var(--eye-base)"/>
+    <ellipse cx="43" cy="86" rx="6" ry="8" fill="var(--eye-pupil)"/>
+    <ellipse cx="45" cy="81" rx="2.6" ry="3.2" fill="#FFFFFF"/>
+    <circle cx="40.5" cy="90" r="1.4" fill="#FFFFFF" opacity="0.85"/>
+    <circle cx="44" cy="88" r="0.7" fill="#FFFFFF" opacity="0.6"/>
+    <ellipse cx="77" cy="86" rx="9" ry="11" fill="var(--eye-base)"/>
+    <ellipse cx="77" cy="86" rx="6" ry="8" fill="var(--eye-pupil)"/>
+    <ellipse cx="79" cy="81" rx="2.6" ry="3.2" fill="#FFFFFF"/>
+    <circle cx="74.5" cy="90" r="1.4" fill="#FFFFFF" opacity="0.85"/>
+    <circle cx="78" cy="88" r="0.7" fill="#FFFFFF" opacity="0.6"/>
+  </symbol>
+</defs></svg>
+<div id="helvi-greeter">
+  <div class="helvi-bubble" id="helvi-bubble">Grüezi!</div>
+  <div class="helvi-drift-y">
+    <div class="helvi-bob">
+      <button type="button" class="helvi-tap" aria-label="poke Helvi" onclick="helviPoke(this)">
+        <svg viewBox="0 0 120 220" role="img" aria-label="Helvi"><use href="#helvi"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
 <div id="view-landing" class="view active">
   <div class="hero hero-landing">
     <!-- HERO-SKY: dark-mode only (stars + crescent moon). hidden in mint/pink. -->
@@ -1720,6 +1816,22 @@ const LESSON_TITLES_DE = {
 function lessonTitle(l){
   return (APP_LANG==='de' && LESSON_TITLES_DE[l.id]) ? LESSON_TITLES_DE[l.id] : l.title;
 }
+
+/* Helvi greeter (WIP) — tap = jump in place + a little hello, stays in her corner */
+const HELVI_HELLOS = ['Grüezi!','Hoi!','Sali!','Grüezi mitenand!'];
+function helviPoke(btn){
+  btn.classList.remove('react');
+  void btn.offsetWidth;            // restart the jump on rapid taps
+  btn.classList.add('react');
+  setTimeout(()=>btn.classList.remove('react'), 1600);
+  const bub = document.getElementById('helvi-bubble');
+  if(bub){
+    bub.textContent = HELVI_HELLOS[Math.floor(Math.random()*HELVI_HELLOS.length)];
+    bub.classList.add('show');
+    clearTimeout(bub._hide);
+    bub._hide = setTimeout(()=>bub.classList.remove('show'), 1600);
+  }
+}
 function applyMode(m){
   if(!MODES.includes(m)) m = 'mint';
   document.body.setAttribute('data-mode', m);
@@ -2286,7 +2398,11 @@ function getLessonById(id){
 }
 
 // returns: 'full' (accessible) or 'locked' (paywall on open)
+/* ⚠️ TEMP REVIEW BUILD — unlocks every lesson so Deborah can click through all of them.
+   MUST be set back to false (or this block removed) before publishing to live. */
+const REVIEW_UNLOCK_ALL = true;
 function getLessonAccess(lesson){
+  if(REVIEW_UNLOCK_ALL) return 'full';   // ⚠️ TEMP — remove before publish
   if(state.unlocked) return 'full';
   if(lesson.free) return 'full';
   return 'locked';
