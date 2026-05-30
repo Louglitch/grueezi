@@ -3061,7 +3061,7 @@ function renderStage(){
         <button class="wc-arrow" onclick="prevItem()" aria-label="back">
           <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
-        <button class="wc-audio" onclick="speak('${phrase.chde.replace(/'/g,"\\'")}')">
+        <button class="wc-audio" onclick="playPhrase(${lesson.id},${state.currentPhraseIdx},'${phrase.chde.replace(/'/g,"\\'")}')">
           <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         </button>
         <button class="wc-arrow" onclick="onNextClick()" aria-label="next">
@@ -3073,8 +3073,8 @@ function renderStage(){
         ${hd?`<div class="wc-hd">${hd}</div>`:''}
       </div>
     </div>`;
-  // Auto-play audio on word load — the audio IS the point
-  setTimeout(()=>{try{speak(phrase.chde);}catch(e){}}, 200);
+  // Auto-play audio on word load — real recording if available, else TTS
+  setTimeout(()=>{try{playPhrase(lesson.id, state.currentPhraseIdx, phrase.chde);}catch(e){}}, 200);
 }
 
 function listenAnswer(btn,chosen,correct){
@@ -3170,7 +3170,7 @@ function renderQuizQuestion(){
     <div class="quiz-card">
       <div class="quiz-progress">${state.quizState.currentIdx+1} / ${state.quizState.questions.length}</div>
       <div class="quiz-prompt">listen, then pick the meaning</div>
-      <button class="listen-btn" onclick="speak('${q.chde.replace(/'/g,"\\'")}')">
+      <button class="listen-btn" onclick="playPhrase(${lesson.id},${lesson.phrases.indexOf(q)},'${q.chde.replace(/'/g,"\\'")}')">
         <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
       </button>
       <div class="listen-grid" id="listen-opts">
@@ -3182,8 +3182,8 @@ function renderQuizQuestion(){
   document.getElementById('btn-next').disabled=true;
   const gotItBtn = document.getElementById('got-it-btn');
   if(gotItBtn) gotItBtn.disabled=true;
-  // Auto-play the swiss audio (this is the actual prompt)
-  setTimeout(()=>speak(q.chde), 300);
+  // Auto-play the swiss audio (this is the actual prompt) — recording if available, else TTS
+  setTimeout(()=>playPhrase(lesson.id, lesson.phrases.indexOf(q), q.chde), 300);
 }
 
 function quizAnswer(btn, chosen, correct){
@@ -3221,9 +3221,9 @@ function quizAnswer(btn, chosen, correct){
         b.disabled = true;
         if(b.textContent.trim() === correct) b.classList.add('correct');
       });
-      // Speak the correct phrase so it sticks
+      // Play the correct phrase so it sticks — recording if available, else TTS
       const q = state.quizState.questions[state.quizState.currentIdx];
-      setTimeout(()=>speak(q.chde), 400);
+      setTimeout(()=>{const L=getLessonById(state.currentLessonId);playPhrase(L.id, L.phrases.indexOf(q), q.chde);}, 400);
       // Then advance after a longer beat (give them time to read + hear)
       setTimeout(()=>{
         state.quizState.wrongAttempts = 0;
@@ -3365,6 +3365,27 @@ function speak(text, kind){
   }
   speechSynthesis.cancel();
   speechSynthesis.speak(u);
+}
+
+/* ===== Real recorded voice — play audio/<lessonId>/<idx>.mp3 if recorded, else fall back to TTS ===== */
+// lessonId -> number of recorded phrase clips (index 0..n-1). Extend as Deborah records more.
+const RECORDED = { 1:10, 2:10 };
+let __helviAudio = null;
+function hasRecording(lessonId, idx){
+  return !!RECORDED[lessonId] && idx >= 0 && idx < RECORDED[lessonId];
+}
+function playPhrase(lessonId, idx, text, kind){
+  if(!canPlay(kind || 'word')) return;
+  if(hasRecording(lessonId, idx)){
+    try{
+      if('speechSynthesis' in window) speechSynthesis.cancel();   // stop any TTS
+      if(__helviAudio){ try{ __helviAudio.pause(); }catch(e){} }
+      __helviAudio = new Audio('audio/'+lessonId+'/'+idx+'.mp3');
+      __helviAudio.play().catch(()=>{ speak(text, kind); });       // blocked/missing → TTS
+      return;
+    }catch(e){ /* fall through to TTS */ }
+  }
+  speak(text, kind);
 }
 
 /* ===== Einbürgerungstest quiz engine (Change 1) ===== */
