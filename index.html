@@ -2471,7 +2471,7 @@ function renderAccount(){
     star: '<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
     check: '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',
     sound: '<svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>',
-    cheer: '<svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4-6.3-4.6L5.7 21.4 8 14 2 9.4h7.6z"/></svg>',
+    cheer: '<svg viewBox="0 0 24 24"><path d="M3 9v6h4l6 4V5L7 9H3z"/><path d="M16 8.5a4.5 4.5 0 0 1 0 7"/></svg>',
   };
 
   // === appearance section: mode + language ===
@@ -2650,7 +2650,10 @@ function setModeFromUI(m){
 }
 
 function resetProgress(){
-  if(confirm('Reset all progress on this device? This cannot be undone.')){
+  const __msg = (typeof APP_LANG!=='undefined' && APP_LANG==='de')
+    ? 'Wirklich ALLEN Fortschritt auf diesem Gerät löschen?\n\nDu verlierst alle abgeschlossenen Lektionen, deine Badges/Stempel und die Streak. Das kann NICHT rückgängig gemacht werden.'
+    : 'Erase ALL progress on this device?\n\nYou will lose every completed lesson, your badges/stamps and your streak. This CANNOT be undone.';
+  if(confirm(__msg)){
     localStorage.removeItem('g_progress');
     localStorage.removeItem('g_quiz');
     localStorage.removeItem('g_streak');
