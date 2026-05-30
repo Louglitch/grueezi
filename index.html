@@ -2835,7 +2835,7 @@ function runSearch(q){
       const onclick=r.locked?`showView('paywall')`:`jumpToPhrase(${r.lessonId},${r.phraseIdx})`;
       return `<div class="search-result" onclick="${onclick}">
         <div class="sr-chde">${escapeHtml(r.chde)}${lockBadge}</div>
-        <div class="sr-en">${escapeHtml(r.en)}</div>
+        <div class="sr-en">${escapeHtml(phraseMeaning(r))}</div>
         <div class="sr-meta">lesson ${r.lessonId} · ${escapeHtml(r.lessonTitle)}</div>
       </div>`;
     }).join('');
@@ -3041,6 +3041,11 @@ function renderStageBar(){
   });
 }
 
+// Meaning shown on a card follows the app language: DE → Hochdeutsch, EN → English (no second language)
+function phraseMeaning(p){
+  if(typeof APP_LANG !== 'undefined' && APP_LANG === 'de') return p.hd || p.de || p.en || '';
+  return p.en || p.hd || p.de || '';
+}
 function renderStage(){
   renderStageBar();
   const lesson=getLessonById(state.currentLessonId);
@@ -3070,8 +3075,7 @@ function renderStage(){
         </button>
       </div>
       <div class="wc-translations">
-        <div class="wc-en">${phrase.en}</div>
-        ${hd?`<div class="wc-hd">${hd}</div>`:''}
+        <div class="wc-en">${phraseMeaning(phrase)}</div>
       </div>
     </div>`;
   // Auto-play audio on word load — real recording if available, else TTS
@@ -3164,18 +3168,18 @@ function renderQuizQuestion(){
   const q = state.quizState.questions[state.quizState.currentIdx];
   const lesson = getLessonById(state.currentLessonId);
   // 3 wrong options drawn from same lesson
-  const others = lesson.phrases.filter(p=>p.en!==q.en).sort(()=>Math.random()-.5).slice(0,3);
-  const opts = [q.en, ...others.map(p=>p.en)].sort(()=>Math.random()-.5);
+  const others = lesson.phrases.filter(p=>phraseMeaning(p)!==phraseMeaning(q)).sort(()=>Math.random()-.5).slice(0,3);
+  const opts = [phraseMeaning(q), ...others.map(p=>phraseMeaning(p))].sort(()=>Math.random()-.5);
   const content = document.getElementById('stage-content');
   content.innerHTML = `
     <div class="quiz-card">
       <div class="quiz-progress">${state.quizState.currentIdx+1} / ${state.quizState.questions.length}</div>
-      <div class="quiz-prompt">listen, then pick the meaning</div>
+      <div class="quiz-prompt">${t('quizPrompt')}</div>
       <button class="listen-btn" onclick="playPhrase(${lesson.id},${lesson.phrases.indexOf(q)},'${q.chde.replace(/'/g,"\\'")}')">
         <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
       </button>
       <div class="listen-grid" id="listen-opts">
-        ${opts.map(o=>`<button class="lopt" onclick="quizAnswer(this,'${o.replace(/'/g,"\\'")}','${q.en.replace(/'/g,"\\'")}')">${o}</button>`).join('')}
+        ${opts.map(o=>`<button class="lopt" onclick="quizAnswer(this,'${o.replace(/'/g,"\\'")}','${phraseMeaning(q).replace(/'/g,"\\'")}')">${o}</button>`).join('')}
       </div>
     </div>`;
   state.quizState.answered=false;
