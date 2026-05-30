@@ -999,7 +999,7 @@ body[data-mode="dark"] .lang-pill-account.active{background:var(--mint);color:va
 body[data-mode="pink"] .lang-pill.active{background:#D67BA0;color:#FFFFFF}
 body[data-mode="dark"] .lang-pill.active{background:var(--mint);color:#1A1A1C}
 .lang-pill:hover:not(.active){color:var(--dark)}
-.chapter-body{font-size:13.5px;font-weight:300;color:var(--text);line-height:1.7;margin-bottom:1.5rem}
+.chapter-body{font-size:15px;font-weight:300;color:var(--text);line-height:1.75;margin:0 auto 1.5rem;max-width:600px}
 .chapter-body p{margin:0 0 12px}
 .chapter-body em{color:var(--textm);font-style:italic;display:block;margin-top:4px}
 .chapter-cta{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:1.5rem}
@@ -2981,7 +2981,7 @@ function renderChapter(lesson){
   if(lesson.infoOnly){
     // Info-only lesson — chapter IS the entire lesson, -chapter arrow finishes it
     const nextLesson = getNextInfoChapter(lesson.id);
-    const nextLabel = nextLesson ? `<span class="next-chapter-label">: ${nextLesson.title}</span>` : '';
+    const nextLabel = nextLesson ? `<span class="next-chapter-label">: ${lessonTitle(nextLesson)}</span>` : '';
     cta.innerHTML = `
       <button class="chapter--arrow" onclick="completeInfoChapter()" aria-label=" chapter">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
