@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v27-2026-05-30-rec-unlock';
+const CACHE_VERSION = 'schwiizer-v28-2026-05-30-rec-open';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately

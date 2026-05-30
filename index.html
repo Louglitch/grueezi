@@ -2414,9 +2414,12 @@ function getLessonById(id){
 }
 
 // returns: 'full' (accessible) or 'locked' (paywall on open)
+// ⚠️ TEMP RECORDING SESSION — ALL lessons open for everyone so Deborah can read+record from her phone.
+// REVERT to false (and redeploy) right after the recording session.
+const RECORDING_OPEN_ALL = true;
 function getLessonAccess(lesson){
+  if(RECORDING_OPEN_ALL) return 'full';            // ⚠️ TEMP — remove after recording
   // Local review build: opening the file directly (file://) unlocks everything for content review.
-  // The live site (https://schwiizer.app) is never affected — there hostname is set, so locking stays normal.
   if(location.protocol === 'file:') return 'full';
   if(state.unlocked) return 'full';
   if(lesson.free) return 'full';
