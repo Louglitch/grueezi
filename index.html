@@ -3044,6 +3044,7 @@ function renderStageBar(){
 function renderStage(){
   renderStageBar();
   const lesson=getLessonById(state.currentLessonId);
+  preloadLesson(lesson.id);   // warm the recorded clips so the first word doesn't buffer
   const phrase=lesson.phrases[state.currentPhraseIdx];
   const content=document.getElementById('stage-content');
   const nextBtn=document.getElementById('btn-next');
@@ -3370,18 +3371,37 @@ function speak(text, kind){
 /* ===== Real recorded voice — play audio/<lessonId>/<idx>.mp3 if recorded, else fall back to TTS ===== */
 // lessonId -> number of recorded phrase clips (index 0..n-1). Extend as Deborah records more.
 const RECORDED = { 1:10, 2:10 };
-let __helviAudio = null;
+const __clipCache = {};                 // reuse one Audio element per clip (no overlap/restart-stutter)
+const __preloaded = new Set();
+let __nowPlaying = null;
 function hasRecording(lessonId, idx){
   return !!RECORDED[lessonId] && idx >= 0 && idx < RECORDED[lessonId];
+}
+function getClip(lessonId, idx){
+  const k = lessonId+'/'+idx;
+  if(!__clipCache[k]){
+    const a = new Audio('audio/'+lessonId+'/'+idx+'.mp3');
+    a.preload = 'auto';
+    __clipCache[k] = a;
+  }
+  return __clipCache[k];
+}
+// Preload all clips of a lesson once, so playback is instant (no buffering on first word)
+function preloadLesson(lessonId){
+  if(!RECORDED[lessonId] || __preloaded.has(lessonId)) return;
+  __preloaded.add(lessonId);
+  for(let i=0;i<RECORDED[lessonId];i++){ try{ getClip(lessonId,i).load(); }catch(e){} }
 }
 function playPhrase(lessonId, idx, text, kind){
   if(!canPlay(kind || 'word')) return;
   if(hasRecording(lessonId, idx)){
     try{
       if('speechSynthesis' in window) speechSynthesis.cancel();   // stop any TTS
-      if(__helviAudio){ try{ __helviAudio.pause(); }catch(e){} }
-      __helviAudio = new Audio('audio/'+lessonId+'/'+idx+'.mp3');
-      __helviAudio.play().catch(()=>{ speak(text, kind); });       // blocked/missing → TTS
+      if(__nowPlaying){ try{ __nowPlaying.pause(); }catch(e){} }
+      const a = getClip(lessonId, idx);
+      try{ a.pause(); a.currentTime = 0; }catch(e){}              // clean restart — kills the double-onset
+      __nowPlaying = a;
+      a.play().catch(()=>{ speak(text, kind); });                 // blocked/missing → TTS
       return;
     }catch(e){ /* fall through to TTS */ }
   }
