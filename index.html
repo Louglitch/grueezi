@@ -1772,6 +1772,13 @@ function setAppLang(lang){
   applyStaticTranslations();
   renderLessons();
   renderAccount();
+  // if a word card / quiz is open, re-render it so the meaning switches language immediately
+  try{
+    if(document.querySelector('#view-stage.active') && state.currentLessonId!=null){
+      if(state.quizState && state.quizState.questions){ renderQuizQuestion(); }
+      else { renderStage(); }
+    }
+  }catch(e){}
 }
 
 // Translate static UI bits that aren't re-rendered by JS (nav, landing).
