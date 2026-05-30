@@ -581,7 +581,11 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
 .badge-pop-card{background:var(--card);border-radius:22px;padding:2rem 1.75rem 1.5rem;text-align:center;max-width:300px;width:100%;box-shadow:0 18px 50px rgba(0,0,0,.3);transform:scale(.85);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
 .badge-pop.show .badge-pop-card{transform:scale(1)}
 .badge-pop-stampwrap{margin:2px auto 1.2rem;display:flex;justify-content:center}
+.badge-stamp-rel{position:relative;display:inline-block}
 .badge-pop .complete-stamp{animation:stamp-slam .55s cubic-bezier(.22,1.5,.36,1) forwards}
+.badge-done-tick{position:absolute;top:-7px;right:-7px;width:28px;height:28px;border-radius:50%;background:var(--sage);display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(0,0,0,.22);z-index:5;animation:badge-tick-pop .4s .35s both cubic-bezier(.34,1.56,.64,1)}
+.badge-done-tick svg{width:15px;height:15px}
+@keyframes badge-tick-pop{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
 .badge-pop-head{font-size:13px;color:var(--textm);opacity:.7;margin-bottom:1.25rem}
 .badge-pop-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 
@@ -701,7 +705,8 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
 .lesson-row:hover{background:rgba(200,221,212,.12)}
 .lesson-row.locked-row{opacity:.4;cursor:default}
 .lesson-row.locked-row:hover{background:var(--card)}
-.lr-main{flex:1;min-width:0}
+.lr-main{flex:1;min-width:0;display:flex;align-items:baseline;gap:9px}
+.lr-num{font-size:11px;font-weight:400;color:var(--textm);opacity:.4;font-variant-numeric:tabular-nums;flex-shrink:0;min-width:15px;text-align:right}
 .lr-title{font-size:14px;font-weight:400;color:var(--dark);margin-bottom:1px}
 .lr-sub{font-size:10px;font-weight:300;color:var(--texts)}
 .lr-right{display:flex;align-items:center;gap:7px;flex-shrink:0}
@@ -2726,13 +2731,16 @@ function showBadge(lessonId){
   pop.innerHTML = `
     <div class="badge-pop-card">
       <div class="badge-pop-stampwrap">
-        <div class="complete-stamp">
-          <div class="complete-stamp-inner">
-            <div class="complete-stamp-top">helvetia</div>
-            <div class="complete-stamp-icon">${getLessonStampIcon(lessonId)}</div>
-            <div class="complete-stamp-num">${String(lessonId).padStart(2,'0')}</div>
-            <div class="complete-stamp-name">${lessonTitle(l)}</div>
+        <div class="badge-stamp-rel">
+          <div class="complete-stamp">
+            <div class="complete-stamp-inner">
+              <div class="complete-stamp-top">helvetia</div>
+              <div class="complete-stamp-icon">${getLessonStampIcon(lessonId)}</div>
+              <div class="complete-stamp-num">${String(lessonId).padStart(2,'0')}</div>
+              <div class="complete-stamp-name">${lessonTitle(l)}</div>
+            </div>
           </div>
+          <span class="badge-done-tick" aria-label="done"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
         </div>
       </div>
       <div class="badge-pop-head">${head}</div>
@@ -2764,6 +2772,7 @@ function renderLessons(){
   const container=document.getElementById('lessons-list');
   container.innerHTML='';
 
+  let liNum=0;   // tiny running number per topic
   PILLARS.forEach(pillar=>{
     const section=document.createElement('div');
     section.className='pillar-section';
@@ -2775,6 +2784,7 @@ function renderLessons(){
     list.className='lessons-list';
     pillar.lessons.forEach(rawLesson=>{
       const l = getLessonById(rawLesson.id); // merged lesson with resolved free flag
+      liNum++;
       const access = getLessonAccess(l);
       const locked = (access === 'locked');
       const prog=state.progress[l.id]||[];
@@ -2790,6 +2800,7 @@ function renderLessons(){
       row.className='lesson-row'+(locked?' locked-row':'');
       row.innerHTML=`
         <div class="lr-main">
+          <span class="lr-num">${liNum}</span>
           <div class="lr-title">${lessonTitle(l)}</div>
         </div>
         <div class="lr-right">
