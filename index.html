@@ -3273,6 +3273,23 @@ function prevItem(){
   }
 }
 
+// Desktop keyboard navigation in the word screen: ← / → flip words, Space replays the audio.
+// Disabled during quizzes (lesson quiz / Einbürgerung), where you pick answers instead.
+document.addEventListener('keydown', function(e){
+  if(!document.querySelector('#view-stage.active')) return;
+  if(state.quizState && state.quizState.questions) return;
+  if(state.einbquiz) return;
+  if(e.metaKey || e.ctrlKey || e.altKey) return;
+  if(e.key === 'ArrowRight'){ e.preventDefault(); onNextClick(); }
+  else if(e.key === 'ArrowLeft'){ e.preventDefault(); prevItem(); }
+  else if(e.key === ' '){
+    e.preventDefault();
+    const l = getLessonById(state.currentLessonId);
+    const p = l && l.phrases[state.currentPhraseIdx];
+    if(p) playPhrase(l.id, state.currentPhraseIdx, p.chde);
+  }
+});
+
 // SVG icons for each lesson, keyed by id. Stroke style for outline icons, fill for filled.
 function getLessonStampIcon(lessonId){
   const icons = {
