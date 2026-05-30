@@ -208,7 +208,7 @@ body.on-landing .global-horizon{display:none}
 /* VIEWS */
 .view{display:none;padding-bottom:calc(108px + env(safe-area-inset-bottom, 0px))}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--nav-bg);border-top:0.5px solid var(--nav-border);display:flex;justify-content:space-around;z-index:100;padding-bottom:env(safe-area-inset-bottom, 0px)}
-.bnav-btn{flex:1;padding:9px 4px 11px;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:300;color:var(--nav-text);font-family:var(--font);letter-spacing:.04em;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+.bnav-btn{flex:1;padding:9px 4px 11px;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12.5px;font-weight:400;color:var(--nav-text);font-family:var(--font);letter-spacing:.04em;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
 .bnav-btn.active{color:var(--nav-text-active)}
 .bnav-btn svg{stroke:currentColor}
 .bnav-btn.active svg{stroke:var(--nav-text-active)}
@@ -507,8 +507,8 @@ body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:
   50%{transform:scale(.7);opacity:.55}
 }
 @media (prefers-reduced-motion:reduce){.feat-dot{animation:none;opacity:1}}
-.feat-title{font-size:12px;font-weight:500;color:var(--dark);margin-bottom:2px}
-.feat-sub{font-size:11px;font-weight:300;color:var(--textm);line-height:1.5}
+.feat-title{font-size:13.5px;font-weight:500;color:var(--dark);margin-bottom:3px}
+.feat-sub{font-size:12.5px;font-weight:300;color:var(--textm);line-height:1.55}
 
 /* PAGE HEADER */
 .page-header{padding:2rem 0 .875rem;border-bottom:0.5px solid var(--beige);margin-bottom:1rem}
@@ -1709,40 +1709,40 @@ const I18N = {
     aboutHint:"missing a swiss german word you'd love to learn? Deborah collects them and adds them to the library — free, just a kind email."
   },
   de:{
-    settings:"einstellungen", lessons:"lektionen", search:"suche", about:"über",
-    signin:"anmelden", mode:"modus", language:"sprache", account:"konto",
-    appearance:"darstellung", more:"mehr",
-    free:"gratis", locked:"gesperrt", done:"fertig", unlocked:"frei", cont:"weiter",
-    upgrade:"freischalten", manage:"verwalten", signout:"abmelden",
-    resetProgress:"fortschritt auf diesem gerät zurücksetzen",
-    aboutRow:"über becoming schwiizer · deborah",
-    quizPrompt:"hören, dann die bedeutung wählen",
-    begin:"los", trainer:"dein schweizerdeutsch-trainer", start:"start",
-    unlockTitle:"vollzugriff freischalten", already:"schon gekauft? anmelden",
-    sendLink:"magic link senden",
-    membership:"mitgliedschaft", upgradeSub:"alle lektionen + neue inhalte freischalten",
-    libNote:"wir erweitern die bibliothek laufend — danke, dass du bei becoming schwiizer dabei bist",
-    signedIn:"angemeldet", membershipMeta:"alle lektionen + zukünftige inhalte freigeschaltet",
-    upgradeTitle:"freischalten · €7/Mt. · €29 einmalig", upgradeMeta:"alle 14 lektionen + neue inhalte freischalten",
-    alreadyDevice:"schon auf einem anderen gerät gekauft?",
-    libLead:"wir <strong>erweitern die bibliothek laufend</strong> — danke, dass du bei becoming schwiizer dabei bist",
-    libLink:"sag uns, was du lernen möchtest — oder melde einen fehler ›",
-    sound:"ton", cheers:"helvi & jubel", on:"an", off:"aus",
-    featVoiceT:"echte stimme", featVoiceS:"jeder satz von Deborah aufgenommen — echtes schweizerdeutsch",
-    featOfflineT:"funktioniert offline", featOfflineS:"im zug, in den bergen, kein empfang nötig",
-    featFocusT:"für konzentration gemacht", featFocusS:"die struktur, für die dir dein kopf danken wird",
-    featOwlT:"keine eule verurteilt dich", featOwlS:"3 lektionen gratis — dann €7/monat oder €29 einmalig",
-    signinSub:"gib die e-mail-adresse ein, mit der du becoming schwiizer gekauft hast · wir senden dir einen magic link",
-    signinHelp:"Kein magic link? Schau im spam-ordner nach, oder <a href=\"mailto:hello@schwiizer.app\">schreib uns</a>.",
-    aboutSub:"die person hinter der stimme",
+    settings:"Einstellungen", lessons:"Lektionen", search:"Suche", about:"Über",
+    signin:"Anmelden", mode:"Modus", language:"Sprache", account:"Konto",
+    appearance:"Darstellung", more:"Mehr",
+    free:"Gratis", locked:"Gesperrt", done:"Fertig", unlocked:"Frei", cont:"Weiter",
+    upgrade:"Freischalten", manage:"Verwalten", signout:"Abmelden",
+    resetProgress:"Fortschritt auf diesem Gerät zurücksetzen",
+    aboutRow:"Über becoming schwiizer · Deborah",
+    quizPrompt:"Hören, dann die Bedeutung wählen",
+    begin:"Los", trainer:"dein Schweizerdeutsch-Trainer", start:"Start",
+    unlockTitle:"Vollzugriff freischalten", already:"Schon gekauft? Anmelden",
+    sendLink:"Magic Link senden",
+    membership:"Mitgliedschaft", upgradeSub:"Alle Lektionen + neue Inhalte freischalten",
+    libNote:"Wir erweitern die Bibliothek laufend — danke, dass du bei becoming schwiizer dabei bist",
+    signedIn:"Angemeldet", membershipMeta:"Alle Lektionen + zukünftige Inhalte freigeschaltet",
+    upgradeTitle:"Freischalten · €7/Mt. · €29 einmalig", upgradeMeta:"Alle 14 Lektionen + neue Inhalte freischalten",
+    alreadyDevice:"Schon auf einem anderen Gerät gekauft?",
+    libLead:"Wir <strong>erweitern die Bibliothek laufend</strong> — danke, dass du bei becoming schwiizer dabei bist",
+    libLink:"Sag uns, was du lernen möchtest — oder melde einen Fehler ›",
+    sound:"Ton", cheers:"Helvi & Jubel", on:"An", off:"Aus",
+    featVoiceT:"Echte Stimme", featVoiceS:"Jeder Satz von Deborah aufgenommen — echtes Schweizerdeutsch",
+    featOfflineT:"Funktioniert offline", featOfflineS:"Im Zug, in den Bergen, kein Empfang nötig",
+    featFocusT:"Für Konzentration gemacht", featFocusS:"Die Struktur, für die dir dein Kopf danken wird",
+    featOwlT:"Keine Eule verurteilt dich", featOwlS:"3 Lektionen gratis — dann €7/Monat oder €29 einmalig",
+    signinSub:"Gib die E-Mail-Adresse ein, mit der du becoming schwiizer gekauft hast · wir senden dir einen Magic Link",
+    signinHelp:"Kein Magic Link? Schau im Spam-Ordner nach, oder <a href=\"mailto:hello@schwiizer.app\">schreib uns</a>.",
+    aboutSub:"Die Person hinter der Stimme",
     aboutP1:"Schweizerin · Deutsche · Berlinerin seit 2010.",
-    aboutP2:"Aufgewachsen mit Schweizerdeutsch und Deutsch, dann kamen Französisch und Englisch mehr oder weniger gleichzeitig dazu — sprachen waren schon immer mein ding.",
-    aboutP3:"Schauspielerin, sprecherin, sprachbegeistert — engagements u.a. bei Netflix, Warner Bros., Copenhagen English Theatre.",
-    aboutP4:"In meinem umfeld war es schwer, das richtige schweizerdeutsch-tool zu finden — also habe ich selbst eines gebaut.",
-    aboutP5:"Viel spass.",
-    aboutNote:"Ein hinweis zum dialekt — Schweizerdeutsch hat viele regionale färbungen. Die lektionen hier vermitteln <strong>Züritüütsch</strong>, den Zürcher dialekt, mit dem ich aufgewachsen bin.",
-    aboutContact:"kontakt aufnehmen", aboutWish:"wort wünschen",
-    aboutHint:"fehlt dir ein schweizerdeutsches wort, das du gern lernen würdest? Deborah sammelt sie und fügt sie der bibliothek hinzu — gratis, einfach eine nette e-mail."
+    aboutP2:"Aufgewachsen mit Schweizerdeutsch und Deutsch, dann kamen Französisch und Englisch mehr oder weniger gleichzeitig dazu — Sprachen waren schon immer mein Ding.",
+    aboutP3:"Schauspielerin, Sprecherin, sprachbegeistert — Engagements u.a. bei Netflix, Warner Bros., Copenhagen English Theatre.",
+    aboutP4:"In meinem Umfeld war es schwer, das richtige Schweizerdeutsch-Tool zu finden — also habe ich selbst eines gebaut.",
+    aboutP5:"Viel Spass.",
+    aboutNote:"Ein Hinweis zum Dialekt — Schweizerdeutsch hat viele regionale Färbungen. Die Lektionen hier vermitteln <strong>Züritüütsch</strong>, den Zürcher Dialekt, mit dem ich aufgewachsen bin.",
+    aboutContact:"Kontakt aufnehmen", aboutWish:"Wort wünschen",
+    aboutHint:"Fehlt dir ein schweizerdeutsches Wort, das du gern lernen würdest? Deborah sammelt sie und fügt sie der Bibliothek hinzu — gratis, einfach eine nette E-Mail."
   }
 };
 
@@ -1808,12 +1808,12 @@ function canPlay(kind){
 
 /* German lesson titles (Change 2) — shown when APP_LANG==='de'. Draft wording, easy to tweak. */
 const LESSON_TITLES_DE = {
-  1:"hallo & tschüss", 2:"zahlen", 3:"schimpfwörter", 4:"tourist", 5:"beiz",
-  6:"freizeit", 7:"sarkasmus", 9:"bräuche", 11:"alemannisch", 12:"geschichte",
-  13:"tiere", 15:"fluch-sätze", 16:"früchte", 17:"kleider", 18:"höflichkeit",
-  19:"smalltalk", 20:"farben", 21:"wochentage", 22:"geld", 23:"uhrzeit",
-  24:"richtungen", 25:"gefühle", 26:"einkaufen", 27:"geld", 28:"getränke",
-  40:"einbürgerungstest"
+  1:"Hallo & Tschüss", 2:"Zahlen", 3:"Schimpfwörter", 4:"Tourist", 5:"Beiz",
+  6:"Freizeit", 7:"Sarkasmus", 9:"Bräuche", 11:"Alemannisch", 12:"Geschichte",
+  13:"Tiere", 15:"Fluch-Sätze", 16:"Früchte", 17:"Kleider", 18:"Höflichkeit",
+  19:"Smalltalk", 20:"Farben", 21:"Wochentage", 22:"Geld", 23:"Uhrzeit",
+  24:"Richtungen", 25:"Gefühle", 26:"Einkaufen", 27:"Geld", 28:"Getränke",
+  40:"Einbürgerungstest"
 };
 function lessonTitle(l){
   return (APP_LANG==='de' && LESSON_TITLES_DE[l.id]) ? LESSON_TITLES_DE[l.id] : l.title;
