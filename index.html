@@ -1106,7 +1106,10 @@ body[data-mode="dark"] .lang-pill.active{background:var(--mint);color:#1A1A1C}
 // to unlock ALL lessons on THAT device only (for reading + recording the audio).
 // Only affects the device that opens the link; runs before state init so g_unlocked is picked up.
 try{
-  if(location.hash.replace('#','') === 'rec-helvi-2026'){
+  var __h = (location.hash||'').replace('#','');
+  var __rec = false;
+  try{ __rec = new URLSearchParams(location.search).get('rec') === 'helvi-2026'; }catch(e){}
+  if(__h === 'rec-helvi-2026' || __rec){
     localStorage.setItem('g_unlocked','true');
     if(window.history && history.replaceState) history.replaceState(null,'',location.pathname);
   }
