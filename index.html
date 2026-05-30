@@ -573,6 +573,18 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
 .stamp-passport::after{width:2px;height:8px}
 .stamp-passport.earned{background:#FF1B6B;border-color:#FF1B6B}
 .stamp-passport.earned::before,.stamp-passport.earned::after{background:#FFFFFF;opacity:1}
+/* account achievements strip */
+.me-stamps{display:flex;flex-wrap:wrap;gap:8px;padding:10px 2px 4px}
+/* badge tap pop */
+.badge-pop{position:fixed;inset:0;background:rgba(26,10,15,.5);display:none;align-items:center;justify-content:center;z-index:1100;padding:1.5rem;opacity:0;transition:opacity .25s ease}
+.badge-pop.show{display:flex;opacity:1}
+.badge-pop-card{background:var(--card);border-radius:22px;padding:2rem 1.75rem 1.5rem;text-align:center;max-width:300px;width:100%;box-shadow:0 18px 50px rgba(0,0,0,.3);transform:scale(.85);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.badge-pop.show .badge-pop-card{transform:scale(1)}
+.badge-pop-stamp{width:78px;height:78px;margin:0 auto 1rem;border-radius:50%;background:var(--rose);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(212,120,138,.4)}
+.badge-pop-stamp svg{width:40px;height:40px}
+.badge-pop-title{font-size:19px;font-weight:400;color:var(--dark);letter-spacing:.01em;margin-bottom:2px}
+.badge-pop-head{font-size:13px;color:var(--textm);opacity:.7;margin-bottom:1.25rem}
+.badge-pop-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 
 /* COMPLETE STAMP — postage-stamp style with icon & lesson name inside */
 @keyframes stamp-slam{
@@ -1689,7 +1701,7 @@ const I18N = {
   en:{
     settings:"settings", lessons:"lessons", search:"search", about:"about",
     signin:"sign in", mode:"mode", language:"language", account:"account",
-    appearance:"appearance", more:"more",
+    appearance:"appearance", more:"more", achievements:"achievements",
     free:"free", locked:"locked", done:"done", unlocked:"unlocked", cont:"continue",
     upgrade:"upgrade", manage:"manage", signout:"sign out",
     resetProgress:"reset progress on this device",
@@ -1725,7 +1737,7 @@ const I18N = {
   de:{
     settings:"Einstellungen", lessons:"Lektionen", search:"Suche", about:"Über",
     signin:"Anmelden", mode:"Modus", language:"Sprache", account:"Konto",
-    appearance:"Darstellung", more:"Mehr",
+    appearance:"Darstellung", more:"Mehr", achievements:"Erfolge",
     free:"Gratis", locked:"Gesperrt", done:"Fertig", unlocked:"Frei", cont:"Weiter",
     upgrade:"Freischalten", manage:"Verwalten", signout:"Abmelden",
     resetProgress:"Fortschritt auf diesem Gerät zurücksetzen",
@@ -2611,7 +2623,18 @@ function renderAccount(){
     </div>
   `;
 
-  card.innerHTML = appearanceSection + accountSection + moreSection + libraryNote;
+  // === achievements: compact earned-badges strip ===
+  const achievementsSection = `
+    <div class="me-section-label">${t('achievements')}</div>
+    <div class="me-card">
+      <div class="me-row" style="padding-bottom:2px">
+        <span class="me-row-text me-row-text-with-icon"><span class="me-row-icon" style="color:var(--rose);opacity:1">${ic.star}</span>${state.stamps.length} / ${getAllLessons().length}</span>
+      </div>
+      <div class="me-stamps">${stampDotsHTML()}</div>
+    </div>
+  `;
+
+  card.innerHTML = appearanceSection + accountSection + achievementsSection + moreSection + libraryNote;
   refreshNavLogin();
 }
 
@@ -2649,40 +2672,66 @@ function logOut(){
   }
 }
 
-function renderCollection(){
-  const host=document.getElementById('collection-row');
-  if(!host) return;
+// Shared row of stamp dots (one per lesson), clickable. Used by the lessons collection AND the account "achievements" section.
+// Earned stamp → shows its badge; not-yet-earned (unlocked) → opens the lesson; locked → paywall; final → passport animation.
+function stampDotsHTML(){
   const all=getAllLessons();
-  const total=all.length;
-  const earned=state.stamps.length;
+  const finalLessonId = all.length>0 ? all[all.length-1].id : null;
   const currentLessonId = state.currentLessonId || 0;
-  const finalLessonId = all.length > 0 ? all[all.length-1].id : null; // last lesson is the passport stamp
-  const dots = all.map(l=>{
+  return all.map(l=>{
     const isEarned = state.stamps.includes(l.id);
     const isActive = currentLessonId === l.id;
-    const access = getLessonAccess(l);
-    const locked = (access === 'locked');
-    const isFinal = l.id === finalLessonId;
-    if(isFinal){
-      // Special passport stamp — swiss flag when earned, hint outline when not
+    const locked = getLessonAccess(l)==='locked';
+    if(l.id===finalLessonId){
       const earnedCls = isEarned ? ' earned' : '';
       const label = `${isEarned?'earned · ':''}swiss passport · ${l.title} · tap to preview animation`;
       return `<button class="stamp stamp-passport${earnedCls}" onclick="previewPassport()" aria-label="${label}" title="${label}"></button>`;
     }
     let cls = isEarned ? 'stamp-earned' : 'stamp-locked';
     if(isActive) cls += ' stamp-active';
-    const action = locked ? `showView('paywall')` : `openLesson(${l.id})`;
+    const action = isEarned ? `showBadge(${l.id})` : (locked ? `showView('paywall')` : `openLesson(${l.id})`);
     const label = `${isEarned?'earned · ':''}${locked?'locked · ':''}${l.title}`;
     return `<button class="stamp ${cls}" onclick="${action}" aria-label="${label}" title="${label}"></button>`;
   }).join('');
+}
+function renderCollection(){
+  const host=document.getElementById('collection-row');
+  if(!host) return;
+  const all=getAllLessons();
   host.innerHTML = `
     <div class="collection-head">
       <span class="collection-title">stamps</span>
-      <span class="collection-count">${earned} / ${total}</span>
+      <span class="collection-count">${state.stamps.length} / ${all.length}</span>
     </div>
-    <div class="collection-row">${dots}</div>
+    <div class="collection-row">${stampDotsHTML()}</div>
   `;
 }
+// Tap an earned badge → little reward pop (the badge + lesson name), not a re-open
+function showBadge(lessonId){
+  const l = getLessonById(lessonId);
+  if(!l) return;
+  let pop = document.getElementById('badge-pop');
+  if(!pop){ pop = document.createElement('div'); pop.id='badge-pop'; pop.className='badge-pop';
+    pop.addEventListener('click', e=>{ if(e.target===pop) closeBadgePop(); });
+    document.body.appendChild(pop); }
+  const head  = (APP_LANG==='de') ? 'Geschafft!' : 'Done!';
+  const again = (APP_LANG==='de') ? 'Nochmal üben' : 'Practice again';
+  const close = (APP_LANG==='de') ? 'Schliessen' : 'Close';
+  pop.innerHTML = `
+    <div class="badge-pop-card">
+      <div class="badge-pop-stamp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="badge-pop-title">${lessonTitle(l)}</div>
+      <div class="badge-pop-head">${head}</div>
+      <div class="badge-pop-actions">
+        <button class="btn-p" onclick="closeBadgePop();openLesson(${lessonId})">${again}</button>
+        <button class="me-btn-soft" onclick="closeBadgePop()">${close}</button>
+      </div>
+    </div>`;
+  requestAnimationFrame(()=>pop.classList.add('show'));
+}
+function closeBadgePop(){ const p=document.getElementById('badge-pop'); if(p) p.classList.remove('show'); }
 
 function renderLessons(){
   updateStreak();
