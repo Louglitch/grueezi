@@ -1102,6 +1102,15 @@ body[data-mode="dark"] .lang-pill.active{background:var(--mint);color:#1A1A1C}
 </head>
 <body>
 <script>
+// Recording/review unlock via URL — open https://schwiizer.app/#rec-helvi-2026 on a device
+// to unlock ALL lessons on THAT device only (for reading + recording the audio).
+// Only affects the device that opens the link; runs before state init so g_unlocked is picked up.
+try{
+  if(location.hash.replace('#','') === 'rec-helvi-2026'){
+    localStorage.setItem('g_unlocked','true');
+    if(window.history && history.replaceState) history.replaceState(null,'',location.pathname);
+  }
+}catch(e){}
 // Apply mode + on-landing immediately, before any content renders.
 // This is the second half of the FOUC prevention (HEAD script captured mode into window.__gz_mode).
 document.body.setAttribute('data-mode', window.__gz_mode || 'mint');
