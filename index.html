@@ -3476,7 +3476,7 @@ function speak(text, kind){
 
 /* ===== Real recorded voice — play audio/<lessonId>/<idx>.mp3 if recorded, else fall back to TTS ===== */
 // lessonId -> number of recorded phrase clips (index 0..n-1). Extend as Deborah records more.
-const RECORDED = { 1:10, 2:10, 13:10, 16:10, 17:10, 18:10, 20:10, 21:10 };
+const RECORDED = { 1:10, 2:10, 13:10, 16:10, 17:10, 18:10, 20:10, 21:10, 22:10 };
 const __clipCache = {};                 // reuse one Audio element per clip (no overlap/restart-stutter)
 const __preloaded = new Set();
 let __nowPlaying = null;
