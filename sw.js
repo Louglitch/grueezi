@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v42-2026-05-31-helvi-wings';
+const CACHE_VERSION = 'schwiizer-v43-2026-05-31-search-clean';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately

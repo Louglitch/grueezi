@@ -3035,27 +3035,8 @@ function runSearch(q){
   const results=document.getElementById('search-results');
   if(!results) return;
   const query=(q||'').trim().toLowerCase();
-  // 1. Match LESSONS (categories) by title — show these on top
-  const lessonMatches = [];
-  if(query){
-    PILLARS.forEach(pillar=>{
-      pillar.lessons.forEach(lesson=>{
-        const merged = getLessonById(lesson.id);
-        if(merged.title.toLowerCase().includes(query) || (pillar.name||'').toLowerCase().includes(query)){
-          const access = getLessonAccess(merged);
-          lessonMatches.push({
-            lessonId: lesson.id,
-            title: merged.title,
-            pillarName: pillar.name,
-            phraseCount: (lesson.phrases||[]).length,
-            locked: access === 'locked',
-            infoOnly: !!merged.infoOnly,
-          });
-        }
-      });
-    });
-  }
-  // 2. Match PHRASES (words/translations)
+  // Lesson/category matches intentionally omitted — search shows phrases only (cleaner).
+  // Match PHRASES (words/translations)
   const all=[];
   PILLARS.forEach(pillar=>{
     pillar.lessons.forEach(lesson=>{
@@ -3079,41 +3060,20 @@ function runSearch(q){
         r.note.toLowerCase().includes(query)
       )
     : all;
-  // Render
-  if(lessonMatches.length===0 && phraseMatches.length===0){
+  // Render — phrases only
+  if(phraseMatches.length===0){
     results.innerHTML=`<div class="search-empty">no matches for "${escapeHtml(query)}"</div>`;
     return;
   }
-  let html = '';
-  // Category section
-  if(lessonMatches.length > 0){
-    html += `<div class="search-section-label">categories</div>`;
-    html += lessonMatches.map(L=>{
-      const lockBadge = L.locked ? `<span class="search-locked">locked</span>` : '';
-      const onclick = L.locked ? `showView('paywall')` : `jumpToLesson(${L.lessonId})`;
-      const countLabel = L.infoOnly ? 'reading' : `${L.phraseCount} phrase${L.phraseCount===1?'':'s'}`;
-      return `<div class="search-result" onclick="${onclick}">
-        <div class="sr-chde">${escapeHtml(L.title)}${lockBadge}</div>
-        <div class="sr-meta">${escapeHtml((L.pillarName||'').toLowerCase())} · ${countLabel}</div>
-      </div>`;
-    }).join('');
-  }
-  // Phrases section
-  if(phraseMatches.length > 0){
-    if(lessonMatches.length > 0){
-      html += `<div class="search-section-label">phrases</div>`;
-    }
-    html += phraseMatches.map(r=>{
-      const lockBadge=r.locked?`<span class="search-locked">locked</span>`:'';
-      const onclick=r.locked?`showView('paywall')`:`jumpToPhrase(${r.lessonId},${r.phraseIdx})`;
-      return `<div class="search-result" onclick="${onclick}">
-        <div class="sr-chde">${escapeHtml(r.chde)}${lockBadge}</div>
-        <div class="sr-en">${escapeHtml(phraseMeaning(r))}</div>
-        <div class="sr-meta">lesson ${r.lessonId} · ${escapeHtml(r.lessonTitle)}</div>
-      </div>`;
-    }).join('');
-  }
-  results.innerHTML = html;
+  results.innerHTML = phraseMatches.map(r=>{
+    const lockBadge=r.locked?`<span class="search-locked">locked</span>`:'';
+    const onclick=r.locked?`showView('paywall')`:`jumpToPhrase(${r.lessonId},${r.phraseIdx})`;
+    return `<div class="search-result" onclick="${onclick}">
+      <div class="sr-chde">${escapeHtml(r.chde)}${lockBadge}</div>
+      <div class="sr-en">${escapeHtml(phraseMeaning(r))}</div>
+      <div class="sr-meta">lesson ${r.lessonId} · ${escapeHtml(r.lessonTitle)}</div>
+    </div>`;
+  }).join('');
 }
 
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
