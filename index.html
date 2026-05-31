@@ -704,12 +704,12 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
 .cat-card{background:var(--card);border:0.5px solid var(--beige,#E2DAC9);border-radius:18px;padding:16px 15px 14px;cursor:pointer;position:relative;transition:transform .12s ease, box-shadow .12s ease;-webkit-tap-highlight-color:transparent}
 .cat-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(44,56,48,.10)}
 .cat-card:active{transform:translateY(0)}
-.cat-ic{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.cat-ic{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;background:var(--bg-alt)}
 .cat-ic svg{width:20px;height:20px;stroke-width:1.7;fill:none;stroke:currentColor}
-.cat-ic.ic-words{background:rgba(90,138,107,.15);color:#5A8A6B}
-.cat-ic.ic-phrases{background:rgba(199,106,134,.15);color:#C76A86}
-.cat-ic.ic-info{background:rgba(164,137,79,.16);color:#A4894F}
-.cat-ic.ic-einb{background:rgba(94,132,168,.15);color:#5E84A8}
+.cat-ic.ic-words{color:var(--sage)}
+.cat-ic.ic-phrases{color:var(--rose)}
+.cat-ic.ic-info{color:var(--rose-deep)}
+.cat-ic.ic-einb{color:var(--textm)}
 .cat-name{font-size:16px;font-weight:400;letter-spacing:.01em;color:var(--text);margin-bottom:3px}
 .cat-meta{font-size:11.5px;font-weight:300;color:var(--textm)}
 .cat-bar{height:4px;border-radius:99px;background:var(--bg-alt,#E8E2D2);margin-top:11px;overflow:hidden}
@@ -2906,9 +2906,9 @@ const CAT_ICONS = {
 // Derive the 4 lesson categories from PILLARS (Einbürgerung split out of Info into its own)
 function getCategoryDefs(){
   const CM = {
-    Words:   {key:'words',   en:'words',   de:'Wörter',  cls:'ic-words',   bar:'#5A8A6B'},
-    Phrases: {key:'phrases', en:'phrases', de:'Sätze',   cls:'ic-phrases', bar:'#C76A86'},
-    Info:    {key:'info',    en:'info',    de:'Wissen',  cls:'ic-info',    bar:'#A4894F'}
+    Words:   {key:'words',   en:'words',   de:'Wörter',  cls:'ic-words',   bar:'var(--sage)'},
+    Phrases: {key:'phrases', en:'phrases', de:'Sätze',   cls:'ic-phrases', bar:'var(--rose)'},
+    Info:    {key:'info',    en:'info',    de:'Wissen',  cls:'ic-info',    bar:'var(--rose-deep)'}
   };
   const cats=[];
   PILLARS.forEach(p=>{
@@ -2916,7 +2916,7 @@ function getCategoryDefs(){
     if(p.name==='Info'){
       cats.push(Object.assign({}, meta, {lessons:p.lessons.filter(l=>l.id!==40)}));
       const einb = p.lessons.find(l=>l.id===40);
-      if(einb) cats.push({key:'einb', en:'citizenship', de:'Einbürgerung', cls:'ic-einb', bar:'#5E84A8', lessons:[einb], isQuiz:true});
+      if(einb) cats.push({key:'einb', en:'citizenship', de:'Einbürgerung', cls:'ic-einb', bar:'var(--textm)', lessons:[einb], isQuiz:true});
     } else {
       cats.push(Object.assign({}, meta, {lessons:p.lessons}));
     }
