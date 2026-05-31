@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v50-2026-05-31-quizflowers';
+const CACHE_VERSION = 'schwiizer-v51-2026-05-31-helvi-hints';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
