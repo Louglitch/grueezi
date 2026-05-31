@@ -700,7 +700,7 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
 /* PILLARS */
 .pillar-section{margin-bottom:1.25rem}
 /* CATEGORY BADGES (lessons overview) */
-.cat-intro{display:flex;align-items:center;gap:14px;margin:2px 2px 20px}
+.cat-intro{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:2px 2px 20px}
 .cat-helvi{width:82px;flex-shrink:0;
   --body:#A8C8BC;--stroke:#2C3830;--belly:#F2EDE2;--shine:#FFFFFF;--seam:#C8A878;
   --cheek:#FFB0C4;--petal:#FFFFFF;--edel-center:#D4788A;--eye-base:#3A2A4A;--eye-pupil:#1A0A2A}
@@ -855,6 +855,7 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
 .eq-helvi{max-width:460px;margin:.5rem auto 0;display:flex;justify-content:flex-end;align-items:center;gap:10px}
 .eq-hint{display:none;background:var(--card);border:.5px solid var(--cream2);border-radius:14px;padding:9px 13px;font-size:13px;line-height:1.45;color:var(--text);box-shadow:0 4px 14px rgba(44,56,48,.12);max-width:300px;text-align:left}
 .eq-hint.show{display:block;animation:eq-hint-in .2s ease-out}
+.eq-hint-open{background:none;border:none;color:var(--rose);font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;padding:0;white-space:nowrap}
 @keyframes eq-hint-in{0%{opacity:0;transform:translateY(4px)}100%{opacity:1;transform:translateY(0)}}
 .eq-helvi-btn{width:54px;flex-shrink:0;padding:0;border:none;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;
   --body:#A8C8BC;--stroke:#2C3830;--belly:#F2EDE2;--cheek:#FFB0C4;--petal:#FFFFFF;--edel-center:#D4788A;--eye-base:#3A2A4A;--eye-pupil:#1A0A2A;--seam:#C8A878}
@@ -2542,6 +2543,7 @@ function openSearchFromNav(){
 // Reset lessons page title back to "lessons" (called when user re-enters lessons normally)
 function resetLessonsPageTitle(){
   state.activeCategory=null;   // tapping the nav home returns to the category overview
+  state.quizReturn=false;      // leaving via nav drops the "back to test" context
   const title = document.getElementById('lessons-page-title');
   if(title){ title.innerHTML = t('lessons')+'<span class="u-dots"><i></i><i></i></span>'; }
   const panel = document.getElementById('search-panel');
@@ -3000,8 +3002,8 @@ function renderLessons(){
     const intro=document.createElement('div');
     intro.className='cat-intro';
     intro.innerHTML=`
-      <div class="cat-helvi"><svg viewBox="0 0 120 220" role="img" aria-label="Helvi"><use href="#helvi"/></svg></div>
-      <div class="cat-intro-text">${APP_LANG==='de'?'Was möchtest du üben?':'What do you want to practise?'}</div>`;
+      <div class="cat-intro-text">${APP_LANG==='de'?'Was möchtest du üben?':'What do you want to practise?'}</div>
+      <div class="cat-helvi"><svg viewBox="0 0 120 220" role="img" aria-label="Helvi"><use href="#helvi"/></svg></div>`;
     const overview=document.createElement('div');
     overview.className='cat-overview';
     overview.appendChild(intro);
@@ -3186,7 +3188,11 @@ function renderChapter(lesson){
   const lang = state.chapterLang || 'en';
   document.getElementById('chapter-body').innerHTML = getInfoForLang(lesson.info, lang);
   const cta = document.getElementById('chapter-cta');
-  if(lesson.infoOnly){
+  if(state.quizReturn){
+    // Opened from a quiz hint — offer a way straight back to the test
+    const backLbl = APP_LANG==='de' ? 'zurück zum Test' : 'back to the test';
+    cta.innerHTML = `<button class="chapter-begin-btn" onclick="returnToQuiz()">← ${backLbl}</button>`;
+  } else if(lesson.infoOnly){
     // Info-only lesson — chapter IS the entire lesson, -chapter arrow finishes it
     const nextLesson = getNextInfoChapter(lesson.id);
     const nextLabel = nextLesson ? `<span class="next-chapter-label">: ${lessonTitle(nextLesson)}</span>` : '';
@@ -3220,6 +3226,7 @@ function getNextInfoChapter(currentLessonId){
 }
 
 function completeInfoChapter(){
+  state.quizReturn=false;   // finishing an article normally drops the quiz-return context
   // Mark info-only lesson complete + award stamp
   const lesson = getLessonById(state.currentLessonId);
   if(!lesson) return;
@@ -3733,7 +3740,20 @@ function eqText(obj){
   const l = eqLang();
   return obj[l] || obj.en || obj.de || '';
 }
+// Open a Wissen article from a quiz hint, remembering to offer a way back to the test
+function openArticleFromQuiz(artId){
+  state.quizReturn = true;
+  openLesson(artId);
+}
+// Return from the article straight to the in-progress quiz question
+function returnToQuiz(){
+  state.quizReturn = false;
+  if(!state.einbquiz){ resetLessonsPageTitle(); showView('lessons'); return; }
+  showView('stage');
+  renderEinbquizQuestion();
+}
 function startEinbquiz(lesson){
+  state.quizReturn = false;
   const pool = (lesson.quiz || []).slice().sort(()=>Math.random()-0.5);
   const take = Math.min(24, pool.length);
   state.einbquiz = {
@@ -3766,10 +3786,11 @@ function renderEinbquizQuestion(){
   // Helvi hint — names the Wissen article where the answer can be found (q.ir = article lesson id)
   const artLesson = q.ir ? getLessonById(q.ir) : null;
   const artTitle = artLesson ? lessonTitle(artLesson) : '';
-  const tipPre = APP_LANG==='de' ? 'Tipp: Schau im Wissen-Artikel' : 'Hint: see the Knowledge article';
+  const tipPre = APP_LANG==='de' ? 'Tipp: lies den Wissen-Artikel' : 'Hint: read the Knowledge article';
+  const readLbl = APP_LANG==='de' ? 'lesen ›' : 'read ›';
   const helviHint = artLesson ? `
       <div class="eq-helvi">
-        <div class="eq-hint" id="eq-hint">💡 ${tipPre} „${escapeHtml(artTitle)}"</div>
+        <div class="eq-hint" id="eq-hint">💡 ${tipPre} „${escapeHtml(artTitle)}" <button class="eq-hint-open" onclick="openArticleFromQuiz(${q.ir})">${readLbl}</button></div>
         <button class="eq-helvi-btn" onclick="document.getElementById('eq-hint').classList.toggle('show')" aria-label="Helvi Tipp"><svg viewBox="0 0 120 220" role="img" aria-label="Helvi"><use href="#helvi"/></svg></button>
       </div>` : '';
   content.innerHTML = `
