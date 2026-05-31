@@ -2334,6 +2334,13 @@ function showView(v){
   if(btn)btn.classList.add('active');
   if(v==='lessons')renderLessons();
   if(v==='account')renderAccount();
+  // Persist last "home" view so a refresh / PWA relaunch stays put instead of bouncing to landing.
+  // Deep views (stage/chapter/complete) map back to their list home, not landing.
+  try{
+    const homeMap={lessons:'lessons',account:'account',about:'about',stage:'lessons',chapter:'lessons',complete:'lessons',paywall:'account',signin:'account'};
+    if(homeMap[v]) localStorage.setItem('g_lastview', homeMap[v]);
+    else if(v==='landing') localStorage.removeItem('g_lastview');
+  }catch(e){}
   // toggle global  button visibility — hidden on landing
   const gbb = document.getElementById('global-back-btn');
   if(gbb) gbb.style.display = (v === 'landing' || viewHistory.length === 0) ? 'none' : 'flex';
@@ -3982,11 +3989,19 @@ if(typeof refreshNavLogin === 'function') refreshNavLogin();
 // Restore last view from URL hash on boot — so refresh stays put instead of bouncing to landing
 (function(){
   const hash = (location.hash || '').replace('#','');
-  // Only restore "safe" views — stage / chapter / complete need lesson context which isn't persisted
-  const safeViews = ['lessons','account','about','signin','paywall'];
-  if(hash && safeViews.includes(hash)){
+  const homeViews = ['lessons','account','about'];
+  // Deep views need lesson context that isn't persisted → fall back to their list/home, NOT landing
+  const deepToHome = {stage:'lessons',chapter:'lessons',complete:'lessons',paywall:'account',signin:'account'};
+  let target = null;
+  if(hash === 'landing'){ target = null; }              // explicit landing — stay
+  else if(homeViews.includes(hash)) target = hash;       // refresh on a home view → stay
+  else if(deepToHome[hash]) target = deepToHome[hash];   // refresh inside a lesson → back to list
+  else if(!hash){                                        // no hash (PWA relaunch / shared link) → last view if returning user
+    try{ const lv = localStorage.getItem('g_lastview'); if(lv && homeViews.includes(lv)) target = lv; }catch(e){}
+  }
+  if(target){
     window.__gz_navigating = true;
-    try{ showView(hash); }
+    try{ showView(target); }
     finally{ window.__gz_navigating = false; }
   }
 })();
