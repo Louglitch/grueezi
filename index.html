@@ -699,6 +699,26 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
 
 /* PILLARS */
 .pillar-section{margin-bottom:1.25rem}
+/* CATEGORY BADGES (lessons overview) */
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:.5rem}
+.cat-card{background:var(--card);border:0.5px solid var(--beige,#E2DAC9);border-radius:18px;padding:16px 15px 14px;cursor:pointer;position:relative;transition:transform .12s ease, box-shadow .12s ease;-webkit-tap-highlight-color:transparent}
+.cat-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(44,56,48,.10)}
+.cat-card:active{transform:translateY(0)}
+.cat-ic{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.cat-ic svg{width:20px;height:20px;stroke-width:1.7;fill:none;stroke:currentColor}
+.cat-ic.ic-words{background:rgba(90,138,107,.15);color:#5A8A6B}
+.cat-ic.ic-phrases{background:rgba(199,106,134,.15);color:#C76A86}
+.cat-ic.ic-info{background:rgba(164,137,79,.16);color:#A4894F}
+.cat-ic.ic-einb{background:rgba(94,132,168,.15);color:#5E84A8}
+.cat-name{font-size:16px;font-weight:400;letter-spacing:.01em;color:var(--text);margin-bottom:3px}
+.cat-meta{font-size:11.5px;font-weight:300;color:var(--textm)}
+.cat-bar{height:4px;border-radius:99px;background:var(--bg-alt,#E8E2D2);margin-top:11px;overflow:hidden}
+.cat-bar span{display:block;height:100%;border-radius:99px;transition:width .3s ease}
+.cat-arrow{position:absolute;top:15px;right:14px;color:var(--texts);opacity:.55}
+.cat-arrow svg{width:15px;height:15px;fill:none;stroke:currentColor}
+.cat-back{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--textm);font-family:var(--font,'Jost',sans-serif);font-size:13px;cursor:pointer;padding:4px 0;margin-bottom:8px;letter-spacing:.02em}
+.cat-back svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
+.cat-secname{font-size:15px;font-weight:400;color:var(--text);margin:0 2px 10px}
 .pillar-label{font-size:12px;font-weight:500;color:var(--text);padding:16px 0 6px;margin-bottom:2px;letter-spacing:.01em}
 .lessons-list{display:flex;flex-direction:column;gap:1px;background:var(--cream2);border-radius:18px;overflow:hidden;border:0.5px solid var(--cream2)}
 .lesson-row{background:var(--card);padding:11px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .1s}
@@ -2350,6 +2370,7 @@ const LS_LIFETIME = 'https://grueezi.lemonsqueezy.com/checkout/buy/cfdade4e-d179
 
 const state={
   currentLessonId:null,
+  activeCategory:null,
   currentPhraseIdx:0,
   currentStage:0,
   quizState:null,
@@ -2457,6 +2478,7 @@ function openSearchFromNav(){
 
 // Reset lessons page title back to "lessons" (called when user re-enters lessons normally)
 function resetLessonsPageTitle(){
+  state.activeCategory=null;   // tapping the nav home returns to the category overview
   const title = document.getElementById('lessons-page-title');
   if(title){ title.innerHTML = t('lessons')+'<span class="u-dots"><i></i><i></i></span>'; }
   const panel = document.getElementById('search-panel');
@@ -2841,71 +2863,133 @@ function showBadge(lessonId){
 }
 function closeBadgePop(){ const p=document.getElementById('badge-pop'); if(p) p.classList.remove('show'); }
 
+// Build one tappable lesson row element (shared by category lists)
+function lessonRowEl(l, liNum){
+  const access = getLessonAccess(l);
+  const locked = (access === 'locked');
+  const prog=state.progress[l.id]||[];
+  const denom = l.phrases.length || 0;
+  const pct = denom ? Math.round(prog.length/denom*100) : (state.stamps.includes(l.id)?100:0);
+  const qs=state.quizScores[l.id];
+  const quizDone=qs&&qs.total>0;
+  let pillText,pillClass;
+  if(locked){pillText=t('locked');pillClass='p-locked';}
+  else if(l.einbquiz){pillText=(APP_LANG==='de'?'Test':'test');pillClass='p-free';}
+  else if(l.infoOnly){ if(state.stamps.includes(l.id)){pillText=t('done');pillClass='p-done';} else {pillText=l.free?t('free'):t('unlocked');pillClass='p-free';} }
+  else if(pct===100&&quizDone){pillText=t('done');pillClass='p-done';}
+  else if(prog.length>0){pillText=t('cont');pillClass='p-active';}
+  else{pillText=l.free?t('free'):t('unlocked');pillClass='p-free';}
+  const row=document.createElement('div');
+  row.className='lesson-row'+(locked?' locked-row':'');
+  const numHtml = (liNum!=null) ? `<span class="lr-num">${liNum}</span>` : '';
+  row.innerHTML=`
+    <div class="lr-main">
+      ${numHtml}
+      <div class="lr-title">${lessonTitle(l)}</div>
+    </div>
+    <div class="lr-right">
+      <div class="pbar"><div class="pfill" style="width:${l.einbquiz?0:pct}%"></div></div>
+      <span class="pill ${pillClass}">${pillText}</span>
+    </div>`;
+  row.onclick=()=>{ if(locked){ showView('paywall'); } else { openLesson(l.id); } };
+  row.style.cursor='pointer';
+  return row;
+}
+
+const CAT_ICONS = {
+  'ic-words':'<svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+  'ic-phrases':'<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+  'ic-info':'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+  'ic-einb':'<svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>'
+};
+
+// Derive the 4 lesson categories from PILLARS (Einbürgerung split out of Info into its own)
+function getCategoryDefs(){
+  const CM = {
+    Words:   {key:'words',   en:'words',   de:'Wörter',  cls:'ic-words',   bar:'#5A8A6B'},
+    Phrases: {key:'phrases', en:'phrases', de:'Sätze',   cls:'ic-phrases', bar:'#C76A86'},
+    Info:    {key:'info',    en:'info',    de:'Wissen',  cls:'ic-info',    bar:'#A4894F'}
+  };
+  const cats=[];
+  PILLARS.forEach(p=>{
+    const meta = CM[p.name] || {key:(p.name||'').toLowerCase(), en:(p.name||'').toLowerCase(), de:p.name, cls:'ic-info', bar:'#5A8A6B'};
+    if(p.name==='Info'){
+      cats.push(Object.assign({}, meta, {lessons:p.lessons.filter(l=>l.id!==40)}));
+      const einb = p.lessons.find(l=>l.id===40);
+      if(einb) cats.push({key:'einb', en:'citizenship', de:'Einbürgerung', cls:'ic-einb', bar:'#5E84A8', lessons:[einb], isQuiz:true});
+    } else {
+      cats.push(Object.assign({}, meta, {lessons:p.lessons}));
+    }
+  });
+  return cats;
+}
+function catLabel(cat){ return (APP_LANG==='de') ? cat.de : cat.en; }
+function openCategory(key){ state.activeCategory=key; renderLessons(); window.scrollTo(0,0); }
+function closeCategory(){ state.activeCategory=null; renderLessons(); window.scrollTo(0,0); }
+
 function renderLessons(){
   updateStreak();
   renderCollection();
-
-
-
-  let phrases=0,done=0,correct=0,total=0;
-  getAllLessons().forEach(l=>{
-    const p=state.progress[l.id]||[];
-    phrases+=p.length;
-    if(p.length>=l.phrases.length)done++;
-    const q=state.quizScores[l.id];
-    if(q){correct+=q.correct;total+=q.total;}
-  });
-
-
   const container=document.getElementById('lessons-list');
+  if(!container) return;
   container.innerHTML='';
+  const cats=getCategoryDefs();
+  const active = state.activeCategory ? cats.find(c=>c.key===state.activeCategory) : null;
 
-  let liNum=0;   // tiny running number per topic
-  PILLARS.forEach(pillar=>{
-    const section=document.createElement('div');
-    section.className='pillar-section';
-    const label=document.createElement('div');
-    label.className='pillar-label';
-    label.textContent=pillar.name.toLowerCase();
-    section.appendChild(label);
-    const list=document.createElement('div');
-    list.className='lessons-list';
-    pillar.lessons.forEach(rawLesson=>{
-      const l = getLessonById(rawLesson.id); // merged lesson with resolved free flag
-      liNum++;
-      const access = getLessonAccess(l);
-      const locked = (access === 'locked');
-      const prog=state.progress[l.id]||[];
-      const pct=Math.round(prog.length/l.phrases.length*100);
-      const qs=state.quizScores[l.id];
-      const quizDone=qs&&qs.total>0;
-      let pillText,pillClass;
-      if(locked){pillText=t('locked');pillClass='p-locked';}
-      else if(pct===100&&quizDone){pillText=t('done');pillClass='p-done';}
-      else if(prog.length>0){pillText=t('cont');pillClass='p-active';}
-      else{pillText=l.free?t('free'):t('unlocked');pillClass='p-free';}
-      const row=document.createElement('div');
-      row.className='lesson-row'+(locked?' locked-row':'');
-      row.innerHTML=`
-        <div class="lr-main">
-          <span class="lr-num">${liNum}</span>
-          <div class="lr-title">${lessonTitle(l)}</div>
-        </div>
-        <div class="lr-right">
-          <div class="pbar"><div class="pfill" style="width:${pct}%"></div></div>
-          <span class="pill ${pillClass}">${pillText}</span>
-        </div>`;
-      // Whole row is tappable — opens lesson if accessible, bounces to paywall if locked
-      row.onclick=()=>{
-        if(locked){ showView('paywall'); }
-        else { openLesson(l.id); }
+  if(!active){
+    // ---- Category overview (badges) ----
+    const grid=document.createElement('div');
+    grid.className='cat-grid';
+    cats.forEach(cat=>{
+      const total = cat.isQuiz ? 0 : cat.lessons.length;
+      const done  = cat.isQuiz ? 0 : cat.lessons.filter(l=>state.stamps.includes(l.id)).length;
+      const pct = total ? Math.round(done/total*100) : 0;
+      let meta;
+      if(cat.isQuiz){ meta = (APP_LANG==='de') ? 'Test · 40 Fragen' : 'test · 40 questions'; }
+      else {
+        const unit = (cat.key==='info') ? (APP_LANG==='de'?'Artikel':'articles') : (APP_LANG==='de'?'Lektionen':'lessons');
+        const doneW = (APP_LANG==='de'?'erledigt':'done');
+        meta = `${total} ${unit} · ${done} ${doneW}`;
+      }
+      const card=document.createElement('div');
+      card.className='cat-card';
+      card.innerHTML=`
+        <span class="cat-arrow"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
+        <div class="cat-ic ${cat.cls}">${CAT_ICONS[cat.cls]||''}</div>
+        <div class="cat-name">${catLabel(cat)}</div>
+        <div class="cat-meta">${meta}</div>
+        <div class="cat-bar"><span style="width:${pct}%;background:${cat.bar}"></span></div>`;
+      card.onclick=()=>{
+        if(cat.isQuiz){ const l=getLessonById(40); if(getLessonAccess(l)==='locked'){ showView('paywall'); } else { openLesson(40); } }
+        else { openCategory(cat.key); }
       };
-      row.style.cursor='pointer';
-      list.appendChild(row);
+      grid.appendChild(card);
     });
-    section.appendChild(list);
-    container.appendChild(section);
+    container.appendChild(grid);
+    return;
+  }
+
+  // ---- Single category: back button + its lessons ----
+  const back=document.createElement('button');
+  back.className='cat-back';
+  back.innerHTML=`<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>${(APP_LANG==='de'?'Kategorien':'categories')}`;
+  back.onclick=closeCategory;
+  container.appendChild(back);
+
+  const secname=document.createElement('div');
+  secname.className='cat-secname';
+  secname.textContent=catLabel(active);
+  container.appendChild(secname);
+
+  const list=document.createElement('div');
+  list.className='lessons-list';
+  let liNum=0;
+  active.lessons.forEach(rawLesson=>{
+    const l=getLessonById(rawLesson.id);
+    liNum++;
+    list.appendChild(lessonRowEl(l, liNum));
   });
+  container.appendChild(list);
 }
 
 function toggleSearch(){
