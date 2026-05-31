@@ -708,22 +708,26 @@ body[data-mode="pink"] .cat-helvi{--body:#D67BA0;--stroke:#7A3040;--belly:#FAF6E
 body[data-mode="dark"] .cat-helvi{--body:#A8C8BC;--stroke:#EDE8DF;--belly:#28282B;--seam:rgba(212,120,138,0.4);--cheek:rgba(212,120,138,.55);--petal:#28282B;--edel-center:#D4788A;--eye-base:#0A050E;--eye-pupil:#000000}
 .cat-helvi svg{width:100%;height:auto;display:block;overflow:visible;filter:drop-shadow(0 4px 7px rgba(0,0,0,.13));animation:helvi-bob 4.6s ease-in-out infinite;transform-origin:50% 92%}
 .cat-intro-text{font-size:17px;font-weight:300;color:var(--textm);line-height:1.45}
-.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:.5rem}
-.cat-card{background:var(--card);border:0.5px solid var(--beige,#E2DAC9);border-radius:22px;padding:22px 18px 18px;cursor:pointer;position:relative;transition:transform .12s ease, box-shadow .12s ease;-webkit-tap-highlight-color:transparent}
-.cat-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(44,56,48,.10)}
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:.5rem}
+.cat-card{background:var(--card);border-radius:9px;padding:6px;cursor:pointer;position:relative;transition:transform .12s ease;-webkit-tap-highlight-color:transparent;background-image:radial-gradient(circle at 7px 7px, transparent 3px, var(--card) 3.6px);filter:drop-shadow(0 3px 7px rgba(44,56,48,.12))}
+.cat-card:hover{transform:translateY(-2px)}
 .cat-card:active{transform:translateY(0)}
-.cat-ic{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;background:var(--bg-alt)}
-.cat-ic svg{width:25px;height:25px;stroke-width:1.7;fill:none;stroke:currentColor}
+.cat-stamp{border:1.5px solid var(--beige);border-radius:4px;padding:15px 12px 13px;text-align:center;position:relative}
+.cat-top{font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:var(--texts);margin-bottom:9px}
+.cat-ic{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 9px;background:var(--bg-alt)}
+.cat-ic svg{width:27px;height:27px;stroke-width:1.6;fill:none;stroke:currentColor}
 .cat-ic.ic-words{color:var(--sage)}
 .cat-ic.ic-phrases{color:var(--rose)}
 .cat-ic.ic-info{color:var(--rose-deep)}
 .cat-ic.ic-einb{color:var(--textm)}
-.cat-name{font-size:18px;font-weight:400;letter-spacing:.01em;color:var(--text);margin-bottom:4px}
-.cat-meta{font-size:12.5px;font-weight:300;color:var(--textm)}
-.cat-bar{height:5px;border-radius:99px;background:var(--bg-alt,#E8E2D2);margin-top:14px;overflow:hidden}
+.cat-name{font-size:15px;font-weight:500;letter-spacing:.03em;color:var(--text);margin-bottom:3px}
+.cat-meta{font-size:10.5px;font-weight:300;color:var(--textm);margin-bottom:10px}
+.cat-bar{height:4px;border-radius:99px;background:var(--bg-alt);overflow:hidden}
 .cat-bar span{display:block;height:100%;border-radius:99px;transition:width .3s ease}
-.cat-arrow{position:absolute;top:18px;right:16px;color:var(--texts);opacity:.55}
-.cat-arrow svg{width:15px;height:15px;fill:none;stroke:currentColor}
+.cat-flower{position:absolute;width:14px;height:14px;opacity:.6;pointer-events:none}
+.cat-flower svg{width:100%;height:100%;overflow:visible}
+.cat-fl-tl{top:8px;left:8px}
+.cat-fl-tr{top:8px;right:8px}
 .cat-back{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--textm);font-family:var(--font,'Jost',sans-serif);font-size:13px;cursor:pointer;padding:4px 0;margin-bottom:8px;letter-spacing:.02em}
 .cat-back svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
 .cat-secname{font-size:15px;font-weight:400;color:var(--text);margin:0 2px 10px}
@@ -1263,6 +1267,16 @@ document.body.classList.add('on-landing');
     <ellipse cx="79" cy="81" rx="2.6" ry="3.2" fill="#FFFFFF"/>
     <circle cx="74.5" cy="90" r="1.4" fill="#FFFFFF" opacity="0.85"/>
     <circle cx="78" cy="88" r="0.7" fill="#FFFFFF" opacity="0.6"/>
+  </symbol>
+  <symbol id="flower" viewBox="-10 -10 20 20" overflow="visible">
+    <g fill="var(--bg-alt)" stroke="var(--beige)" stroke-width="1">
+      <ellipse cx="0" cy="-5" rx="2.6" ry="4.4"/>
+      <ellipse cx="0" cy="-5" rx="2.6" ry="4.4" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-5" rx="2.6" ry="4.4" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-5" rx="2.6" ry="4.4" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-5" rx="2.6" ry="4.4" transform="rotate(288)"/>
+    </g>
+    <circle r="1.8" fill="var(--rose)"/>
   </symbol>
 </defs></svg>
 <div id="helvi-greeter">
@@ -2976,11 +2990,15 @@ function renderLessons(){
       const card=document.createElement('div');
       card.className='cat-card';
       card.innerHTML=`
-        <span class="cat-arrow"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
-        <div class="cat-ic ${cat.cls}">${CAT_ICONS[cat.cls]||''}</div>
-        <div class="cat-name">${catLabel(cat)}</div>
-        <div class="cat-meta">${meta}</div>
-        <div class="cat-bar"><span style="width:${pct}%;background:${cat.bar}"></span></div>`;
+        <div class="cat-stamp">
+          <span class="cat-flower cat-fl-tl"><svg viewBox="-10 -10 20 20"><use href="#flower"/></svg></span>
+          <span class="cat-flower cat-fl-tr"><svg viewBox="-10 -10 20 20"><use href="#flower"/></svg></span>
+          <div class="cat-top">helvetia</div>
+          <div class="cat-ic ${cat.cls}">${CAT_ICONS[cat.cls]||''}</div>
+          <div class="cat-name">${catLabel(cat)}</div>
+          <div class="cat-meta">${meta}</div>
+          <div class="cat-bar"><span style="width:${pct}%;background:${cat.bar}"></span></div>
+        </div>`;
       card.onclick=()=>{
         if(cat.isQuiz){ const qid=cat.lessons[0]&&cat.lessons[0].id; const l=qid&&getLessonById(qid); if(!l||getLessonAccess(l)==='locked'){ showView('paywall'); } else { openLesson(qid); } }
         else { openCategory(cat.key); }
