@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v58-2026-05-31-shopping';
+const CACHE_VERSION = 'schwiizer-v59-2026-05-31-verabreden-rerec';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
