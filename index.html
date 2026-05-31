@@ -2171,8 +2171,8 @@ const PILLARS=[
   {name:"Pass",free:false,einb:true,lessons:[
     {id:40,title:"einbürgerungstest",free:false,einbquiz:true,
      info:{
-       en:"A practice run at the Swiss citizenship test (Einbürgerungstest). The real cantonal test is 48 questions — you need 29 right to pass. This is independent prep, <strong>not the official test</strong>, and passing here is no guarantee. Topics: geography, history, politics, federalism, society.<br><br>Pick the right answer. Wrong ones get marked; the correct one lights up.",
-       de:"Eine Übung für den Schweizer Einbürgerungstest. Der echte kantonale Test hat 48 Fragen — du brauchst 29 richtige zum Bestehen. Dies ist eine unabhängige Vorbereitung, <strong>nicht der offizielle Test</strong>, und Bestehen hier ist keine Garantie. Themen: Geografie, Geschichte, Politik, Föderalismus, Gesellschaft.<br><br>Wähle die richtige Antwort. Falsche werden markiert; die richtige leuchtet auf.",
+       en:"A practice run at the Swiss citizenship test (Einbürgerungstest). The real cantonal test is 48 questions — you need 29 right to pass. This is independent prep, <strong>not the official test</strong>, and passing here is no guarantee. Topics: geography, history, politics, federalism, society.<br><br>Each round pulls 24 random questions from a growing pool of 40, so every attempt differs. Pick the right answer — wrong ones get marked, the correct one lights up.",
+       de:"Eine Übung für den Schweizer Einbürgerungstest. Der echte kantonale Test hat 48 Fragen — du brauchst 29 richtige zum Bestehen. Dies ist eine unabhängige Vorbereitung, <strong>nicht der offizielle Test</strong>, und Bestehen hier ist keine Garantie. Themen: Geografie, Geschichte, Politik, Föderalismus, Gesellschaft.<br><br>Jede Runde zieht 24 zufällige Fragen aus einem wachsenden Pool von 40 — jeder Versuch ist anders. Wähle die richtige Antwort; falsche werden markiert, die richtige leuchtet auf.",
        ch:"Es Üebig für de Schwiizer Iibürgerigs-Tescht. De ächt kantonal Tescht het 48 Frage — du bruuchsch 29 richtigi zum Bestah. Das isch ä unabhängigi Vorbereitig, <strong>nöd de offiziell Tescht</strong>, und Bestah da isch kei Garantie."
      },
      quiz:[
@@ -2254,7 +2254,88 @@ const PILLARS=[
 
        {q:{en:"Must the state itself also obey the law?",de:"Muss sich auch der Staat an die Gesetze halten?"},
         options:["Yes, the state is bound by law too","No, the state is above the law","Only in wartime","Only the cantons"],answer:0,
-        note:{en:"Rule of law: the state itself must obey the laws.",de:"Rechtsstaat: Auch der Staat muss sich an die Gesetze halten."}}
+        note:{en:"Rule of law: the state itself must obey the laws.",de:"Rechtsstaat: Auch der Staat muss sich an die Gesetze halten."}},
+
+       // info: alemannisch
+       {q:{en:"Which is the highest mountain located entirely in Switzerland?",de:"Welcher ist der höchste vollständig in der Schweiz liegende Berg?"},
+        options:["Dufourspitze","Matterhorn","Jungfrau","Eiger"],answer:0,
+        note:{en:"The Dufourspitze (Monte Rosa massif, Valais) at 4,634 m is Switzerland's highest point.",de:"Die Dufourspitze (Monte-Rosa-Massiv, Wallis) ist mit 4'634 m der höchste Punkt der Schweiz."}},
+       // info: railway
+       {q:{en:"Which is the longest river in Switzerland?",de:"Welcher ist der längste Fluss der Schweiz?"},
+        options:["The Rhine","The Aare","The Rhône","The Reuss"],answer:0,
+        note:{en:"The Rhine, rising in Graubünden, runs about 375 km within Switzerland, the longest of any river.",de:"Der Rhein entspringt in Graubünden und ist mit rund 375 km der längste Fluss der Schweiz."}},
+       // info: alemannisch
+       {q:{en:"Which is the largest lake bordering Switzerland?",de:"Welcher ist der grösste an die Schweiz grenzende See?"},
+        options:["Lake Geneva","Lake Constance","Lake Zurich","Lake Lucerne"],answer:0,
+        note:{en:"Lake Geneva (Lac Léman), shared with France, is the largest lake on Switzerland's borders.",de:"Der Genfersee (Lac Léman), den die Schweiz mit Frankreich teilt, ist der grösste See an der Schweizer Grenze."}},
+       // info: alemannisch
+       {q:{en:"Which is the largest Swiss canton by area?",de:"Welcher ist der flächenmässig grösste Kanton der Schweiz?"},
+        options:["Graubünden","Bern","Valais","Zurich"],answer:0,
+        note:{en:"Graubünden, in the south-east, is the largest canton by area at about 7,105 km².",de:"Graubünden im Südosten ist mit rund 7'105 km² der flächenmässig grösste Kanton."}},
+       // info: alemannisch
+       {q:{en:"In which canton does the Matterhorn stand, above Zermatt?",de:"In welchem Kanton steht das Matterhorn oberhalb von Zermatt?"},
+        options:["Valais","Bern","Graubünden","Ticino"],answer:0,
+        note:{en:"The Matterhorn (4,478 m) rises above Zermatt in the canton of Valais on the Swiss-Italian border.",de:"Das Matterhorn (4'478 m) erhebt sich über Zermatt im Kanton Wallis an der Grenze zu Italien."}},
+       // info: languages
+       {q:{en:"Which Swiss canton has Italian as its sole official language?",de:"Welcher Schweizer Kanton hat Italienisch als einzige Amtssprache?"},
+        options:["Ticino","Graubünden","Valais","Geneva"],answer:0,
+        note:{en:"Ticino, in the south, is the only canton whose single official language is Italian.",de:"Das Tessin im Süden ist der einzige Kanton mit Italienisch als alleiniger Amtssprache."}},
+       // info: history
+       {q:{en:"Which is the youngest (most recently created) Swiss canton?",de:"Welcher ist der jüngste (zuletzt gegründete) Kanton der Schweiz?"},
+        options:["Jura","Basel-Landschaft","Geneva","Appenzell Innerrhoden"],answer:0,
+        note:{en:"Jura split from the canton of Bern and joined the Confederation as a full canton in 1979.",de:"Der Jura trennte sich vom Kanton Bern und trat 1979 als Vollkanton der Eidgenossenschaft bei."}},
+       // info: history
+       {q:{en:"On which meadow is the legendary founding oath of the Confederation said to have been sworn?",de:"Auf welcher Wiese soll der legendäre Gründungsschwur der Eidgenossenschaft geleistet worden sein?"},
+        options:["The Rütli","The Grütli-Allmend","The Rigi","The Klewenalp"],answer:0,
+        note:{en:"The legendary Rütli Oath was sworn on the Rütli meadow above Lake Uri by Uri, Schwyz and Unterwalden.",de:"Der legendäre Rütlischwur wurde auf der Rütliwiese am Urnersee von Uri, Schwyz und Unterwalden geleistet."}},
+       // info: history
+       {q:{en:"Who is the legendary marksman forced to shoot an apple off his son's head?",de:"Wer ist der legendäre Schütze, der einen Apfel vom Kopf seines Sohnes schiessen musste?"},
+        options:["William Tell","Arnold Winkelried","General Dufour","Niklaus von Flüe"],answer:0,
+        note:{en:"William Tell (Wilhelm Tell) is the legendary marksman of the Swiss founding myth, popularised by Schiller.",de:"Wilhelm Tell ist der legendäre Schütze des Schweizer Gründungsmythos, bekannt durch Schillers Drama."}},
+       // info: history
+       {q:{en:"What was the Sonderbund War of 1847?",de:"Was war der Sonderbundskrieg von 1847?"},
+        options:["A brief civil war between Catholic and liberal cantons","A war against Austria","A peasant revolt over taxes","A war between France and Switzerland"],answer:0,
+        note:{en:"The 1847 Sonderbund War was a short civil war in which federal forces defeated a separatist Catholic league.",de:"Der Sonderbundskrieg 1847 war ein kurzer Bürgerkrieg, in dem die Bundestruppen den katholischen Sonderbund besiegten."}},
+       // info: neutrality
+       {q:{en:"Which Swiss humanitarian founded the Red Cross?",de:"Welcher Schweizer Humanist gründete das Rote Kreuz?"},
+        options:["Henri Dunant","Henri Guisan","General Dufour","Carl Spitteler"],answer:0,
+        note:{en:"Henri Dunant of Geneva founded the Red Cross and won the first Nobel Peace Prize in 1901.",de:"Der Genfer Henri Dunant gründete das Rote Kreuz und erhielt 1901 den ersten Friedensnobelpreis."}},
+       // info: democracy
+       {q:{en:"How many members make up the National Council (Nationalrat)?",de:"Wie viele Mitglieder hat der Nationalrat?"},
+        options:["200","46","100","246"],answer:0,
+        note:{en:"The National Council, representing the people, has 200 members elected in proportion to population.",de:"Der Nationalrat vertritt das Volk und hat 200 nach Bevölkerungszahl gewählte Mitglieder."}},
+       // info: democracy
+       {q:{en:"How many members does the Council of States (Ständerat) have in total?",de:"Wie viele Mitglieder hat der Ständerat insgesamt?"},
+        options:["46","26","200","100"],answer:0,
+        note:{en:"The Council of States has 46 members: two per full canton and one for each of the six half-cantons.",de:"Der Ständerat hat 46 Mitglieder: zwei pro Vollkanton und je eines für die sechs Halbkantone."}},
+       // info: democracy
+       {q:{en:"How long is the term of the President of the Swiss Confederation?",de:"Wie lange dauert das Amt des Bundespräsidenten der Schweiz?"},
+        options:["One year","Four years","Two years","Life"],answer:0,
+        note:{en:"The presidency rotates yearly among the seven Federal Councillors as a 'first among equals'.",de:"Das Bundespräsidium wechselt jährlich unter den sieben Bundesräten als 'Erster unter Gleichen'."}},
+       // info: democracy
+       {q:{en:"How many signatures are needed to launch a federal popular initiative?",de:"Wie viele Unterschriften braucht es für eine eidgenössische Volksinitiative?"},
+        options:["100,000","50,000","8,000","250,000"],answer:0,
+        note:{en:"A federal popular initiative requires 100,000 valid signatures collected within 18 months.",de:"Eine eidgenössische Volksinitiative braucht 100'000 gültige Unterschriften innert 18 Monaten."}},
+       // info: democracy
+       {q:{en:"How many signatures are needed to call an optional referendum on a federal law?",de:"Wie viele Unterschriften braucht es für ein fakultatives Referendum gegen ein Bundesgesetz?"},
+        options:["50,000","100,000","30,000","200,000"],answer:0,
+        note:{en:"An optional referendum needs 50,000 valid signatures within 100 days to put a law to a popular vote.",de:"Ein fakultatives Referendum braucht 50'000 gültige Unterschriften innert 100 Tagen, um ein Gesetz vors Volk zu bringen."}},
+       // info: democracy
+       {q:{en:"In which two cantons does the open-air assembly 'Landsgemeinde' still vote by show of hands?",de:"In welchen zwei Kantonen stimmt die 'Landsgemeinde' noch per Handerheben ab?"},
+        options:["Appenzell Innerrhoden and Glarus","Uri and Schwyz","Zug and Obwalden","Bern and Lucerne"],answer:0,
+        note:{en:"The Landsgemeinde, a public assembly voting by show of hands, survives only in Appenzell Innerrhoden and Glarus.",de:"Die Landsgemeinde, bei der per Handerheben abgestimmt wird, gibt es nur noch in Appenzell Innerrhoden und Glarus."}},
+       // info: languages
+       {q:{en:"Which is the least-spoken of Switzerland's four national languages?",de:"Welche ist die am wenigsten gesprochene der vier Landessprachen?"},
+        options:["Romansh","Italian","French","German"],answer:0,
+        note:{en:"Romansh is the smallest national language, spoken by under 1% mainly in parts of Graubünden.",de:"Rätoromanisch ist die kleinste Landessprache und wird von unter 1% vor allem in Teilen Graubündens gesprochen."}},
+       // info: traditions
+       {q:{en:"Which is the largest religious denomination in Switzerland today?",de:"Welche ist heute die grösste Religionsgemeinschaft der Schweiz?"},
+        options:["Roman Catholic","Reformed Protestant","Muslim","Jewish"],answer:0,
+        note:{en:"Roman Catholics (about 30%) form the largest denomination, ahead of the Reformed Protestant church.",de:"Die römisch-katholische Kirche (rund 30%) ist die grösste Konfession, vor der reformierten Kirche."}},
+       // info: history
+       {q:{en:"Which Swiss city is the seat of the federal government and parliament?",de:"Welche Schweizer Stadt ist Sitz von Regierung und Parlament des Bundes?"},
+        options:["Bern","Zurich","Geneva","Lucerne"],answer:0,
+        note:{en:"Bern is the 'federal city' housing the Federal Council and the Federal Assembly, though not formally a 'capital'.",de:"Bern ist die 'Bundesstadt' mit Bundesrat und Bundesversammlung, gilt aber formell nicht als 'Hauptstadt'."}}
      ],
      phrases:[]}
   ]}
@@ -3534,7 +3615,7 @@ function eqText(obj){
 }
 function startEinbquiz(lesson){
   const pool = (lesson.quiz || []).slice().sort(()=>Math.random()-0.5);
-  const take = Math.min(48, pool.length);
+  const take = Math.min(24, pool.length);
   state.einbquiz = {
     lessonId: lesson.id,
     questions: pool.slice(0, take),
