@@ -1221,11 +1221,19 @@ document.body.classList.add('on-landing');
 <!-- ===== Helvi greeter (WIP) — symbol defs + fixed corner avatar, landing only ===== -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
   <symbol id="helvi" viewBox="0 0 120 220" overflow="visible">
+    <!-- wings (behind the body) -->
+    <path d="M 40 112 Q 4 102, 3 134 Q 12 129, 14 140 Q 19 129, 24 137 Q 23 122, 40 126 Z" fill="var(--body)" stroke="var(--stroke)" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M 80 112 Q 116 102, 117 134 Q 108 129, 106 140 Q 101 129, 96 137 Q 97 122, 80 126 Z" fill="var(--body)" stroke="var(--stroke)" stroke-width="2" stroke-linejoin="round"/>
     <ellipse cx="60" cy="155" rx="48" ry="44" fill="var(--body)" stroke="var(--stroke)" stroke-width="2.4"/>
     <ellipse cx="60" cy="165" rx="26" ry="30" fill="var(--belly)" stroke="var(--stroke)" stroke-width="1.6"/>
     <path d="M 42 158 Q 60 161, 78 158" fill="none" stroke="var(--seam)" stroke-width="1.2" opacity="0.5"/>
     <path d="M 42 170 Q 60 173, 78 170" fill="none" stroke="var(--seam)" stroke-width="1.2" opacity="0.5"/>
     <path d="M 42 182 Q 60 185, 78 182" fill="none" stroke="var(--seam)" stroke-width="1.2" opacity="0.5"/>
+    <!-- little paws/feet -->
+    <ellipse cx="46" cy="202" rx="13" ry="8.5" fill="var(--body)" stroke="var(--stroke)" stroke-width="2.2"/>
+    <ellipse cx="74" cy="202" rx="13" ry="8.5" fill="var(--body)" stroke="var(--stroke)" stroke-width="2.2"/>
+    <path d="M40 205 v4 M46 206 v4 M52 205 v4" stroke="var(--stroke)" stroke-width="1.1" stroke-linecap="round"/>
+    <path d="M68 205 v4 M74 206 v4 M80 205 v4" stroke="var(--stroke)" stroke-width="1.1" stroke-linecap="round"/>
     <ellipse cx="60" cy="90" rx="48" ry="44" fill="var(--body)" stroke="var(--stroke)" stroke-width="2.4"/>
     <path d="M 95 70 Q 85 50, 70 46" fill="none" stroke="var(--shine)" stroke-width="3" opacity="0.35" stroke-linecap="round"/>
     <g transform="translate(28, 48)">

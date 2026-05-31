@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v41-2026-05-31-quizcard';
+const CACHE_VERSION = 'schwiizer-v42-2026-05-31-helvi-wings';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
