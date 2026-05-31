@@ -2252,7 +2252,12 @@ const PILLARS=[
       {chde:"Chäs",phon:"KHES",phonDe:"Chäs",hd:"Käse",en:"cheese",note:"K → Ch shift: Käse → Chäs.",culture:"The other Swiss obsession. 'Chäs' shows the guttural Ch- (compare Chatz, Chappä). Emmental, Gruyère, Appenzeller — fondue and raclette."},
       {chde:"Proscht",phon:"PROSHT",phonDe:"Proscht",hd:"Prost",en:"Cheers",note:"Proscht = Prost. Eye contact!",culture:"Always clink and make EYE CONTACT in Switzerland — failing to is said to bring bad luck. 'Proscht' before the first sip is non-negotiable."},
       {chde:"En Guete",phon:"en GOO-eteh",phonDe:"en Guete",hd:"Guten Appetit",en:"Enjoy your meal",note:"'En Guete' = einen guten (Appetit).",culture:"The universal Swiss 'bon appétit', said before everyone starts eating. Wait for 'En Guete', then dig in."},
-      {chde:"Ich hetti gärn…",phon:"ikh HET-tee gaern",phonDe:"ich hetti gärn…",hd:"Ich hätte gerne…",en:"I'd like…",note:"Subjunctive politeness — the default order opener.",culture:"The polite Swiss way to order at a bakery, butcher or counter. Followed by the item: hetti gärn es Brot."}
+      {chde:"Ich hetti gärn…",phon:"ikh HET-tee gaern",phonDe:"ich hetti gärn…",hd:"Ich hätte gerne…",en:"I'd like…",note:"Subjunctive politeness — the default order opener.",culture:"The polite Swiss way to order at a bakery, butcher or counter. Followed by the item: hetti gärn es Brot."},
+      {chde:"Zmorge",phon:"TSMOR-geh",phonDe:"Zmorge",hd:"Frühstück",en:"breakfast",note:"'z Morge' = am Morgen → the morning meal.",culture:"Swiss meals each have their own word built from 'z' (at): Zmorge is breakfast. The whole day's eating maps to a tidy set of z-words."},
+      {chde:"Znüni",phon:"TSNÜ-nee",phonDe:"Znüni",hd:"Znüni (Vormittagssnack)",en:"mid-morning snack",note:"'z nüni' = at nine → the 9 a.m. snack.",culture:"A beloved Swiss institution — the mid-morning break around 9, often a coffee and a Gipfeli. Schoolkids and builders alike stop for Znüni."},
+      {chde:"Zmittag",phon:"TSMIT-tahg",phonDe:"Zmittag",hd:"Mittagessen",en:"lunch",note:"'z Mittag' = at midday → the midday meal.",culture:"Traditionally the main hot meal of the day, though that's shifting. Many still go home or to a Beiz for a proper Zmittag."},
+      {chde:"Zvieri",phon:"TSFEE-ree",phonDe:"Zvieri",hd:"Zvieri (Nachmittagssnack)",en:"afternoon snack",note:"'z vieri' = at four → the 4 p.m. snack.",culture:"The afternoon counterpart to Znüni, around four — often bread with chocolate or cheese for kids, a coffee break for adults."},
+      {chde:"Znacht",phon:"TSNAHKHT",phonDe:"Znacht",hd:"Abendessen",en:"dinner",note:"'z Nacht' = at night → the evening meal.",culture:"The evening meal, increasingly the main social meal of the day. Completes the Swiss z-word set: Zmorge, Znüni, Zmittag, Zvieri, Znacht."}
     ]}
   ]},
   {name:"Info",free:false,lessons:[
@@ -3716,7 +3721,7 @@ function speak(text, kind){
 
 /* ===== Real recorded voice — play audio/<lessonId>/<idx>.mp3 if recorded, else fall back to TTS ===== */
 // lessonId -> number of recorded phrase clips (index 0..n-1). Extend as Deborah records more.
-const RECORDED = { 1:10, 2:10, 13:10, 16:10, 17:10, 18:10, 20:10, 21:10, 22:10, 5:10, 23:10, 3:10, 15:12, 24:10, 4:10, 26:7, 19:10, 6:11, 25:10, 7:8, 28:5 };
+const RECORDED = { 1:10, 2:10, 13:10, 16:10, 17:10, 18:10, 20:10, 21:10, 22:10, 5:10, 23:10, 3:10, 15:12, 24:10, 4:10, 26:7, 19:10, 6:11, 25:10, 7:8, 28:10 };
 const __clipCache = {};                 // reuse one Audio element per clip (no overlap/restart-stutter)
 const __preloaded = new Set();
 let __nowPlaying = null;
