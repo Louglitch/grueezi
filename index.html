@@ -264,6 +264,13 @@ body.on-landing #helvi-greeter{display:block;animation:helvi-appear .8s ease-out
 #helvi-greeter svg{width:100%;height:auto;display:block;overflow:visible;filter:drop-shadow(0 4px 7px rgba(0,0,0,.15))}
 /* Helvi avatar OFF (settings toggle): hide greeter, overview Helvi + quiz hint helper */
 body.helvi-off #helvi-greeter, body.helvi-off .cat-helvi, body.helvi-off .eq-helvi{display:none!important}
+/* Helvi liveliness: wings flap occasionally + pupils follow the pointer (--peye-x/y set by JS) */
+.helvi-wing-l{transform-box:view-box;transform-origin:40px 122px;animation:helviFlapL 5s ease-in-out infinite}
+.helvi-wing-r{transform-box:view-box;transform-origin:80px 122px;animation:helviFlapR 5s ease-in-out infinite}
+@keyframes helviFlapL{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(-8deg)}90%{transform:rotate(-1.5deg)}95%{transform:rotate(-8deg)}}
+@keyframes helviFlapR{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(8deg)}90%{transform:rotate(1.5deg)}95%{transform:rotate(8deg)}}
+.helvi-pupil{transform:translate(var(--peye-x,0px),var(--peye-y,0px));transition:transform .12s ease-out}
+@media (prefers-reduced-motion:reduce){.helvi-wing-l,.helvi-wing-r{animation:none}.helvi-pupil{transition:none;transform:none!important}}
 .helvi-bob{position:relative;z-index:1;animation:helvi-bob 4.6s ease-in-out infinite;transform-origin:50% 95%}
 .helvi-tap{display:block;width:100%;padding:0;border:none;background:none;cursor:pointer;pointer-events:auto;-webkit-tap-highlight-color:transparent;transform-origin:50% 92%}
 .helvi-tap.react{animation:helvi-jump 1.6s ease-in-out}
@@ -1264,8 +1271,8 @@ document.body.classList.add('on-landing');
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
   <symbol id="helvi" viewBox="0 0 120 220" overflow="visible">
     <!-- wings (behind the body) -->
-    <path d="M 40 112 Q 4 102, 3 134 Q 12 129, 14 140 Q 19 129, 24 137 Q 23 122, 40 126 Z" fill="var(--body)" stroke="var(--stroke)" stroke-width="2" stroke-linejoin="round"/>
-    <path d="M 80 112 Q 116 102, 117 134 Q 108 129, 106 140 Q 101 129, 96 137 Q 97 122, 80 126 Z" fill="var(--body)" stroke="var(--stroke)" stroke-width="2" stroke-linejoin="round"/>
+    <path class="helvi-wing-l" d="M 40 112 Q 4 102, 3 134 Q 12 129, 14 140 Q 19 129, 24 137 Q 23 122, 40 126 Z" fill="var(--body)" stroke="var(--stroke)" stroke-width="2" stroke-linejoin="round"/>
+    <path class="helvi-wing-r" d="M 80 112 Q 116 102, 117 134 Q 108 129, 106 140 Q 101 129, 96 137 Q 97 122, 80 126 Z" fill="var(--body)" stroke="var(--stroke)" stroke-width="2" stroke-linejoin="round"/>
     <ellipse cx="60" cy="155" rx="48" ry="44" fill="var(--body)" stroke="var(--stroke)" stroke-width="2.4"/>
     <ellipse cx="60" cy="165" rx="26" ry="30" fill="var(--belly)" stroke="var(--stroke)" stroke-width="1.6"/>
     <path d="M 42 158 Q 60 161, 78 158" fill="none" stroke="var(--seam)" stroke-width="1.2" opacity="0.5"/>
@@ -1296,15 +1303,19 @@ document.body.classList.add('on-landing');
     <ellipse cx="32" cy="106" rx="6" ry="4" fill="var(--cheek)" opacity="0.75"/>
     <ellipse cx="88" cy="106" rx="6" ry="4" fill="var(--cheek)" opacity="0.75"/>
     <ellipse cx="43" cy="86" rx="9" ry="11" fill="var(--eye-base)"/>
-    <ellipse cx="43" cy="86" rx="6" ry="8" fill="var(--eye-pupil)"/>
-    <ellipse cx="45" cy="81" rx="2.6" ry="3.2" fill="#FFFFFF"/>
-    <circle cx="40.5" cy="90" r="1.4" fill="#FFFFFF" opacity="0.85"/>
-    <circle cx="44" cy="88" r="0.7" fill="#FFFFFF" opacity="0.6"/>
+    <g class="helvi-pupil">
+      <ellipse cx="43" cy="86" rx="6" ry="8" fill="var(--eye-pupil)"/>
+      <ellipse cx="45" cy="81" rx="2.6" ry="3.2" fill="#FFFFFF"/>
+      <circle cx="40.5" cy="90" r="1.4" fill="#FFFFFF" opacity="0.85"/>
+      <circle cx="44" cy="88" r="0.7" fill="#FFFFFF" opacity="0.6"/>
+    </g>
     <ellipse cx="77" cy="86" rx="9" ry="11" fill="var(--eye-base)"/>
-    <ellipse cx="77" cy="86" rx="6" ry="8" fill="var(--eye-pupil)"/>
-    <ellipse cx="79" cy="81" rx="2.6" ry="3.2" fill="#FFFFFF"/>
-    <circle cx="74.5" cy="90" r="1.4" fill="#FFFFFF" opacity="0.85"/>
-    <circle cx="78" cy="88" r="0.7" fill="#FFFFFF" opacity="0.6"/>
+    <g class="helvi-pupil">
+      <ellipse cx="77" cy="86" rx="6" ry="8" fill="var(--eye-pupil)"/>
+      <ellipse cx="79" cy="81" rx="2.6" ry="3.2" fill="#FFFFFF"/>
+      <circle cx="74.5" cy="90" r="1.4" fill="#FFFFFF" opacity="0.85"/>
+      <circle cx="78" cy="88" r="0.7" fill="#FFFFFF" opacity="0.6"/>
+    </g>
   </symbol>
   <symbol id="flower" viewBox="-10 -10 20 20" overflow="visible">
     <g fill="var(--bg-alt)" stroke="var(--beige)" stroke-width="1">
@@ -1933,6 +1944,23 @@ function setHelvi(on){
   renderAccount();
 }
 applyHelvi();
+// Helvi eyes follow the pointer (subtle) — sets --peye-x/y on each visible Helvi host; pupils translate via CSS
+(function(){
+  try{ if(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches) return; }catch(e){}
+  const MAXX=3, MAXY=3.4; let mx=0,my=0,pending=false;
+  function upd(){
+    pending=false;
+    document.querySelectorAll('#helvi-greeter, .cat-helvi, .eq-helvi-btn').forEach(host=>{
+      const r=host.getBoundingClientRect();
+      if(!r.width||!r.height) return;
+      const cx=r.left+r.width*0.5, cy=r.top+r.height*0.40;
+      let dx=mx-cx, dy=my-cy; const d=Math.hypot(dx,dy)||1;
+      host.style.setProperty('--peye-x',(Math.max(-MAXX,Math.min(MAXX,dx/d*MAXX))).toFixed(2)+'px');
+      host.style.setProperty('--peye-y',(Math.max(-MAXY,Math.min(MAXY,dy/d*MAXY))).toFixed(2)+'px');
+    });
+  }
+  window.addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; if(!pending){pending=true; requestAnimationFrame(upd);} },{passive:true});
+})();
 // kind 'word' → core learning audio (master mute only); 'cheer' → congrats (master OR cheers mute)
 function canPlay(kind){
   if(!SOUND_ON) return false;
