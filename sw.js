@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v52-2026-05-31-quiz-read-return';
+const CACHE_VERSION = 'schwiizer-v53-2026-05-31-swearphrases';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
