@@ -832,7 +832,13 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
 
 
 /* End-of-lesson quiz card */
-.quiz-card{background:var(--card);border-radius:20px;border:0.5px solid var(--cream2);padding:1.75rem 1.5rem;text-align:center;margin:2rem auto 1rem;max-width:460px;box-shadow:0 4px 16px rgba(44,56,48,.06)}
+.quiz-card{background:var(--card);border-radius:20px;border:0.5px solid var(--cream2);padding:1.9rem 1.6rem;text-align:center;margin:2rem auto 1rem;max-width:460px;box-shadow:0 4px 16px rgba(44,56,48,.06);position:relative}
+.qz-flower{position:absolute;width:15px;height:15px;opacity:.5;pointer-events:none}
+.qz-flower svg{width:100%;height:100%;overflow:visible}
+.qz-fl-tl{top:10px;left:11px}
+.qz-fl-tr{top:10px;right:11px}
+.qz-fl-bl{bottom:10px;left:11px}
+.qz-fl-br{bottom:10px;right:11px}
 .quiz-progress{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--texts);opacity:.6;margin-bottom:.6rem}
 .quiz-prompt{font-size:16.5px;font-weight:400;color:var(--text);margin-bottom:1.25rem;opacity:1;line-height:1.5}
 /* einbürgerung quiz: sit the card lower (centred in the lower-middle), off the ceiling */
@@ -3748,6 +3754,10 @@ function renderEinbquizQuestion(){
                         .sort(()=>Math.random()-0.5);
   content.innerHTML = `
     <div class="eq-wrap"><div class="quiz-card">
+      <span class="qz-flower qz-fl-tl"><svg viewBox="-10 -10 20 20"><use href="#flower"/></svg></span>
+      <span class="qz-flower qz-fl-tr"><svg viewBox="-10 -10 20 20"><use href="#flower"/></svg></span>
+      <span class="qz-flower qz-fl-bl"><svg viewBox="-10 -10 20 20"><use href="#flower"/></svg></span>
+      <span class="qz-flower qz-fl-br"><svg viewBox="-10 -10 20 20"><use href="#flower"/></svg></span>
       <div class="quiz-progress">${APP_LANG==='de'?('Frage '+(eq.idx+1)+' von '+eq.questions.length):('Question '+(eq.idx+1)+' of '+eq.questions.length)}</div>
       <div class="quiz-prompt">${escapeHtml(eqText(q.q))}</div>
       <div class="listen-grid" id="eq-opts">
