@@ -728,6 +728,11 @@ body[data-mode="dark"] .cat-helvi{--body:#A8C8BC;--stroke:#EDE8DF;--belly:#28282
 .cat-flower svg{width:100%;height:100%;overflow:visible}
 .cat-fl-tl{top:8px;left:8px}
 .cat-fl-tr{top:8px;right:8px}
+/* desktop: centre the category overview vertically + cap width so cards aren't stretched */
+@media(min-width:760px){
+  .cat-overview{max-width:540px;margin:0 auto;min-height:58vh;display:flex;flex-direction:column;justify-content:center}
+  .cat-grid{gap:16px}
+}
 .cat-back{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--textm);font-family:var(--font,'Jost',sans-serif);font-size:13px;cursor:pointer;padding:4px 0;margin-bottom:8px;letter-spacing:.02em}
 .cat-back svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
 .cat-secname{display:flex;align-items:center;gap:8px;font-size:20px;font-weight:600;letter-spacing:.01em;margin:2px 2px 13px}
@@ -2971,7 +2976,9 @@ function renderLessons(){
     intro.innerHTML=`
       <div class="cat-helvi"><svg viewBox="0 0 120 220" role="img" aria-label="Helvi"><use href="#helvi"/></svg></div>
       <div class="cat-intro-text">${APP_LANG==='de'?'Was möchtest du üben?':'What do you want to practise?'}</div>`;
-    container.appendChild(intro);
+    const overview=document.createElement('div');
+    overview.className='cat-overview';
+    overview.appendChild(intro);
     const grid=document.createElement('div');
     grid.className='cat-grid';
     cats.forEach(cat=>{
@@ -3006,7 +3013,8 @@ function renderLessons(){
       };
       grid.appendChild(card);
     });
-    container.appendChild(grid);
+    overview.appendChild(grid);
+    container.appendChild(overview);
     return;
   }
 
