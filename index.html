@@ -822,9 +822,9 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
 
 
 /* End-of-lesson quiz card */
-.quiz-card{background:var(--card);border-radius:20px;border:0.5px solid var(--cream2);padding:1.75rem 1.5rem;text-align:center;margin-bottom:1rem}
-.quiz-progress{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--texts);opacity:.5;margin-bottom:.5rem}
-.quiz-prompt{font-size:15.5px;font-weight:400;color:var(--textm);margin-bottom:1.25rem;opacity:.85;line-height:1.5}
+.quiz-card{background:var(--card);border-radius:20px;border:0.5px solid var(--cream2);padding:1.75rem 1.5rem;text-align:center;margin:2rem auto 1rem;max-width:460px;box-shadow:0 4px 16px rgba(44,56,48,.06)}
+.quiz-progress{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--texts);opacity:.6;margin-bottom:.6rem}
+.quiz-prompt{font-size:16.5px;font-weight:400;color:var(--text);margin-bottom:1.25rem;opacity:1;line-height:1.5}
 
 /* SENTENCE STAGE */
 .sentence-card{background:var(--card);border-radius:20px;border:0.5px solid var(--cream2);padding:1.5rem;margin-bottom:1rem}
@@ -3743,7 +3743,7 @@ function renderEinbquizQuestion(){
                         .sort(()=>Math.random()-0.5);
   content.innerHTML = `
     <div class="quiz-card">
-      <div class="quiz-progress">${eq.idx+1} / ${eq.questions.length}</div>
+      <div class="quiz-progress">${APP_LANG==='de'?('Frage '+(eq.idx+1)+' von '+eq.questions.length):('Question '+(eq.idx+1)+' of '+eq.questions.length)}</div>
       <div class="quiz-prompt">${escapeHtml(eqText(q.q))}</div>
       <div class="listen-grid" id="eq-opts">
         ${opts.map(o=>`<button class="lopt" onclick="einbquizAnswer(this,${o.correct})">${escapeHtml(o.text)}</button>`).join('')}
