@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v60-2026-05-31-smalltalk-freizeit';
+const CACHE_VERSION = 'schwiizer-v61-2026-06-01-feelings';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
