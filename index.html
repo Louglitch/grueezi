@@ -215,7 +215,7 @@ body.on-landing .global-horizon{display:none}
 .bnav-btn svg{stroke:currentColor}
 .bnav-btn.active svg{stroke:var(--nav-text-active)}
 @keyframes view-fade-in{0%{transform:translateY(6px)}100%{transform:translateY(0)}}
-.view.active{display:block;animation:view-fade-in .35s ease-out}
+.view.active{display:block}  /* no transform/opacity entrance — it caused a white flash + made position:fixed stage-mountains jump to mid-screen */
 @media (prefers-reduced-motion:reduce){.view.active{animation:none}}
 
 /* LANDING */
@@ -795,8 +795,8 @@ body[data-mode="dark"] .word-progress i.done{background:var(--mint)}
 .stage-mountain-back{fill:var(--gz-mint, #A8C8BC);opacity:.20}
 .stage-mountain-front{fill:var(--gz-mint, #A8C8BC);opacity:.34}
 /* Pink mode */
-body[data-mode="pink"] .stage-mountain-back{opacity:.24}
-body[data-mode="pink"] .stage-mountain-front{opacity:.40}
+body[data-mode="pink"] .stage-mountain-back{fill:#C56689;opacity:.24}
+body[data-mode="pink"] .stage-mountain-front{fill:#B85578;opacity:.40}
 /* Dark mode mountains */
 body[data-mode="dark"] .stage-mountain-back{fill:#3a4e46;opacity:.36}
 body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
@@ -835,6 +835,8 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
 .quiz-card{background:var(--card);border-radius:20px;border:0.5px solid var(--cream2);padding:1.75rem 1.5rem;text-align:center;margin:2rem auto 1rem;max-width:460px;box-shadow:0 4px 16px rgba(44,56,48,.06)}
 .quiz-progress{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--texts);opacity:.6;margin-bottom:.6rem}
 .quiz-prompt{font-size:16.5px;font-weight:400;color:var(--text);margin-bottom:1.25rem;opacity:1;line-height:1.5}
+/* einbürgerung quiz: sit the card lower (centred in the lower-middle), off the ceiling */
+.eq-wrap{display:flex;flex-direction:column;justify-content:center;min-height:60vh}
 
 /* SENTENCE STAGE */
 .sentence-card{background:var(--card);border-radius:20px;border:0.5px solid var(--cream2);padding:1.5rem;margin-bottom:1rem}
@@ -3738,14 +3740,14 @@ function renderEinbquizQuestion(){
   const opts = q.options.map((o,i)=>({text:o, correct:i===q.answer}))
                         .sort(()=>Math.random()-0.5);
   content.innerHTML = `
-    <div class="quiz-card">
+    <div class="eq-wrap"><div class="quiz-card">
       <div class="quiz-progress">${APP_LANG==='de'?('Frage '+(eq.idx+1)+' von '+eq.questions.length):('Question '+(eq.idx+1)+' of '+eq.questions.length)}</div>
       <div class="quiz-prompt">${escapeHtml(eqText(q.q))}</div>
       <div class="listen-grid" id="eq-opts">
         ${opts.map(o=>`<button class="lopt" onclick="einbquizAnswer(this,${o.correct})">${escapeHtml(o.text)}</button>`).join('')}
       </div>
       <div class="quiz-prompt" id="eq-note" style="min-height:0;margin-top:1rem;display:none"></div>
-    </div>`;
+    </div></div>`;
   eq.answered = false;
   const nb = document.getElementById('btn-next');
   if(nb){ nb.disabled = true; nb.style.display='none'; }
