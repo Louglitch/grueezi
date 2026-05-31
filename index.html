@@ -549,6 +549,8 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
 .sr-en{font-size:11px;font-weight:300;color:var(--textm);margin-bottom:3px}
 .sr-meta{font-size:9px;font-weight:300;color:var(--texts);letter-spacing:.04em;text-transform:lowercase}
 .search-empty{font-size:11px;font-weight:300;color:var(--texts);padding:.5rem 0;text-align:center}
+/* while searching: hide the category overview + stamp collection below for a clean result list */
+#view-lessons.searching #lessons-list, #view-lessons.searching #collection-row{display:none}
 .search-locked{display:inline-block;font-size:9px;padding:1px 7px;border-radius:999px;background:var(--cream2);color:var(--texts);margin-left:6px;vertical-align:middle}
 
 /* STATS */
@@ -717,6 +719,12 @@ body[data-mode="pink"] .cat-helvi{--body:#D67BA0;--stroke:#7A3040;--belly:#FAF6E
 body[data-mode="dark"] .cat-helvi{--body:#A8C8BC;--stroke:#EDE8DF;--belly:#28282B;--seam:rgba(212,120,138,0.4);--cheek:rgba(212,120,138,.55);--petal:#28282B;--edel-center:#D4788A;--eye-base:#0A050E;--eye-pupil:#000000}
 .cat-helvi svg{width:100%;height:auto;display:block;overflow:visible;filter:drop-shadow(0 4px 7px rgba(0,0,0,.13));animation:helvi-bob 4.6s ease-in-out infinite;transform-origin:50% 92%}
 .cat-intro-text{font-size:17px;font-weight:300;color:var(--textm);line-height:1.45}
+.cat-helvi{cursor:pointer;position:relative}
+.cat-helvi.react{animation:cat-hop .9s ease-in-out}
+@keyframes cat-hop{0%{transform:translateY(0)}22%{transform:translateY(-16px) scale(1.02,.98)}45%{transform:translateY(-22px)}70%{transform:translateY(-7px)}100%{transform:translateY(0)}}
+.cat-helvi-bubble{position:absolute;bottom:90%;right:4%;max-width:190px;background:var(--card);border:.5px solid var(--cream2);border-radius:13px;padding:6px 11px;font-size:12px;line-height:1.35;color:var(--text);box-shadow:0 4px 12px rgba(0,0,0,.13);opacity:0;transform:translateY(5px) scale(.9);transform-origin:80% 120%;transition:opacity .2s,transform .25s cubic-bezier(.34,1.56,.64,1);pointer-events:none;z-index:6}
+.cat-helvi-bubble.show{opacity:1;transform:translateY(0) scale(1)}
+.cat-helvi-bubble::after{content:'';position:absolute;bottom:-4px;right:20px;width:9px;height:9px;background:inherit;border-right:.5px solid var(--cream2);border-bottom:.5px solid var(--cream2);transform:rotate(45deg)}
 .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:.5rem}
 .cat-card{background:var(--card);border-radius:9px;padding:6px;cursor:pointer;position:relative;transition:transform .12s ease;-webkit-tap-highlight-color:transparent;background-image:radial-gradient(circle at 7px 7px, transparent 3px, var(--card) 3.6px);filter:drop-shadow(0 3px 7px rgba(44,56,48,.12))}
 .cat-card:hover{transform:translateY(-2px)}
@@ -1996,6 +2004,19 @@ function helviPoke(btn){
     bub._hide = setTimeout(()=>bub.classList.remove('show'), 1600);
   }
 }
+// Tap Helvi on the lessons overview → little hop + a guide tip (where to find things)
+const HELVI_TIPS_DE=["Wörter = einzelni Begriff","Sätze = ganzi Phrase fürs Gspröch","Wissen = Schwiiz-Artikel zum Läse","Einbürgerung = de Test üebe","De Such-Chnopf find jedi Phrase","Im Quiz: tipp mich a für en Tipp!"];
+const HELVI_TIPS_EN=["Words = single terms","Phrases = full sentences to chat","Info = articles about Switzerland","Citizenship = practise the test","The search button finds any phrase","In the quiz: tap me for a hint!"];
+function catHelviPoke(el){
+  el.classList.remove('react'); void el.offsetWidth; el.classList.add('react');
+  setTimeout(()=>el.classList.remove('react'), 900);
+  const bub=el.querySelector('.cat-helvi-bubble');
+  if(bub){
+    const tips=(typeof APP_LANG!=='undefined'&&APP_LANG==='de')?HELVI_TIPS_DE:HELVI_TIPS_EN;
+    bub.textContent=tips[Math.floor(Math.random()*tips.length)];
+    bub.classList.add('show'); clearTimeout(bub._h); bub._h=setTimeout(()=>bub.classList.remove('show'), 2800);
+  }
+}
 function applyMode(m){
   if(!MODES.includes(m)) m = 'mint';
   document.body.setAttribute('data-mode', m);
@@ -2580,6 +2601,7 @@ function openSearchFromNav(){
     const input = document.getElementById('search-input');
     const title = document.getElementById('lessons-page-title');
     if(panel){ panel.removeAttribute('hidden'); }
+    const vl=document.getElementById('view-lessons'); if(vl) vl.classList.add('searching');
     if(input){ input.focus(); input.value=''; }
     // Change the page title so user sees they're in search mode
     if(title){ title.innerHTML = t('search')+'<span class="u-dots"><i></i><i></i></span>'; }
@@ -2601,6 +2623,7 @@ function resetLessonsPageTitle(){
   const panel = document.getElementById('search-panel');
   // also hide search panel since we're now in plain lessons mode
   if(panel){ panel.setAttribute('hidden',''); }
+  const vl=document.getElementById('view-lessons'); if(vl) vl.classList.remove('searching');
 }
 
 // Tap on the top-right login icon — if signed in → settings, else → sign-in view
@@ -3064,7 +3087,7 @@ function renderLessons(){
     intro.className='cat-intro';
     intro.innerHTML=`
       <div class="cat-intro-text">${APP_LANG==='de'?'Was möchtest du üben?':'What do you want to practise?'}</div>
-      <div class="cat-helvi"><svg viewBox="0 0 120 220" role="img" aria-label="Helvi"><use href="#helvi"/></svg></div>`;
+      <div class="cat-helvi" onclick="catHelviPoke(this)"><div class="cat-helvi-bubble" id="cat-helvi-bubble"></div><svg viewBox="0 0 120 220" role="img" aria-label="Helvi"><use href="#helvi"/></svg></div>`;
     const overview=document.createElement('div');
     overview.className='cat-overview';
     overview.appendChild(intro);
@@ -3136,14 +3159,17 @@ function toggleSearch(){
   const btn=document.getElementById('search-toggle');
   if(!panel) return;
   const isHidden=panel.hasAttribute('hidden');
+  const vl=document.getElementById('view-lessons');
   if(isHidden){
     panel.removeAttribute('hidden');
     if(btn) btn.classList.add('open');
+    if(vl) vl.classList.add('searching');
     setTimeout(()=>{const i=document.getElementById('search-input');if(i)i.focus();},50);
     runSearch(''); // show all
   } else {
     panel.setAttribute('hidden','');
     if(btn) btn.classList.remove('open');
+    if(vl) vl.classList.remove('searching');
     const i=document.getElementById('search-input');if(i)i.value='';
   }
 }
