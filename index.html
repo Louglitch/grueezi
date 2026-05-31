@@ -262,6 +262,8 @@ body.on-landing #helvi-greeter{display:block;animation:helvi-appear .8s ease-out
 .helvi-drift-y{position:relative}
 .helvi-drift-y::after{content:'';position:absolute;left:50%;bottom:7%;width:54%;height:11px;background:rgba(0,0,0,.24);border-radius:50%;filter:blur(4px);transform:translateX(-50%);animation:helvi-shadow 4.2s ease-in-out infinite;z-index:0;pointer-events:none}
 #helvi-greeter svg{width:100%;height:auto;display:block;overflow:visible;filter:drop-shadow(0 4px 7px rgba(0,0,0,.15))}
+/* Helvi avatar OFF (settings toggle): hide greeter, overview Helvi + quiz hint helper */
+body.helvi-off #helvi-greeter, body.helvi-off .cat-helvi, body.helvi-off .eq-helvi{display:none!important}
 .helvi-bob{position:relative;z-index:1;animation:helvi-bob 4.6s ease-in-out infinite;transform-origin:50% 95%}
 .helvi-tap{display:block;width:100%;padding:0;border:none;background:none;cursor:pointer;pointer-events:auto;-webkit-tap-highlight-color:transparent;transform-origin:50% 92%}
 .helvi-tap.react{animation:helvi-jump 1.6s ease-in-out}
@@ -1804,7 +1806,7 @@ const I18N = {
     alreadyDevice:"already bought on another device?",
     libLead:"we're <strong>continuously updating the library</strong> — thank you for being part of becoming schwiizer",
     libLink:"share what you'd like to learn — or report a bug ›",
-    sound:"sound", cheers:"helvi & cheers", on:"on", off:"off",
+    sound:"sound", cheers:"helvi & cheers", helviAvatar:"helvi avatar", on:"on", off:"off",
     featVoiceT:"real voice", featVoiceS:"every phrase recorded by Deborah — native swiss german",
     featOfflineT:"works offline", featOfflineS:"on the train, in the mountains, no signal needed",
     featFocusT:"designed for focus", featFocusS:"the structure your brain will thank you for",
@@ -1840,7 +1842,7 @@ const I18N = {
     alreadyDevice:"Schon auf einem anderen Gerät gekauft?",
     libLead:"Wir <strong>erweitern die Bibliothek laufend</strong> — danke, dass du bei becoming schwiizer dabei bist",
     libLink:"Sag uns, was du lernen möchtest — oder melde einen Fehler ›",
-    sound:"Ton", cheers:"Helvi & Jubel", on:"An", off:"Aus",
+    sound:"Ton", cheers:"Helvi & Jubel", helviAvatar:"Helvi-Avatar", on:"An", off:"Aus",
     featVoiceT:"Echte Stimme", featVoiceS:"Jeder Satz von Deborah aufgenommen — echtes Schweizerdeutsch",
     featOfflineT:"Funktioniert offline", featOfflineS:"Im Zug, in den Bergen, kein Empfang nötig",
     featFocusT:"Für Konzentration gemacht", featFocusS:"Die Struktur, für die dir dein Kopf danken wird",
@@ -1919,6 +1921,15 @@ function setCheers(on){
   lsSet('g_cheers', on ? 'on' : 'off');
   renderAccount();
 }
+let HELVI_ON = lsGet('g_helvi') !== 'off';   // visual Helvi avatar (greeter + overview + quiz hint)
+function applyHelvi(){ try{ document.body.classList.toggle('helvi-off', !HELVI_ON); }catch(e){} }
+function setHelvi(on){
+  HELVI_ON = !!on;
+  lsSet('g_helvi', on ? 'on' : 'off');
+  applyHelvi();
+  renderAccount();
+}
+applyHelvi();
 // kind 'word' → core learning audio (master mute only); 'cheer' → congrats (master OR cheers mute)
 function canPlay(kind){
   if(!SOUND_ON) return false;
@@ -2695,6 +2706,15 @@ function renderAccount(){
         <div class="mode-pills">
           <button class="${CHEERS_ON?'active':''}" onclick="setCheers(true)">${t('on')}</button>
           <button class="${!CHEERS_ON?'active':''}" onclick="setCheers(false)">${t('off')}</button>
+        </div>
+      </div>
+      <div class="me-row me-row-divided">
+        <span class="me-row-text me-row-text-with-icon">
+          <span class="me-row-icon">${ic.cheer}</span>${t('helviAvatar')}
+        </span>
+        <div class="mode-pills">
+          <button class="${HELVI_ON?'active':''}" onclick="setHelvi(true)">${t('on')}</button>
+          <button class="${!HELVI_ON?'active':''}" onclick="setHelvi(false)">${t('off')}</button>
         </div>
       </div>
     </div>
