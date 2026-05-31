@@ -837,6 +837,13 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
 .quiz-prompt{font-size:16.5px;font-weight:400;color:var(--text);margin-bottom:1.25rem;opacity:1;line-height:1.5}
 /* einbürgerung quiz: sit the card lower (centred in the lower-middle), off the ceiling */
 .eq-wrap{display:flex;flex-direction:column;justify-content:center;min-height:60vh}
+/* desktop: scale the quiz card up so it doesn't look lost on big screens */
+@media(min-width:760px){
+  .quiz-card{max-width:560px;padding:2.4rem 2.1rem}
+  .quiz-prompt{font-size:18.5px}
+  .lopt{font-size:14.5px;padding:14px 16px}
+  .eq-wrap{min-height:64vh}
+}
 
 /* SENTENCE STAGE */
 .sentence-card{background:var(--card);border-radius:20px;border:0.5px solid var(--cream2);padding:1.5rem;margin-bottom:1rem}
