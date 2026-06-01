@@ -129,7 +129,7 @@ button,a{-webkit-user-select:none;user-select:none}
   html{font-size:18.5px}
   /* desktop: top bar spans wide so logo hugs the left corner, login the right (content stays centered) */
   .nav-inner{max-width:1160px;padding:0 2rem}
-  .features{padding:2.5rem 1.25rem calc(9rem + env(safe-area-inset-bottom, 0px))}
+  .features{padding:1.75rem 1.25rem calc(5rem + env(safe-area-inset-bottom, 0px))}
   .features-inner{gap:1.75rem}
   .page-header{padding:2.5rem 0 1rem;margin-bottom:1.5rem}
   .view{padding-bottom:calc(130px + env(safe-area-inset-bottom, 0px))}
@@ -220,9 +220,9 @@ body.on-landing .global-horizon{display:none}
 
 /* LANDING */
 #view-landing{padding-bottom:0;background:var(--cream2)}
-.hero{background:var(--mint-light);padding:2rem 1.25rem 6rem;text-align:center;transition:background .4s ease;position:relative;min-height:min(600px, calc(100svh - 60px));display:flex;flex-direction:column;justify-content:center;align-items:center}
+.hero{background:var(--mint-light);padding:1.5rem 1.25rem 4.5rem;text-align:center;transition:background .4s ease;position:relative;min-height:min(460px, calc(100svh - 250px));display:flex;flex-direction:column;justify-content:center;align-items:center}
 @media (min-width:768px){
-  .hero{padding:3rem 1.25rem 9rem}
+  .hero{padding:2rem 1.25rem 6rem}
 }
 /* gentle gradient at hero bottom → blends into features bg so mountains feel anchored */
 .hero::after{
@@ -517,7 +517,7 @@ body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:
 .signin-status.err{color:var(--rose-deep)}
 .signin-help{font-size:12px;color:var(--texts);text-align:center;margin:1.25rem 0 0;line-height:1.6;font-weight:400}
 .signin-help a{color:var(--dark);text-decoration:underline;text-decoration-color:rgba(44,56,48,.3);text-underline-offset:2px}
-.features{background:var(--cream);padding:1.5rem 1.25rem calc(7.5rem + env(safe-area-inset-bottom, 0px))}
+.features{background:var(--cream);padding:1.25rem 1.25rem calc(4rem + env(safe-area-inset-bottom, 0px))}
 .features-inner{max-width:var(--col);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
 .feat{display:flex;gap:8px;align-items:flex-start}
 .feat-dot{width:5px;height:5px;border-radius:50%;background:var(--sage);flex-shrink:0;margin-top:6px;animation:feat-twinkle 4s ease-in-out infinite;transform-origin:center}
@@ -1244,7 +1244,7 @@ document.body.classList.add('on-landing');
       <div class="nav-logo" onclick="showView('landing')">
         <svg class="hero-helvi" width="32" height="32" viewBox="0 0 96 96" role="img" aria-label="Becoming Schwiizer" style="border-radius:8px;overflow:visible">
           <rect width="96" height="96" rx="22" fill="var(--hh-bg)"/>
-          <use href="#helvi" x="10" y="2" width="76" height="92"/>
+          <use href="#helvi" x="10" y="-3" width="76" height="92"/>
         </svg>
         <div class="nav-wordmark">schw<span>ii</span>zer</div>
         <span class="nav-beta" aria-label="beta">beta</span>
