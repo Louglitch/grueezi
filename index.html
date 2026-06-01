@@ -741,7 +741,7 @@ body[data-mode="dark"] .cat-helvi{--body:#A8C8BC;--stroke:#EDE8DF;--belly:#28282
 .cat-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:.5rem;
   --tile:#BFD8CC;--ink:#2C3830;--stamp:#F2EDE2;--stampink:#2C3830;--st-edge:#C4B89E}
 body[data-mode="pink"] .cat-grid{--tile:#D98BAD;--ink:#FBF4F7;--stamp:#FAF0F4;--stampink:#7A3040;--st-edge:#C98BA6}
-body[data-mode="dark"] .cat-grid{--tile:#2E3A34;--ink:#EDE8DF;--stamp:#39463F;--stampink:#EDE8DF;--st-edge:rgba(212,120,138,.45)}
+body[data-mode="dark"] .cat-grid{--tile:#A8C8BC;--ink:#1E2A24;--stamp:#F2EDE2;--stampink:#2C3830;--st-edge:#7FA192}
 .cat-card{display:flex;align-items:center;gap:14px;padding:12px 15px;border-radius:14px;background:var(--tile);color:var(--ink);cursor:pointer;filter:drop-shadow(0 2px 6px rgba(44,56,48,.10));transition:transform .12s ease;-webkit-tap-highlight-color:transparent}
 .cat-card:hover{transform:translateY(-1px)}
 .cat-card:active{transform:translateY(0)}
@@ -2940,7 +2940,7 @@ function renderAccount(){
     <div class="me-section-label">${t('achievements')}</div>
     <div class="me-card">
       <div class="me-row" style="padding-bottom:2px">
-        <span class="me-row-text me-row-text-with-icon"><span class="me-row-icon" style="color:var(--rose);opacity:1">${ic.star}</span>${state.stamps.length} / ${getAllLessons().length}</span>
+        <span class="me-row-text me-row-text-with-icon"><span class="me-row-icon" style="color:var(--rose);opacity:1"><svg viewBox="0 0 24 24"><path d="M3 20h18L14 6l-3.5 6-2-3z"/></svg></span>${state.stamps.length} / ${getAllLessons().length}</span>
       </div>
       <div class="me-stamps">${stampDotsHTML()}</div>
     </div>
