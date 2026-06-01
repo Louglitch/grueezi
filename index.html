@@ -761,8 +761,10 @@ body[data-mode="dark"] .cat-grid{--tile:#A8C8BC;--ink:#1E2A24;--stamp:#F2EDE2;--
 }
 .cat-back{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--textm);font-family:var(--font,'Jost',sans-serif);font-size:13px;cursor:pointer;padding:4px 0;margin-bottom:8px;letter-spacing:.02em}
 .cat-back svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
-.cat-secname{display:flex;align-items:center;gap:8px;font-size:20px;font-weight:600;letter-spacing:.01em;margin:2px 2px 13px}
+.cat-secname{display:flex;align-items:center;gap:8px;font-size:20px;font-weight:600;letter-spacing:.01em;margin:2px 2px 13px;color:var(--rose)}
 .cat-secname svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8}
+/* category title = contrasting theme colour: mint & dark modes → rose, pink mode → mint(sage) */
+body[data-mode="pink"] .cat-secname{color:var(--sage)}
 .pillar-label{font-size:12px;font-weight:500;color:var(--text);padding:16px 0 6px;margin-bottom:2px;letter-spacing:.01em}
 .lessons-list{display:flex;flex-direction:column;gap:1px;background:var(--cream2);border-radius:18px;overflow:hidden;border:0.5px solid var(--cream2)}
 .lesson-row{background:var(--card);padding:11px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .1s}
@@ -850,6 +852,13 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
 .wc-arrow:disabled{opacity:.18;pointer-events:none}
 .wc-translations{display:flex;flex-direction:column;gap:.25rem;align-items:center}
 .wc-en{font-size:1.25rem;font-weight:400;color:var(--dark);letter-spacing:-.005em}
+.wc-rec-row{display:flex;flex-direction:column;align-items:center;gap:5px;margin-top:1.25rem}
+.wc-rec{font-family:inherit;font-size:.95rem;font-weight:400;border:none;border-radius:999px;padding:.65rem 1.15rem;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;color:#fff;background:var(--sage);transition:transform .12s ease,filter .15s ease}
+.wc-rec:active{transform:scale(.96)}
+.wc-rec.on{filter:brightness(.85)}
+.wc-rec.busy{filter:brightness(.93)}
+.wc-rec .ic{font-size:.7rem;line-height:1}
+.wc-rec-hint{font-size:.66rem;color:var(--texts);letter-spacing:.01em}
 .wc-hd{font-size:13px;font-weight:300;color:var(--texts);opacity:.6;font-style:italic}
 .ghost-next{background:none;border:none;font-family:'Jost',sans-serif;font-size:13px;font-weight:300;color:var(--dark);opacity:.55;letter-spacing:.04em;cursor:pointer;padding:8px 16px;transition:opacity .15s ease}
 .ghost-next:hover{opacity:.95}
@@ -3181,7 +3190,7 @@ function renderLessons(){
 
   const secname=document.createElement('div');
   secname.className='cat-secname';
-  secname.style.color=active.bar;   // colour the title in the category's accent
+  // title colour is set per theme-mode in CSS (.cat-secname): pink mode → mint, mint/dark → rose
   secname.innerHTML=`${CAT_ICONS[active.cls]||''}<span>${catLabel(active)}</span>`;
   container.appendChild(secname);
 
@@ -3505,6 +3514,10 @@ function renderStage(){
       </div>
       <div class="wc-translations">
         <div class="wc-en">${phraseMeaning(phrase)}</div>
+      </div>
+      <div class="wc-rec-row">
+        <button class="wc-rec" id="wc-rec-btn" onclick="recCompare(${lesson.id},${state.currentPhraseIdx},'${phrase.chde.replace(/'/g,"\\'")}')"><span class="ic">●</span><span class="t">${__wcL('start')}</span></button>
+        <div class="wc-rec-hint">🔒 ${__wcL('hint')}</div>
       </div>
     </div>`;
   // Auto-play audio on word load — real recording if available, else TTS
@@ -3856,6 +3869,60 @@ function playPhrase(lessonId, idx, text, kind){
     }catch(e){ /* fall through to TTS */ }
   }
   speak(text, kind);
+}
+
+/* ===== ufnäh & verglichae — record your voice, hear Original ⇄ yours, nothing saved ===== */
+let __wcRec=null,__wcMedia=null,__wcChunks=[],__wcState='idle';
+// button is UI/instruction → follows APP_LANG (en|de); the phrase stays Swiss German
+const __WC_T={
+  start:{en:'record & compare', de:'aufnehmen & vergleichen'},
+  stop: {en:'stop · say it',     de:'stopp · sprich'},
+  cmp:  {en:'comparing…',        de:'vergleichen…'},
+  again:{en:'again',             de:'nochmal'},
+  mic:  {en:'allow microphone…', de:'Mikrofon erlauben…'},
+  hint: {en:'not saved',         de:'wird nicht gespeichert'}
+};
+function __wcL(k){ const l=(typeof APP_LANG!=='undefined'&&APP_LANG==='de')?'de':'en'; return (__WC_T[k]||{})[l]||''; }
+function __wcBtn(){ return document.getElementById('wc-rec-btn'); }
+function __wcUI(cls,label){ const b=__wcBtn(); if(!b) return; b.classList.remove('on','busy'); if(cls)b.classList.add(cls);
+  const t=b.querySelector('.t'); if(t&&label!=null)t.textContent=label; }
+function __wcTTS(text,done){
+  if(!('speechSynthesis' in window)){ done&&done(); return; }
+  const u=new SpeechSynthesisUtterance(text); u.rate=0.85;
+  const vs=speechSynthesis.getVoices();
+  const v=vs.find(x=>/^de-CH/i.test(x.lang))||vs.find(x=>/^de-DE/i.test(x.lang))||vs.find(x=>/^de/i.test(x.lang));
+  if(v){u.voice=v;u.lang=v.lang;}else u.lang='de-DE';
+  u.onend=()=>done&&done(); speechSynthesis.cancel(); speechSynthesis.speak(u);
+}
+function __wcRef(lessonId,idx,text,done){   // play reference (real clip if recorded, else TTS) then done()
+  try{
+    if(typeof hasRecording==='function' && hasRecording(lessonId,idx)){
+      if('speechSynthesis' in window) speechSynthesis.cancel();
+      const a=getClip(lessonId,idx);
+      try{ a.pause(); a.currentTime=0; }catch(e){}
+      a.onended=function(){ a.onended=null; done&&done(); };
+      a.play().catch(()=>__wcTTS(text,done)); return;
+    }
+  }catch(e){}
+  __wcTTS(text,done);
+}
+async function recCompare(lessonId,idx,text){
+  if(__wcState==='busy') return;
+  if(__wcState==='rec'){ if(__wcRec&&__wcRec.state==='recording')__wcRec.stop(); return; }
+  let media;
+  try{ media=await navigator.mediaDevices.getUserMedia({audio:true}); }
+  catch(e){ __wcUI('', __wcL('mic')); return; }
+  __wcMedia=media; __wcChunks=[]; __wcRec=new MediaRecorder(media);
+  __wcRec.ondataavailable=e=>{ if(e.data.size)__wcChunks.push(e.data); };
+  __wcRec.onstop=function(){
+    try{ __wcMedia.getTracks().forEach(t=>t.stop()); }catch(e){}
+    const url=URL.createObjectURL(new Blob(__wcChunks,{type:(__wcRec&&__wcRec.mimeType)||'audio/webm'}));
+    const mine=new Audio(url);
+    __wcState='busy'; __wcUI('busy',__wcL('cmp'));
+    const fin=()=>{ try{URL.revokeObjectURL(url);}catch(e){} __wcState='idle'; __wcUI('',__wcL('again')); };
+    __wcRef(lessonId,idx,text,()=>{ mine.onended=fin; mine.play().catch(fin); });
+  };
+  __wcRec.start(); __wcState='rec'; __wcUI('on',__wcL('stop'));
 }
 
 /* ===== Einbürgerungstest quiz engine (Change 1) ===== */
