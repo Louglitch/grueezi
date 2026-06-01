@@ -853,12 +853,12 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
 .wc-translations{display:flex;flex-direction:column;gap:.25rem;align-items:center}
 .wc-en{font-size:1.25rem;font-weight:400;color:var(--dark);letter-spacing:-.005em}
 .wc-rec-row{display:flex;flex-direction:column;align-items:center;gap:5px;margin-top:1.25rem}
-.wc-rec{font-family:inherit;font-size:.95rem;font-weight:400;border:none;border-radius:999px;padding:.65rem 1.15rem;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;color:#fff;background:var(--sage);transition:transform .12s ease,filter .15s ease}
+.wc-rec{font-family:inherit;font-size:.82rem;font-weight:400;border:none;border-radius:999px;padding:.46rem .9rem;cursor:pointer;display:inline-flex;align-items:center;gap:.4rem;color:#fff;background:var(--sage);transition:transform .12s ease,filter .15s ease}
 .wc-rec:active{transform:scale(.96)}
 .wc-rec.on{filter:brightness(.85)}
 .wc-rec.busy{filter:brightness(.93)}
-.wc-rec .ic{font-size:.7rem;line-height:1}
-.wc-rec-hint{font-size:.66rem;color:var(--texts);letter-spacing:.01em}
+.wc-rec .ic{font-size:.6rem;line-height:1}
+.wc-rec-hint{font-size:.62rem;font-weight:300;color:var(--texts);opacity:.7;letter-spacing:.02em}
 .wc-hd{font-size:13px;font-weight:300;color:var(--texts);opacity:.6;font-style:italic}
 .ghost-next{background:none;border:none;font-family:'Jost',sans-serif;font-size:13px;font-weight:300;color:var(--dark);opacity:.55;letter-spacing:.04em;cursor:pointer;padding:8px 16px;transition:opacity .15s ease}
 .ghost-next:hover{opacity:.95}
@@ -3517,7 +3517,7 @@ function renderStage(){
       </div>
       <div class="wc-rec-row">
         <button class="wc-rec" id="wc-rec-btn" onclick="recCompare(${lesson.id},${state.currentPhraseIdx},'${phrase.chde.replace(/'/g,"\\'")}')"><span class="ic">●</span><span class="t">${__wcL('start')}</span></button>
-        <div class="wc-rec-hint">🔒 ${__wcL('hint')}</div>
+        <div class="wc-rec-hint">${__wcL('hint')}</div>
       </div>
     </div>`;
   // Auto-play audio on word load — real recording if available, else TTS
