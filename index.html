@@ -240,7 +240,14 @@ body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:
 body[data-mode="pink"] .hero-mountains .mountain-back{fill:#C56689;opacity:.42}
 body[data-mode="pink"] .hero-mountains .mountain-front{fill:#B85578;opacity:.55}
 .hero-inner{max-width:var(--col);margin:0 auto}
-.hero-mark{margin:0 auto 1.6rem;display:block;border-radius:22px;box-shadow:0 0 0 4px var(--cream)}
+.hero-mark{margin:0 auto 1.6rem;display:block;border-radius:22px;box-shadow:0 10px 24px rgba(44,56,48,.22)}
+/* Variante B hero — Helvi figure beside the wordmark (no badge) */
+.hero-inner-b{max-width:var(--col);margin:0 auto;display:flex;align-items:center;justify-content:center;gap:clamp(8px,3vw,30px);flex-wrap:wrap}
+.hero-inner-b .hero-figure-btn{width:clamp(96px,16vw,148px);flex-shrink:0;position:relative;padding:0;border:none;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.hero-figure{width:100%;height:auto;display:block;filter:drop-shadow(0 8px 14px rgba(44,56,48,.18))}
+.hero-text-b{display:flex;flex-direction:column;align-items:flex-start;text-align:left}
+.hero-text-b .hero-h1-stack{align-items:flex-start}
+@media (max-width:540px){.hero-inner-b{gap:6px}.hero-text-b,.hero-text-b .hero-h1-stack{align-items:center;text-align:center}}
 /* hero Helvi badge palette (mirrors the greeter) — badge bg tints by mode */
 .hero-helvi{--hh-bg:#F2EDE2;--body:#A8C8BC;--stroke:#2C3830;--belly:#F2EDE2;--shine:#FFFFFF;--seam:#C8A878;--cheek:#FFB0C4;--petal:#FFFFFF;--edel-center:#D4788A;--eye-base:#3A2A4A;--eye-pupil:#1A0A2A}
 body[data-mode="pink"] .hero-helvi{--hh-bg:#FAF6EE;--body:#D67BA0;--stroke:#7A3040;--belly:#FAF6EE;--shine:#FFFFFF;--seam:#C8A878;--cheek:#FFD7E8;--petal:#FFFFFF;--edel-center:#FFFFFF;--eye-base:#4A1A2A;--eye-pupil:#2A0A18}
@@ -261,7 +268,8 @@ body[data-mode="dark"] #helvi-greeter{
   --cheek:rgba(212,120,138,.55);--petal:#28282B;--edel-center:#D4788A;--eye-base:#0A050E;--eye-pupil:#000000;
 }
 /* waits in the corner — soft idle breathe + grounded shadow; tap = tiny nudge */
-body.on-landing #helvi-greeter{display:block;animation:helvi-appear .8s ease-out both}
+/* greeter retired on landing — Helvi now lives in the hero beside the wordmark */
+body.on-landing #helvi-greeter{display:none}
 /* stays in her corner; the shadow sits at her feet */
 .helvi-drift-y{position:relative}
 .helvi-drift-y::after{content:'';position:absolute;left:50%;bottom:7%;width:54%;height:11px;background:rgba(0,0,0,.24);border-radius:50%;filter:blur(4px);transform:translateX(-50%);animation:helvi-shadow 4.2s ease-in-out infinite;z-index:0;pointer-events:none}
@@ -988,6 +996,11 @@ body[data-mode="dark"] .eq-helvi-btn{--body:#A8C8BC;--stroke:#EDE8DF;--belly:#28
   align-items:center;justify-content:center;color:var(--textm);opacity:.65;margin-right:8px;
 }
 .me-row-icon svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+/* Helvi-head row icon (settings „helvi avatar") — filled, mode-aware, slightly larger */
+.me-helvi-icon{width:22px;height:22px;opacity:1;--body:#A8C8BC;--stroke:#2C3830;--belly:#F2EDE2;--cheek:#FFB0C4;--eye-base:#3A2A4A;--eye-pupil:#1A0A2A}
+.me-helvi-icon svg{width:22px;height:22px;stroke:none;fill:initial}
+body[data-mode="pink"] .me-helvi-icon{--body:#D67BA0;--stroke:#7A3040;--belly:#FAF6EE;--cheek:#FFD7E8;--eye-base:#4A1A2A;--eye-pupil:#2A0A18}
+body[data-mode="dark"] .me-helvi-icon{--body:#A8C8BC;--stroke:#EDE8DF;--belly:#28282B;--cheek:rgba(212,120,138,.55);--eye-base:#0A050E;--eye-pupil:#000000}
 .me-row-text-with-icon{display:inline-flex;align-items:center;gap:0;flex:1}
 
 /* === CHEVRON ICON BUTTON (replaces verbose action labels) === */
@@ -1329,6 +1342,23 @@ document.body.classList.add('on-landing');
       <circle cx="78" cy="88" r="0.7" fill="#FFFFFF" opacity="0.6"/>
     </g>
   </symbol>
+  <!-- Helvi head only — for tiny round icons/avatars (settings row, etc.) -->
+  <symbol id="helvi-head" viewBox="6 18 108 118" overflow="visible">
+    <ellipse cx="60" cy="90" rx="48" ry="44" fill="var(--body)" stroke="var(--stroke)" stroke-width="2.4"/>
+    <path d="M 42 52 Q 46 30, 38 26 Q 32 36, 32 52 Z" fill="var(--body)" stroke="var(--stroke)" stroke-width="1.8"/>
+    <path d="M 65 48 Q 67 24, 59 24 Q 53 30, 53 46 Z" fill="var(--body)" stroke="var(--stroke)" stroke-width="1.8"/>
+    <path d="M 78 52 Q 76 28, 68 32 L 78 56 Z" fill="var(--body)" stroke="var(--stroke)" stroke-width="1.8"/>
+    <path d="M 60 102 Q 44 108, 42 118 Q 42 130, 56 132 Q 70 132, 76 122 Q 76 112, 60 102 Z" fill="var(--body)" stroke="var(--stroke)" stroke-width="1.8"/>
+    <path d="M 55 126 Q 60 130, 65 126" fill="none" stroke="var(--stroke)" stroke-width="1.6" stroke-linecap="round"/>
+    <ellipse cx="32" cy="106" rx="6" ry="4" fill="var(--cheek)" opacity="0.7"/>
+    <ellipse cx="88" cy="106" rx="6" ry="4" fill="var(--cheek)" opacity="0.7"/>
+    <ellipse cx="43" cy="86" rx="9" ry="11" fill="var(--eye-base)"/>
+    <ellipse cx="43" cy="86" rx="6" ry="8" fill="var(--eye-pupil)"/>
+    <ellipse cx="45" cy="81" rx="2.6" ry="3.2" fill="#FFFFFF"/>
+    <ellipse cx="77" cy="86" rx="9" ry="11" fill="var(--eye-base)"/>
+    <ellipse cx="77" cy="86" rx="6" ry="8" fill="var(--eye-pupil)"/>
+    <ellipse cx="79" cy="81" rx="2.6" ry="3.2" fill="#FFFFFF"/>
+  </symbol>
   <symbol id="flower" viewBox="-10 -10 20 20" overflow="visible">
     <g fill="var(--bg-alt)" stroke="var(--beige)" stroke-width="1">
       <ellipse cx="0" cy="-5" rx="2.6" ry="4.4"/>
@@ -1422,24 +1452,28 @@ document.body.classList.add('on-landing');
       <path class="mountain-back" d="M0,200 L0,110 L120,60 L220,120 L340,40 L460,100 L590,30 L720,110 L830,55 L920,115 L1000,75 L1000,200 Z"/>
       <path class="mountain-front" d="M0,200 L0,150 L100,130 L200,160 L310,115 L420,150 L540,110 L660,150 L780,125 L880,155 L960,135 L1000,140 L1000,200 Z"/>
     </svg>
-    <div class="hero-inner">
-      <svg class="hero-mark anim-logo hero-helvi" width="88" height="88" viewBox="0 0 96 96" role="img" aria-label="Becoming Schwiizer">
-        <rect width="96" height="96" rx="22" fill="var(--hh-bg)"/>
-        <use href="#helvi" x="10" y="2" width="76" height="92"/>
-      </svg>
-      <h1 class="hero-h1 hero-h1-stack anim-title"><span class="becoming-line">becoming</span><span class="schwiizer-line">schw<span>ii</span>zer</span></h1>
-      <p class="hero-sub anim-sub">your swiss german trainer</p>
-      <div class="hero-btns anim-btn-wrap">
-        <div class="start-wrap">
-          <button class="btn-p btn-glow" onclick="startBurst(this)">start</button>
-          <span class="rise-dot"></span>
-          <span class="rise-dot"></span>
-          <span class="rise-dot"></span>
-          <span class="rise-dot"></span>
-          <span class="rise-dot"></span>
-          <span class="rise-dot"></span>
+    <div class="hero-inner hero-inner-b">
+      <div class="hero-text-b">
+        <h1 class="hero-h1 hero-h1-stack anim-title"><span class="becoming-line">becoming</span><span class="schwiizer-line">schw<span>ii</span>zer</span></h1>
+        <p class="hero-sub anim-sub">your swiss german trainer</p>
+        <div class="hero-btns anim-btn-wrap">
+          <div class="start-wrap">
+            <button class="btn-p btn-glow" onclick="startBurst(this)">start</button>
+            <span class="rise-dot"></span>
+            <span class="rise-dot"></span>
+            <span class="rise-dot"></span>
+            <span class="rise-dot"></span>
+            <span class="rise-dot"></span>
+            <span class="rise-dot"></span>
+          </div>
         </div>
       </div>
+      <button type="button" class="hero-figure-btn helvi-tap anim-logo" aria-label="Helvi grüessen" onclick="heroHelviPoke(this)">
+        <div class="helvi-bubble" id="hero-helvi-bubble">Grüezi!</div>
+        <div class="helvi-bob">
+          <svg class="hero-figure hero-helvi" viewBox="-4 16 128 200" role="img" aria-label="Helvi"><use href="#helvi"/></svg>
+        </div>
+      </button>
     </div>
   </div>
   <div class="features">
@@ -1960,7 +1994,7 @@ applyHelvi();
   const MAXX=3, MAXY=3.4; let mx=0,my=0,pending=false;
   function upd(){
     pending=false;
-    document.querySelectorAll('#helvi-greeter, .cat-helvi, .eq-helvi-btn').forEach(host=>{
+    document.querySelectorAll('.hero-figure-btn, #helvi-greeter, .cat-helvi, .eq-helvi-btn').forEach(host=>{
       const r=host.getBoundingClientRect();
       if(!r.width||!r.height) return;
       const cx=r.left+r.width*0.5, cy=r.top+r.height*0.40;
@@ -1999,6 +2033,20 @@ function helviPoke(btn){
   btn.classList.add('react');
   setTimeout(()=>btn.classList.remove('react'), 1600);
   const bub = document.getElementById('helvi-bubble');
+  if(bub){
+    bub.textContent = HELVI_HELLOS[Math.floor(Math.random()*HELVI_HELLOS.length)];
+    bub.classList.add('show');
+    clearTimeout(bub._hide);
+    bub._hide = setTimeout(()=>bub.classList.remove('show'), 1600);
+  }
+}
+// Hero Helvi (beside the wordmark) — same tap-hello + jump as the old corner greeter
+function heroHelviPoke(btn){
+  btn.classList.remove('react');
+  void btn.offsetWidth;
+  btn.classList.add('react');
+  setTimeout(()=>btn.classList.remove('react'), 1600);
+  const bub = btn.querySelector('.helvi-bubble');
   if(bub){
     bub.textContent = HELVI_HELLOS[Math.floor(Math.random()*HELVI_HELLOS.length)];
     bub.classList.add('show');
@@ -2775,7 +2823,7 @@ function renderAccount(){
       </div>
       <div class="me-row me-row-divided">
         <span class="me-row-text me-row-text-with-icon">
-          <span class="me-row-icon">${ic.cheer}</span>${t('helviAvatar')}
+          <span class="me-row-icon me-helvi-icon"><svg viewBox="6 18 108 118"><use href="#helvi-head"/></svg></span>${t('helviAvatar')}
         </span>
         <div class="mode-pills">
           <button class="${HELVI_ON?'active':''}" onclick="setHelvi(true)">${t('on')}</button>
