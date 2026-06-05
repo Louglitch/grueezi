@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v69-2026-06-05-traditions-en';
+const CACHE_VERSION = 'schwiizer-v70-2026-06-05-alemannisch-id-fix';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
