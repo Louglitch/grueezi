@@ -739,9 +739,9 @@ body[data-mode="dark"] .cat-helvi{--body:#A8C8BC;--stroke:#EDE8DF;--belly:#28282
 .cat-helvi-bubble::after{content:'';position:absolute;bottom:-4px;right:20px;width:9px;height:9px;background:inherit;border-right:.5px solid var(--cream2);border-bottom:.5px solid var(--cream2);transform:rotate(45deg)}
 /* category overview — uniform-coloured stamp-rows (tone follows the mode) */
 .cat-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:.5rem;
-  --tile:#BFD8CC;--ink:#2C3830;--stamp:#F2EDE2;--stampink:#2C3830;--st-edge:#C4B89E}
-body[data-mode="pink"] .cat-grid{--tile:#D98BAD;--ink:#FBF4F7;--stamp:#FAF0F4;--stampink:#7A3040;--st-edge:#C98BA6}
-body[data-mode="dark"] .cat-grid{--tile:#A8C8BC;--ink:#1E2A24;--stamp:#F2EDE2;--stampink:#2C3830;--st-edge:#7FA192}
+  --tile:#FFFFFF;--ink:#2C3830;--stamp:#F2EDE2;--stampink:#6FA898;--st-edge:#C4B89E}
+body[data-mode="pink"] .cat-grid{--tile:#FFFFFF;--ink:#2A2A35;--stamp:#FAF0F4;--stampink:#D4788A;--st-edge:#E3C3D2}
+body[data-mode="dark"] .cat-grid{--tile:#2E2E33;--ink:#EDE8DF;--stamp:#1C1C1F;--stampink:#A8C8BC;--st-edge:#4A4A50}
 .cat-card{display:flex;align-items:center;gap:14px;padding:12px 15px;border-radius:14px;background:var(--tile);color:var(--ink);cursor:pointer;filter:drop-shadow(0 2px 6px rgba(44,56,48,.10));transition:transform .12s ease;-webkit-tap-highlight-color:transparent}
 .cat-card:hover{transform:translateY(-1px)}
 .cat-card:active{transform:translateY(0)}
@@ -3428,53 +3428,81 @@ function completeInfoChapter(){
 }
 
 // Chapter audio play — prefers Deborah's recorded voiceover (audio/chapter/<id>/<lang>.mp3),
-// falls back to speechSynthesis reading lesson.info aloud in the chosen language.
+// falls back to speechSynthesis. Pause keeps the position; tapping play again resumes where it
+// stopped. Switching to a different chapter or language starts from the beginning.
 let chapterUtterance = null;
 let chapterAudioEl = null;
+let chapterAudioKey = null;   // lessonId/lang of the currently loaded recorded clip
+let chapterTTSKey = null;     // lessonId/lang of the active TTS utterance
 // Articles with a real recorded voiceover: lessonId -> langs available. Extend as Deborah records more.
 const CHAPTER_RECORDED = { 11:['en','de','ch'], 12:['en','de','ch'], 9:['en','de','ch'] };
 function chapterHasRecording(lessonId, lang){
   return !!CHAPTER_RECORDED[lessonId] && CHAPTER_RECORDED[lessonId].indexOf(lang) !== -1;
 }
-function chapterIsPlaying(){
+function chapterIsPlaying(){   // actively producing sound (not paused)
   return (chapterAudioEl && !chapterAudioEl.paused) ||
-         ('speechSynthesis' in window && speechSynthesis.speaking);
+         ('speechSynthesis' in window && speechSynthesis.speaking && !speechSynthesis.paused);
 }
-function toggleChapterPlay(){
+function setChapterPlayUI(playing){
   const btn = document.getElementById('chapter-play-btn');
   const label = document.getElementById('chapter-play-label');
-  if(chapterIsPlaying()){
-    stopChapterAudio();
-    return;
+  if(btn){
+    btn.classList.toggle('playing', playing);
+    btn.innerHTML = playing
+      ? '<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>'
+      : '<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
   }
-  if(!canPlay('word')) return;   // master mute (Change 5)
+  if(label) label.textContent = playing ? 'listening…' : 'listen to the chapter';
+}
+function toggleChapterPlay(){
   const lesson = getLessonById(state.currentLessonId);
   if(!lesson) return;
   const lang = state.chapterLang || 'en';
-  const setPlayingUI = ()=>{
-    if(btn){
-      btn.classList.add('playing');
-      btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>';
+  const key = lesson.id + '/' + lang;
+
+  // Same chapter+lang already loaded → pause / resume in place (keep position)
+  if(chapterAudioEl && chapterAudioKey === key){
+    if(chapterAudioEl.paused){
+      if(!canPlay('word')) return;
+      chapterAudioEl.play().then(()=>setChapterPlayUI(true)).catch(()=>setChapterPlayUI(false));
+    } else {
+      chapterAudioEl.pause();          // keep currentTime so the next tap resumes here
+      setChapterPlayUI(false);
     }
-    if(label) label.textContent = 'listening…';
-  };
+    return;
+  }
+  if('speechSynthesis' in window && chapterUtterance && chapterTTSKey === key &&
+     (speechSynthesis.speaking || speechSynthesis.paused)){
+    if(speechSynthesis.paused){
+      if(!canPlay('word')) return;
+      speechSynthesis.resume(); setChapterPlayUI(true);
+    } else {
+      speechSynthesis.pause(); setChapterPlayUI(false);
+    }
+    return;
+  }
+
+  // Different chapter/lang (or nothing loaded) → start fresh from the beginning
+  stopChapterAudio();
+  if(!canPlay('word')) return;   // master mute (Change 5)
+
   // Prefer the recorded voiceover; on missing file / blocked playback, fall back to TTS
   if(chapterHasRecording(lesson.id, lang)){
     try{
       if('speechSynthesis' in window) speechSynthesis.cancel();
       const a = new Audio('audio/chapter/'+lesson.id+'/'+lang+'.mp3');
-      chapterAudioEl = a;
+      chapterAudioEl = a; chapterAudioKey = key;
       a.onended = ()=>{ stopChapterAudio(); };
-      a.onerror = ()=>{ chapterAudioEl = null; chapterSpeak(lesson, lang, setPlayingUI); };
-      setPlayingUI();
-      a.play().catch(()=>{ chapterAudioEl = null; chapterSpeak(lesson, lang, setPlayingUI); });
+      a.onerror = ()=>{ chapterAudioEl = null; chapterAudioKey = null; chapterSpeak(lesson, lang, key); };
+      setChapterPlayUI(true);
+      a.play().catch(()=>{ chapterAudioEl = null; chapterAudioKey = null; chapterSpeak(lesson, lang, key); });
       return;
-    }catch(e){ chapterAudioEl = null; }
+    }catch(e){ chapterAudioEl = null; chapterAudioKey = null; }
   }
-  chapterSpeak(lesson, lang, setPlayingUI);
+  chapterSpeak(lesson, lang, key);
 }
 
-function chapterSpeak(lesson, lang, setPlayingUI){
+function chapterSpeak(lesson, lang, key){
   // Strip HTML from info text for narration
   const tmp = document.createElement('div');
   tmp.innerHTML = getInfoForLang(lesson.info, lang);
@@ -3483,27 +3511,23 @@ function chapterSpeak(lesson, lang, setPlayingUI){
   // Cancel any previous speech
   speechSynthesis.cancel();
   chapterUtterance = new SpeechSynthesisUtterance(plainText);
+  chapterTTSKey = key;
   // Map lang to speechSynthesis locale
   const langMap = {en:'en-US', de:'de-DE', ch:'de-CH'};
   chapterUtterance.lang = langMap[lang];
   chapterUtterance.rate = 0.95;
   chapterUtterance.onend = ()=>{ stopChapterAudio(); };
   chapterUtterance.onerror = ()=>{ stopChapterAudio(); };
-  if(setPlayingUI) setPlayingUI();
+  setChapterPlayUI(true);
   speechSynthesis.speak(chapterUtterance);
 }
 
 function stopChapterAudio(){
-  if('speechSynthesis' in window && speechSynthesis.speaking) speechSynthesis.cancel();
-  chapterUtterance = null;
+  if('speechSynthesis' in window && (speechSynthesis.speaking || speechSynthesis.paused)) speechSynthesis.cancel();
+  chapterUtterance = null; chapterTTSKey = null;
   if(chapterAudioEl){ try{ chapterAudioEl.pause(); chapterAudioEl.currentTime = 0; }catch(e){} chapterAudioEl = null; }
-  const btn = document.getElementById('chapter-play-btn');
-  const label = document.getElementById('chapter-play-label');
-  if(btn){
-    btn.classList.remove('playing');
-    btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
-  }
-  if(label) label.textContent = 'listen to the chapter';
+  chapterAudioKey = null;
+  setChapterPlayUI(false);
 }
 
 function setChapterLang(lang){
@@ -3516,9 +3540,10 @@ function setChapterLang(lang){
   if(lesson){
     document.getElementById('chapter-body').innerHTML = getInfoForLang(lesson.info, lang);
   }
-  // If currently playing, restart in new language
-  if(chapterIsPlaying()){
-    stopChapterAudio();
+  // Language change = different recording → reset so play starts the new language from the top
+  const wasPlaying = chapterIsPlaying();
+  stopChapterAudio();
+  if(wasPlaying){
     setTimeout(()=>toggleChapterPlay(), 100);
   }
 }
