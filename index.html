@@ -3427,12 +3427,23 @@ function completeInfoChapter(){
   }
 }
 
-// Chapter audio play — uses speechSynthesis to read lesson.info aloud in chosen language
+// Chapter audio play — prefers Deborah's recorded voiceover (audio/chapter/<id>/<lang>.mp3),
+// falls back to speechSynthesis reading lesson.info aloud in the chosen language.
 let chapterUtterance = null;
+let chapterAudioEl = null;
+// Articles with a real recorded voiceover: lessonId -> langs available. Extend as Deborah records more.
+const CHAPTER_RECORDED = { 50:['en','de','ch'], 12:['en','de','ch'], 9:['de','ch'] };
+function chapterHasRecording(lessonId, lang){
+  return !!CHAPTER_RECORDED[lessonId] && CHAPTER_RECORDED[lessonId].indexOf(lang) !== -1;
+}
+function chapterIsPlaying(){
+  return (chapterAudioEl && !chapterAudioEl.paused) ||
+         ('speechSynthesis' in window && speechSynthesis.speaking);
+}
 function toggleChapterPlay(){
   const btn = document.getElementById('chapter-play-btn');
   const label = document.getElementById('chapter-play-label');
-  if(chapterUtterance && speechSynthesis.speaking){
+  if(chapterIsPlaying()){
     stopChapterAudio();
     return;
   }
@@ -3440,11 +3451,35 @@ function toggleChapterPlay(){
   const lesson = getLessonById(state.currentLessonId);
   if(!lesson) return;
   const lang = state.chapterLang || 'en';
+  const setPlayingUI = ()=>{
+    if(btn){
+      btn.classList.add('playing');
+      btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>';
+    }
+    if(label) label.textContent = 'listening…';
+  };
+  // Prefer the recorded voiceover; on missing file / blocked playback, fall back to TTS
+  if(chapterHasRecording(lesson.id, lang)){
+    try{
+      if('speechSynthesis' in window) speechSynthesis.cancel();
+      const a = new Audio('audio/chapter/'+lesson.id+'/'+lang+'.mp3');
+      chapterAudioEl = a;
+      a.onended = ()=>{ stopChapterAudio(); };
+      a.onerror = ()=>{ chapterAudioEl = null; chapterSpeak(lesson, lang, setPlayingUI); };
+      setPlayingUI();
+      a.play().catch(()=>{ chapterAudioEl = null; chapterSpeak(lesson, lang, setPlayingUI); });
+      return;
+    }catch(e){ chapterAudioEl = null; }
+  }
+  chapterSpeak(lesson, lang, setPlayingUI);
+}
+
+function chapterSpeak(lesson, lang, setPlayingUI){
   // Strip HTML from info text for narration
   const tmp = document.createElement('div');
   tmp.innerHTML = getInfoForLang(lesson.info, lang);
   const plainText = tmp.textContent || tmp.innerText || '';
-  if(!plainText.trim()) return;
+  if(!plainText.trim()){ stopChapterAudio(); return; }
   // Cancel any previous speech
   speechSynthesis.cancel();
   chapterUtterance = new SpeechSynthesisUtterance(plainText);
@@ -3454,15 +3489,14 @@ function toggleChapterPlay(){
   chapterUtterance.rate = 0.95;
   chapterUtterance.onend = ()=>{ stopChapterAudio(); };
   chapterUtterance.onerror = ()=>{ stopChapterAudio(); };
-  btn.classList.add('playing');
-  btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>';
-  if(label) label.textContent = 'listening…';
+  if(setPlayingUI) setPlayingUI();
   speechSynthesis.speak(chapterUtterance);
 }
 
 function stopChapterAudio(){
-  if(speechSynthesis.speaking) speechSynthesis.cancel();
+  if('speechSynthesis' in window && speechSynthesis.speaking) speechSynthesis.cancel();
   chapterUtterance = null;
+  if(chapterAudioEl){ try{ chapterAudioEl.pause(); chapterAudioEl.currentTime = 0; }catch(e){} chapterAudioEl = null; }
   const btn = document.getElementById('chapter-play-btn');
   const label = document.getElementById('chapter-play-label');
   if(btn){
@@ -3483,7 +3517,7 @@ function setChapterLang(lang){
     document.getElementById('chapter-body').innerHTML = getInfoForLang(lesson.info, lang);
   }
   // If currently playing, restart in new language
-  if(speechSynthesis.speaking){
+  if(chapterIsPlaying()){
     stopChapterAudio();
     setTimeout(()=>toggleChapterPlay(), 100);
   }
