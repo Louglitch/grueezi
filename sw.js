@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v71-2026-06-05-cat-tiles-and-pause-resume';
+const CACHE_VERSION = 'schwiizer-v72-2026-06-05-helvi-dark-softer-mint';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
