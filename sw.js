@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v68-2026-06-05-chapter-audio';
+const CACHE_VERSION = 'schwiizer-v69-2026-06-05-traditions-en';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately

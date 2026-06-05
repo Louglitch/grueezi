@@ -3432,7 +3432,7 @@ function completeInfoChapter(){
 let chapterUtterance = null;
 let chapterAudioEl = null;
 // Articles with a real recorded voiceover: lessonId -> langs available. Extend as Deborah records more.
-const CHAPTER_RECORDED = { 50:['en','de','ch'], 12:['en','de','ch'], 9:['de','ch'] };
+const CHAPTER_RECORDED = { 50:['en','de','ch'], 12:['en','de','ch'], 9:['en','de','ch'] };
 function chapterHasRecording(lessonId, lang){
   return !!CHAPTER_RECORDED[lessonId] && CHAPTER_RECORDED[lessonId].indexOf(lang) !== -1;
 }
