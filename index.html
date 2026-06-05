@@ -251,7 +251,7 @@ body[data-mode="pink"] .hero-mountains .mountain-front{fill:#B85578;opacity:.55}
 /* hero Helvi badge palette (mirrors the greeter) — badge bg tints by mode */
 .hero-helvi{--hh-bg:#F2EDE2;--body:#A8C8BC;--stroke:#2C3830;--belly:#F2EDE2;--shine:#FFFFFF;--seam:#C8A878;--cheek:#FFB0C4;--petal:#FFFFFF;--edel-center:#D4788A;--eye-base:#3A2A4A;--eye-pupil:#1A0A2A}
 body[data-mode="pink"] .hero-helvi{--hh-bg:#FAF6EE;--body:#D67BA0;--stroke:#7A3040;--belly:#FAF6EE;--shine:#FFFFFF;--seam:#C8A878;--cheek:#FFD7E8;--petal:#FFFFFF;--edel-center:#FFFFFF;--eye-base:#4A1A2A;--eye-pupil:#2A0A18}
-body[data-mode="dark"] .hero-helvi{--hh-bg:#1A1A1C;--body:#34343B;--stroke:#A8C8BC;--belly:#1C1C1F;--shine:#A8C8BC;--seam:rgba(168,200,188,.35);--cheek:rgba(212,120,138,.6);--petal:#1C1C1F;--edel-center:#D4788A;--eye-base:#0A050E;--eye-pupil:#000000}
+body[data-mode="dark"] .hero-helvi{--hh-bg:#1A1A1C;--body:#33333A;--stroke:#586A62;--belly:#1C1C1F;--shine:#586A62;--seam:rgba(120,150,140,.25);--cheek:rgba(212,120,138,.5);--petal:#1C1C1F;--edel-center:#C16B7C;--eye-base:#0A050E;--eye-pupil:#000000}
 /* ===== Helvi greeter (landing only, WIP check) — fully visible, touchable, roams the page ===== */
 #helvi-greeter{
   position:fixed;right:clamp(12px,4vw,40px);bottom:clamp(12px,3vh,30px);z-index:40;display:none;pointer-events:none;
@@ -264,8 +264,8 @@ body[data-mode="pink"] #helvi-greeter{
   --cheek:#FFD7E8;--petal:#FFFFFF;--edel-center:#FFFFFF;--eye-base:#4A1A2A;--eye-pupil:#2A0A18;
 }
 body[data-mode="dark"] #helvi-greeter{
-  --body:#34343B;--stroke:#A8C8BC;--belly:#1C1C1F;--shine:#A8C8BC;--seam:rgba(168,200,188,.35);
-  --cheek:rgba(212,120,138,.6);--petal:#1C1C1F;--edel-center:#D4788A;--eye-base:#0A050E;--eye-pupil:#000000;
+  --body:#33333A;--stroke:#586A62;--belly:#1C1C1F;--shine:#586A62;--seam:rgba(120,150,140,.25);
+  --cheek:rgba(212,120,138,.5);--petal:#1C1C1F;--edel-center:#C16B7C;--eye-base:#0A050E;--eye-pupil:#000000;
 }
 /* waits in the corner — soft idle breathe + grounded shadow; tap = tiny nudge */
 /* greeter retired on landing — Helvi now lives in the hero beside the wordmark */
@@ -728,7 +728,7 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
   --body:#A8C8BC;--stroke:#2C3830;--belly:#F2EDE2;--shine:#FFFFFF;--seam:#C8A878;
   --cheek:#FFB0C4;--petal:#FFFFFF;--edel-center:#D4788A;--eye-base:#3A2A4A;--eye-pupil:#1A0A2A}
 body[data-mode="pink"] .cat-helvi{--body:#D67BA0;--stroke:#7A3040;--belly:#FAF6EE;--seam:#C8A878;--cheek:#FFD7E8;--petal:#FFFFFF;--edel-center:#FFFFFF;--eye-base:#4A1A2A;--eye-pupil:#2A0A18}
-body[data-mode="dark"] .cat-helvi{--body:#34343B;--stroke:#A8C8BC;--belly:#1C1C1F;--seam:rgba(168,200,188,.35);--cheek:rgba(212,120,138,.6);--petal:#1C1C1F;--edel-center:#D4788A;--eye-base:#0A050E;--eye-pupil:#000000}
+body[data-mode="dark"] .cat-helvi{--body:#33333A;--stroke:#586A62;--belly:#1C1C1F;--seam:rgba(120,150,140,.25);--cheek:rgba(212,120,138,.5);--petal:#1C1C1F;--edel-center:#C16B7C;--eye-base:#0A050E;--eye-pupil:#000000}
 .cat-helvi svg{width:100%;height:auto;display:block;overflow:visible;filter:drop-shadow(0 4px 7px rgba(0,0,0,.13));animation:helvi-bob 4.6s ease-in-out infinite;transform-origin:50% 92%}
 .cat-intro-text{font-size:17px;font-weight:300;color:var(--textm);line-height:1.45}
 .cat-helvi{cursor:pointer;position:relative}
@@ -898,7 +898,7 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
 .eq-bulb svg{width:12px!important;height:12px!important;filter:none!important}
 @keyframes eq-bulb-pulse{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.13);opacity:1}}
 body[data-mode="pink"] .eq-helvi-btn{--body:#D67BA0;--stroke:#7A3040;--belly:#FAF6EE;--cheek:#FFD7E8;--petal:#FFFFFF;--edel-center:#FFFFFF;--eye-base:#4A1A2A;--eye-pupil:#2A0A18;--seam:#C8A878}
-body[data-mode="dark"] .eq-helvi-btn{--body:#34343B;--stroke:#A8C8BC;--belly:#1C1C1F;--cheek:rgba(212,120,138,.6);--petal:#1C1C1F;--edel-center:#D4788A;--eye-base:#0A050E;--eye-pupil:#000000;--seam:rgba(168,200,188,.35)}
+body[data-mode="dark"] .eq-helvi-btn{--body:#33333A;--stroke:#586A62;--belly:#1C1C1F;--cheek:rgba(212,120,138,.5);--petal:#1C1C1F;--edel-center:#C16B7C;--eye-base:#0A050E;--eye-pupil:#000000;--seam:rgba(120,150,140,.25)}
 .eq-helvi-btn svg{width:100%;height:auto;display:block;overflow:visible;filter:drop-shadow(0 3px 6px rgba(0,0,0,.13))}
 
 /* SENTENCE STAGE */
@@ -1006,7 +1006,7 @@ body[data-mode="dark"] .eq-helvi-btn{--body:#34343B;--stroke:#A8C8BC;--belly:#1C
 .me-helvi-icon{width:22px;height:22px;opacity:1;--body:#A8C8BC;--stroke:#2C3830;--belly:#F2EDE2;--cheek:#FFB0C4;--eye-base:#3A2A4A;--eye-pupil:#1A0A2A}
 .me-helvi-icon svg{width:22px;height:22px;stroke:none;fill:initial}
 body[data-mode="pink"] .me-helvi-icon{--body:#D67BA0;--stroke:#7A3040;--belly:#FAF6EE;--cheek:#FFD7E8;--eye-base:#4A1A2A;--eye-pupil:#2A0A18}
-body[data-mode="dark"] .me-helvi-icon{--body:#34343B;--stroke:#A8C8BC;--belly:#1C1C1F;--cheek:rgba(212,120,138,.6);--eye-base:#0A050E;--eye-pupil:#000000}
+body[data-mode="dark"] .me-helvi-icon{--body:#33333A;--stroke:#586A62;--belly:#1C1C1F;--cheek:rgba(212,120,138,.5);--eye-base:#0A050E;--eye-pupil:#000000}
 .me-row-text-with-icon{display:inline-flex;align-items:center;gap:0;flex:1}
 
 /* === CHEVRON ICON BUTTON (replaces verbose action labels) === */
