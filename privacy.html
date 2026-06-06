@@ -6,9 +6,7 @@
 <meta name="theme-color" content="#F2EDE2"/>
 <meta name="robots" content="index,follow"/>
 <title>Datenschutz · Privacy — Becoming Schwiizer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/fonts/jost.css"/>
 <style>
 :root{--bg:#F2EDE2;--text:#2C3830;--mint:#A8C8BC;--rose:#D4788A;--muted:#5A6F60}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -46,7 +44,7 @@ a:hover{text-decoration-color:var(--rose)}
   <a class="logo" href="/"><span class="logo-sq">s</span><span class="logo-text">schw<span>ii</span>zer</span></a>
 
   <h1>Datenschutz · Privacy</h1>
-  <p class="sub">Stand: 17. Mai 2026</p>
+  <p class="sub">Stand: 7. Juni 2026</p>
 
   <div class="lang-tabs">
     <button class="active" data-lang="de">Deutsch</button>
@@ -64,8 +62,8 @@ a:hover{text-decoration-color:var(--rose)}
     <section>
       <h2>Was wir speichern</h2>
       <ul>
-        <li><strong>E-Mail-Adresse</strong> — wenn Du Dich mit einem Magic-Link einloggst. Damit erkennen wir Dich beim nächsten Besuch und können Dir Magic-Links und Kaufbelege schicken. Rechtsgrundlage: Vertrag (Art. 6 (1) b DSGVO).</li>
-        <li><strong>Zahlungsdaten</strong> — werden direkt von Stripe bzw. Lemon Squeezy erhoben, nicht von uns. Wir sehen nur eine Bestätigung, dass die Zahlung erfolgt ist.</li>
+        <li><strong>E-Mail-Adresse</strong> — wenn Du Dich mit einem Magic-Link oder 6-stelligen Code einloggst. Damit erkennen wir Dich beim nächsten Besuch und können Dir Login-E-Mails und Kaufbelege schicken. Rechtsgrundlage: Vertrag (Art. 6 (1) b DSGVO).</li>
+        <li><strong>Zahlungsdaten</strong> — werden direkt von unserem Zahlungsanbieter Lemon Squeezy (Merchant of Record) erhoben, nicht von uns. Wir sehen nur eine Bestätigung, dass die Zahlung erfolgt ist.</li>
         <li><strong>Lernfortschritt</strong> — wird primär lokal in Deinem Browser (localStorage) gespeichert. Nur falls Du eingeloggt bist, sichern wir den Fortschritt auch auf unserem Server, damit Du das Gerät wechseln kannst.</li>
       </ul>
     </section>
@@ -83,8 +81,7 @@ a:hover{text-decoration-color:var(--rose)}
       <h2>Dienstleister, die wir nutzen</h2>
       <p>Diese Anbieter verarbeiten in unserem Auftrag Daten:</p>
       <ul>
-        <li><strong>Stripe</strong> (Irland/USA) — Zahlungsabwicklung. <a href="https://stripe.com/de/privacy" target="_blank" rel="noopener">Datenschutz</a></li>
-        <li><strong>Lemon Squeezy</strong> (USA) — alternative Zahlungsabwicklung. <a href="https://www.lemonsqueezy.com/privacy" target="_blank" rel="noopener">Datenschutz</a></li>
+        <li><strong>Lemon Squeezy</strong> (USA) — Zahlungsabwicklung (Merchant of Record). <a href="https://www.lemonsqueezy.com/privacy" target="_blank" rel="noopener">Datenschutz</a></li>
         <li><strong>Cloudflare</strong> (USA) — Hosting der Login-Backend-Infrastruktur (KV-Speicher, Workers). <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Datenschutz</a></li>
         <li><strong>Resend</strong> (USA) — Versand von Login-E-Mails. <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener">Datenschutz</a></li>
         <li><strong>Porkbun</strong> (USA) — Domain & E-Mail-Weiterleitung. <a href="https://porkbun.com/privacy" target="_blank" rel="noopener">Datenschutz</a></li>
@@ -116,8 +113,8 @@ a:hover{text-decoration-color:var(--rose)}
     <section>
       <h2>What we store</h2>
       <ul>
-        <li><strong>Email address</strong> — if you sign in with a magic link. Used to recognize you next time and send login + receipt emails. Legal basis: contract (Art. 6 (1) b GDPR).</li>
-        <li><strong>Payment data</strong> — collected directly by Stripe / Lemon Squeezy, never by us. We only see a confirmation that payment was made.</li>
+        <li><strong>Email address</strong> — if you sign in with a magic link or 6-digit code. Used to recognize you next time and send login + receipt emails. Legal basis: contract (Art. 6 (1) b GDPR).</li>
+        <li><strong>Payment data</strong> — collected directly by our payment provider Lemon Squeezy (Merchant of Record), never by us. We only see a confirmation that payment was made.</li>
         <li><strong>Learning progress</strong> — stored primarily in your browser (localStorage). Only if signed in, we sync progress to our server so you can switch devices.</li>
       </ul>
     </section>
@@ -135,8 +132,7 @@ a:hover{text-decoration-color:var(--rose)}
       <h2>Service providers</h2>
       <p>These providers process data on our behalf:</p>
       <ul>
-        <li><strong>Stripe</strong> (Ireland/US) — payment processing</li>
-        <li><strong>Lemon Squeezy</strong> (US) — alternative payment processing</li>
+        <li><strong>Lemon Squeezy</strong> (US) — payment processing (Merchant of Record)</li>
         <li><strong>Cloudflare</strong> (US) — login backend hosting (KV store, Workers)</li>
         <li><strong>Resend</strong> (US) — sending login emails</li>
         <li><strong>Porkbun</strong> (US) — domain & email forwarding</li>

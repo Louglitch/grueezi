@@ -16,13 +16,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
 <meta name="apple-mobile-web-app-title" content="Schwiizer"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<!-- Preload Jost 300 (default weight) so SVG logo doesn't reflow during font-swap. -->
-<link rel="preload" as="font" type="font/woff2" href="https://fonts.gstatic.com/s/jost/v15/92zPtBhPNqw79Ij1E865zBUv7myjI.woff2" crossorigin/>
-<!-- Non-blocking Google Fonts stylesheet: load as 'print' (no render-block), swap to 'all' once loaded. -->
-<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
-<noscript><link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/></noscript>
+<!-- Self-hosted Jost (no Google Fonts CDN → no visitor IP sent to Google, DSGVO-safe). -->
+<link rel="preload" as="font" type="font/woff2" href="/fonts/jost.woff2" crossorigin/>
+<link rel="stylesheet" href="/fonts/jost.css"/>
 <style>
 /* MODE VARIABLES — three modes, one composition.
    CONSTANTS across all modes: mint (#A8C8BC) for logo, rose (#D4788A) for ü-dots.
@@ -217,6 +213,10 @@ body.on-landing .global-horizon{display:none}
 .view.active{display:block}  /* no transform/opacity entrance — it caused a white flash + made position:fixed stage-mountains jump to mid-screen */
 /* While restoring a deep/home view on refresh, keep the default-active landing hidden so it never paints before the swap */
 html.gz-restoring #view-landing{display:none!important}
+/* In the Android/Play wrapper (TWA): hide in-app purchase UI; buying happens on the website */
+html.is-twa .buy-hide{display:none!important}
+.pw-twa-note{display:none}
+html.is-twa .pw-twa-note{display:block;font-size:13px;font-weight:300;color:var(--texts);line-height:1.5;margin:.25rem 0 .5rem;opacity:.85}
 @media (prefers-reduced-motion:reduce){.view.active{animation:none}}
 
 /* LANDING */
@@ -1198,6 +1198,11 @@ body[data-mode="dark"] .lang-pill.active{background:var(--mint);color:#1A1A1C}
 .contact-btn.drop-a-word:hover{background:var(--cream2);color:var(--dark)}
 .basket-icon{flex-shrink:0;transform:translateY(-1px)}
 .drop-a-word-hint{font-size:10px;font-weight:300;color:var(--texts);text-align:center;margin-top:.4rem;line-height:1.4;letter-spacing:.02em}
+.about-legal{margin-top:2rem;padding-top:1.25rem;border-top:0.5px solid var(--cream2);text-align:center}
+.about-legal-credit{font-size:11px;font-weight:300;color:var(--texts);margin:0 0 .5rem;letter-spacing:.02em}
+.about-legal-links{font-size:11px;font-weight:300;color:var(--texts);margin:0;letter-spacing:.04em}
+.about-legal a{color:var(--texts);text-decoration:underline;text-decoration-color:rgba(212,120,138,.4);text-underline-offset:2px}
+.about-legal a:hover{color:var(--text);text-decoration-color:var(--rose)}
 
 /* DANKÄ BURST — micro celebration when wish-a-word or get-in-touch tapped */
 .danka-burst{position:relative;display:inline-block;width:100%}
@@ -1301,6 +1306,14 @@ document.body.setAttribute('data-mode', window.__gz_mode || 'mint');
   }catch(e){ window.__gz_restoreTarget = null; }
 })();
 if(!window.__gz_restoreTarget) document.body.classList.add('on-landing');
+// Detect Trusted Web Activity (the Android/Play wrapper). First navigation's referrer is
+// android-app://<package>; persist it so the whole session knows. In a TWA we hide in-app
+// purchase UI (.buy-hide) — Play requires digital sales go through Play Billing, so the
+// wrapped app stays login-only and buying happens on the website.
+try{
+  if(document.referrer && document.referrer.indexOf('android-app://')===0) localStorage.setItem('g_twa','1');
+  if(localStorage.getItem('g_twa')==='1') document.documentElement.classList.add('is-twa');
+}catch(e){}
 </script>
 
 <nav class="top">
@@ -1710,8 +1723,9 @@ if(!window.__gz_restoreTarget) document.body.classList.add('on-landing');
       </svg>
       <h1 class="hero-h1">unlock full access<span class="beta-pill-sm">beta</span></h1>
       <div class="pw-btns">
-        <button class="btn-p" onclick="window.open(LS_MONTHLY,'_blank')">€7 / month</button>
-        <button class="btn-cream" onclick="window.open(LS_LIFETIME,'_blank')">€29 once</button>
+        <button class="btn-p buy-hide" onclick="window.open(LS_MONTHLY,'_blank')">€7 / month</button>
+        <button class="btn-cream buy-hide" onclick="window.open(LS_LIFETIME,'_blank')">€29 once</button>
+        <div class="pw-twa-note" data-i18n="twaBuyNote">Get full access at schwiizer.app, then sign in here.</div>
         <button class="pw-already" onclick="showView('signin')">already bought? sign in <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
         <!-- TODO: book a session — hidden until launch ready, €60 / 60 min
         <div class="pw-or">or</div>
@@ -1742,7 +1756,7 @@ if(!window.__gz_restoreTarget) document.body.classList.add('on-landing');
           <div class="signin-status" id="signin-code-status"></div>
         </div>
       </div>
-      <p class="signin-help"><a onclick="showView('paywall')" data-i18n="buyAccess">buy access</a> · <a href="mailto:hello@schwiizer.app" data-i18n="helpLink">help</a></p>
+      <p class="signin-help"><span class="buy-hide"><a onclick="showView('paywall')" data-i18n="buyAccess">buy access</a> · </span><a href="mailto:hello@schwiizer.app" data-i18n="helpLink">help</a></p>
     </div>
   </div>
 </div>
@@ -1847,6 +1861,12 @@ if(!window.__gz_restoreTarget) document.body.classList.add('on-landing');
         </div>
       </div>
     </div>
+    <footer class="about-legal">
+      <p class="about-legal-credit">Deborah · actor &amp; voice artist · <a href="https://dmb.actor" target="_blank" rel="noopener">dmb.actor</a></p>
+      <p class="about-legal-links">
+        <a href="/impressum">Impressum</a> · <a href="/privacy">Datenschutz</a> · <a href="/terms">AGB</a>
+      </p>
+    </footer>
   </div>
 </div>
 
@@ -2014,6 +2034,7 @@ const I18N = {
     buyAccess:"buy access",
     helpLink:"help",
     loginRegister:"log in / register",
+    twaBuyNote:"Get full access at schwiizer.app, then sign in here.",
     aboutSub:"the person behind the voice",
     aboutP1:"Swiss · German · Berliner since 2010.",
     aboutP2:"Grew up speaking Swiss German and German first, then French and English arrived more or less at the same time — languages have always just been the thing.",
@@ -2056,6 +2077,7 @@ const I18N = {
     buyAccess:"Zugang kaufen",
     helpLink:"Hilfe",
     loginRegister:"anmelden / registrieren",
+    twaBuyNote:"Vollzugang auf schwiizer.app holen, dann hier anmelden.",
     aboutSub:"Die Person hinter der Stimme",
     aboutP1:"Schweizerin · Deutsche · Berlinerin seit 2010.",
     aboutP2:"Aufgewachsen mit Schweizerdeutsch und Deutsch, dann kamen Französisch und Englisch mehr oder weniger gleichzeitig dazu — Sprachen waren schon immer mein Ding.",
@@ -3033,7 +3055,7 @@ function renderAccount(){
           </span>
           <button class="me-btn-icon" onclick="signOutAccount()" aria-label="${t('signout')}" title="${t('signout')}">${ic.signOut}</button>
         </div>
-        <div class="me-row me-row-divided">
+        <div class="me-row me-row-divided buy-hide">
           <span class="me-row-text-stacked">
             <span class="main">
               <span class="me-row-icon">${ic.heart}</span>${t('upgradeTitle')}

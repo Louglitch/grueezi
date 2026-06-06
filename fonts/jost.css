@@ -1,0 +1,11 @@
+/* Self-hosted Jost (variable, weights 300–500) — replaces the Google Fonts CDN so
+   visitor IPs are never sent to Google (DSGVO / German "Google Fonts" Abmahnung risk).
+   One variable file covers 300/400/500. Italic is faux-synthesised (only the tiny
+   .wc-hd hint uses it), so no separate italic file is shipped. */
+@font-face{
+  font-family:'Jost';
+  font-style:normal;
+  font-weight:300 500;
+  font-display:swap;
+  src:url('jost.woff2') format('woff2');
+}

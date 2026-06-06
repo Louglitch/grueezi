@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v83-2026-06-07-settings-login-register-single';
+const CACHE_VERSION = 'schwiizer-v84-2026-06-07-selfhost-fonts-legal-twa';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
