@@ -766,6 +766,15 @@ body[data-mode="dark"] .cat-grid{--tile:#2E2E33;--ink:#EDE8DF;--stamp:#1C1C1F;--
 /* category title = contrasting theme colour: mint & dark modes → rose, pink mode → mint(sage) */
 body[data-mode="pink"] .cat-secname{color:var(--sage)}
 .pillar-label{font-size:12px;font-weight:500;color:var(--text);padding:16px 0 6px;margin-bottom:2px;letter-spacing:.01em}
+/* soft "save your progress" prompt — gentle, dismissible, never forced */
+.save-prompt{position:fixed;left:50%;bottom:66px;transform:translate(-50%,150%);z-index:140;width:calc(100% - 2rem);max-width:460px;background:var(--card);border:0.5px solid var(--cream2);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:13px 14px;display:flex;align-items:center;gap:12px;transition:transform .34s cubic-bezier(.22,1,.36,1)}
+.save-prompt.show{transform:translate(-50%,0)}
+.save-prompt-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.save-prompt-text strong{font-size:13.5px;font-weight:500;color:var(--text)}
+.save-prompt-text span{font-size:11px;font-weight:300;color:var(--textm);line-height:1.35}
+.save-prompt-actions{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.save-prompt-later{background:none;border:none;color:var(--texts);font-family:var(--font);font-size:12px;cursor:pointer;padding:6px 8px}
+.save-prompt-cta{background:var(--rose);color:#fff;border:none;border-radius:999px;font-family:var(--font);font-size:12px;font-weight:500;cursor:pointer;padding:7px 15px;white-space:nowrap}
 .lessons-list{display:flex;flex-direction:column;gap:1px;background:var(--cream2);border-radius:18px;overflow:hidden;border:0.5px solid var(--cream2)}
 .lesson-row{background:var(--card);padding:11px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .1s}
 .lesson-row:hover{background:rgba(200,221,212,.12)}
@@ -3893,6 +3902,37 @@ function showComplete(){
     btn.dataset.action='lessons';
   }
   showView('complete');
+  maybeShowSavePrompt();
+}
+
+// Soft, dismissible "save your progress" nudge — only for logged-OUT users who are
+// already invested (≥2 stamps). Never forced; stops after a few shows.
+function maybeShowSavePrompt(){
+  if(state.session) return;                                     // already signed in
+  if(!state.stamps || state.stamps.length < 2) return;          // not invested yet
+  if(document.getElementById('save-prompt')) return;
+  if(sessionStorage.getItem('savePromptSnoozed')==='1') return; // not twice per session
+  const shows = parseInt(lsGet('g_savePromptShows')||'0',10);
+  if(shows >= 3) return;                                         // don't nag forever
+  lsSet('g_savePromptShows', String(shows+1));
+  const de = (typeof APP_LANG!=='undefined' && APP_LANG==='de');
+  const el = document.createElement('div');
+  el.id = 'save-prompt'; el.className = 'save-prompt';
+  el.innerHTML =
+    '<div class="save-prompt-text"><strong>'+(de?'Fortschritt speichern':'save your progress')+'</strong>'+
+    '<span>'+(de?'Melde dich gratis an — Stempel & Serie auf allen Geräten.':'sign in free — keep your stamps & streak on all your devices.')+'</span></div>'+
+    '<div class="save-prompt-actions">'+
+      '<button class="save-prompt-later" onclick="dismissSavePrompt(false)">'+(de?'später':'later')+'</button>'+
+      '<button class="save-prompt-cta" onclick="dismissSavePrompt(true)">'+(de?'anmelden':'sign in')+'</button>'+
+    '</div>';
+  document.body.appendChild(el);
+  requestAnimationFrame(()=>el.classList.add('show'));
+}
+function dismissSavePrompt(go){
+  const el = document.getElementById('save-prompt');
+  if(el){ el.classList.remove('show'); setTimeout(()=>{ if(el.parentNode) el.remove(); }, 320); }
+  try{ sessionStorage.setItem('savePromptSnoozed','1'); }catch(e){}
+  if(go) showView('signin');
 }
 
 // Called when user taps the single continue button
