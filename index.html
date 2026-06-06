@@ -976,6 +976,8 @@ body[data-mode="dark"] .eq-helvi-btn{--body:#33333A;--stroke:#586A62;--belly:#1C
 .me-stat-label{font-size:12px;font-weight:300;color:var(--textm)}
 .me-stat-val{font-size:14px;font-weight:400;color:var(--dark)}
 .me-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0}
+.me-row-tap{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.me-row-tap:active{opacity:.6}
 .me-row-divided{border-top:0.5px solid var(--cream2)}
 .me-row-text{font-size:14.5px;font-weight:400;color:var(--textm);line-height:1.5;flex:1}
 .me-btn-dark{background:var(--cream);color:var(--dark);border:1.5px solid var(--dark);border-radius:999px;padding:9px 18px;font-size:12px;font-family:var(--font);cursor:pointer;font-weight:500;letter-spacing:.02em;white-space:nowrap}
@@ -2011,6 +2013,7 @@ const I18N = {
     verifyCode:"log in",
     buyAccess:"buy access",
     helpLink:"help",
+    loginRegister:"log in / register",
     aboutSub:"the person behind the voice",
     aboutP1:"Swiss · German · Berliner since 2010.",
     aboutP2:"Grew up speaking Swiss German and German first, then French and English arrived more or less at the same time — languages have always just been the thing.",
@@ -2052,6 +2055,7 @@ const I18N = {
     verifyCode:"anmelden",
     buyAccess:"Zugang kaufen",
     helpLink:"Hilfe",
+    loginRegister:"anmelden / registrieren",
     aboutSub:"Die Person hinter der Stimme",
     aboutP1:"Schweizerin · Deutsche · Berlinerin seit 2010.",
     aboutP2:"Aufgewachsen mit Schweizerdeutsch und Deutsch, dann kamen Französisch und Englisch mehr oder weniger gleichzeitig dazu — Sprachen waren schon immer mein Ding.",
@@ -3041,24 +3045,16 @@ function renderAccount(){
       </div>
     `;
   } else {
-    // STATE 1 — anonymous + free
+    // STATE 1 — logged out: one neutral entry → opens the sign-in page, which itself offers
+    // both paths (log in with email+code, or "buy access" for new customers).
     accountSection = `
       <div class="me-section-label">${t('account')}</div>
       <div class="me-card">
-        <div class="me-row">
-          <span class="me-row-text-stacked">
-            <span class="main">
-              <span class="me-row-icon">${ic.heart}</span>${t('upgradeTitle')}
-            </span>
-            <span class="meta">${t('upgradeMeta')}</span>
-          </span>
-          <button class="me-btn-soft subtle" onclick="showView('paywall')">${t('upgrade')} ›</button>
-        </div>
-        <div class="me-row me-row-divided">
+        <div class="me-row me-row-tap" onclick="showView('signin')" role="button" tabindex="0">
           <span class="me-row-text me-row-text-with-icon">
-            <span class="me-row-icon">${ic.signIn}</span>${t('signin')}
+            <span class="me-row-icon">${ic.signIn}</span>${t('loginRegister')}
           </span>
-          <button class="me-btn-icon" onclick="showView('signin')" aria-label="${t('signin')}" title="${t('signin')}">${ic.chevron}</button>
+          <button class="me-btn-icon" onclick="showView('signin')" aria-label="${t('loginRegister')}" title="${t('loginRegister')}">${ic.chevron}</button>
         </div>
       </div>
     `;
