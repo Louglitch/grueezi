@@ -539,6 +539,10 @@ body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:
 .signin-code{display:flex;flex-direction:column;gap:12px;margin-top:6px}
 .signin-code-label{font-size:13px;color:var(--text);text-align:center;line-height:1.5;font-weight:400}
 .signin-code-input{text-align:center;letter-spacing:.45em;font-size:22px;font-weight:400;padding-left:.45em}
+/* keep the placeholder readable (no wide digit-spacing on the helper text) */
+.signin-code-input::placeholder{letter-spacing:.01em;font-size:13px;font-weight:300}
+/* inline login on the access page sits a touch below the buy block */
+#access-login{margin-top:4px}
 #signin-code-btn{width:100%}
 .signin-code-alt{font-size:11px;color:var(--texts);text-align:center;line-height:1.5;font-weight:300;opacity:.8;margin-top:2px}
 .signin-help{font-size:12px;color:var(--texts);text-align:center;margin:1.25rem 0 0;line-height:1.6;font-weight:400}
@@ -1736,8 +1740,20 @@ try{
         <button class="btn-p pw-buy-primary buy-hide" onclick="window.open(LS_LIFETIME,'_blank')">€29 · once</button>
         <button class="btn-cream pw-buy-secondary buy-hide" onclick="window.open(LS_MONTHLY,'_blank')">€7 / month</button>
         <div class="pw-twa-note" data-i18n="twaBuyNote">Get full access at schwiizer.app, then log in here.</div>
-        <div class="pw-or-sep buy-hide"><span data-i18n="pwOr">or</span></div>
-        <button class="pw-login-btn" onclick="showView('signin')" data-i18n="logIn">log in</button>
+        <div class="pw-or-sep buy-hide" id="access-or"><span data-i18n="pwOr">or</span></div>
+        <!-- Inline login for existing customers. Staged: email + "send code" first; the code
+             field only appears after a code is sent (so it never looks like a password field). -->
+        <div class="signin-form" id="access-login">
+          <input type="email" id="signin-email" class="signin-input" placeholder="email you bought with" autocomplete="email" inputmode="email"/>
+          <button class="btn-p" id="signin-btn" onclick="requestMagicLink()" data-i18n="sendLink">send code</button>
+          <div class="signin-status" id="signin-status"></div>
+          <div class="signin-code" id="signin-code" hidden>
+            <input type="text" id="signin-code-input" class="signin-input signin-code-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="paste the code from your email"/>
+            <button class="btn-p" id="signin-code-btn" onclick="verifyCode()" data-i18n="verifyCode">login</button>
+            <div class="signin-status" id="signin-code-status"></div>
+          </div>
+          <p class="signin-help"><a href="mailto:hello@schwiizer.app" data-i18n="helpLink">help</a></p>
+        </div>
         <!-- TODO: book a session — hidden until launch ready, €60 / 60 min
         <div class="pw-or">or</div>
         <a class="btn-cream" href="https://calendly.com/deborahmurielblum-info/new-meeting" target="_blank" style="text-decoration:none;display:block;text-align:center">book a session</a>
@@ -1748,29 +1764,9 @@ try{
   </div>
 </div>
 
-<!-- SIGN IN — for existing customers entering email to receive magic link -->
-<div id="view-signin" class="view">
-  <div class="inner">
-    <div class="signin-card">
-      <div class="page-header" style="margin-bottom:1.25rem">
-        <div class="page-title">sign in<span class="u-dots"><i></i><i></i></span></div>
-      </div>
-      <div class="signin-form">
-        <input type="email" id="signin-email" class="signin-input" placeholder="your@email.com" autocomplete="email" inputmode="email"/>
-        <button class="btn-p" id="signin-btn" onclick="requestMagicLink()" data-i18n="sendLink">send code</button>
-        <div class="signin-status" id="signin-status"></div>
-        <!-- Code step — revealed after the code is sent. Completing sign-in here keeps the
-             session inside the home-screen app (the email link opens in a separate browser). -->
-        <div class="signin-code" id="signin-code" hidden>
-          <input type="text" id="signin-code-input" class="signin-input signin-code-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="••••••"/>
-          <button class="btn-p" id="signin-code-btn" onclick="verifyCode()" data-i18n="verifyCode">log in</button>
-          <div class="signin-status" id="signin-code-status"></div>
-        </div>
-      </div>
-      <p class="signin-help"><span class="buy-hide"><a onclick="showView('paywall')" data-i18n="buyAccess">buy access</a> · </span><a href="mailto:hello@schwiizer.app" data-i18n="helpLink">help</a></p>
-    </div>
-  </div>
-</div>
+<!-- SIGN IN merged into the access page (#view-paywall). Husk kept so any stray
+     showView('paywall') is harmless; all real entry points route to 'paywall'. -->
+<div id="view-signin" class="view"></div>
 
 <!-- COMPLETE -->
 <div id="view-complete" class="view">
@@ -2041,13 +2037,13 @@ const I18N = {
     signinHelp:"No code? Check spam, or <a href=\"mailto:hello@schwiizer.app\">email us</a>.",
     codeLabel:"enter the 6-digit code from the email",
     codeAlt:"on a computer? the email also has a one-tap link.",
-    verifyCode:"log in",
+    verifyCode:"login",
     buyAccess:"buy access",
     helpLink:"help",
-    loginRegister:"log in / register",
+    loginRegister:"login",
     twaBuyNote:"Get full access at schwiizer.app, then log in here.",
     pwOr:"or",
-    logIn:"log in",
+    logIn:"login",
     aboutSub:"the person behind the voice",
     aboutP1:"Swiss · German · Berliner since 2010.",
     aboutP2:"Grew up speaking Swiss German and German first, then French and English arrived more or less at the same time — languages have always just been the thing.",
@@ -2089,7 +2085,7 @@ const I18N = {
     verifyCode:"anmelden",
     buyAccess:"Zugang kaufen",
     helpLink:"Hilfe",
-    loginRegister:"anmelden / registrieren",
+    loginRegister:"anmelden",
     twaBuyNote:"Vollzugang auf schwiizer.app holen, dann hier anmelden.",
     pwOr:"oder",
     logIn:"anmelden",
@@ -2822,7 +2818,7 @@ function showView(v){
   if(btn)btn.classList.add('active');
   if(v==='lessons')renderLessons();
   if(v==='account')renderAccount();
-  if(v==='signin' && typeof resetSigninView==='function')resetSigninView();
+  if(v==='paywall' && typeof resetSigninView==='function')resetSigninView();
   // Persist last "home" view so a refresh / PWA relaunch stays put instead of bouncing to landing.
   // Deep views (stage/chapter/complete) map back to their list home, not landing.
   try{
@@ -2876,12 +2872,13 @@ function resetLessonsPageTitle(){
   const vl=document.getElementById('view-lessons'); if(vl) vl.classList.remove('searching');
 }
 
-// Tap on the top-right login icon — if signed in → settings, else → sign-in view
+// Top-right button: logged out → the access page (buy + inline login);
+// logged in → a quick "log out? / cancel" prompt (settings is still on the bottom nav).
 function navLoginTap(){
   if(state.email){
-    showView('account');
+    signOutAccount();
   } else {
-    showView('signin');
+    showView('paywall');
   }
 }
 
@@ -2901,7 +2898,7 @@ function refreshNavLogin(){
   } else {
     // Signed out — show the word "login" (an action), hide the icon so it never
     // reads as "already signed in"
-    if(txt){ txt.hidden = false; txt.textContent = (typeof APP_LANG!=='undefined' && APP_LANG==='de') ? 'login' : 'login'; }
+    if(txt){ txt.hidden = false; txt.textContent = (typeof t==='function') ? t('logIn') : 'login'; }
     if(iconWrap) iconWrap.hidden = true;
     btn.classList.remove('signed-in');
     btn.setAttribute('aria-label','log in');
@@ -3091,11 +3088,11 @@ function renderAccount(){
     accountSection = `
       <div class="me-section-label">${t('account')}</div>
       <div class="me-card">
-        <div class="me-row me-row-tap" onclick="showView('signin')" role="button" tabindex="0">
+        <div class="me-row me-row-tap" onclick="showView('paywall')" role="button" tabindex="0">
           <span class="me-row-text me-row-text-with-icon">
             <span class="me-row-icon">${ic.signIn}</span>${t('loginRegister')}
           </span>
-          <button class="me-btn-icon" onclick="showView('signin')" aria-label="${t('loginRegister')}" title="${t('loginRegister')}">${ic.chevron}</button>
+          <button class="me-btn-icon" onclick="showView('paywall')" aria-label="${t('loginRegister')}" title="${t('loginRegister')}">${ic.chevron}</button>
         </div>
       </div>
     `;
@@ -4102,7 +4099,7 @@ function dismissSavePrompt(go){
   const el = document.getElementById('save-prompt');
   if(el){ el.classList.remove('show'); setTimeout(()=>{ if(el.parentNode) el.remove(); }, 320); }
   try{ sessionStorage.setItem('savePromptSnoozed','1'); }catch(e){}
-  if(go) showView('signin');
+  if(go) showView('paywall');
 }
 
 // Called when user taps the single continue button
@@ -4532,12 +4529,25 @@ function startBurst(btn){
 // prefill the email so the user never retypes it — and if it's still fresh, jump to step 2.
 function resetSigninView(){
   const isDe = (typeof APP_LANG!=='undefined' && APP_LANG==='de');
+  const loginBlock = document.getElementById('access-login');
+  const orSep = document.getElementById('access-or');
+  // Already signed in (e.g. a free user on the access page to upgrade) → no login form.
+  if(state.email){
+    if(loginBlock) loginBlock.hidden = true;
+    if(orSep) orSep.style.display = 'none';
+    return;
+  }
+  if(loginBlock) loginBlock.hidden = false;
+  if(orSep) orSep.style.display = '';
   const emailInput = document.getElementById('signin-email');
   const codeBox = document.getElementById('signin-code');
   const ci = document.getElementById('signin-code-input'); if(ci) ci.value = '';
   const s1 = document.getElementById('signin-status'); if(s1){ s1.textContent=''; s1.className='signin-status'; }
   const s2 = document.getElementById('signin-code-status'); if(s2){ s2.textContent=''; s2.className='signin-status'; }
   const b = document.getElementById('signin-btn'); if(b) b.disabled = false;
+  // localized placeholders (placeholders aren't covered by applyStaticTranslations)
+  if(emailInput) emailInput.setAttribute('placeholder', isDe ? 'E-Mail, mit der du gekauft hast' : 'email you bought with');
+  if(ci) ci.setAttribute('placeholder', isDe ? 'Code aus der E-Mail einfügen' : 'paste the code from your email');
   let pend=null, ts=0;
   try{ pend=localStorage.getItem('g_pending_email'); ts=parseInt(localStorage.getItem('g_pending_email_ts')||'0',10); }catch(e){}
   if(pend && emailInput){ emailInput.value = pend; window.__pendingAuthEmail = pend; }
@@ -4850,7 +4860,7 @@ save = function(){
     }, 300);
   } else {
     alert('Magic link expired or invalid. Please request a new one.');
-    showView('signin');
+    showView('paywall');
   }
 })();
 
