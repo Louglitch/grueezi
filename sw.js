@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v81-2026-06-06-refresh-dialog-arrows-codelogin';
+const CACHE_VERSION = 'schwiizer-v82-2026-06-07-signin-minimal-email-remembered';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
