@@ -4391,7 +4391,6 @@ async function refreshStatus(){
       logOutCloud();
       return;
     }
-    const wasUnlocked = state.unlocked;
     state.unlocked = !!data.unlocked;
     state.plan = data.plan || null;
     if(state.unlocked){
@@ -4401,10 +4400,8 @@ async function refreshStatus(){
       localStorage.removeItem('g_unlocked');
       localStorage.removeItem('g_plan');
     }
-    // If newly unlocked — pull progress from cloud
-    if(state.unlocked && !wasUnlocked){
-      await pullProgress();
-    }
+    // Pull + merge progress on every status check — sync is FREE for any logged-in user
+    await pullProgress();
     renderLessons();
     renderAccount();
   } catch(err){
@@ -4414,7 +4411,7 @@ async function refreshStatus(){
 
 // POST /sync — save current progress to cloud (paid users only)
 async function pushProgress(){
-  if(!state.session || !state.unlocked) return;
+  if(!state.session) return;
   try {
     await fetch(SCHWIIZER_API + '/sync?session=' + encodeURIComponent(state.session), {
       method:'POST',
@@ -4431,23 +4428,58 @@ async function pushProgress(){
   }
 }
 
-// GET /sync — load progress from cloud (for new device login)
+// ---- merge helpers: union everything so progress is NEVER lost across devices ----
+function _mergeArrUnique(a, b){
+  const out = Array.isArray(a) ? a.slice() : [];
+  const seen = new Set(out.map(String));
+  (Array.isArray(b) ? b : []).forEach(x=>{ if(!seen.has(String(x))){ seen.add(String(x)); out.push(x); } });
+  return out;
+}
+function _mergeProgress(a, b){
+  const out = {};
+  const keys = new Set([...Object.keys(a||{}), ...Object.keys(b||{})]);
+  keys.forEach(k=>{ out[k] = _mergeArrUnique((a||{})[k], (b||{})[k]); });
+  return out;
+}
+function _mergeQuiz(a, b){
+  const out = Object.assign({}, a||{});
+  Object.keys(b||{}).forEach(k=>{
+    const lv = out[k], cv = b[k];
+    if(lv == null){ out[k] = cv; return; }
+    const lc = (lv && typeof lv==='object') ? (lv.correct||0) : (typeof lv==='number'?lv:0);
+    const cc = (cv && typeof cv==='object') ? (cv.correct||0) : (typeof cv==='number'?cv:0);
+    out[k] = (cc > lc) ? cv : lv;   // keep the better score, never downgrade
+  });
+  return out;
+}
+function _mergeStreak(a, b){
+  a = a||{days:[],count:0}; b = b||{days:[],count:0};
+  return { days:_mergeArrUnique(a.days, b.days), count:Math.max(a.count||0, b.count||0) };
+}
+
+// GET /sync — load progress from cloud, MERGE with local (free for any logged-in user)
 async function pullProgress(){
   if(!state.session) return;
   try {
     const res = await fetch(SCHWIIZER_API + '/sync?session=' + encodeURIComponent(state.session));
     const data = await res.json();
-    if(!data.progress) return;
-    const p = data.progress;
-    // Merge — cloud wins if it has more
-    if(p.progress) state.progress = p.progress;
-    if(p.quizScores) state.quizScores = p.quizScores;
-    if(p.stamps) state.stamps = p.stamps;
-    if(p.streak) state.streak = p.streak;
+    const cloud = data && data.progress;   // {progress, quizScores, stamps, streak, savedAt} | null
+    if(!cloud){
+      // cloud empty → seed it with whatever this device has
+      pushProgress();
+      return;
+    }
+    state.progress   = _mergeProgress(state.progress, cloud.progress);
+    state.quizScores = _mergeQuiz(state.quizScores, cloud.quizScores);
+    state.stamps     = _mergeArrUnique(state.stamps, cloud.stamps);
+    state.streak     = _mergeStreak(state.streak, cloud.streak);
     localStorage.setItem('g_progress', JSON.stringify(state.progress));
     localStorage.setItem('g_quiz', JSON.stringify(state.quizScores));
     localStorage.setItem('g_stamps', JSON.stringify(state.stamps));
     localStorage.setItem('g_streak', JSON.stringify(state.streak));
+    renderLessons();
+    // push the merged union back up so the cloud holds the combined result too
+    pushProgress();
   } catch(err){
     console.warn('sync pull failed:', err);
   }
@@ -4471,8 +4503,8 @@ function logOutCloud(){
 const _originalSave = save;
 save = function(){
   _originalSave();
-  // Fire-and-forget cloud sync — non-blocking
-  if(state.unlocked && state.session){
+  // Fire-and-forget cloud sync — free for any logged-in user, non-blocking
+  if(state.session){
     pushProgress();
   }
 };
