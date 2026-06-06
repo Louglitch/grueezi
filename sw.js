@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v85-2026-06-07-login-text-bigger-buy';
+const CACHE_VERSION = 'schwiizer-v86-2026-06-07-login-buy-consistent-width';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately

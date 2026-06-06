@@ -56,7 +56,7 @@ body[data-mode="mint"]{
   --p-active-bg:#A8C8BC;--p-active-fg:#2C3830;
   /* logo (constant — mint square, rose accent) */
   --logo-bg:#A8C8BC;--logo-fg:#F2EDE2;--logo-accent:#D4788A;
-  --font:'Jost',sans-serif;--col:540px;
+  --font:'Jost',sans-serif;--col:560px;
 }
 
 /* pink mode — soft dusky rose hero, warm cream page */
@@ -118,12 +118,10 @@ body.preload-done{transition:background .3s ease,color .3s ease}
 button,a{-webkit-user-select:none;user-select:none}
 .inner{max-width:var(--col);margin:0 auto;padding:0 1.25rem}
 
-/* DESKTOP — wider column and proportional scale-up for readability */
+/* DESKTOP — same column width + font as mobile (one consistent ~560px column at any
+   screen size; just more background around it on big screens). nav-inner inherits --col,
+   so the logo + login align with the content edges. */
 @media (min-width:768px){
-  :root{--col:720px}
-  html{font-size:18.5px}
-  /* desktop: top bar spans wide so logo hugs the left corner, login the right (content stays centered) */
-  .nav-inner{max-width:1160px;padding:0 2rem}
   .features{padding:1.5rem 1.25rem calc(3.5rem + env(safe-area-inset-bottom, 0px))}
   .features-inner{gap:1.75rem}
   .page-header{padding:2.5rem 0 1rem;margin-bottom:1.5rem}
