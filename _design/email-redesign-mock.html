@@ -1,0 +1,55 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>magic-link email — redesign mock</title>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Jost',sans-serif;background:#4a4a4a;padding:30px 16px;color:#eee}
+h1.title{font-weight:400;font-size:18px;text-align:center;margin-bottom:6px}
+.sub{font-size:13px;opacity:.7;text-align:center;margin-bottom:24px}
+.frame{max-width:480px;margin:0 auto 26px;background:#F2EDE2;border-radius:18px;overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.3)}
+/* ---- the email itself ---- */
+.mail{background:#F2EDE2;padding:34px 28px 30px;text-align:center;color:#2C3830}
+.mail img.helvi{width:84px;height:auto;display:block;margin:0 auto 10px}
+.mail .wordmark{font-weight:300;font-size:30px;letter-spacing:-.01em;color:#2C3830;margin-bottom:4px}
+.mail .wordmark b{font-weight:300}
+.mail .greet{font-size:14px;color:#6FA898;font-weight:400;margin-bottom:22px}
+.mail .lead{font-size:14px;line-height:1.6;color:#2C3830;margin-bottom:24px}
+.mail .btn{display:inline-block;background:#D4788A;color:#FFFFFF;padding:13px 30px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:500;letter-spacing:.02em}
+.mail .alt{font-size:12px;line-height:1.6;color:#8A9E94;margin-top:24px}
+.mail .alt a{color:#D4788A;word-break:break-all;text-decoration:none}
+.mail .foot{font-size:12px;line-height:1.6;color:#A8B5AD;margin-top:26px}
+.mail .sig{font-size:11px;color:#A8B5AD;margin-top:18px}
+.mail hr{border:none;border-top:1px solid #E3DCC9;margin:24px 0}
+/* greeting picker */
+.pick{max-width:480px;margin:0 auto;background:#2f2f2f;border-radius:14px;padding:16px 18px;font-size:13px;line-height:1.7}
+.pick b{color:#A8C8BC}
+.pick .opt{color:#D4788A}
+</style></head>
+<body>
+<h1 class="title">magic-link email — redesigned</h1>
+<div class="sub">cream + rose + mint · Helvi logo · no more aubergine · 30-min link</div>
+
+<div class="frame">
+  <div class="mail">
+    <img class="helvi" src="file:///Users/debbs/Documents/schwiizer/email/helvi.png" alt="schwiizer">
+    <div class="wordmark">schwiizer<b style="color:#D4788A">.</b></div>
+    <div class="greet">sali, wie gaats? — your magic link is ready</div>
+    <div class="lead">Tap below to unlock the app on this device.</div>
+    <a class="btn" href="#">unlock schwiizer →</a>
+    <div class="alt">If the button doesn't work, copy &amp; paste this link:<br><a href="#">https://schwiizer.app/?magic=…</a></div>
+    <hr>
+    <div class="foot">Link expires in 30 minutes. If you didn't request this, you can ignore this email.</div>
+    <div class="sig">— Deborah</div>
+  </div>
+</div>
+
+<div class="pick">
+  <b>Greeting line — which do you want?</b><br>
+  1. <span class="opt">sali, wie gaats?</span> — your magic link is ready  &nbsp;(shown above)<br>
+  2. <span class="opt">hoi</span> — your magic link is ready<br>
+  3. <span class="opt">salü</span> — your magic link is ready<br>
+  4. <span class="opt">sali</span> — your magic link is ready<br>
+  5. (no greeting) — your magic link is ready<br>
+  <br><b>Palette:</b> page cream #F2EDE2 · text green #2C3830 · button rose #D4788A · greeting sage #6FA898. The aubergine #7A3040 is gone.
+</div>
+</body></html>
