@@ -170,6 +170,7 @@ body.on-landing .global-horizon{display:none}
   transition:opacity .15s ease, transform .15s ease;
 }
 .nav-login-btn:hover{opacity:.85;transform:scale(1.04)}
+.nav-login-text{font-family:var(--font);font-size:14px;font-weight:400;color:var(--nav-text);letter-spacing:.02em;padding:3px 4px}
 .nav-login-icon{
   width:30px;height:30px;border-radius:50%;
   background:transparent;border:1px solid var(--nav-text);color:var(--nav-text);
@@ -516,6 +517,15 @@ body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:
 .pw-already{background:transparent;border:none;color:var(--dark);font-family:var(--font);font-size:12px;font-weight:400;letter-spacing:.02em;cursor:pointer;padding:10px 0;margin-top:8px;display:inline-flex;align-items:center;justify-content:center;gap:6px;opacity:.85;transition:opacity .15s ease, transform .15s ease}
 .pw-already:hover{opacity:1;transform:translateX(2px)}
 .pw-already svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+/* paywall: €29 is the big primary, €7 the quieter secondary */
+.pw-buy-primary{font-size:16px;font-weight:500;padding:15px 28px}
+.pw-buy-secondary{font-size:13px;font-weight:400;opacity:.92}
+/* "or" divider between buying and logging in */
+.pw-or-sep{display:flex;align-items:center;gap:10px;color:var(--texts);font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.55;margin:10px 0 2px}
+.pw-or-sep::before,.pw-or-sep::after{content:"";flex:1;height:.5px;background:var(--beige)}
+/* clear, calm log-in button for existing customers (always visible, incl. in the Play app) */
+.pw-login-btn{width:100%;background:transparent;border:1.5px solid var(--dark);color:var(--dark);font-family:var(--font);font-size:14px;font-weight:500;letter-spacing:.02em;border-radius:999px;padding:12px 24px;cursor:pointer;transition:background .15s ease}
+.pw-login-btn:hover{background:rgba(44,56,48,.06)}
 
 /* SIGN-IN screen */
 .signin-card{padding:1.5rem 0}
@@ -1331,10 +1341,12 @@ try{
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
     </div>
-    <button class="nav-login-btn" id="nav-login-btn" onclick="navLoginTap()" aria-label="sign in">
-      <span class="nav-login-icon" id="nav-login-icon">
-        <!-- person icon when signed out, checkmark when signed in (swapped via JS) -->
-        <svg viewBox="0 0 24 24" id="nav-login-svg" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1" fill="none" stroke="currentColor"/></svg>
+    <button class="nav-login-btn" id="nav-login-btn" onclick="navLoginTap()" aria-label="log in">
+      <!-- Logged out: the word "login" (an action). Logged in: the icon/checkmark (a state).
+           Swapped by refreshNavLogin() so the icon never reads as "already signed in". -->
+      <span class="nav-login-text" id="nav-login-text">login</span>
+      <span class="nav-login-icon" id="nav-login-icon" hidden>
+        <svg viewBox="0 0 24 24" id="nav-login-svg" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor"/></svg>
       </span>
     </button>
   </div>
@@ -1723,10 +1735,11 @@ try{
       </svg>
       <h1 class="hero-h1">unlock full access<span class="beta-pill-sm">beta</span></h1>
       <div class="pw-btns">
-        <button class="btn-p buy-hide" onclick="window.open(LS_MONTHLY,'_blank')">€7 / month</button>
-        <button class="btn-cream buy-hide" onclick="window.open(LS_LIFETIME,'_blank')">€29 once</button>
-        <div class="pw-twa-note" data-i18n="twaBuyNote">Get full access at schwiizer.app, then sign in here.</div>
-        <button class="pw-already" onclick="showView('signin')">already bought? sign in <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+        <button class="btn-p pw-buy-primary buy-hide" onclick="window.open(LS_LIFETIME,'_blank')">€29 · once</button>
+        <button class="btn-cream pw-buy-secondary buy-hide" onclick="window.open(LS_MONTHLY,'_blank')">€7 / month</button>
+        <div class="pw-twa-note" data-i18n="twaBuyNote">Get full access at schwiizer.app, then log in here.</div>
+        <div class="pw-or-sep buy-hide"><span data-i18n="pwOr">or</span></div>
+        <button class="pw-login-btn" onclick="showView('signin')" data-i18n="logIn">log in</button>
         <!-- TODO: book a session — hidden until launch ready, €60 / 60 min
         <div class="pw-or">or</div>
         <a class="btn-cream" href="https://calendly.com/deborahmurielblum-info/new-meeting" target="_blank" style="text-decoration:none;display:block;text-align:center">book a session</a>
@@ -2034,7 +2047,9 @@ const I18N = {
     buyAccess:"buy access",
     helpLink:"help",
     loginRegister:"log in / register",
-    twaBuyNote:"Get full access at schwiizer.app, then sign in here.",
+    twaBuyNote:"Get full access at schwiizer.app, then log in here.",
+    pwOr:"or",
+    logIn:"log in",
     aboutSub:"the person behind the voice",
     aboutP1:"Swiss · German · Berliner since 2010.",
     aboutP2:"Grew up speaking Swiss German and German first, then French and English arrived more or less at the same time — languages have always just been the thing.",
@@ -2078,6 +2093,8 @@ const I18N = {
     helpLink:"Hilfe",
     loginRegister:"anmelden / registrieren",
     twaBuyNote:"Vollzugang auf schwiizer.app holen, dann hier anmelden.",
+    pwOr:"oder",
+    logIn:"anmelden",
     aboutSub:"Die Person hinter der Stimme",
     aboutP1:"Schweizerin · Deutsche · Berlinerin seit 2010.",
     aboutP2:"Aufgewachsen mit Schweizerdeutsch und Deutsch, dann kamen Französisch und Englisch mehr oder weniger gleichzeitig dazu — Sprachen waren schon immer mein Ding.",
@@ -2873,20 +2890,24 @@ function navLoginTap(){
 // Refresh the top-right login icon based on signed-in state
 function refreshNavLogin(){
   const btn = document.getElementById('nav-login-btn');
-  const svg = document.getElementById('nav-login-svg');
-  if(!btn || !svg) return;
+  const txt = document.getElementById('nav-login-text');
+  const iconWrap = document.getElementById('nav-login-icon');
+  if(!btn) return;
   if(state.email){
-    // Signed in — checkmark + mint fill + filled rose dots
-    svg.innerHTML = '<polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor"/>';
+    // Signed in — show the checkmark icon (a state), hide the word
+    if(txt) txt.hidden = true;
+    if(iconWrap) iconWrap.hidden = false;
     btn.classList.add('signed-in');
     btn.setAttribute('aria-label','signed in — open settings');
     btn.setAttribute('title','signed in as '+state.email+' · tap for settings');
   } else {
-    // Signed out — person silhouette outline + empty rose dots
-    svg.innerHTML = '<circle cx="12" cy="8" r="4" fill="none" stroke="currentColor"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1" fill="none" stroke="currentColor"/>';
+    // Signed out — show the word "login" (an action), hide the icon so it never
+    // reads as "already signed in"
+    if(txt){ txt.hidden = false; txt.textContent = (typeof APP_LANG!=='undefined' && APP_LANG==='de') ? 'login' : 'login'; }
+    if(iconWrap) iconWrap.hidden = true;
     btn.classList.remove('signed-in');
-    btn.setAttribute('aria-label','sign in');
-    btn.setAttribute('title','sign in');
+    btn.setAttribute('aria-label','log in');
+    btn.setAttribute('title','log in');
   }
 }
 
