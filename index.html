@@ -215,6 +215,8 @@ body.on-landing .global-horizon{display:none}
 .bnav-btn.active svg{stroke:var(--nav-text-active)}
 @keyframes view-fade-in{0%{transform:translateY(6px)}100%{transform:translateY(0)}}
 .view.active{display:block}  /* no transform/opacity entrance — it caused a white flash + made position:fixed stage-mountains jump to mid-screen */
+/* While restoring a deep/home view on refresh, keep the default-active landing hidden so it never paints before the swap */
+html.gz-restoring #view-landing{display:none!important}
 @media (prefers-reduced-motion:reduce){.view.active{animation:none}}
 
 /* LANDING */
@@ -387,6 +389,17 @@ body[data-mode="dark"] .rise-dot{background:#FFE9A8}
 .btn-s:hover{background:var(--cream2)}
 .btn-soft{background:transparent;color:var(--dark);border:0.5px solid var(--beige);border-radius:999px;padding:10px 24px;font-size:13px;font-weight:400;font-family:var(--font);cursor:pointer;letter-spacing:.02em}
 .btn-soft:hover{background:var(--cream2)}
+/* In-app confirm modal — replaces the browser's native confirm() so dialogs match the app */
+.gz-modal-overlay{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(44,56,48,.34);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);opacity:0;transition:opacity .16s ease}
+.gz-modal-overlay.show{opacity:1}
+.gz-modal{background:var(--card);border:0.5px solid var(--cream2);border-radius:22px;max-width:340px;width:100%;padding:1.6rem 1.5rem 1.3rem;box-shadow:0 14px 44px rgba(44,56,48,.22);text-align:center;transform:translateY(8px) scale(.98);transition:transform .18s cubic-bezier(.2,.8,.2,1)}
+.gz-modal-overlay.show .gz-modal{transform:translateY(0) scale(1)}
+.gz-modal-title{font-size:1.15rem;font-weight:500;color:var(--dark);margin-bottom:.5rem;letter-spacing:-.005em}
+.gz-modal-body{font-size:.9rem;font-weight:300;line-height:1.5;color:var(--texts);margin-bottom:1.3rem}
+.gz-modal-actions{display:flex;gap:10px;justify-content:center}
+.gz-modal-actions .btn-p,.gz-modal-actions .btn-soft{flex:1;max-width:150px}
+.gz-modal .btn-danger{border-color:var(--rose);color:var(--rose)}
+.gz-modal .btn-danger:hover{background:rgba(212,120,138,.08)}
 .btn-cream{background:rgba(247,243,236,.6);color:var(--dark);border:1.5px solid var(--cream);border-radius:999px;padding:10px 24px;font-size:13px;font-weight:400;font-family:var(--font);cursor:pointer;letter-spacing:.02em}
 .btn-cream:hover{background:var(--cream)}
 /* PAYWALL */
@@ -514,6 +527,13 @@ body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:
 .signin-status{font-size:12px;color:var(--texts);text-align:center;min-height:18px;line-height:1.5;font-weight:300}
 .signin-status.ok{color:var(--sage)}
 .signin-status.err{color:var(--rose-deep)}
+/* 6-digit code entry (for finishing sign-in inside a home-screen PWA) */
+.signin-code{display:flex;flex-direction:column;gap:12px;margin-top:4px}
+.signin-code-divider{display:flex;align-items:center;gap:10px;color:var(--texts);font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.65;margin:6px 0 2px}
+.signin-code-divider::before,.signin-code-divider::after{content:"";flex:1;height:0.5px;background:var(--beige)}
+.signin-code-label{font-size:12px;color:var(--texts);text-align:center;line-height:1.5;font-weight:300}
+.signin-code-input{text-align:center;letter-spacing:.45em;font-size:22px;font-weight:400;padding-left:.45em}
+#signin-code-btn{width:100%}
 .signin-help{font-size:12px;color:var(--texts);text-align:center;margin:1.25rem 0 0;line-height:1.6;font-weight:400}
 .signin-help a{color:var(--dark);text-decoration:underline;text-decoration-color:rgba(44,56,48,.3);text-underline-offset:2px}
 .features{background:var(--cream);padding:1rem 1.25rem calc(3.5rem + env(safe-area-inset-bottom, 0px))}
@@ -846,18 +866,22 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
 .wc-audio:active{transform:scale(.96)}
 .wc-audio svg{width:22px;height:22px;fill:var(--cream)}
 /* arrows flank the audio button — one thumb zone */
-.wc-control-row{display:flex;align-items:center;justify-content:center;gap:18px;margin:0 auto 1.5rem}
+.wc-control-row{display:flex;align-items:center;justify-content:center;gap:22px;margin:0 auto 1.5rem}
 .wc-control-row .wc-audio{margin:0}
-.wc-arrow{
-  width:38px;height:38px;border-radius:50%;background:transparent;border:none;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  color:var(--text);opacity:.5;
-  transition:opacity .15s ease, background .15s ease;
+/* bottom thumb-bar — wide prev/next buttons pinned to the foot of the card for one-handed reach */
+.wc-navbar{display:flex;gap:10px;margin-top:1.5rem;padding-top:1.1rem;border-top:0.5px solid var(--cream2)}
+.wc-navbtn{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+  min-height:54px;border-radius:14px;border:0.5px solid var(--beige);
+  background:transparent;color:var(--text);opacity:.85;cursor:pointer;
+  font-family:var(--font);font-size:15px;font-weight:400;letter-spacing:.01em;
+  -webkit-tap-highlight-color:transparent;
+  transition:opacity .15s ease, background .15s ease, transform .12s ease, border-color .15s ease;
 }
-.wc-arrow:hover{opacity:.95;background:rgba(0,0,0,.04)}
-.wc-arrow:active{opacity:1}
-.wc-arrow svg{width:18px;height:18px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.wc-arrow:disabled{opacity:.18;pointer-events:none}
+.wc-navbtn:hover{opacity:1;background:rgba(0,0,0,.04)}
+.wc-navbtn:active{transform:scale(.97);background:rgba(0,0,0,.07)}
+.wc-navbtn svg{width:22px;height:22px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.wc-navbtn:disabled{opacity:.25;pointer-events:none}
 .wc-translations{display:flex;flex-direction:column;gap:.25rem;align-items:center}
 .wc-en{font-size:1.25rem;font-weight:400;color:var(--dark);letter-spacing:-.005em}
 .wc-rec-row{display:flex;flex-direction:column;align-items:center;gap:5px;margin-top:1.25rem}
@@ -1259,7 +1283,23 @@ try{
 // Apply mode + on-landing immediately, before any content renders.
 // This is the second half of the FOUC prevention (HEAD script captured mode into window.__gz_mode).
 document.body.setAttribute('data-mode', window.__gz_mode || 'mint');
-document.body.classList.add('on-landing');
+// Decide the restore target NOW, before any view markup is parsed, so a refresh /
+// PWA relaunch never flashes the landing hero before jumping to the real screen.
+(function(){
+  try{
+    var hash = (location.hash||'').replace('#','');
+    var home = {lessons:1, account:1, about:1};
+    var deep = {stage:'lessons', chapter:'lessons', complete:'lessons', paywall:'account', signin:'account'};
+    var target = null;
+    if(hash === 'landing'){ target = null; }
+    else if(home[hash]) target = hash;
+    else if(deep[hash]) target = deep[hash];
+    else if(!hash){ try{ var lv = localStorage.getItem('g_lastview'); if(lv && home[lv]) target = lv; }catch(e){} }
+    window.__gz_restoreTarget = target;
+    if(target){ document.documentElement.classList.add('gz-restoring'); }
+  }catch(e){ window.__gz_restoreTarget = null; }
+})();
+if(!window.__gz_restoreTarget) document.body.classList.add('on-landing');
 </script>
 
 <nav class="top">
@@ -1694,6 +1734,15 @@ document.body.classList.add('on-landing');
         <input type="email" id="signin-email" class="signin-input" placeholder="your@email.com" autocomplete="email" inputmode="email"/>
         <button class="btn-p" id="signin-btn" onclick="requestMagicLink()" data-i18n="sendLink">send magic link</button>
         <div class="signin-status" id="signin-status"></div>
+        <!-- Code entry — revealed after the link is sent. Lets you finish sign-in inside the
+             home-screen app, where the magic link (opened in the browser) can't reach. -->
+        <div class="signin-code" id="signin-code" hidden>
+          <div class="signin-code-divider"><span data-i18n="codeOr">or enter the code</span></div>
+          <div class="signin-code-label" data-i18n="codeLabel">added schwiizer to your home screen? type the 6-digit code from the email here</div>
+          <input type="text" id="signin-code-input" class="signin-input signin-code-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="••••••"/>
+          <button class="btn-p" id="signin-code-btn" onclick="verifyCode()" data-i18n="verifyCode">log in with code</button>
+          <div class="signin-status" id="signin-code-status"></div>
+        </div>
       </div>
       <p class="signin-help" data-i18n="signinHelp">No magic link? Check spam, or <a href="mailto:hello@schwiizer.app">email us</a>.</p>
     </div>
@@ -1844,6 +1893,29 @@ document.body.classList.add('on-landing');
 </nav>
 
 <script>
+// Early view-swap — runs before first paint so refresh/relaunch shows the right screen
+// directly (the main script below then fills its content + wires history/bnav state).
+(function(){
+  try{
+    var target = window.__gz_restoreTarget;
+    if(!target) return;
+    var land = document.getElementById('view-landing');
+    var tgt = document.getElementById('view-'+target);
+    if(tgt && land){
+      land.classList.remove('active');
+      tgt.classList.add('active');
+      document.body.classList.remove('on-landing');
+      var bmap = {lessons:'lessons', account:'account', about:'lessons'};
+      var bId = 'bnav-' + (bmap[target] || 'lessons');
+      document.querySelectorAll('.bnav-btn').forEach(function(b){ b.classList.remove('active'); });
+      var bbtn = document.getElementById(bId); if(bbtn) bbtn.classList.add('active');
+    }
+    document.documentElement.classList.remove('gz-restoring');
+  }catch(e){ document.documentElement.classList.remove('gz-restoring'); }
+})();
+</script>
+
+<script>
 // pricing constants — locked decisions
 const BOOK_SESSION_PRICE = '€60 / 60 min'; // CHF 65 — TODO: surface when book a session is unhidden
 const BOOK_SESSION_PRICE_EUR = 60;
@@ -1860,6 +1932,49 @@ function lsSet(k, v){
 }
 function lsRemove(k){
   try { localStorage.removeItem(k); } catch(e) {}
+}
+
+// In-app confirm dialog — styled to match the app instead of the browser's native confirm().
+// Returns a Promise<boolean>. Esc / overlay-tap / cancel → false; confirm → true.
+function gzConfirm(opts){
+  opts = opts || {};
+  const isDe = (typeof APP_LANG !== 'undefined' && APP_LANG === 'de');
+  const title = opts.title || '';
+  const body = opts.body || '';
+  const okLabel = opts.confirmLabel || (isDe ? 'Bestätigen' : 'Confirm');
+  const cancelLabel = opts.cancelLabel || (isDe ? 'Abbrechen' : 'Cancel');
+  const danger = !!opts.danger;
+  return new Promise(function(resolve){
+    const overlay = document.createElement('div');
+    overlay.className = 'gz-modal-overlay';
+    overlay.innerHTML =
+      '<div class="gz-modal" role="alertdialog" aria-modal="true">' +
+        (title ? '<div class="gz-modal-title"></div>' : '') +
+        (body ? '<div class="gz-modal-body"></div>' : '') +
+        '<div class="gz-modal-actions">' +
+          '<button class="btn-soft" data-act="cancel"></button>' +
+          '<button class="btn-p' + (danger ? ' btn-danger' : '') + '" data-act="ok"></button>' +
+        '</div>' +
+      '</div>';
+    // textContent (not innerHTML) for user-facing strings — no injection
+    if(title) overlay.querySelector('.gz-modal-title').textContent = title;
+    if(body) overlay.querySelector('.gz-modal-body').textContent = body;
+    overlay.querySelector('[data-act="cancel"]').textContent = cancelLabel;
+    overlay.querySelector('[data-act="ok"]').textContent = okLabel;
+    document.body.appendChild(overlay);
+    requestAnimationFrame(()=>overlay.classList.add('show'));
+    function close(val){
+      overlay.classList.remove('show');
+      document.removeEventListener('keydown', onKey);
+      setTimeout(()=>{ if(overlay.parentNode) overlay.parentNode.removeChild(overlay); }, 200);
+      resolve(val);
+    }
+    function onKey(e){ if(e.key === 'Escape') close(false); else if(e.key === 'Enter') close(true); }
+    overlay.addEventListener('click', function(e){ if(e.target === overlay) close(false); });
+    overlay.querySelector('[data-act="cancel"]').addEventListener('click', ()=>close(false));
+    overlay.querySelector('[data-act="ok"]').addEventListener('click', ()=>close(true));
+    document.addEventListener('keydown', onKey);
+  });
 }
 
 // mode — mint (default) | pink | dark
@@ -1895,6 +2010,9 @@ const I18N = {
     featOwlT:"no owl will judge you", featOwlS:"3 lessons free — then €7/month or €29 once",
     signinSub:"enter the email you used to buy becoming schwiizer · we'll send you a magic link",
     signinHelp:"No magic link? Check spam, or <a href=\"mailto:hello@schwiizer.app\">email us</a>.",
+    codeOr:"or enter the code",
+    codeLabel:"added schwiizer to your home screen? type the 6-digit code from the email here",
+    verifyCode:"log in with code",
     aboutSub:"the person behind the voice",
     aboutP1:"Swiss · German · Berliner since 2010.",
     aboutP2:"Grew up speaking Swiss German and German first, then French and English arrived more or less at the same time — languages have always just been the thing.",
@@ -1931,6 +2049,9 @@ const I18N = {
     featOwlT:"Keine Eule verurteilt dich", featOwlS:"3 Lektionen gratis — dann €7/Monat oder €29 einmalig",
     signinSub:"Gib die E-Mail-Adresse ein, mit der du becoming schwiizer gekauft hast · wir senden dir einen Magic Link",
     signinHelp:"Kein Magic Link? Schau im Spam-Ordner nach, oder <a href=\"mailto:hello@schwiizer.app\">schreib uns</a>.",
+    codeOr:"oder Code eingeben",
+    codeLabel:"schwiizer auf dem Homescreen? Gib hier den 6-stelligen Code aus der E-Mail ein",
+    verifyCode:"mit Code anmelden",
     aboutSub:"Die Person hinter der Stimme",
     aboutP1:"Schweizerin · Deutsche · Berlinerin seit 2010.",
     aboutP2:"Aufgewachsen mit Schweizerdeutsch und Deutsch, dann kamen Französisch und Englisch mehr oder weniger gleichzeitig dazu — Sprachen waren schon immer mein Ding.",
@@ -2703,7 +2824,7 @@ function openSearchFromNav(){
 
 // Reset lessons page title back to "lessons" (called when user re-enters lessons normally)
 function resetLessonsPageTitle(){
-  state.activeCategory=null;   // tapping the nav home returns to the category overview
+  state.activeCategory=null; lsRemove('g_activecat');   // tapping the nav home returns to the category overview
   state.quizReturn=false;      // leaving via nav drops the "back to test" context
   const title = document.getElementById('lessons-page-title');
   if(title){ title.innerHTML = t('lessons')+'<span class="u-dots"><i></i><i></i></span>'; }
@@ -2978,9 +3099,16 @@ function renderAccount(){
 }
 
 function signOutAccount(){
-  if(confirm('Sign out? Your unlock will be removed on this device. Your subscription is unaffected — sign back in anytime.')){
-    logOutCloud();
-  }
+  const isDe = (typeof APP_LANG!=='undefined' && APP_LANG==='de');
+  gzConfirm({
+    title: isDe ? 'Abmelden?' : 'Sign out?',
+    body: isDe
+      ? 'Die Freischaltung wird auf diesem Gerät entfernt. Dein Abo bleibt unberührt — du kannst dich jederzeit wieder anmelden.'
+      : 'Your unlock will be removed on this device. Your subscription is unaffected — sign back in anytime.',
+    confirmLabel: isDe ? 'Abmelden' : 'Sign out',
+    cancelLabel: isDe ? 'Abbrechen' : 'Cancel',
+    danger: true
+  }).then(ok=>{ if(ok) logOutCloud(); });
 }
 
 function setModeFromUI(m){
@@ -2989,10 +3117,17 @@ function setModeFromUI(m){
 }
 
 function resetProgress(){
-  const __msg = (typeof APP_LANG!=='undefined' && APP_LANG==='de')
-    ? 'Wirklich ALLEN Fortschritt auf diesem Gerät löschen?\n\nDu verlierst alle abgeschlossenen Lektionen, deine Badges/Stempel und die Streak. Das kann NICHT rückgängig gemacht werden.'
-    : 'Erase ALL progress on this device?\n\nYou will lose every completed lesson, your badges/stamps and your streak. This CANNOT be undone.';
-  if(confirm(__msg)){
+  const isDe = (typeof APP_LANG!=='undefined' && APP_LANG==='de');
+  gzConfirm({
+    title: isDe ? 'Fortschritt löschen?' : 'Erase all progress?',
+    body: isDe
+      ? 'Du verlierst alle abgeschlossenen Lektionen, deine Badges/Stempel und die Streak auf diesem Gerät. Das kann NICHT rückgängig gemacht werden.'
+      : 'You will lose every completed lesson, your badges/stamps and your streak on this device. This CANNOT be undone.',
+    confirmLabel: isDe ? 'Löschen' : 'Erase',
+    cancelLabel: isDe ? 'Abbrechen' : 'Cancel',
+    danger: true
+  }).then(ok=>{
+    if(!ok) return;
     localStorage.removeItem('g_progress');
     localStorage.removeItem('g_quiz');
     localStorage.removeItem('g_streak');
@@ -3003,15 +3138,23 @@ function resetProgress(){
     state.streak={days:[],count:0};
     state.stamps=[];
     renderAccount();
-  }
+  });
 }
 
 function logOut(){
-  if(confirm('Log out? Your progress stays saved on this device.')){
+  const isDe = (typeof APP_LANG!=='undefined' && APP_LANG==='de');
+  gzConfirm({
+    title: isDe ? 'Abmelden?' : 'Log out?',
+    body: isDe ? 'Dein Fortschritt bleibt auf diesem Gerät gespeichert.' : 'Your progress stays saved on this device.',
+    confirmLabel: isDe ? 'Abmelden' : 'Log out',
+    cancelLabel: isDe ? 'Abbrechen' : 'Cancel',
+    danger: true
+  }).then(ok=>{
+    if(!ok) return;
     state.unlocked=false;
     localStorage.removeItem('g_unlocked');
     renderAccount();
-  }
+  });
 }
 
 // Shared row of stamp dots (one per lesson), clickable. Used by the lessons collection AND the account "achievements" section.
@@ -3143,8 +3286,8 @@ function getCategoryDefs(){
   return cats;
 }
 function catLabel(cat){ return (APP_LANG==='de') ? cat.de : cat.en; }
-function openCategory(key){ state.activeCategory=key; renderLessons(); window.scrollTo(0,0); }
-function closeCategory(){ state.activeCategory=null; renderLessons(); window.scrollTo(0,0); }
+function openCategory(key){ state.activeCategory=key; lsSet('g_activecat',key); renderLessons(); window.scrollTo(0,0); }
+function closeCategory(){ state.activeCategory=null; lsRemove('g_activecat'); renderLessons(); window.scrollTo(0,0); }
 
 function renderLessons(){
   updateStreak();
@@ -3585,21 +3728,19 @@ function renderStage(){
   nextBtn.disabled=false;
   if(gotItBtn) gotItBtn.disabled=false;
 
-  // SINGLE-CARD WORD FLOW — chde + phon at top, arrows flank big audio, en + hd below
+  // SINGLE-CARD WORD FLOW — chde + phon, centred audio, en + rec, then a bottom
+  // thumb-bar with wide prev/next buttons (one-handed reach). Swipe still works too.
   const hd = phrase.hd || phrase.de || '';
+  const isDe = (typeof APP_LANG!=='undefined' && APP_LANG==='de');
+  const lblBack = isDe ? 'zurück' : 'back';
+  const lblNext = isDe ? 'weiter' : 'next';
   content.innerHTML=`
     <div class="word-card">
       <div class="wc-chde">${phrase.chde}</div>
       <div class="wc-phonetic">${phrasePhon(phrase)}</div>
       <div class="wc-control-row">
-        <button class="wc-arrow" onclick="prevItem()" aria-label="back">
-          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-        </button>
         <button class="wc-audio" onclick="playPhrase(${lesson.id},${state.currentPhraseIdx},'${phrase.chde.replace(/'/g,"\\'")}')">
           <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        </button>
-        <button class="wc-arrow" onclick="onNextClick()" aria-label="next">
-          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
       </div>
       <div class="wc-translations">
@@ -3608,6 +3749,14 @@ function renderStage(){
       <div class="wc-rec-row">
         <button class="wc-rec" id="wc-rec-btn" onclick="recCompare(${lesson.id},${state.currentPhraseIdx},'${phrase.chde.replace(/'/g,"\\'")}')"><span class="ic">●</span><span class="t">${__wcL('start')}</span></button>
         <div class="wc-rec-hint">${__wcL('hint')}</div>
+      </div>
+      <div class="wc-navbar">
+        <button class="wc-navbtn" onclick="prevItem()" aria-label="${lblBack}">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg><span>${lblBack}</span>
+        </button>
+        <button class="wc-navbtn" onclick="onNextClick()" aria-label="${lblNext}">
+          <span>${lblNext}</span><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
       </div>
     </div>`;
   // Auto-play audio on word load — real recording if available, else TTS
@@ -4351,8 +4500,9 @@ async function requestMagicLink(){
     status.className = 'signin-status err';
     return;
   }
+  const isDe = (typeof APP_LANG!=='undefined' && APP_LANG==='de');
   btn.disabled = true;
-  status.textContent = 'sending magic link…';
+  status.textContent = isDe ? 'Magic Link wird gesendet…' : 'sending magic link…';
   status.className = 'signin-status';
   try {
     const res = await fetch(SCHWIIZER_API + '/auth/start', {
@@ -4362,22 +4512,37 @@ async function requestMagicLink(){
     });
     const data = await res.json();
     if(!res.ok){
-      status.textContent = data.error || 'something went wrong';
+      status.textContent = data.error || (isDe ? 'etwas ist schiefgelaufen' : 'something went wrong');
       status.className = 'signin-status err';
       btn.disabled = false;
       return;
     }
-    status.textContent = 'check your email · link arrives in ~1 minute';
+    status.textContent = isDe
+      ? 'E-Mail checken · Link + 6-stelliger Code kommen in ~1 Minute'
+      : 'check your email · link + 6-digit code arrive in ~1 minute';
     status.className = 'signin-status ok';
-    emailInput.value = '';
+    // Remember the email so the code path can verify it — keep the field filled too.
+    window.__pendingAuthEmail = email;
+    // Reveal the code-entry path (works inside a home-screen PWA where the link can't reach).
+    const codeBox = document.getElementById('signin-code');
+    if(codeBox){ codeBox.hidden = false; const ci = document.getElementById('signin-code-input'); if(ci) setTimeout(()=>ci.focus(), 60); }
     // Keep btn disabled for a bit to prevent spam-clicks
     setTimeout(()=>{ btn.disabled = false; }, 30000);
   } catch(err){
     console.error('auth/start error:', err);
-    status.textContent = 'connection error · try again';
+    status.textContent = isDe ? 'Verbindungsfehler · nochmal versuchen' : 'connection error · try again';
     status.className = 'signin-status err';
     btn.disabled = false;
   }
+}
+
+// Persist a freshly-issued session (from magic link OR 6-digit code) and pull status.
+async function applySession(data){
+  state.session = data.session;
+  state.email = data.email;
+  localStorage.setItem('g_session', data.session);
+  localStorage.setItem('g_email', data.email);
+  await refreshStatus();
 }
 
 // GET /auth/verify?token=… — exchange magic token for session
@@ -4389,16 +4554,61 @@ async function verifyMagicToken(token){
       console.warn('Magic verify failed:', data);
       return false;
     }
-    state.session = data.session;
-    state.email = data.email;
-    localStorage.setItem('g_session', data.session);
-    localStorage.setItem('g_email', data.email);
-    // Now check status to unlock
-    await refreshStatus();
+    await applySession(data);
     return true;
   } catch(err){
     console.error('verify error:', err);
     return false;
+  }
+}
+
+// POST /auth/code {email, code} — finish sign-in with the 6-digit code from the email.
+// This runs INSIDE the home-screen PWA, so the session lands in the PWA's own storage
+// (the magic link opens in the browser, a separate storage jar on iOS).
+async function verifyCode(){
+  const isDe = (typeof APP_LANG!=='undefined' && APP_LANG==='de');
+  const input = document.getElementById('signin-code-input');
+  const status = document.getElementById('signin-code-status');
+  const btn = document.getElementById('signin-code-btn');
+  const code = (input.value || '').replace(/\D/g,'').trim();
+  const email = (window.__pendingAuthEmail || (document.getElementById('signin-email').value||'')).trim().toLowerCase();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
+    status.textContent = isDe ? 'bitte zuerst oben deine E-Mail eingeben' : 'enter your email above first';
+    status.className = 'signin-status err'; return;
+  }
+  if(!/^\d{6}$/.test(code)){
+    status.textContent = isDe ? 'bitte den 6-stelligen Code eingeben' : 'enter the 6-digit code';
+    status.className = 'signin-status err'; return;
+  }
+  btn.disabled = true;
+  status.textContent = isDe ? 'wird geprüft…' : 'checking…';
+  status.className = 'signin-status';
+  try {
+    const res = await fetch(SCHWIIZER_API + '/auth/code', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email, code})
+    });
+    const data = await res.json();
+    if(!res.ok || !data.ok){
+      let msg = isDe ? 'Code ungültig oder abgelaufen' : 'code invalid or expired';
+      if(data && data.error === 'wrong code') msg = isDe ? 'falscher Code' : 'wrong code';
+      else if(res.status === 429) msg = isDe ? 'zu viele Versuche — neuen Code anfordern' : 'too many attempts — request a new code';
+      status.textContent = msg;
+      status.className = 'signin-status err';
+      btn.disabled = false;
+      return;
+    }
+    await applySession(data);
+    status.textContent = isDe ? 'angemeldet ✓' : 'signed in ✓';
+    status.className = 'signin-status ok';
+    input.value = '';
+    setTimeout(()=>{ showView('lessons'); }, 400);
+  } catch(err){
+    console.error('auth/code error:', err);
+    status.textContent = isDe ? 'Verbindungsfehler · nochmal versuchen' : 'connection error · try again';
+    status.className = 'signin-status err';
+    btn.disabled = false;
   }
 }
 
@@ -4589,23 +4799,20 @@ if('serviceWorker' in navigator){
   // If we ever need to force-refresh open tabs again, do it from the SW with a
   // conditional check that the client was already controlled BEFORE this activation.
 }
+// If restoring the lessons view, restore the word-topic (category) the user was inside
+// BEFORE the first render, so the topic list paints directly — no overview→topic flash.
+if(window.__gz_restoreTarget === 'lessons'){
+  try{ const ac = localStorage.getItem('g_activecat'); if(ac) state.activeCategory = ac; }catch(e){}
+}
 renderLessons();
 applyStaticTranslations();   // whole-app German on boot (Change 2)
 if(typeof refreshNavLogin === 'function') refreshNavLogin();
 
-// Restore last view from URL hash on boot — so refresh stays put instead of bouncing to landing
+// Restore last view on boot — so refresh stays put instead of bouncing to landing.
+// The early-swap script (before <script>) already made the view active to avoid a flash;
+// this call wires up bnav, browser-history state, and g_lastview persistence.
 (function(){
-  const hash = (location.hash || '').replace('#','');
-  const homeViews = ['lessons','account','about'];
-  // Deep views need lesson context that isn't persisted → fall back to their list/home, NOT landing
-  const deepToHome = {stage:'lessons',chapter:'lessons',complete:'lessons',paywall:'account',signin:'account'};
-  let target = null;
-  if(hash === 'landing'){ target = null; }              // explicit landing — stay
-  else if(homeViews.includes(hash)) target = hash;       // refresh on a home view → stay
-  else if(deepToHome[hash]) target = deepToHome[hash];   // refresh inside a lesson → back to list
-  else if(!hash){                                        // no hash (PWA relaunch / shared link) → last view if returning user
-    try{ const lv = localStorage.getItem('g_lastview'); if(lv && homeViews.includes(lv)) target = lv; }catch(e){}
-  }
+  const target = window.__gz_restoreTarget;
   if(target){
     window.__gz_navigating = true;
     try{ showView(target); }

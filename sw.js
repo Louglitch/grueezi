@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v80-2026-06-06-favicon-rename';
+const CACHE_VERSION = 'schwiizer-v81-2026-06-06-refresh-dialog-arrows-codelogin';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
