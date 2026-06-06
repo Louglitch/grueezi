@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v76-2026-06-06-save-progress-prompt';
+const CACHE_VERSION = 'schwiizer-v77-2026-06-06-settings-cleanup';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately

@@ -2030,11 +2030,9 @@ applyHelvi();
   }
   window.addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; if(!pending){pending=true; requestAnimationFrame(upd);} },{passive:true});
 })();
-// kind 'word' → core learning audio (master mute only); 'cheer' → congrats (master OR cheers mute)
+// all app audio (words + Helvi cheers) now follows the single master `sound` toggle
 function canPlay(kind){
-  if(!SOUND_ON) return false;
-  if(kind === 'cheer' && !CHEERS_ON) return false;
-  return true;
+  return SOUND_ON;
 }
 
 /* German lesson titles (Change 2) — shown when APP_LANG==='de'. Draft wording, easy to tweak. */
@@ -2852,15 +2850,6 @@ function renderAccount(){
           <button class="${!SOUND_ON?'active':''}" onclick="setSound(false)">${t('off')}</button>
         </div>
       </div>
-      <div class="me-row me-row-divided" style="${SOUND_ON?'':'opacity:.4;pointer-events:none'}">
-        <span class="me-row-text me-row-text-with-icon">
-          <span class="me-row-icon">${ic.cheer}</span>${t('cheers')}
-        </span>
-        <div class="mode-pills">
-          <button class="${CHEERS_ON?'active':''}" onclick="setCheers(true)">${t('on')}</button>
-          <button class="${!CHEERS_ON?'active':''}" onclick="setCheers(false)">${t('off')}</button>
-        </div>
-      </div>
       <div class="me-row me-row-divided">
         <span class="me-row-text me-row-text-with-icon">
           <span class="me-row-icon me-helvi-icon"><svg viewBox="6 18 108 118"><use href="#helvi-head"/></svg></span>${t('helviAvatar')}
@@ -2958,12 +2947,6 @@ function renderAccount(){
     <div class="me-section-label">${t('more')}</div>
     <div class="me-card">
       <div class="me-row">
-        <span class="me-row-text me-row-text-with-icon">
-          <span class="me-row-icon">${ic.reset}</span>${t('resetProgress')}
-        </span>
-        <button class="me-btn-icon" onclick="resetProgress()" aria-label="${t('resetProgress')}">${ic.chevron}</button>
-      </div>
-      <div class="me-row me-row-divided">
         <span class="me-row-text me-row-text-with-icon">
           <span class="me-row-icon">${ic.info}</span>${t('aboutRow')}
         </span>
