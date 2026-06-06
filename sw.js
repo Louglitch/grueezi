@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v78-2026-06-06-helvi-app-icons';
+const CACHE_VERSION = 'schwiizer-v79-2026-06-06-favicon-fix';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
