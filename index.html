@@ -555,10 +555,10 @@ body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:
 .signin-card{padding:1.5rem 0}
 .signin-form{display:flex;flex-direction:column;gap:12px;max-width:320px;margin:1.5rem auto}
 .signin-lead{font-size:13px;font-weight:400;color:var(--text);text-align:center;line-height:1.45;margin:0 0 11px}
-.signin-input{width:100%;padding:13px 16px;font-family:var(--font);font-size:16px;font-weight:300;color:var(--dark);background:var(--card);border:0.5px solid var(--beige);border-radius:12px;outline:none;transition:border-color .15s}
+.signin-input{width:100%;height:48px;box-sizing:border-box;padding:0 16px;font-family:var(--font);font-size:16px;font-weight:300;color:var(--dark);background:var(--card);border:0.5px solid var(--beige);border-radius:12px;outline:none;transition:border-color .15s}
 .signin-input:focus{border-color:var(--rose)}
 .signin-input::placeholder{color:var(--texts);opacity:.85;font-weight:400}
-#signin-btn{width:100%}
+#signin-btn{width:100%;height:48px;box-sizing:border-box}
 .signin-status{font-size:12px;color:var(--texts);text-align:center;min-height:18px;line-height:1.5;font-weight:300}
 .signin-status.ok{color:var(--sage)}
 .signin-status.err{color:var(--rose-deep)}
@@ -570,7 +570,7 @@ body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:
 .signin-code-input::placeholder{letter-spacing:.01em;font-size:13px;font-weight:300}
 /* inline login on the access page sits a touch below the buy block */
 #access-login{margin-top:4px}
-#signin-code-btn{width:100%}
+#signin-code-btn{width:100%;height:48px;box-sizing:border-box}
 .signin-code-alt{font-size:11px;color:var(--texts);text-align:center;line-height:1.5;font-weight:300;opacity:.8;margin-top:2px}
 .signin-help{font-size:12px;color:var(--texts);text-align:center;margin:1.25rem 0 0;line-height:1.6;font-weight:400}
 .signin-help a{color:var(--dark);text-decoration:underline;text-decoration-color:rgba(44,56,48,.3);text-underline-offset:2px}
@@ -1783,7 +1783,7 @@ try{
              — Play Billing — so it's a clean login-only screen there. -->
         <div class="pw-login-card">
           <div class="signin-form" id="access-login">
-            <p class="signin-lead" data-i18n="signinLead">create a free account to keep your progress</p>
+            <p class="signin-lead" data-i18n="signinLead">log in or create a free account to keep your progress</p>
             <input type="email" id="signin-email" class="signin-input" placeholder="your email" autocomplete="email" inputmode="email"/>
             <button class="btn-p" id="signin-btn" onclick="requestMagicLink()" data-i18n="sendLink">send code</button>
             <div class="signin-status" id="signin-status"></div>
@@ -2067,7 +2067,7 @@ const I18N = {
     quizPrompt:"listen, then pick the meaning",
     begin:"begin", trainer:"your swiss german trainer", start:"start",
     unlockTitle:"unlock full access", already:"already bought? sign in",
-    sendLink:"send code", signinLead:"create a free account to keep your progress", pwWelcome:"welcome", pwPlansNote:"all lessons + new ones added",
+    sendLink:"send code", signinLead:"log in or create a free account to keep your progress", pwWelcome:"welcome", pwPlansNote:"all lessons + new ones added",
     membership:"membership", upgradeSub:"unlock all lessons + new content",
     libNote:"we're continuously updating the library — thank you for being part of becoming schwiizer",
     signedIn:"logged in", signedInAs:"logged in as", membershipMeta:"all lessons + future content unlocked",
@@ -2112,7 +2112,7 @@ const I18N = {
     quizPrompt:"Hören, dann die Bedeutung wählen",
     begin:"Los", trainer:"dein Schweizerdeutsch-Trainer", start:"Start",
     unlockTitle:"Vollzugriff freischalten", already:"Schon gekauft? Anmelden",
-    sendLink:"Code senden", signinLead:"kostenloses Konto — dein Fortschritt bleibt gespeichert", pwWelcome:"willkommen", pwPlansNote:"alle Lektionen + laufend neue",
+    sendLink:"Code senden", signinLead:"anmelden oder kostenloses Konto erstellen — Fortschritt bleibt gespeichert", pwWelcome:"willkommen", pwPlansNote:"alle Lektionen + laufend neue",
     membership:"Mitgliedschaft", upgradeSub:"Alle Lektionen + neue Inhalte freischalten",
     libNote:"Wir erweitern die Bibliothek laufend — danke, dass du bei becoming schwiizer dabei bist",
     signedIn:"Angemeldet", signedInAs:"Angemeldet als", membershipMeta:"Alle Lektionen + zukünftige Inhalte freigeschaltet",
