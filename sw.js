@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v89-2026-06-07-initials-avatar-login-first-paywall';
+const CACHE_VERSION = 'schwiizer-v90-2026-06-07-paywall-helvi-colour-fix';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
