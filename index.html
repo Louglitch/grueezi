@@ -169,9 +169,11 @@ body.on-landing .global-horizon{display:none}
 }
 .nav-login-btn:hover{opacity:.85;transform:scale(1.04)}
 .nav-login-text{font-family:var(--font);font-size:14px;font-weight:400;color:var(--nav-text);letter-spacing:.02em;padding:3px 4px}
-/* logged-in: a mint person badge (state = active). Only rendered when signed in. */
-.nav-login-avatar{width:30px;height:30px;border-radius:50%;background:var(--mint);color:var(--dark);display:flex;align-items:center;justify-content:center;transition:transform .15s ease}
-.nav-login-avatar svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+/* logged out: a quiet door icon + "log in" */
+.nav-login-out{display:inline-flex;align-items:center;gap:5px}
+.nav-login-out svg{width:15px;height:15px;stroke:var(--nav-text);stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+/* logged in: the user's initials in a soft mint circle (Claude-style, calm) */
+.nav-login-initials{width:30px;height:30px;border-radius:50%;background:var(--mint);color:var(--dark);display:flex;align-items:center;justify-content:center;font-family:var(--font);font-size:12px;font-weight:500;letter-spacing:.02em;line-height:1;transition:transform .15s ease}
 /* dropdown note under "logged in" — email + sign out */
 .nav-login-wrap{position:relative;display:inline-flex}
 .nav-note{
@@ -185,14 +187,16 @@ body.on-landing .global-horizon{display:none}
 @keyframes nav-note-in{from{opacity:0;transform:translateY(-4px) scale(.97)}to{opacity:1;transform:none}}
 .nav-note-label{font-size:11px;font-weight:400;letter-spacing:.04em;text-transform:uppercase;color:var(--texts);opacity:.7}
 .nav-note-email{font-size:13px;font-weight:400;color:var(--text);margin-top:2px;word-break:break-all;line-height:1.4}
-.nav-note-out{
-  display:flex;align-items:center;gap:8px;width:100%;margin-top:11px;padding:9px 10px;
+.nav-note-row{
+  display:flex;align-items:center;gap:8px;width:100%;margin-top:9px;padding:9px 10px;
   background:transparent;border:0.5px solid var(--beige);border-radius:10px;
-  font-family:var(--font);font-size:13px;font-weight:400;color:var(--rose-deep);
+  font-family:var(--font);font-size:13px;font-weight:400;
   cursor:pointer;transition:background .15s ease;
 }
-.nav-note-out:hover{background:rgba(199,107,138,.08)}
-.nav-note-out svg{width:15px;height:15px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.nav-note-row svg{width:15px;height:15px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.nav-note-row:hover{background:rgba(44,56,48,.05)}
+.nav-note-upgrade{color:var(--rose-deep)}      /* gentle upgrade nudge (free users only) */
+.nav-note-out{color:var(--text);opacity:.85}   /* log out, neutral / quiet */
 .nav-logo{display:flex;align-items:center;gap:11px;cursor:pointer;text-decoration:none}
 .nav-wordmark{font-size:16px;font-weight:400;color:var(--nav-wordmark);letter-spacing:.02em}
 .nav-wordmark span{color:var(--nav-accent)}
@@ -1352,19 +1356,24 @@ try{
     </div>
     <div class="nav-login-wrap">
       <button class="nav-login-btn" id="nav-login-btn" onclick="navLoginTap()" aria-label="log in" aria-haspopup="true" aria-expanded="false">
-        <!-- Logged out: the words "log in / register" (opens the buy/login page).
-             Logged in: a mint person-icon (tap opens the note with email + sign out). -->
-        <span class="nav-login-text" id="nav-login-text">log in / register</span>
-        <span class="nav-login-avatar" id="nav-login-avatar" hidden aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <!-- Logged out: a quiet door icon + "log in" → opens the paywall (login first, plans below).
+             Logged in: the user's initials in a soft mint circle → tap opens the account menu. -->
+        <span class="nav-login-out" id="nav-login-out">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          <span class="nav-login-text" id="nav-login-text">log in</span>
         </span>
+        <span class="nav-login-initials" id="nav-login-initials" hidden aria-hidden="true">·</span>
       </button>
       <div class="nav-note" id="nav-note" hidden role="menu" aria-label="account">
-        <div class="nav-note-label" id="nav-note-label">signed in as</div>
+        <div class="nav-note-label" id="nav-note-label">logged in as</div>
         <div class="nav-note-email" id="nav-note-email"></div>
-        <button class="nav-note-out" id="nav-note-out" onclick="navNoteSignOut()" role="menuitem">
+        <button class="nav-note-row nav-note-upgrade" id="nav-note-upgrade" onclick="navNoteUpgrade()" role="menuitem" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span id="nav-note-upgrade-label">upgrade</span>
+        </button>
+        <button class="nav-note-row nav-note-out" id="nav-note-out" onclick="navNoteSignOut()" role="menuitem">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-          <span id="nav-note-out-label">sign out</span>
+          <span id="nav-note-out-label">log out</span>
         </button>
       </div>
     </div>
@@ -1752,23 +1761,25 @@ try{
       </svg>
       <h1 class="hero-h1">unlock full access<span class="beta-pill-sm">beta</span></h1>
       <div class="pw-btns">
-        <button class="btn-p pw-buy-primary buy-hide" onclick="window.open(LS_LIFETIME,'_blank')">€29 · once</button>
-        <button class="btn-cream pw-buy-secondary buy-hide" onclick="window.open(LS_MONTHLY,'_blank')">€7 / month</button>
-        <div class="pw-twa-note" data-i18n="twaBuyNote">Get full access at schwiizer.app, then log in here.</div>
-        <div class="pw-or-sep buy-hide" id="access-or"><span data-i18n="pwOr">or</span></div>
-        <!-- Inline login for existing customers. Staged: email + "send code" first; the code
-             field only appears after a code is sent (so it never looks like a password field). -->
+        <!-- USER-FIRST order: log in on top (existing customers); plans below ("or join").
+             Staged login: email + "send code" first; the code field appears only after a
+             code is sent (so it never looks like a password field). In the TWA the plans
+             are hidden (.buy-hide) — Play Billing — so it's login-only there. -->
         <div class="signin-form" id="access-login">
           <input type="email" id="signin-email" class="signin-input" placeholder="email you bought with" autocomplete="email" inputmode="email"/>
           <button class="btn-p" id="signin-btn" onclick="requestMagicLink()" data-i18n="sendLink">send code</button>
           <div class="signin-status" id="signin-status"></div>
           <div class="signin-code" id="signin-code" hidden>
-            <input type="text" id="signin-code-input" class="signin-input signin-code-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="paste the code from your email"/>
+            <input type="text" id="signin-code-input" class="signin-input signin-code-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="got mail? paste the code"/>
             <button class="btn-p" id="signin-code-btn" onclick="verifyCode()" data-i18n="verifyCode">login</button>
             <div class="signin-status" id="signin-code-status"></div>
           </div>
           <p class="signin-help"><a href="mailto:hello@schwiizer.app" data-i18n="helpLink">help</a></p>
         </div>
+        <div class="pw-twa-note" data-i18n="twaBuyNote">Get full access at schwiizer.app, then log in here.</div>
+        <div class="pw-or-sep buy-hide" id="access-or"><span data-i18n="pwJoin">or join</span></div>
+        <button class="btn-p pw-buy-primary buy-hide" onclick="window.open(LS_LIFETIME,'_blank')">€29 · once</button>
+        <button class="btn-cream pw-buy-secondary buy-hide" onclick="window.open(LS_MONTHLY,'_blank')">€7 / month</button>
         <!-- TODO: book a session — hidden until launch ready, €60 / 60 min
         <div class="pw-or">or</div>
         <a class="btn-cream" href="https://calendly.com/deborahmurielblum-info/new-meeting" target="_blank" style="text-decoration:none;display:block;text-align:center">book a session</a>
@@ -2029,7 +2040,7 @@ const I18N = {
     signin:"sign in", mode:"mode", language:"language", account:"account",
     appearance:"appearance", more:"more", achievements:"achievements",
     free:"free", locked:"locked", done:"done", unlocked:"unlocked", cont:"continue",
-    upgrade:"upgrade", manage:"manage", signout:"sign out",
+    upgrade:"upgrade", manage:"manage", signout:"log out",
     resetProgress:"reset progress on this device",
     aboutRow:"about becoming schwiizer · deborah",
     quizPrompt:"listen, then pick the meaning",
@@ -2055,10 +2066,10 @@ const I18N = {
     verifyCode:"login",
     buyAccess:"buy access",
     helpLink:"help",
-    loginRegister:"log in / register",
+    loginRegister:"log in",
     twaBuyNote:"Get full access at schwiizer.app, then log in here.",
-    pwOr:"or",
-    logIn:"login",
+    pwOr:"or", pwJoin:"or join",
+    logIn:"log in",
     aboutSub:"the person behind the voice",
     aboutP1:"Swiss · German · Berliner since 2010.",
     aboutP2:"Grew up speaking Swiss German and German first, then French and English arrived more or less at the same time — languages have always just been the thing.",
@@ -2100,9 +2111,9 @@ const I18N = {
     verifyCode:"anmelden",
     buyAccess:"Zugang kaufen",
     helpLink:"Hilfe",
-    loginRegister:"Anmelden / Registrieren",
+    loginRegister:"anmelden",
     twaBuyNote:"Vollzugang auf schwiizer.app holen, dann hier anmelden.",
-    pwOr:"oder",
+    pwOr:"oder", pwJoin:"oder mitmachen",
     logIn:"anmelden",
     aboutSub:"Die Person hinter der Stimme",
     aboutP1:"Schweizerin · Deutsche · Berlinerin seit 2010.",
@@ -2927,36 +2938,58 @@ function navNoteSignOut(){
   closeNavNote();
   signOutAccount();
 }
+function navNoteUpgrade(){
+  closeNavNote();
+  showView('paywall');
+}
 
-// Refresh the top-right control. Logged out → the words "log in / register".
-// Logged in → a mint person-icon (tap opens the note with email + sign out).
+// Initials from the email's local part (Claude-style) — no username field needed.
+// deborahmuriel.blum@… → "DB". Falls back to first letter, then "·".
+function computeInitials(email){
+  if(!email) return '·';
+  const local = String(email).split('@')[0] || '';
+  const parts = local.split(/[._\-+]+/).filter(Boolean);
+  let ini = parts.slice(0,2).map(s=>s.charAt(0)).join('');
+  if(!ini) ini = local.charAt(0);
+  return (ini || '·').toUpperCase();
+}
+
+// Refresh the top-right control. Logged out → quiet door icon + "log in".
+// Logged in → the user's initials in a soft circle; tap opens the account menu
+// (email · upgrade [free users only] · log out).
 function refreshNavLogin(){
   const btn = document.getElementById('nav-login-btn');
-  const txt = document.getElementById('nav-login-text');
-  const avatar = document.getElementById('nav-login-avatar');
+  const out = document.getElementById('nav-login-out');
+  const initials = document.getElementById('nav-login-initials');
   if(!btn) return;
   const tt = (k,f)=> (typeof t==='function') ? t(k) : f;
   if(state.email){
-    // Logged in — hide the text, show the mint person badge; tap opens the note
-    if(txt) txt.hidden = true;
-    if(avatar) avatar.hidden = false;
+    // Logged in — hide the door+text, show the initials circle; tap opens the menu
+    if(out) out.hidden = true;
+    if(initials){ initials.hidden = false; initials.textContent = computeInitials(state.email); }
     btn.classList.add('signed-in');
-    btn.setAttribute('aria-label', tt('signedIn','logged in'));
+    btn.setAttribute('aria-label', tt('signedInAs','logged in as')+' '+state.email);
     btn.setAttribute('title', tt('signedInAs','logged in as')+' '+state.email);
-    // fill the note
+    // fill the menu
     const lbl = document.getElementById('nav-note-label');
     const em = document.getElementById('nav-note-email');
+    const upBtn = document.getElementById('nav-note-upgrade');
+    const upLbl = document.getElementById('nav-note-upgrade-label');
     const outLbl = document.getElementById('nav-note-out-label');
     if(lbl) lbl.textContent = tt('signedInAs','logged in as');
     if(em) em.textContent = state.email;
-    if(outLbl) outLbl.textContent = tt('signout','sign out');
+    if(upLbl) upLbl.textContent = tt('upgrade','upgrade');
+    if(upBtn) upBtn.hidden = !!state.unlocked;   // upgrade nudge only for free (not unlocked)
+    if(outLbl) outLbl.textContent = tt('signout','log out');
   } else {
-    // Logged out — show "log in / register" text, hide the badge; note closed
-    if(txt){ txt.hidden = false; txt.textContent = tt('loginRegister','log in / register'); }
-    if(avatar) avatar.hidden = true;
+    // Logged out — show the door + "log in", hide the initials; menu closed
+    if(out) out.hidden = false;
+    if(initials) initials.hidden = true;
+    const txt = document.getElementById('nav-login-text');
+    if(txt) txt.textContent = tt('logIn','log in');
     btn.classList.remove('signed-in');
-    btn.setAttribute('aria-label', tt('loginRegister','log in / register'));
-    btn.setAttribute('title', tt('loginRegister','log in / register'));
+    btn.setAttribute('aria-label', tt('logIn','log in'));
+    btn.setAttribute('title', tt('logIn','log in'));
     closeNavNote();
   }
 }
@@ -4602,7 +4635,7 @@ function resetSigninView(){
   const b = document.getElementById('signin-btn'); if(b) b.disabled = false;
   // localized placeholders (placeholders aren't covered by applyStaticTranslations)
   if(emailInput) emailInput.setAttribute('placeholder', isDe ? 'E-Mail, mit der du gekauft hast' : 'email you bought with');
-  if(ci) ci.setAttribute('placeholder', isDe ? 'Code aus der E-Mail einfügen' : 'paste the code from your email');
+  if(ci) ci.setAttribute('placeholder', isDe ? 'Mail erhalten? Code einfügen' : 'got mail? paste the code');
   let pend=null, ts=0;
   try{ pend=localStorage.getItem('g_pending_email'); ts=parseInt(localStorage.getItem('g_pending_email_ts')||'0',10); }catch(e){}
   if(pend && emailInput){ emailInput.value = pend; window.__pendingAuthEmail = pend; }
