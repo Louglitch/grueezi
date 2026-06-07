@@ -412,11 +412,26 @@ body[data-mode="dark"] .rise-dot{background:#FFE9A8}
 .gz-modal .btn-danger:hover{background:rgba(212,120,138,.08)}
 .btn-cream{background:rgba(247,243,236,.6);color:var(--dark);border:1.5px solid var(--cream);border-radius:999px;padding:10px 24px;font-size:13px;font-weight:400;font-family:var(--font);cursor:pointer;letter-spacing:.02em}
 .btn-cream:hover{background:var(--cream)}
-/* PAYWALL */
-.pw-hero{padding:3.5rem 1.25rem 9rem;position:relative;overflow:hidden;min-height:560px}
+/* PAYWALL — redesigned: login card first → divider → quiet plans, one screen */
+.pw-hero{padding:2.1rem 1.25rem 7.5rem;position:relative;overflow:hidden;min-height:520px;display:flex;flex-direction:column;justify-content:center}
 .pw-hero .inner{position:relative;z-index:2}
+.pw-hero .hero-mark{margin:0 auto .85rem}
+.pw-h1{margin:.2rem 0 1rem;text-align:center}
+/* login grouped in a card, like the rest of the app */
+.pw-login-card{background:var(--card);border:0.5px solid var(--cream2);border-radius:18px;padding:15px 15px 14px;box-shadow:0 4px 16px rgba(44,56,48,.06);max-width:330px;width:100%;margin:0 auto}
+.pw-login-card .signin-form{margin:0;max-width:none;gap:9px}
+.pw-login-card .signin-help{margin:.55rem 0 0}
+/* plans side by side — quiet, not oversold */
+.pw-plans{display:flex;gap:9px;max-width:330px;width:100%;margin:0 auto}
+.pw-plan{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;border-radius:14px;padding:11px 8px;cursor:pointer;font-family:var(--font);background:transparent;transition:background .15s ease}
+.pw-plan-primary{background:var(--card);border:1px solid var(--dark)}
+.pw-plan-secondary{border:0.5px solid var(--beige)}
+.pw-plan:hover{background:rgba(44,56,48,.04)}
+.pw-plan-price{font-size:16px;font-weight:500;color:var(--dark)}
+.pw-plan-per{font-size:11px;color:var(--texts);font-weight:300}
+.pw-plans-note{font-size:11px;color:var(--texts);text-align:center;font-weight:300;opacity:.8;margin:9px 0 0}
 @media (min-width:768px){
-  .pw-hero{padding:4.5rem 1.25rem 11rem;min-height:680px}
+  .pw-hero{padding:3rem 1.25rem 9rem;min-height:600px}
 }
 /* paywall hero same gradient-fade so mountains stay attached */
 .pw-hero::after{
@@ -519,7 +534,7 @@ body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:
 @media (min-width:768px){
   .hero-mountains{height:220px;max-height:48%}
 }
-.pw-btns{display:flex;flex-direction:column;gap:10px;max-width:320px;margin:1.5rem auto 0}
+.pw-btns{display:flex;flex-direction:column;gap:0;max-width:340px;margin:1rem auto 0}
 .pw-btns .btn-p,.pw-btns .btn-cream{width:100%}
 .pw-or{text-align:center;font-family:var(--font);font-size:11px;font-weight:300;color:var(--texts);margin:6px 0}
 .pw-tagline{font-size:13px;color:var(--textm);letter-spacing:.04em;margin:1.75rem 0 0;font-weight:400;text-align:center}
@@ -530,7 +545,7 @@ body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:
 .pw-buy-primary{font-size:16px;font-weight:500;padding:15px 28px}
 .pw-buy-secondary{font-size:13px;font-weight:400;opacity:.92}
 /* "or" divider between buying and logging in */
-.pw-or-sep{display:flex;align-items:center;gap:10px;color:var(--texts);font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.55;margin:10px 0 2px}
+.pw-or-sep{display:flex;align-items:center;gap:10px;color:var(--texts);font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.55;margin:16px auto 12px;max-width:330px}
 .pw-or-sep::before,.pw-or-sep::after{content:"";flex:1;height:.5px;background:var(--beige)}
 /* clear, calm log-in button for existing customers (always visible, incl. in the Play app) */
 .pw-login-btn{width:100%;background:transparent;border:1.5px solid var(--dark);color:var(--dark);font-family:var(--font);font-size:14px;font-weight:500;letter-spacing:.02em;border-radius:999px;padding:12px 24px;cursor:pointer;transition:background .15s ease}
@@ -539,7 +554,7 @@ body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:
 /* SIGN-IN screen */
 .signin-card{padding:1.5rem 0}
 .signin-form{display:flex;flex-direction:column;gap:12px;max-width:320px;margin:1.5rem auto}
-.signin-lead{font-size:13px;font-weight:400;color:var(--text);text-align:center;line-height:1.5;margin:0 0 2px}
+.signin-lead{font-size:12.5px;font-weight:300;color:var(--texts);text-align:center;line-height:1.45;margin:0 0 11px}
 .signin-input{width:100%;padding:13px 16px;font-family:var(--font);font-size:16px;font-weight:300;color:var(--dark);background:var(--card);border:0.5px solid var(--beige);border-radius:12px;outline:none;transition:border-color .15s}
 .signin-input:focus{border-color:var(--rose)}
 .signin-input::placeholder{color:var(--texts);opacity:.7}
@@ -1756,38 +1771,42 @@ try{
       </g>
     </svg>
     <div class="inner">
-      <svg class="hero-mark hero-helvi dev-unlock-target" width="64" height="64" viewBox="0 0 96 96" role="img" aria-label="Becoming Schwiizer" title="long-press for dev unlock">
+      <svg class="hero-mark hero-helvi dev-unlock-target" width="52" height="52" viewBox="0 0 96 96" role="img" aria-label="Becoming Schwiizer" title="long-press for dev unlock">
         <rect width="96" height="96" rx="22" fill="var(--hh-bg)"/>
         <use href="#helvi" x="10" y="-3" width="76" height="92"/>
       </svg>
-      <h1 class="hero-h1">unlock full access<span class="beta-pill-sm">beta</span></h1>
+      <h1 class="hero-h1 pw-h1" data-i18n="pwWelcome">welcome</h1>
       <div class="pw-btns">
-        <!-- USER-FIRST order: log in on top (existing customers); plans below ("or join").
-             Staged login: email + "send code" first; the code field appears only after a
-             code is sent (so it never looks like a password field). In the TWA the plans
-             are hidden (.buy-hide) — Play Billing — so it's login-only there. -->
-        <div class="signin-form" id="access-login">
-          <p class="signin-lead" data-i18n="signinLead">free profile — your progress, synced across your devices</p>
-          <input type="email" id="signin-email" class="signin-input" placeholder="your email" autocomplete="email" inputmode="email"/>
-          <button class="btn-p" id="signin-btn" onclick="requestMagicLink()" data-i18n="sendLink">send code</button>
-          <div class="signin-status" id="signin-status"></div>
-          <div class="signin-code" id="signin-code" hidden>
-            <input type="text" id="signin-code-input" class="signin-input signin-code-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="got mail? paste the code"/>
-            <button class="btn-p" id="signin-code-btn" onclick="verifyCode()" data-i18n="verifyCode">login</button>
-            <div class="signin-status" id="signin-code-status"></div>
+        <!-- USER-FIRST: a free-account login card on top; below a clear divider, the quiet
+             upgrade plans. Staged login: email + "send code" first; the code field appears
+             only after a code is sent. In the TWA the plans+divider are hidden (.buy-hide)
+             — Play Billing — so it's a clean login-only screen there. -->
+        <div class="pw-login-card">
+          <div class="signin-form" id="access-login">
+            <p class="signin-lead" data-i18n="signinLead">create a free account to keep your progress</p>
+            <input type="email" id="signin-email" class="signin-input" placeholder="your email" autocomplete="email" inputmode="email"/>
+            <button class="btn-p" id="signin-btn" onclick="requestMagicLink()" data-i18n="sendLink">send code</button>
+            <div class="signin-status" id="signin-status"></div>
+            <div class="signin-code" id="signin-code" hidden>
+              <input type="text" id="signin-code-input" class="signin-input signin-code-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="got mail? paste the code"/>
+              <button class="btn-p" id="signin-code-btn" onclick="verifyCode()" data-i18n="verifyCode">login</button>
+              <div class="signin-status" id="signin-code-status"></div>
+            </div>
+            <p class="signin-help"><a href="mailto:hello@schwiizer.app" data-i18n="helpLink">help</a></p>
           </div>
-          <p class="signin-help"><a href="mailto:hello@schwiizer.app" data-i18n="helpLink">help</a></p>
         </div>
-        <div class="pw-twa-note" data-i18n="twaBuyNote">Get full access at schwiizer.app, then log in here.</div>
-        <div class="pw-or-sep buy-hide" id="access-or"><span data-i18n="pwJoin">or join</span></div>
-        <button class="btn-p pw-buy-primary buy-hide" onclick="window.open(LS_LIFETIME,'_blank')">€29 · once</button>
-        <button class="btn-cream pw-buy-secondary buy-hide" onclick="window.open(LS_MONTHLY,'_blank')">€7 / month</button>
-        <!-- TODO: book a session — hidden until launch ready, €60 / 60 min
-        <div class="pw-or">or</div>
-        <a class="btn-cream" href="https://calendly.com/deborahmurielblum-info/new-meeting" target="_blank" style="text-decoration:none;display:block;text-align:center">book a session</a>
-        -->
+        <div class="pw-twa-note" data-i18n="twaBuyNote">Already have full access? Log in above.</div>
+        <div class="pw-or-sep buy-hide" id="access-or"><span data-i18n="pwJoin">or unlock the whole course</span></div>
+        <div class="pw-plans buy-hide">
+          <button class="pw-plan pw-plan-primary" onclick="window.open(LS_LIFETIME,'_blank')" aria-label="€29 once, lifetime">
+            <span class="pw-plan-price">€29</span><span class="pw-plan-per">once · forever</span>
+          </button>
+          <button class="pw-plan pw-plan-secondary" onclick="window.open(LS_MONTHLY,'_blank')" aria-label="€7 per month">
+            <span class="pw-plan-price">€7</span><span class="pw-plan-per">/ month</span>
+          </button>
+        </div>
+        <p class="pw-plans-note buy-hide" data-i18n="pwPlansNote">all lessons + new ones added</p>
       </div>
-      <p class="pw-tagline">chuchichäschtli<span class="u-dots"><i></i><i></i></span></p>
     </div>
   </div>
 </div>
@@ -2048,7 +2067,7 @@ const I18N = {
     quizPrompt:"listen, then pick the meaning",
     begin:"begin", trainer:"your swiss german trainer", start:"start",
     unlockTitle:"unlock full access", already:"already bought? sign in",
-    sendLink:"send code", signinLead:"free profile — your progress, synced across your devices",
+    sendLink:"send code", signinLead:"create a free account to keep your progress", pwWelcome:"welcome", pwPlansNote:"all lessons + new ones added",
     membership:"membership", upgradeSub:"unlock all lessons + new content",
     libNote:"we're continuously updating the library — thank you for being part of becoming schwiizer",
     signedIn:"logged in", signedInAs:"logged in as", membershipMeta:"all lessons + future content unlocked",
@@ -2070,7 +2089,7 @@ const I18N = {
     helpLink:"help",
     loginRegister:"log in",
     twaBuyNote:"Already have full access? Log in above.",
-    pwOr:"or", pwJoin:"or join",
+    pwOr:"or", pwJoin:"or unlock the whole course",
     logIn:"log in",
     aboutSub:"the person behind the voice",
     aboutP1:"Swiss · German · Berliner since 2010.",
@@ -2093,7 +2112,7 @@ const I18N = {
     quizPrompt:"Hören, dann die Bedeutung wählen",
     begin:"Los", trainer:"dein Schweizerdeutsch-Trainer", start:"Start",
     unlockTitle:"Vollzugriff freischalten", already:"Schon gekauft? Anmelden",
-    sendLink:"Code senden", signinLead:"kostenloses Profil — dein Fortschritt, auf allen Geräten",
+    sendLink:"Code senden", signinLead:"kostenloses Konto — dein Fortschritt bleibt gespeichert", pwWelcome:"willkommen", pwPlansNote:"alle Lektionen + laufend neue",
     membership:"Mitgliedschaft", upgradeSub:"Alle Lektionen + neue Inhalte freischalten",
     libNote:"Wir erweitern die Bibliothek laufend — danke, dass du bei becoming schwiizer dabei bist",
     signedIn:"Angemeldet", signedInAs:"Angemeldet als", membershipMeta:"Alle Lektionen + zukünftige Inhalte freigeschaltet",
@@ -2115,7 +2134,7 @@ const I18N = {
     helpLink:"Hilfe",
     loginRegister:"anmelden",
     twaBuyNote:"Schon freigeschaltet? Oben anmelden.",
-    pwOr:"oder", pwJoin:"oder mitmachen",
+    pwOr:"oder", pwJoin:"oder den ganzen Kurs freischalten",
     logIn:"anmelden",
     aboutSub:"Die Person hinter der Stimme",
     aboutP1:"Schweizerin · Deutsche · Berlinerin seit 2010.",
