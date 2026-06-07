@@ -413,7 +413,7 @@ body[data-mode="dark"] .rise-dot{background:#FFE9A8}
 .btn-cream{background:rgba(247,243,236,.6);color:var(--dark);border:1.5px solid var(--cream);border-radius:999px;padding:10px 24px;font-size:13px;font-weight:400;font-family:var(--font);cursor:pointer;letter-spacing:.02em}
 .btn-cream:hover{background:var(--cream)}
 /* PAYWALL — redesigned: login card first → divider → quiet plans, one screen */
-.pw-hero{padding:2.1rem 1.25rem 7.5rem;position:relative;overflow:hidden;min-height:520px;display:flex;flex-direction:column;justify-content:center}
+.pw-hero{padding:1.9rem 1.25rem 4.5rem;position:relative;overflow:hidden}
 .pw-hero .inner{position:relative;z-index:2}
 .pw-hero .hero-mark{margin:0 auto .85rem}
 .pw-h1{margin:.2rem 0 1rem;text-align:center}
@@ -425,13 +425,13 @@ body[data-mode="dark"] .rise-dot{background:#FFE9A8}
 .pw-plans{display:flex;gap:9px;max-width:330px;width:100%;margin:0 auto}
 .pw-plan{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;border-radius:14px;padding:11px 8px;cursor:pointer;font-family:var(--font);background:transparent;transition:background .15s ease}
 .pw-plan-primary{background:var(--card);border:1px solid var(--dark)}
-.pw-plan-secondary{border:0.5px solid var(--beige)}
+.pw-plan-secondary{background:var(--card);border:0.5px solid var(--beige)}
 .pw-plan:hover{background:rgba(44,56,48,.04)}
 .pw-plan-price{font-size:16px;font-weight:500;color:var(--dark)}
-.pw-plan-per{font-size:11px;color:var(--texts);font-weight:300}
-.pw-plans-note{font-size:11px;color:var(--texts);text-align:center;font-weight:300;opacity:.8;margin:9px 0 0}
+.pw-plan-per{font-size:11px;color:var(--text);font-weight:400}
+.pw-plans-note{font-size:11.5px;color:var(--text);text-align:center;font-weight:400;opacity:.95;margin:9px 0 0}
 @media (min-width:768px){
-  .pw-hero{padding:3rem 1.25rem 9rem;min-height:600px}
+  .pw-hero{padding:2.4rem 1.25rem 5.5rem}
 }
 /* paywall hero same gradient-fade so mountains stay attached */
 .pw-hero::after{
@@ -545,7 +545,7 @@ body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:
 .pw-buy-primary{font-size:16px;font-weight:500;padding:15px 28px}
 .pw-buy-secondary{font-size:13px;font-weight:400;opacity:.92}
 /* "or" divider between buying and logging in */
-.pw-or-sep{display:flex;align-items:center;gap:10px;color:var(--texts);font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.55;margin:16px auto 12px;max-width:330px}
+.pw-or-sep{display:flex;align-items:center;gap:10px;color:var(--text);font-size:11px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;opacity:.72;margin:16px auto 12px;max-width:330px}
 .pw-or-sep::before,.pw-or-sep::after{content:"";flex:1;height:.5px;background:var(--beige)}
 /* clear, calm log-in button for existing customers (always visible, incl. in the Play app) */
 .pw-login-btn{width:100%;background:transparent;border:1.5px solid var(--dark);color:var(--dark);font-family:var(--font);font-size:14px;font-weight:500;letter-spacing:.02em;border-radius:999px;padding:12px 24px;cursor:pointer;transition:background .15s ease}
@@ -554,10 +554,10 @@ body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:
 /* SIGN-IN screen */
 .signin-card{padding:1.5rem 0}
 .signin-form{display:flex;flex-direction:column;gap:12px;max-width:320px;margin:1.5rem auto}
-.signin-lead{font-size:12.5px;font-weight:300;color:var(--texts);text-align:center;line-height:1.45;margin:0 0 11px}
+.signin-lead{font-size:13px;font-weight:400;color:var(--text);text-align:center;line-height:1.45;margin:0 0 11px}
 .signin-input{width:100%;padding:13px 16px;font-family:var(--font);font-size:16px;font-weight:300;color:var(--dark);background:var(--card);border:0.5px solid var(--beige);border-radius:12px;outline:none;transition:border-color .15s}
 .signin-input:focus{border-color:var(--rose)}
-.signin-input::placeholder{color:var(--texts);opacity:.7}
+.signin-input::placeholder{color:var(--texts);opacity:.85;font-weight:400}
 #signin-btn{width:100%}
 .signin-status{font-size:12px;color:var(--texts);text-align:center;min-height:18px;line-height:1.5;font-weight:300}
 .signin-status.ok{color:var(--sage)}
@@ -1361,7 +1361,7 @@ try{
       <div class="nav-logo" onclick="showView('landing')">
         <svg class="hero-helvi" width="32" height="32" viewBox="0 0 96 96" role="img" aria-label="Becoming Schwiizer" style="border-radius:8px;overflow:visible">
           <rect width="96" height="96" rx="22" fill="var(--hh-bg)"/>
-          <use href="#helvi" x="10" y="-3" width="76" height="92"/>
+          <use href="#helvi" x="9" y="-6" width="78" height="95"/>
         </svg>
         <div class="nav-wordmark">schw<span>ii</span>zer</div>
         <span class="nav-beta" aria-label="beta">beta</span>
@@ -1773,7 +1773,7 @@ try{
     <div class="inner">
       <svg class="hero-mark hero-helvi dev-unlock-target" width="52" height="52" viewBox="0 0 96 96" role="img" aria-label="Becoming Schwiizer" title="long-press for dev unlock">
         <rect width="96" height="96" rx="22" fill="var(--hh-bg)"/>
-        <use href="#helvi" x="10" y="-3" width="76" height="92"/>
+        <use href="#helvi" x="9" y="-6" width="78" height="95"/>
       </svg>
       <h1 class="hero-h1 pw-h1" data-i18n="pwWelcome">welcome</h1>
       <div class="pw-btns">

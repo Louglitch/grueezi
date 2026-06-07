@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v93-2026-06-07-paywall-redesign-one-screen';
+const CACHE_VERSION = 'schwiizer-v94-2026-06-07-paywall-readability-compact';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
