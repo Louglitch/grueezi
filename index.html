@@ -539,6 +539,7 @@ body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:
 /* SIGN-IN screen */
 .signin-card{padding:1.5rem 0}
 .signin-form{display:flex;flex-direction:column;gap:12px;max-width:320px;margin:1.5rem auto}
+.signin-lead{font-size:13px;font-weight:400;color:var(--text);text-align:center;line-height:1.5;margin:0 0 2px}
 .signin-input{width:100%;padding:13px 16px;font-family:var(--font);font-size:16px;font-weight:300;color:var(--dark);background:var(--card);border:0.5px solid var(--beige);border-radius:12px;outline:none;transition:border-color .15s}
 .signin-input:focus{border-color:var(--rose)}
 .signin-input::placeholder{color:var(--texts);opacity:.7}
@@ -1766,7 +1767,8 @@ try{
              code is sent (so it never looks like a password field). In the TWA the plans
              are hidden (.buy-hide) — Play Billing — so it's login-only there. -->
         <div class="signin-form" id="access-login">
-          <input type="email" id="signin-email" class="signin-input" placeholder="email you bought with" autocomplete="email" inputmode="email"/>
+          <p class="signin-lead" data-i18n="signinLead">free profile — your progress, synced across your devices</p>
+          <input type="email" id="signin-email" class="signin-input" placeholder="your email" autocomplete="email" inputmode="email"/>
           <button class="btn-p" id="signin-btn" onclick="requestMagicLink()" data-i18n="sendLink">send code</button>
           <div class="signin-status" id="signin-status"></div>
           <div class="signin-code" id="signin-code" hidden>
@@ -2046,7 +2048,7 @@ const I18N = {
     quizPrompt:"listen, then pick the meaning",
     begin:"begin", trainer:"your swiss german trainer", start:"start",
     unlockTitle:"unlock full access", already:"already bought? sign in",
-    sendLink:"send code",
+    sendLink:"send code", signinLead:"free profile — your progress, synced across your devices",
     membership:"membership", upgradeSub:"unlock all lessons + new content",
     libNote:"we're continuously updating the library — thank you for being part of becoming schwiizer",
     signedIn:"logged in", signedInAs:"logged in as", membershipMeta:"all lessons + future content unlocked",
@@ -2067,7 +2069,7 @@ const I18N = {
     buyAccess:"buy access",
     helpLink:"help",
     loginRegister:"log in",
-    twaBuyNote:"Get full access at schwiizer.app, then log in here.",
+    twaBuyNote:"Already have full access? Log in above.",
     pwOr:"or", pwJoin:"or join",
     logIn:"log in",
     aboutSub:"the person behind the voice",
@@ -2091,7 +2093,7 @@ const I18N = {
     quizPrompt:"Hören, dann die Bedeutung wählen",
     begin:"Los", trainer:"dein Schweizerdeutsch-Trainer", start:"Start",
     unlockTitle:"Vollzugriff freischalten", already:"Schon gekauft? Anmelden",
-    sendLink:"Code senden",
+    sendLink:"Code senden", signinLead:"kostenloses Profil — dein Fortschritt, auf allen Geräten",
     membership:"Mitgliedschaft", upgradeSub:"Alle Lektionen + neue Inhalte freischalten",
     libNote:"Wir erweitern die Bibliothek laufend — danke, dass du bei becoming schwiizer dabei bist",
     signedIn:"Angemeldet", signedInAs:"Angemeldet als", membershipMeta:"Alle Lektionen + zukünftige Inhalte freigeschaltet",
@@ -2112,7 +2114,7 @@ const I18N = {
     buyAccess:"Zugang kaufen",
     helpLink:"Hilfe",
     loginRegister:"anmelden",
-    twaBuyNote:"Vollzugang auf schwiizer.app holen, dann hier anmelden.",
+    twaBuyNote:"Schon freigeschaltet? Oben anmelden.",
     pwOr:"oder", pwJoin:"oder mitmachen",
     logIn:"anmelden",
     aboutSub:"Die Person hinter der Stimme",
@@ -4806,7 +4808,7 @@ async function refreshStatus(){
   }
 }
 
-// POST /sync — save current progress to cloud (paid users only)
+// POST /sync — save current progress to cloud (FREE for any logged-in user)
 async function pushProgress(){
   if(!state.session) return;
   try {
@@ -4897,7 +4899,7 @@ function logOutCloud(){
   renderAccount();
 }
 
-// Wrap save() to also sync to cloud (paid users only)
+// Wrap save() to also sync to cloud (FREE for any logged-in user)
 const _originalSave = save;
 save = function(){
   _originalSave();
