@@ -5,7 +5,7 @@
       "namespace": "android_app",
       "package_name": "app.schwiizer.twa",
       "sha256_cert_fingerprints": [
-        "REPLACE_WITH_SHA256_FINGERPRINT_FROM_PWABUILDER_OR_PLAY_APP_SIGNING"
+        "B9:AF:B4:18:87:A5:14:2B:1C:3A:80:72:04:2A:8C:EE:51:B2:91:13:2F:62:62:9C:18:8D:CA:53:9E:AF:57:9D"
       ]
     }
   }
