@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v95-2026-06-07-equal-fields-login-or-create';
+const CACHE_VERSION = 'schwiizer-v96-2026-06-07-plan-colour-paywall-even';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
