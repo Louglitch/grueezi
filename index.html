@@ -174,6 +174,11 @@ body.on-landing .global-horizon{display:none}
 .nav-login-out svg{width:15px;height:15px;stroke:var(--nav-text);stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
 /* logged in: the user's initials in a soft mint circle (Claude-style, calm) */
 .nav-login-initials{width:30px;height:30px;border-radius:50%;background:var(--mint);color:var(--dark);display:flex;align-items:center;justify-content:center;font-family:var(--font);font-size:12px;font-weight:500;letter-spacing:.02em;line-height:1;transition:transform .15s ease}
+.nav-login-initials.is-icon svg{width:16px;height:16px;stroke:var(--dark);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+/* optional display-name field in settings (calm, right-aligned) */
+.me-name-input{width:130px;max-width:48%;text-align:right;background:transparent;border:none;border-bottom:0.5px solid var(--beige);font-family:var(--font);font-size:14px;font-weight:400;color:var(--dark);padding:4px 2px;outline:none}
+.me-name-input::placeholder{color:var(--texts);opacity:.7;font-weight:300}
+.me-name-input:focus{border-bottom-color:var(--rose)}
 /* dropdown note under "logged in" — email + sign out */
 .nav-login-wrap{position:relative;display:inline-flex}
 .nav-note{
@@ -262,7 +267,7 @@ body[data-mode="pink"] .hero-mountains .mountain-front{fill:#B85578;opacity:.55}
 /* hero Helvi badge palette (mirrors the greeter) — badge bg tints by mode */
 .hero-helvi{--hh-bg:#F2EDE2;--body:#A8C8BC;--stroke:#2C3830;--belly:#F2EDE2;--shine:#FFFFFF;--seam:#C8A878;--cheek:#FFB0C4;--petal:#FFFFFF;--edel-center:#D4788A;--eye-base:#3A2A4A;--eye-pupil:#1A0A2A}
 body[data-mode="pink"] .hero-helvi{--hh-bg:#FAF6EE;--body:#D67BA0;--stroke:#7A3040;--belly:#FAF6EE;--shine:#FFFFFF;--seam:#C8A878;--cheek:#FFD7E8;--petal:#FFFFFF;--edel-center:#FFFFFF;--eye-base:#4A1A2A;--eye-pupil:#2A0A18}
-body[data-mode="dark"] .hero-helvi{--hh-bg:#1A1A1C;--body:#33333A;--stroke:#586A62;--belly:#1C1C1F;--shine:#586A62;--seam:rgba(120,150,140,.25);--cheek:rgba(212,120,138,.5);--petal:#1C1C1F;--edel-center:#C16B7C;--eye-base:#0A050E;--eye-pupil:#000000}
+body[data-mode="dark"] .hero-helvi{--hh-bg:#1A1A1C;--body:#7FA092;--stroke:#E6E1D8;--belly:#242427;--shine:#FFFFFF;--seam:rgba(212,120,138,.4);--cheek:rgba(212,120,138,.5);--petal:#242427;--edel-center:#D4788A;--eye-base:#0A050E;--eye-pupil:#000000}
 /* ===== Helvi greeter (landing only, WIP check) — fully visible, touchable, roams the page ===== */
 #helvi-greeter{
   position:fixed;right:clamp(12px,4vw,40px);bottom:clamp(12px,3vh,30px);z-index:40;display:none;pointer-events:none;
@@ -275,8 +280,8 @@ body[data-mode="pink"] #helvi-greeter{
   --cheek:#FFD7E8;--petal:#FFFFFF;--edel-center:#FFFFFF;--eye-base:#4A1A2A;--eye-pupil:#2A0A18;
 }
 body[data-mode="dark"] #helvi-greeter{
-  --body:#33333A;--stroke:#586A62;--belly:#1C1C1F;--shine:#586A62;--seam:rgba(120,150,140,.25);
-  --cheek:rgba(212,120,138,.5);--petal:#1C1C1F;--edel-center:#C16B7C;--eye-base:#0A050E;--eye-pupil:#000000;
+  --body:#7FA092;--stroke:#E6E1D8;--belly:#242427;--shine:#FFFFFF;--seam:rgba(212,120,138,.4);
+  --cheek:rgba(212,120,138,.5);--petal:#242427;--edel-center:#D4788A;--eye-base:#0A050E;--eye-pupil:#000000;
 }
 /* waits in the corner — soft idle breathe + grounded shadow; tap = tiny nudge */
 /* greeter retired on landing — Helvi now lives in the hero beside the wordmark */
@@ -785,7 +790,7 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
   --body:#A8C8BC;--stroke:#2C3830;--belly:#F2EDE2;--shine:#FFFFFF;--seam:#C8A878;
   --cheek:#FFB0C4;--petal:#FFFFFF;--edel-center:#D4788A;--eye-base:#3A2A4A;--eye-pupil:#1A0A2A}
 body[data-mode="pink"] .cat-helvi{--body:#D67BA0;--stroke:#7A3040;--belly:#FAF6EE;--seam:#C8A878;--cheek:#FFD7E8;--petal:#FFFFFF;--edel-center:#FFFFFF;--eye-base:#4A1A2A;--eye-pupil:#2A0A18}
-body[data-mode="dark"] .cat-helvi{--body:#33333A;--stroke:#586A62;--belly:#1C1C1F;--seam:rgba(120,150,140,.25);--cheek:rgba(212,120,138,.5);--petal:#1C1C1F;--edel-center:#C16B7C;--eye-base:#0A050E;--eye-pupil:#000000}
+body[data-mode="dark"] .cat-helvi{--body:#7FA092;--stroke:#E6E1D8;--belly:#242427;--seam:rgba(212,120,138,.4);--cheek:rgba(212,120,138,.5);--petal:#242427;--edel-center:#D4788A;--eye-base:#0A050E;--eye-pupil:#000000}
 .cat-helvi svg{width:100%;height:auto;display:block;overflow:visible;filter:drop-shadow(0 4px 7px rgba(0,0,0,.13));animation:helvi-bob 4.6s ease-in-out infinite;transform-origin:50% 92%}
 .cat-intro-text{font-size:17px;font-weight:300;color:var(--textm);line-height:1.45}
 .cat-helvi{cursor:pointer;position:relative}
@@ -968,7 +973,7 @@ body[data-mode="dark"] .stage-mountain-front{fill:#3a4e46;opacity:.52}
 .eq-bulb svg{width:12px!important;height:12px!important;filter:none!important}
 @keyframes eq-bulb-pulse{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.13);opacity:1}}
 body[data-mode="pink"] .eq-helvi-btn{--body:#D67BA0;--stroke:#7A3040;--belly:#FAF6EE;--cheek:#FFD7E8;--petal:#FFFFFF;--edel-center:#FFFFFF;--eye-base:#4A1A2A;--eye-pupil:#2A0A18;--seam:#C8A878}
-body[data-mode="dark"] .eq-helvi-btn{--body:#33333A;--stroke:#586A62;--belly:#1C1C1F;--cheek:rgba(212,120,138,.5);--petal:#1C1C1F;--edel-center:#C16B7C;--eye-base:#0A050E;--eye-pupil:#000000;--seam:rgba(120,150,140,.25)}
+body[data-mode="dark"] .eq-helvi-btn{--body:#7FA092;--stroke:#E6E1D8;--belly:#242427;--cheek:rgba(212,120,138,.5);--petal:#242427;--edel-center:#D4788A;--eye-base:#0A050E;--eye-pupil:#000000;--seam:rgba(212,120,138,.4)}
 .eq-helvi-btn svg{width:100%;height:auto;display:block;overflow:visible;filter:drop-shadow(0 3px 6px rgba(0,0,0,.13))}
 
 /* SENTENCE STAGE */
@@ -1078,7 +1083,7 @@ body[data-mode="dark"] .eq-helvi-btn{--body:#33333A;--stroke:#586A62;--belly:#1C
 .me-helvi-icon{width:22px;height:22px;opacity:1;--body:#A8C8BC;--stroke:#2C3830;--belly:#F2EDE2;--cheek:#FFB0C4;--eye-base:#3A2A4A;--eye-pupil:#1A0A2A}
 .me-helvi-icon svg{width:22px;height:22px;stroke:none;fill:initial}
 body[data-mode="pink"] .me-helvi-icon{--body:#D67BA0;--stroke:#7A3040;--belly:#FAF6EE;--cheek:#FFD7E8;--eye-base:#4A1A2A;--eye-pupil:#2A0A18}
-body[data-mode="dark"] .me-helvi-icon{--body:#33333A;--stroke:#586A62;--belly:#1C1C1F;--cheek:rgba(212,120,138,.5);--eye-base:#0A050E;--eye-pupil:#000000}
+body[data-mode="dark"] .me-helvi-icon{--body:#7FA092;--stroke:#E6E1D8;--belly:#242427;--cheek:rgba(212,120,138,.5);--eye-base:#0A050E;--eye-pupil:#000000}
 .me-row-text-with-icon{display:inline-flex;align-items:center;gap:0;flex:1}
 
 /* === CHEVRON ICON BUTTON (replaces verbose action labels) === */
@@ -2070,7 +2075,7 @@ const I18N = {
     sendLink:"send code", signinLead:"log in or create a free account to keep your progress", pwWelcome:"welcome", pwPlansNote:"all lessons + new ones added",
     membership:"membership", upgradeSub:"unlock all lessons + new content",
     libNote:"we're continuously updating the library — thank you for being part of becoming schwiizer",
-    signedIn:"logged in", signedInAs:"logged in as", membershipMeta:"all lessons + future content unlocked",
+    signedIn:"logged in", signedInAs:"logged in as", nameLabel:"name", namePlaceholder:"optional", membershipMeta:"all lessons + future content unlocked",
     upgradeTitle:"upgrade · €7/mo · €29 lifetime", upgradeMeta:"unlock all 14 lessons + new content",
     alreadyDevice:"already bought on another device?",
     libLead:"we're <strong>continuously updating the library</strong> — thank you for being part of becoming schwiizer",
@@ -2115,7 +2120,7 @@ const I18N = {
     sendLink:"Code senden", signinLead:"anmelden oder kostenloses Konto erstellen — Fortschritt bleibt gespeichert", pwWelcome:"willkommen", pwPlansNote:"alle Lektionen + laufend neue",
     membership:"Mitgliedschaft", upgradeSub:"Alle Lektionen + neue Inhalte freischalten",
     libNote:"Wir erweitern die Bibliothek laufend — danke, dass du bei becoming schwiizer dabei bist",
-    signedIn:"Angemeldet", signedInAs:"Angemeldet als", membershipMeta:"Alle Lektionen + zukünftige Inhalte freigeschaltet",
+    signedIn:"Angemeldet", signedInAs:"Angemeldet als", nameLabel:"Name", namePlaceholder:"optional", membershipMeta:"Alle Lektionen + zukünftige Inhalte freigeschaltet",
     upgradeTitle:"Freischalten · €7/Mt. · €29 einmalig", upgradeMeta:"Alle 14 Lektionen + neue Inhalte freischalten",
     alreadyDevice:"Schon auf einem anderen Gerät gekauft?",
     libLead:"Wir <strong>erweitern die Bibliothek laufend</strong> — danke, dass du bei becoming schwiizer dabei bist",
@@ -2815,6 +2820,7 @@ const state={
   session:localStorage.getItem('g_session')||null,
   email:localStorage.getItem('g_email')||null,
   plan:localStorage.getItem('g_plan')||null,
+  name:localStorage.getItem('g_name')||null,   // optional display name (overrides email-initials)
 };
 
 const STAGES=['Word'];
@@ -2963,17 +2969,27 @@ function navNoteUpgrade(){
   closeNavNote();
   showView('paywall');
 }
+// optional display name — drives the avatar initials; empty = fall back to email
+function setDisplayName(v){
+  const name = (v||'').trim().slice(0,24);
+  state.name = name || null;
+  if(name) localStorage.setItem('g_name', name); else localStorage.removeItem('g_name');
+  refreshNavLogin();
+  if(typeof renderAccount==='function') renderAccount();
+}
 
-// Initials from the email's local part (Claude-style) — no username field needed.
-// deborahmuriel.blum@… → "DB". Falls back to first letter, then "·".
-function computeInitials(email){
-  if(!email) return '·';
-  const local = String(email).split('@')[0] || '';
-  const parts = local.split(/[._\-+]+/).filter(Boolean);
+// Initials from a display name (if set) or the email's local part (Claude-style).
+// "Anna Meier" → "AM" · deborahmuriel.blum@… → "DB". Returns '·' if nothing usable.
+function computeInitials(src){
+  if(!src) return '·';
+  const base = String(src).split('@')[0] || '';
+  const parts = base.split(/[\s._\-+]+/).filter(Boolean);
   let ini = parts.slice(0,2).map(s=>s.charAt(0)).join('');
-  if(!ini) ini = local.charAt(0);
+  if(!ini) ini = base.charAt(0);
   return (ini || '·').toUpperCase();
 }
+// person-icon fallback for emails whose initial isn't a letter (e.g. starts with a digit)
+const NAV_PERSON_SVG = '<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
 
 // Refresh the top-right control. Logged out → quiet door icon + "log in".
 // Logged in → the user's initials in a soft circle; tap opens the account menu
@@ -2987,7 +3003,12 @@ function refreshNavLogin(){
   if(state.email){
     // Logged in — hide the door+text, show the initials circle; tap opens the menu
     if(out) out.hidden = true;
-    if(initials){ initials.hidden = false; initials.textContent = computeInitials(state.email); }
+    if(initials){
+      initials.hidden = false;
+      const ini = computeInitials(state.name || state.email);
+      if(/^[A-Za-z]/.test(ini)){ initials.textContent = ini; initials.classList.remove('is-icon'); }
+      else { initials.innerHTML = NAV_PERSON_SVG; initials.classList.add('is-icon'); }   // weird email → clean person icon
+    }
     btn.classList.add('signed-in');
     btn.setAttribute('aria-label', tt('signedInAs','logged in as')+' '+state.email);
     btn.setAttribute('title', tt('signedInAs','logged in as')+' '+state.email);
@@ -3082,6 +3103,7 @@ function renderAccount(){
     heart: '<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>',
     signIn: '<svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>',
     signOut: '<svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>',
+    person: '<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
     reset: '<svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>',
     info: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
     book: '<svg viewBox="0 0 24 24"><path d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg>',
@@ -3140,6 +3162,14 @@ function renderAccount(){
   //   2. signed in + free   → "deborah · free" with sign-out icon + upgrade CTA row
   //   3. signed in + paid   → "deborah · lifetime" with manage chevron, plus sign-out icon. NO upgrade CTA.
 
+  // display name (optional) overrides the email's local part; an editable, calm row
+  const dispName = escapeHtml(state.name || (state.email ? state.email.split('@')[0] : '') || t('signedIn'));
+  const nameRow = `
+        <div class="me-row me-row-divided">
+          <span class="me-row-text me-row-text-with-icon"><span class="me-row-icon">${ic.person}</span>${t('nameLabel')}</span>
+          <input class="me-name-input" type="text" maxlength="24" value="${escapeHtml(state.name||'')}" placeholder="${t('namePlaceholder')}" onchange="setDisplayName(this.value)" aria-label="${t('nameLabel')}"/>
+        </div>`;
+
   let accountSection;
   if(state.unlocked && state.email){
     // STATE 3 — signed in + paid (the happy path)
@@ -3149,12 +3179,12 @@ function renderAccount(){
         <div class="me-row">
           <span class="me-row-text-stacked">
             <span class="main">
-              <span class="me-row-icon" style="color:var(--mint);opacity:1">${ic.check}</span>${escapeHtml(state.email.split('@')[0] || t('signedIn'))}
+              <span class="me-row-icon" style="color:var(--mint);opacity:1">${ic.check}</span>${dispName}
             </span>
             <span class="meta">${escapeHtml(state.email)}</span>
           </span>
           <button class="me-btn-icon" onclick="signOutAccount()" aria-label="${t('signout')}" title="${t('signout')}">${ic.signOut}</button>
-        </div>
+        </div>${nameRow}
         <div class="me-row me-row-divided">
           <span class="me-row-text-stacked">
             <span class="main">
@@ -3174,12 +3204,12 @@ function renderAccount(){
         <div class="me-row">
           <span class="me-row-text-stacked">
             <span class="main">
-              <span class="me-row-icon" style="color:var(--mint);opacity:1">${ic.check}</span>${escapeHtml(state.email.split('@')[0] || t('signedIn'))} · ${t('free')}
+              <span class="me-row-icon" style="color:var(--mint);opacity:1">${ic.check}</span>${dispName} · ${t('free')}
             </span>
             <span class="meta">${escapeHtml(state.email)}</span>
           </span>
           <button class="me-btn-icon" onclick="signOutAccount()" aria-label="${t('signout')}" title="${t('signout')}">${ic.signOut}</button>
-        </div>
+        </div>${nameRow}
         <div class="me-row me-row-divided buy-hide">
           <span class="me-row-text-stacked">
             <span class="main">
@@ -4909,10 +4939,12 @@ function logOutCloud(){
   state.email = null;
   state.unlocked = false;
   state.plan = null;
+  state.name = null;
   localStorage.removeItem('g_session');
   localStorage.removeItem('g_email');
   localStorage.removeItem('g_unlocked');
   localStorage.removeItem('g_plan');
+  localStorage.removeItem('g_name');
   lsRemove('g_pending_email'); lsRemove('g_pending_email_ts'); window.__pendingAuthEmail = null;
   renderLessons();
   renderAccount();
