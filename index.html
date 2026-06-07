@@ -4636,7 +4636,7 @@ function resetSigninView(){
   const s2 = document.getElementById('signin-code-status'); if(s2){ s2.textContent=''; s2.className='signin-status'; }
   const b = document.getElementById('signin-btn'); if(b) b.disabled = false;
   // localized placeholders (placeholders aren't covered by applyStaticTranslations)
-  if(emailInput) emailInput.setAttribute('placeholder', isDe ? 'E-Mail, mit der du gekauft hast' : 'email you bought with');
+  if(emailInput) emailInput.setAttribute('placeholder', isDe ? 'deine E-Mail' : 'your email');
   if(ci) ci.setAttribute('placeholder', isDe ? 'Mail erhalten? Code einfügen' : 'got mail? paste the code');
   let pend=null, ts=0;
   try{ pend=localStorage.getItem('g_pending_email'); ts=parseInt(localStorage.getItem('g_pending_email_ts')||'0',10); }catch(e){}

@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v91-2026-06-07-free-profile-reframe-twa-neutral';
+const CACHE_VERSION = 'schwiizer-v92-2026-06-07-email-placeholder-your-email';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
