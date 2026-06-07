@@ -169,23 +169,30 @@ body.on-landing .global-horizon{display:none}
 }
 .nav-login-btn:hover{opacity:.85;transform:scale(1.04)}
 .nav-login-text{font-family:var(--font);font-size:14px;font-weight:400;color:var(--nav-text);letter-spacing:.02em;padding:3px 4px}
-.nav-login-icon{
-  width:30px;height:30px;border-radius:50%;
-  background:transparent;border:1px solid var(--nav-text);color:var(--nav-text);
-  display:flex;align-items:center;justify-content:center;
-  transition:background .15s, color .15s, border-color .15s;
+/* logged-in: a mint person badge (state = active). Only rendered when signed in. */
+.nav-login-avatar{width:30px;height:30px;border-radius:50%;background:var(--mint);color:var(--dark);display:flex;align-items:center;justify-content:center;transition:transform .15s ease}
+.nav-login-avatar svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+/* dropdown note under "logged in" — email + sign out */
+.nav-login-wrap{position:relative;display:inline-flex}
+.nav-note{
+  position:absolute;top:calc(100% + 8px);right:0;z-index:200;
+  min-width:208px;max-width:80vw;
+  background:var(--card);border:0.5px solid var(--cream2);border-radius:14px;
+  box-shadow:0 12px 34px rgba(44,56,48,.20);
+  padding:12px 14px;text-align:left;
 }
-.nav-login-icon svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.nav-login-icon svg *{fill:none !important;stroke:currentColor}
-.nav-login-btn.signed-in .nav-login-icon{background:var(--mint);border-color:var(--mint);color:var(--dark)}
-.nav-login-btn.signed-in .nav-login-icon svg{stroke-width:2}
-.nav-login-dots{display:inline-flex;gap:3px;align-items:center}
-.nav-login-dots i{
-  width:4px;height:4px;border-radius:50%;display:inline-block;
-  background:transparent;border:1px solid var(--rose);opacity:.55;
-  transition:background .2s ease, opacity .2s ease;
+.nav-note:not([hidden]){animation:nav-note-in .16s cubic-bezier(.2,.8,.2,1)}
+@keyframes nav-note-in{from{opacity:0;transform:translateY(-4px) scale(.97)}to{opacity:1;transform:none}}
+.nav-note-label{font-size:11px;font-weight:400;letter-spacing:.04em;text-transform:uppercase;color:var(--texts);opacity:.7}
+.nav-note-email{font-size:13px;font-weight:400;color:var(--text);margin-top:2px;word-break:break-all;line-height:1.4}
+.nav-note-out{
+  display:flex;align-items:center;gap:8px;width:100%;margin-top:11px;padding:9px 10px;
+  background:transparent;border:0.5px solid var(--beige);border-radius:10px;
+  font-family:var(--font);font-size:13px;font-weight:400;color:var(--rose-deep);
+  cursor:pointer;transition:background .15s ease;
 }
-.nav-login-btn.signed-in .nav-login-dots i{background:var(--rose);border-color:var(--rose);opacity:1}
+.nav-note-out:hover{background:rgba(199,107,138,.08)}
+.nav-note-out svg{width:15px;height:15px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .nav-logo{display:flex;align-items:center;gap:11px;cursor:pointer;text-decoration:none}
 .nav-wordmark{font-size:16px;font-weight:400;color:var(--nav-wordmark);letter-spacing:.02em}
 .nav-wordmark span{color:var(--nav-accent)}
@@ -508,7 +515,7 @@ body[data-mode="dark"] .hero-mountains .mountain-front{fill:var(--sage);opacity:
 @media (min-width:768px){
   .hero-mountains{height:220px;max-height:48%}
 }
-.pw-btns{display:flex;flex-direction:column;gap:10px;max-width:240px;margin:1.5rem auto 0}
+.pw-btns{display:flex;flex-direction:column;gap:10px;max-width:320px;margin:1.5rem auto 0}
 .pw-btns .btn-p,.pw-btns .btn-cream{width:100%}
 .pw-or{text-align:center;font-family:var(--font);font-size:11px;font-weight:300;color:var(--texts);margin:6px 0}
 .pw-tagline{font-size:13px;color:var(--textm);letter-spacing:.04em;margin:1.75rem 0 0;font-weight:400;text-align:center}
@@ -1343,14 +1350,24 @@ try{
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
     </div>
-    <button class="nav-login-btn" id="nav-login-btn" onclick="navLoginTap()" aria-label="log in">
-      <!-- Logged out: the word "login" (an action). Logged in: the icon/checkmark (a state).
-           Swapped by refreshNavLogin() so the icon never reads as "already signed in". -->
-      <span class="nav-login-text" id="nav-login-text">login</span>
-      <span class="nav-login-icon" id="nav-login-icon" hidden>
-        <svg viewBox="0 0 24 24" id="nav-login-svg" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor"/></svg>
-      </span>
-    </button>
+    <div class="nav-login-wrap">
+      <button class="nav-login-btn" id="nav-login-btn" onclick="navLoginTap()" aria-label="log in" aria-haspopup="true" aria-expanded="false">
+        <!-- Logged out: the words "log in / register" (opens the buy/login page).
+             Logged in: a mint person-icon (tap opens the note with email + sign out). -->
+        <span class="nav-login-text" id="nav-login-text">log in / register</span>
+        <span class="nav-login-avatar" id="nav-login-avatar" hidden aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </span>
+      </button>
+      <div class="nav-note" id="nav-note" hidden role="menu" aria-label="account">
+        <div class="nav-note-label" id="nav-note-label">signed in as</div>
+        <div class="nav-note-email" id="nav-note-email"></div>
+        <button class="nav-note-out" id="nav-note-out" onclick="navNoteSignOut()" role="menuitem">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span id="nav-note-out-label">sign out</span>
+        </button>
+      </div>
+    </div>
   </div>
 </nav>
 
@@ -1729,11 +1746,9 @@ try{
       </g>
     </svg>
     <div class="inner">
-      <svg class="hero-mark logo-svg dev-unlock-target" width="64" height="64" viewBox="0 0 96 96" role="img" aria-label="Becoming Schwiizer" title="long-press for dev unlock">
-        <rect class="logo-bg" width="96" height="96" rx="22"/>
-        <text class="logo-fg" x="48" y="78" text-anchor="middle" font-family="'Jost',sans-serif" font-size="78" font-weight="300">s</text>
-        <circle class="logo-accent" cx="40" cy="20" r="6"/>
-        <circle class="logo-accent" cx="56" cy="20" r="6"/>
+      <svg class="hero-mark dev-unlock-target" width="64" height="64" viewBox="0 0 96 96" role="img" aria-label="Becoming Schwiizer" title="long-press for dev unlock">
+        <rect width="96" height="96" rx="22" fill="var(--hh-bg)"/>
+        <use href="#helvi" x="10" y="-3" width="76" height="92"/>
       </svg>
       <h1 class="hero-h1">unlock full access<span class="beta-pill-sm">beta</span></h1>
       <div class="pw-btns">
@@ -2023,7 +2038,7 @@ const I18N = {
     sendLink:"send code",
     membership:"membership", upgradeSub:"unlock all lessons + new content",
     libNote:"we're continuously updating the library — thank you for being part of becoming schwiizer",
-    signedIn:"signed in", membershipMeta:"all lessons + future content unlocked",
+    signedIn:"logged in", signedInAs:"logged in as", membershipMeta:"all lessons + future content unlocked",
     upgradeTitle:"upgrade · €7/mo · €29 lifetime", upgradeMeta:"unlock all 14 lessons + new content",
     alreadyDevice:"already bought on another device?",
     libLead:"we're <strong>continuously updating the library</strong> — thank you for being part of becoming schwiizer",
@@ -2040,7 +2055,7 @@ const I18N = {
     verifyCode:"login",
     buyAccess:"buy access",
     helpLink:"help",
-    loginRegister:"login",
+    loginRegister:"log in / register",
     twaBuyNote:"Get full access at schwiizer.app, then log in here.",
     pwOr:"or",
     logIn:"login",
@@ -2068,7 +2083,7 @@ const I18N = {
     sendLink:"Code senden",
     membership:"Mitgliedschaft", upgradeSub:"Alle Lektionen + neue Inhalte freischalten",
     libNote:"Wir erweitern die Bibliothek laufend — danke, dass du bei becoming schwiizer dabei bist",
-    signedIn:"Angemeldet", membershipMeta:"Alle Lektionen + zukünftige Inhalte freigeschaltet",
+    signedIn:"Angemeldet", signedInAs:"Angemeldet als", membershipMeta:"Alle Lektionen + zukünftige Inhalte freigeschaltet",
     upgradeTitle:"Freischalten · €7/Mt. · €29 einmalig", upgradeMeta:"Alle 14 Lektionen + neue Inhalte freischalten",
     alreadyDevice:"Schon auf einem anderen Gerät gekauft?",
     libLead:"Wir <strong>erweitern die Bibliothek laufend</strong> — danke, dass du bei becoming schwiizer dabei bist",
@@ -2085,7 +2100,7 @@ const I18N = {
     verifyCode:"anmelden",
     buyAccess:"Zugang kaufen",
     helpLink:"Hilfe",
-    loginRegister:"anmelden",
+    loginRegister:"Anmelden / Registrieren",
     twaBuyNote:"Vollzugang auf schwiizer.app holen, dann hier anmelden.",
     pwOr:"oder",
     logIn:"anmelden",
@@ -2876,33 +2891,73 @@ function resetLessonsPageTitle(){
 // logged in → a quick "log out? / cancel" prompt (settings is still on the bottom nav).
 function navLoginTap(){
   if(state.email){
-    signOutAccount();
+    toggleNavNote();
   } else {
+    closeNavNote();
     showView('paywall');
   }
 }
 
-// Refresh the top-right login icon based on signed-in state
+// --- top-right "signed in" note (email + sign out) ---
+function toggleNavNote(){
+  const note = document.getElementById('nav-note');
+  if(!note) return;
+  if(note.hidden){ openNavNote(); } else { closeNavNote(); }
+}
+function openNavNote(){
+  const note = document.getElementById('nav-note');
+  const btn = document.getElementById('nav-login-btn');
+  if(!note) return;
+  note.hidden = false;
+  if(btn) btn.setAttribute('aria-expanded','true');
+  // register the outside-tap closer AFTER this click settles
+  setTimeout(()=>document.addEventListener('click', navNoteOutside, true), 0);
+}
+function closeNavNote(){
+  const note = document.getElementById('nav-note');
+  const btn = document.getElementById('nav-login-btn');
+  if(note) note.hidden = true;
+  if(btn) btn.setAttribute('aria-expanded','false');
+  document.removeEventListener('click', navNoteOutside, true);
+}
+function navNoteOutside(e){
+  if(!e.target.closest('.nav-login-wrap')) closeNavNote();
+}
+function navNoteSignOut(){
+  closeNavNote();
+  signOutAccount();
+}
+
+// Refresh the top-right control. Logged out → the words "log in / register".
+// Logged in → a mint person-icon (tap opens the note with email + sign out).
 function refreshNavLogin(){
   const btn = document.getElementById('nav-login-btn');
   const txt = document.getElementById('nav-login-text');
-  const iconWrap = document.getElementById('nav-login-icon');
+  const avatar = document.getElementById('nav-login-avatar');
   if(!btn) return;
+  const tt = (k,f)=> (typeof t==='function') ? t(k) : f;
   if(state.email){
-    // Signed in — show the checkmark icon (a state), hide the word
+    // Logged in — hide the text, show the mint person badge; tap opens the note
     if(txt) txt.hidden = true;
-    if(iconWrap) iconWrap.hidden = false;
+    if(avatar) avatar.hidden = false;
     btn.classList.add('signed-in');
-    btn.setAttribute('aria-label','signed in — open settings');
-    btn.setAttribute('title','signed in as '+state.email+' · tap for settings');
+    btn.setAttribute('aria-label', tt('signedIn','logged in'));
+    btn.setAttribute('title', tt('signedInAs','logged in as')+' '+state.email);
+    // fill the note
+    const lbl = document.getElementById('nav-note-label');
+    const em = document.getElementById('nav-note-email');
+    const outLbl = document.getElementById('nav-note-out-label');
+    if(lbl) lbl.textContent = tt('signedInAs','logged in as');
+    if(em) em.textContent = state.email;
+    if(outLbl) outLbl.textContent = tt('signout','sign out');
   } else {
-    // Signed out — show the word "login" (an action), hide the icon so it never
-    // reads as "already signed in"
-    if(txt){ txt.hidden = false; txt.textContent = (typeof t==='function') ? t('logIn') : 'login'; }
-    if(iconWrap) iconWrap.hidden = true;
+    // Logged out — show "log in / register" text, hide the badge; note closed
+    if(txt){ txt.hidden = false; txt.textContent = tt('loginRegister','log in / register'); }
+    if(avatar) avatar.hidden = true;
     btn.classList.remove('signed-in');
-    btn.setAttribute('aria-label','log in');
-    btn.setAttribute('title','log in');
+    btn.setAttribute('aria-label', tt('loginRegister','log in / register'));
+    btn.setAttribute('title', tt('loginRegister','log in / register'));
+    closeNavNote();
   }
 }
 

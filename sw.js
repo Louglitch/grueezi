@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v87-2026-06-07-one-access-page-login';
+const CACHE_VERSION = 'schwiizer-v88-2026-06-07-login-wording-helvi-paywall';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
