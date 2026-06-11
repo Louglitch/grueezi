@@ -4460,11 +4460,22 @@ function returnToQuiz(){
 }
 function startEinbquiz(lesson){
   state.quizReturn = false;
-  const pool = (lesson.quiz || []).slice().sort(()=>Math.random()-0.5);
-  const take = Math.min(24, pool.length);
+  const all = (lesson.quiz || []);
+  const N = all.length;
+  const take = Math.min(24, N);
+  // No-repeat: remember which questions were already asked (by index), per lesson, across rounds.
+  // Each round prefers unseen questions; when fewer than a full round remain, cycle fresh.
+  let seen = [];
+  try{ const s = JSON.parse(localStorage.getItem('g_einb_seen_'+lesson.id)||'[]'); if(Array.isArray(s)) seen = s.filter(i=>i<N); }catch(e){}
+  let unseen = [];
+  for(let i=0;i<N;i++){ if(seen.indexOf(i)===-1) unseen.push(i); }
+  if(unseen.length < take){ seen = []; unseen = []; for(let i=0;i<N;i++) unseen.push(i); }   // exhausted → reshuffle the whole pool
+  unseen.sort(()=>Math.random()-0.5);
+  const pick = unseen.slice(0, take);
+  try{ localStorage.setItem('g_einb_seen_'+lesson.id, JSON.stringify(seen.concat(pick))); }catch(e){}
   state.einbquiz = {
     lessonId: lesson.id,
-    questions: pool.slice(0, take),
+    questions: pick.map(i=>all[i]),
     idx: 0,
     correct: 0,
     answered: false,
