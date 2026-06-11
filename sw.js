@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v101-2026-06-11-contrast-AA-header-circle-fix';
+const CACHE_VERSION = 'schwiizer-v102-2026-06-11-article-trims-willensnation-rehome';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
