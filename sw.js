@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v99-2026-06-11-quickfixes-test-count-sticky-headers';
+const CACHE_VERSION = 'schwiizer-v100-2026-06-11-offline-claim-toggle-memory-search-articles';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately

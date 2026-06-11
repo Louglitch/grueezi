@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <meta name="theme-color" content="#A8C8BC"/>
-<meta name="description" content="Swiss German — real dialect, real voice, offline-ready."/>
+<meta name="description" content="Swiss German — real dialect, a real human voice. Lessons you've opened work offline."/>
 <title>Becoming Schwiizer · Swiss German with Helvi</title>
 <link rel="manifest" href="manifest.json"/>
 <!-- Favicon: Helvi (browser tabs incl. Arc). New filename forces Safari/Arc to drop the sticky old-favicon cache. -->
@@ -615,7 +615,7 @@ body[data-mode="pink"] .search-btn::after{background:var(--mint);box-shadow:0 0 
 .search-input{width:100%;padding:11px 14px;border-radius:14px;border:0.5px solid var(--beige);background:var(--card);color:var(--dark);font-family:var(--font);font-size:16px;font-weight:300;outline:none;transition:border-color .15s ease}
 .search-input:focus{border-color:var(--sage)}
 .search-input::placeholder{color:var(--texts)}
-.search-results{margin-top:.6rem;display:flex;flex-direction:column;gap:6px;max-height:60vh;overflow-y:auto}
+.search-results{margin-top:.6rem;display:flex;flex-direction:column;gap:6px;max-height:60dvh;overflow-y:auto}
 .search-section-label{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;opacity:.55;font-weight:500;padding:.5rem 0 .15rem;color:var(--textm)}
 .search-result{background:var(--card);border:0.5px solid var(--cream2);border-radius:12px;padding:9px 13px;cursor:pointer;transition:background .1s ease}
 .search-result:hover{background:var(--bg-alt)}
@@ -1618,7 +1618,7 @@ try{
   <div class="features">
     <div class="features-inner">
       <div class="feat"><div class="feat-dot"></div><div><div class="feat-title" data-i18n="featVoiceT">real voice</div><div class="feat-sub" data-i18n="featVoiceS">every phrase recorded by Deborah — native swiss german</div></div></div>
-      <div class="feat"><div class="feat-dot"></div><div><div class="feat-title" data-i18n="featOfflineT">works offline</div><div class="feat-sub" data-i18n="featOfflineS">on the train, in the mountains, no signal needed</div></div></div>
+      <div class="feat"><div class="feat-dot"></div><div><div class="feat-title" data-i18n="featOfflineT">works offline</div><div class="feat-sub" data-i18n="featOfflineS">on the train, in the mountains — lessons you've opened keep working</div></div></div>
       <div class="feat"><div class="feat-dot"></div><div><div class="feat-title" data-i18n="featFocusT">designed for focus</div><div class="feat-sub" data-i18n="featFocusS">the structure your brain will thank you for</div></div></div>
       <div class="feat"><div class="feat-dot"></div><div><div class="feat-title" data-i18n="featOwlT">no owl will judge you</div><div class="feat-sub" data-i18n="featOwlS">3 lessons free — then €7/month or €29 once</div></div></div>
     </div>
@@ -1632,7 +1632,7 @@ try{
       <div class="page-title" id="lessons-page-title">lessons<span class="u-dots"><i></i><i></i></span></div>
     </div>
     <div class="search-panel" id="search-panel" hidden>
-      <input type="text" class="search-input" id="search-input" placeholder="search phrases or categories…" oninput="runSearch(this.value)" autocomplete="off"/>
+      <input type="text" class="search-input" id="search-input" placeholder="search phrases, articles…" oninput="runSearch(this.value)" autocomplete="off"/>
       <div class="search-results" id="search-results"></div>
     </div>
 
@@ -2082,7 +2082,7 @@ const I18N = {
     libLink:"share what you'd like to learn — or report a bug ›",
     sound:"sound", cheers:"helvi & cheers", helviAvatar:"helvi avatar", on:"on", off:"off",
     featVoiceT:"real voice", featVoiceS:"every phrase recorded by Deborah — native swiss german",
-    featOfflineT:"works offline", featOfflineS:"on the train, in the mountains, no signal needed",
+    featOfflineT:"works offline", featOfflineS:"on the train, in the mountains — lessons you've opened keep working",
     featFocusT:"designed for focus", featFocusS:"the structure your brain will thank you for",
     featOwlT:"no owl will judge you", featOwlS:"3 lessons free — then €7/month or €29 once",
     signinSub:"your email is your login — enter it and we'll send you a 6-digit code",
@@ -2127,7 +2127,7 @@ const I18N = {
     libLink:"Sag uns, was du lernen möchtest — oder melde einen Fehler ›",
     sound:"Ton", cheers:"Helvi & Jubel", helviAvatar:"Helvi-Avatar", on:"An", off:"Aus",
     featVoiceT:"Echte Stimme", featVoiceS:"Jeder Satz von Deborah aufgenommen — echtes Schweizerdeutsch",
-    featOfflineT:"Funktioniert offline", featOfflineS:"Im Zug, in den Bergen, kein Empfang nötig",
+    featOfflineT:"Funktioniert offline", featOfflineS:"Im Zug, in den Bergen — geöffnete Lektionen bleiben verfügbar",
     featFocusT:"Für Konzentration gemacht", featFocusS:"Die Struktur, für die dir dein Kopf danken wird",
     featOwlT:"Keine Eule verurteilt dich", featOwlS:"3 Lektionen gratis — dann €7/Monat oder €29 einmalig",
     signinSub:"Deine E-Mail ist dein Login — gib sie ein und wir senden dir einen 6-stelligen Code",
@@ -2815,7 +2815,7 @@ const state={
   quizScores:JSON.parse(localStorage.getItem('g_quiz')||'{}'),
   streak:JSON.parse(localStorage.getItem('g_streak')||'{"days":[],"count":0}'),
   stamps:JSON.parse(localStorage.getItem('g_stamps')||'[]'),
-  chapterLang:'en',
+  chapterLang:(function(){try{return localStorage.getItem('g_chapterLang')||'en';}catch(e){return 'en';}})(),
   // Auth/sync state
   session:localStorage.getItem('g_session')||null,
   email:localStorage.getItem('g_email')||null,
@@ -3595,20 +3595,58 @@ function runSearch(q){
         r.note.toLowerCase().includes(query)
       )
     : all;
-  // Render — phrases only
-  if(phraseMatches.length===0){
+  // Match WISSEN ARTICLES too (title + body text) — not just phrases
+  const aLang = (typeof APP_LANG!=='undefined' && APP_LANG==='de') ? 'de' : 'en';
+  const articleMatches=[];
+  if(query){
+    PILLARS.forEach(pillar=>{
+      pillar.lessons.forEach(lesson=>{
+        const merged=getLessonById(lesson.id);
+        if(!merged || !merged.infoOnly || !merged.info || merged.grammar) return;  // articles only
+        const tmp=document.createElement('div');
+        tmp.innerHTML=getInfoForLang(merged.info, aLang) || '';
+        const plain=(tmp.textContent||tmp.innerText||'').replace(/\s+/g,' ').trim();
+        const title=lessonTitle(merged)||merged.title||'';
+        if(!(title+' '+plain).toLowerCase().includes(query)) return;
+        const lp=plain.toLowerCase().indexOf(query);
+        let snip = lp>=0 ? plain.slice(Math.max(0,lp-30), lp+50) : plain.slice(0,80);
+        snip = (lp>30?'…':'') + snip + (snip.length<plain.length?'…':'');
+        const access=getLessonAccess(merged);
+        articleMatches.push({id:merged.id, title:title, snip:snip, locked:access==='locked'});
+      });
+    });
+  }
+
+  // Render — articles first, then phrases
+  if(phraseMatches.length===0 && articleMatches.length===0){
     results.innerHTML=`<div class="search-empty">no matches for "${escapeHtml(query)}"</div>`;
     return;
   }
-  results.innerHTML = phraseMatches.map(r=>{
-    const lockBadge=r.locked?`<span class="search-locked">locked</span>`:'';
-    const onclick=r.locked?`showView('paywall')`:`jumpToPhrase(${r.lessonId},${r.phraseIdx})`;
-    return `<div class="search-result" onclick="${onclick}">
-      <div class="sr-chde">${escapeHtml(r.chde)}${lockBadge}</div>
-      <div class="sr-en">${escapeHtml(phraseMeaning(r))}</div>
-      <div class="sr-meta">lesson ${r.lessonId} · ${escapeHtml(r.lessonTitle)}</div>
-    </div>`;
-  }).join('');
+  let html='';
+  if(articleMatches.length){
+    html += `<div class="search-section-label">articles</div>` + articleMatches.map(a=>{
+      const lockBadge=a.locked?`<span class="search-locked">locked</span>`:'';
+      const onclick=a.locked?`showView('paywall')`:`openLesson(${a.id})`;
+      return `<div class="search-result" onclick="${onclick}">
+        <div class="sr-chde">${escapeHtml(a.title)}${lockBadge}</div>
+        <div class="sr-en">${escapeHtml(a.snip)}</div>
+        <div class="sr-meta">article · lesson ${a.id}</div>
+      </div>`;
+    }).join('');
+  }
+  if(phraseMatches.length){
+    if(articleMatches.length) html += `<div class="search-section-label">phrases</div>`;
+    html += phraseMatches.map(r=>{
+      const lockBadge=r.locked?`<span class="search-locked">locked</span>`:'';
+      const onclick=r.locked?`showView('paywall')`:`jumpToPhrase(${r.lessonId},${r.phraseIdx})`;
+      return `<div class="search-result" onclick="${onclick}">
+        <div class="sr-chde">${escapeHtml(r.chde)}${lockBadge}</div>
+        <div class="sr-en">${escapeHtml(phraseMeaning(r))}</div>
+        <div class="sr-meta">lesson ${r.lessonId} · ${escapeHtml(r.lessonTitle)}</div>
+      </div>`;
+    }).join('');
+  }
+  results.innerHTML = html;
 }
 
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
@@ -3851,6 +3889,7 @@ function stopChapterAudio(){
 
 function setChapterLang(lang){
   state.chapterLang = lang;
+  try{ localStorage.setItem('g_chapterLang', lang); }catch(e){}   // remember EN/DE/CH choice across articles + sessions
   document.querySelectorAll('.lang-pill').forEach(p=>{
     p.classList.toggle('active', p.dataset.lang === lang);
   });
