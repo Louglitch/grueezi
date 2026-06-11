@@ -2268,7 +2268,7 @@ const GRAMMAR_TITLES = {
 };
 function lessonTitle(l){
   const g = GRAMMAR_TITLES[l.id];
-  if(g){ if(APP_LANG==='de') return g.de; return g.ch ? (g.en+' · '+g.ch) : g.en; }
+  if(g){ if(APP_LANG==='de') return g.de; return g.en; }   // grammar titles in UI language only — no Swiss-dialect suffix
   return (APP_LANG==='de' && LESSON_TITLES_DE[l.id]) ? LESSON_TITLES_DE[l.id] : l.title;
 }
 
@@ -3505,7 +3505,7 @@ function renderLessons(){
       if(cat.isQuiz){
         const eL = cat.lessons[0] ? getLessonById(cat.lessons[0].id) : null;
         const qn = (eL && eL.quiz) ? eL.quiz.length : 0;
-        const per = Math.min(24, qn);   // matches startEinbquiz: take = min(24, pool)
+        const per = Math.min(EINB_ROUND, qn);   // matches startEinbquiz round size
         meta = (APP_LANG==='de') ? `Test · ${per} von ${qn} pro Versuch` : `test · ${per} of ${qn} each try`;
       } else {
         const unit = (cat.key==='info') ? (APP_LANG==='de'?'Artikel':'articles')
@@ -4458,11 +4458,12 @@ function returnToQuiz(){
   showView('stage');
   renderEinbquizQuestion();
 }
+const EINB_ROUND = 10;   // citizenship quiz: questions per round (bite-sized; pool 40, no-repeat → ~4 rounds cover all, then cycle)
 function startEinbquiz(lesson){
   state.quizReturn = false;
   const all = (lesson.quiz || []);
   const N = all.length;
-  const take = Math.min(24, N);
+  const take = Math.min(EINB_ROUND, N);
   // No-repeat: remember which questions were already asked (by index), per lesson, across rounds.
   // Each round prefers unseen questions; when fewer than a full round remain, cycle fresh.
   let seen = [];
