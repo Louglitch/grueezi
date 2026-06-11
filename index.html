@@ -44,7 +44,7 @@ body[data-mode="mint"]{
   --sage:#6FA898;--rose:#D4788A;--rose-deep:#7A3040;--petal:#F5E0E4;
   /* type + accents */
   --dark:#2C3830;--darkm:#3D4F45;--text:#2C3830;
-  --textm:#4A6157;--texts:#8A9E94;
+  --textm:#4A6157;--texts:#697870;
   --beige:#C4B89E;
   /* hero */
   --hero-text:#2C3830;--hero-text-accent:#D4788A;
@@ -70,7 +70,7 @@ body[data-mode="pink"]{
   --sage:#6FA898;--rose:#D4788A;--rose-deep:#7A3040;--petal:#FFD7E8;
   /* type + accents */
   --dark:#2A2A35;--darkm:#3A3A48;--text:#2A2A35;
-  --textm:#5A4A55;--texts:#A89580;
+  --textm:#5A4A55;--texts:#807161;
   --beige:#E8DCC4;
   /* hero — soft rose bg, white text */
   --hero-text:#FFFFFF;--hero-text-accent:#FFFFFF;
@@ -94,7 +94,7 @@ body[data-mode="dark"]{
   --sage:#A8C8BC;--rose:#D4788A;--rose-deep:#D4788A;--petal:#3A2A2D;
   /* type + accents */
   --dark:#EDE8DF;--darkm:#D8D2C8;--text:#EDE8DF;
-  --textm:#B8B8BC;--texts:#8A8A8E;
+  --textm:#B8B8BC;--texts:#909094;
   --beige:#4A4A50;
   /* hero — charcoal bg, cream text */
   --hero-text:#EDE8DF;--hero-text-accent:#D4788A;
@@ -171,9 +171,11 @@ body.on-landing .global-horizon{display:none}
 .nav-login-text{font-family:var(--font);font-size:14px;font-weight:400;color:var(--nav-text);letter-spacing:.02em;padding:3px 4px}
 /* logged out: a quiet door icon + "log in" */
 .nav-login-out{display:inline-flex;align-items:center;gap:5px}
+.nav-login-out[hidden]{display:none}
 .nav-login-out svg{width:15px;height:15px;stroke:var(--nav-text);stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
 /* logged in: the user's initials in a soft mint circle (Claude-style, calm) */
 .nav-login-initials{width:30px;height:30px;border-radius:50%;background:var(--mint);color:var(--dark);display:flex;align-items:center;justify-content:center;font-family:var(--font);font-size:12px;font-weight:500;letter-spacing:.02em;line-height:1;transition:transform .15s ease}
+.nav-login-initials[hidden]{display:none}
 .nav-login-initials.is-icon svg{width:16px;height:16px;stroke:var(--dark);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
 /* optional display-name field in settings (calm, right-aligned) */
 .me-name-input{width:130px;max-width:48%;text-align:right;background:transparent;border:none;border-bottom:0.5px solid var(--beige);font-family:var(--font);font-size:14px;font-weight:400;color:var(--dark);padding:4px 2px;outline:none}
@@ -3494,7 +3496,7 @@ function renderLessons(){
         const eL = cat.lessons[0] ? getLessonById(cat.lessons[0].id) : null;
         const qn = (eL && eL.quiz) ? eL.quiz.length : 0;
         const per = Math.min(24, qn);   // matches startEinbquiz: take = min(24, pool)
-        meta = (APP_LANG==='de') ? `Test · ${qn} Fragen · ${per} pro Runde` : `test · ${qn} questions · ${per} per round`;
+        meta = (APP_LANG==='de') ? `Test · ${per} von ${qn} pro Versuch` : `test · ${per} of ${qn} each try`;
       } else {
         const unit = (cat.key==='info') ? (APP_LANG==='de'?'Artikel':'articles')
                    : (cat.key==='grammar') ? (APP_LANG==='de'?'Tabälle':'tables')
