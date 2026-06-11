@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v104-2026-06-11-mini-helvi-nav-avatar';
+const CACHE_VERSION = 'schwiizer-v105-2026-06-11-kick-backarrow-kick-article-voiceovers';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately

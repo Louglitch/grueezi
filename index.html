@@ -1378,9 +1378,6 @@ try{
         <div class="nav-wordmark">schw<span>ii</span>zer</div>
         <span class="nav-beta" aria-label="beta">beta</span>
       </div>
-      <button class="global-back-btn" id="global-back-btn" onclick="goBack()" aria-label="back" style="display:none">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
     </div>
     <div class="nav-login-wrap">
       <button class="nav-login-btn" id="nav-login-btn" onclick="navLoginTap()" aria-label="log in" aria-haspopup="true" aria-expanded="false">
@@ -3806,7 +3803,7 @@ let chapterTTSKey = null;     // lessonId/lang of the active TTS utterance
 // to record the missing content and add it to RECORDED / CHAPTER_RECORDED below.
 const ALLOW_TTS_FALLBACK = false;
 // Articles with a real recorded voiceover: lessonId -> langs available. Extend as Deborah records more.
-const CHAPTER_RECORDED = { 11:['en','de','ch'], 12:['en','de','ch'], 9:['en','de','ch'] };
+const CHAPTER_RECORDED = {};   // all article voiceovers kicked 2026-06-11 — Deborah re-recording clean; silent, no TTS, no listen-bar until re-added
 function chapterHasRecording(lessonId, lang){
   return !!CHAPTER_RECORDED[lessonId] && CHAPTER_RECORDED[lessonId].indexOf(lang) !== -1;
 }
