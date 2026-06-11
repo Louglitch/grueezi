@@ -177,6 +177,11 @@ body.on-landing .global-horizon{display:none}
 .nav-login-initials{width:30px;height:30px;border-radius:50%;background:var(--mint);color:var(--dark);display:flex;align-items:center;justify-content:center;font-family:var(--font);font-size:12px;font-weight:500;letter-spacing:.02em;line-height:1;transition:transform .15s ease}
 .nav-login-initials[hidden]{display:none}
 .nav-login-initials.is-icon svg{width:16px;height:16px;stroke:var(--dark);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+/* mini-Helvi avatar (logged-in, when Helvi is on): light disc + theme-tinted dragon, snout intact */
+.nav-login-initials.is-helvi{background:var(--card);overflow:hidden;--body:#A8C8BC;--stroke:#2C3830;--cheek:#FFB0C4;--eye-base:#3A2A4A;--eye-pupil:#1A0A2A}
+.nav-login-initials.is-helvi svg{width:30px;height:30px;display:block}
+body[data-mode="pink"] .nav-login-initials.is-helvi{--body:#D67BA0;--stroke:#7A3040;--cheek:#FFD7E8;--eye-base:#4A1A2A;--eye-pupil:#2A0A18}
+body[data-mode="dark"] .nav-login-initials.is-helvi{--body:#7FA092;--stroke:#E6E1D8;--cheek:rgba(212,120,138,.5);--eye-base:#0A050E;--eye-pupil:#000000}
 /* optional display-name field in settings (calm, right-aligned) */
 .me-name-input{width:130px;max-width:48%;text-align:right;background:transparent;border:none;border-bottom:0.5px solid var(--beige);font-family:var(--font);font-size:14px;font-weight:400;color:var(--dark);padding:4px 2px;outline:none}
 .me-name-input::placeholder{color:var(--texts);opacity:.7;font-weight:300}
@@ -2222,6 +2227,7 @@ function setHelvi(on){
   lsSet('g_helvi', on ? 'on' : 'off');
   applyHelvi();
   renderAccount();
+  if(typeof refreshNavLogin==='function') refreshNavLogin();   // swap nav avatar Helvi⇄initials live
 }
 applyHelvi();
 // Helvi eyes follow the pointer (subtle) — sets --peye-x/y on each visible Helvi host; pupils translate via CSS
@@ -3007,9 +3013,16 @@ function refreshNavLogin(){
     if(out) out.hidden = true;
     if(initials){
       initials.hidden = false;
-      const ini = computeInitials(state.name || state.email);
-      if(/^[A-Za-z]/.test(ini)){ initials.textContent = ini; initials.classList.remove('is-icon'); }
-      else { initials.innerHTML = NAV_PERSON_SVG; initials.classList.add('is-icon'); }   // weird email → clean person icon
+      if(typeof HELVI_ON!=='undefined' && HELVI_ON){
+        // mini-Helvi avatar (theme-tinted); initials stay as the fallback when Helvi is off
+        initials.innerHTML = '<svg viewBox="6 18 108 118"><use href="#helvi-head"/></svg>';
+        initials.classList.add('is-helvi'); initials.classList.remove('is-icon');
+      } else {
+        initials.classList.remove('is-helvi');
+        const ini = computeInitials(state.name || state.email);
+        if(/^[A-Za-z]/.test(ini)){ initials.textContent = ini; initials.classList.remove('is-icon'); }
+        else { initials.innerHTML = NAV_PERSON_SVG; initials.classList.add('is-icon'); }   // weird email → clean person icon
+      }
     }
     btn.classList.add('signed-in');
     btn.setAttribute('aria-label', tt('signedInAs','logged in as')+' '+state.email);
