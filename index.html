@@ -882,6 +882,7 @@ body[data-mode="pink"] .cat-secname{color:var(--sage)}
 .word-progress i{width:6px;height:6px;border-radius:50%;background:var(--cream2);display:block;transition:background .2s ease}
 .word-progress i.done{background:var(--sage)}
 .word-progress i.active{background:var(--mint)}
+.word-progress .wc-count{font-size:10px;color:var(--texts);font-weight:400;letter-spacing:.04em;margin-left:8px;flex-shrink:0}
 /* Pink mode — active dot in rose */
 body[data-mode="pink"] .word-progress i.active{background:var(--rose)}
 /* Dark mode — colors adjust */
@@ -3940,6 +3941,11 @@ function renderStageBar(){
     else if(i === state.currentPhraseIdx){ dot.className='active'; }
     bar.appendChild(dot);
   });
+  // numeric count so users see how far they are / how many this session (words + phrases)
+  const count=document.createElement('span');
+  count.className='wc-count';
+  count.textContent=(state.currentPhraseIdx+1)+' / '+lesson.phrases.length;
+  bar.appendChild(count);
 }
 
 // Meaning shown on a card follows the app language: DE → Hochdeutsch, EN → English (no second language)
