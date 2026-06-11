@@ -3667,8 +3667,10 @@ function renderChapter(lesson){
   // grammar tables render in the user's UI language (en|de); articles use the CH-toggle
   const lang = isGram ? (APP_LANG==='de'?'de':'en') : (state.chapterLang || 'en');
   // hide the audio bar + CH-toggle + relabel the eyebrow for grammar (not an article)
+  // hide the listen bar for grammar AND for articles with no Deborah recording (no TTS placeholder)
+  const __noChapAudio = !ALLOW_TTS_FALLBACK && !chapterHasRecording(lesson.id, lang);
   const __bar = document.getElementById('chapter-audio-bar');
-  if(__bar) __bar.style.display = isGram ? 'none' : '';
+  if(__bar) __bar.style.display = (isGram || __noChapAudio) ? 'none' : '';
   const __tog = document.querySelector('.chapter-lang-toggle');
   if(__tog) __tog.style.display = isGram ? 'none' : '';
   const __eb = document.querySelector('.chapter-eyebrow');
@@ -3743,6 +3745,11 @@ let chapterUtterance = null;
 let chapterAudioEl = null;
 let chapterAudioKey = null;   // lessonId/lang of the currently loaded recorded clip
 let chapterTTSKey = null;     // lessonId/lang of the active TTS utterance
+// TTS KILL SWITCH: when false, content WITHOUT a real Deborah recording has NO audio
+// (robotic speechSynthesis is never used). Keeps the "every phrase recorded by Deborah / no TTS"
+// claim 100% true. Flip back to true only if you want TTS placeholders again; the cleaner path is
+// to record the missing content and add it to RECORDED / CHAPTER_RECORDED below.
+const ALLOW_TTS_FALLBACK = false;
 // Articles with a real recorded voiceover: lessonId -> langs available. Extend as Deborah records more.
 const CHAPTER_RECORDED = { 11:['en','de','ch'], 12:['en','de','ch'], 9:['en','de','ch'] };
 function chapterHasRecording(lessonId, lang){
@@ -3812,6 +3819,7 @@ function toggleChapterPlay(){
 }
 
 function chapterSpeak(lesson, lang, key){
+  if(!ALLOW_TTS_FALLBACK){ stopChapterAudio(); return; }   // no recording → stay silent (no TTS)
   // Strip HTML from info text for narration
   const tmp = document.createElement('div');
   tmp.innerHTML = getInfoForLang(lesson.info, lang);
@@ -3909,15 +3917,17 @@ function renderStage(){
   const isDe = (typeof APP_LANG!=='undefined' && APP_LANG==='de');
   const lblBack = isDe ? 'zurück' : 'back';
   const lblNext = isDe ? 'weiter' : 'next';
+  // only show the audio button when a real recording exists (or TTS is explicitly allowed)
+  const __hasAudio = (typeof hasRecording==='function' && hasRecording(lesson.id, state.currentPhraseIdx)) || ALLOW_TTS_FALLBACK;
   content.innerHTML=`
     <div class="word-card">
       <div class="wc-chde">${phrase.chde}</div>
       <div class="wc-phonetic">${phrasePhon(phrase)}</div>
-      <div class="wc-control-row">
+      ${__hasAudio ? `<div class="wc-control-row">
         <button class="wc-audio" onclick="playPhrase(${lesson.id},${state.currentPhraseIdx},'${phrase.chde.replace(/'/g,"\\'")}')">
           <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         </button>
-      </div>
+      </div>` : ''}
       <div class="wc-translations">
         <div class="wc-en">${phraseMeaning(phrase)}</div>
       </div>
@@ -3934,8 +3944,8 @@ function renderStage(){
         </button>
       </div>
     </div>`;
-  // Auto-play audio on word load — real recording if available, else TTS
-  setTimeout(()=>{try{playPhrase(lesson.id, state.currentPhraseIdx, phrase.chde);}catch(e){}}, 200);
+  // Auto-play audio on word load — only when there's a real recording (no TTS placeholder)
+  if(__hasAudio) setTimeout(()=>{try{playPhrase(lesson.id, state.currentPhraseIdx, phrase.chde);}catch(e){}}, 200);
 }
 
 function listenAnswer(btn,chosen,correct){
@@ -4256,6 +4266,7 @@ function completeContinue(){
 }
 
 function speak(text, kind){
+  if(!ALLOW_TTS_FALLBACK) return;        // no recording → stay silent (no robotic TTS)
   if(!canPlay(kind || 'word')) return;   // master/cheers mute (Change 5)
   if(!('speechSynthesis' in window)) return;
   const u=new SpeechSynthesisUtterance(text);
@@ -4332,6 +4343,7 @@ function __wcBtn(){ return document.getElementById('wc-rec-btn'); }
 function __wcUI(cls,label){ const b=__wcBtn(); if(!b) return; b.classList.remove('on','busy'); if(cls)b.classList.add(cls);
   const t=b.querySelector('.t'); if(t&&label!=null)t.textContent=label; }
 function __wcTTS(text,done){
+  if(!ALLOW_TTS_FALLBACK){ done&&done(); return; }   // no recording → skip TTS reference, keep flow going
   if(!('speechSynthesis' in window)){ done&&done(); return; }
   const u=new SpeechSynthesisUtterance(text); u.rate=0.85;
   const vs=speechSynthesis.getVoices();

@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v97-2026-06-07-dark-helvi-mint-initials-name';
+const CACHE_VERSION = 'schwiizer-v98-2026-06-11-kill-tts-real-voice-only';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
