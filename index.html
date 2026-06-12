@@ -1125,6 +1125,14 @@ body[data-mode="dark"] .me-helvi-icon{--body:#7FA092;--stroke:#E6E1D8;--belly:#2
 .lib-note .lib-icon svg{width:20px;height:20px;stroke:currentColor;stroke-width:1.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .lib-note strong{color:var(--dark);font-weight:400}
 .lib-note a{color:var(--rose);text-decoration:none;border-bottom:0.5px solid rgba(212,120,138,.4);padding-bottom:1px;white-space:nowrap}
+.fb-box{display:none;margin-top:12px}
+.lib-note.fb-open .fb-box{display:block}
+.fb-box textarea{width:100%;min-height:74px;resize:vertical;background:rgba(255,255,255,.55);border:1px solid rgba(212,120,138,.5);border-radius:10px;padding:10px 12px;font-family:var(--font);font-size:14px;color:var(--dark);outline:none;box-sizing:border-box}
+.fb-box textarea:focus{border-color:var(--rose);border-width:1.5px}
+.fb-actions{display:flex;align-items:center;gap:10px;margin-top:8px}
+.fb-send{background:var(--rose);color:#fff;border:none;border-radius:999px;padding:8px 22px;font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer}
+.fb-send:disabled{opacity:.5;cursor:default}
+.fb-status{font-size:12.5px;color:var(--textm)}
 
 /* === STACKED row text (label + meta-sub) === */
 .me-row-text-stacked{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
@@ -2085,6 +2093,7 @@ const I18N = {
     alreadyDevice:"already bought on another device?",
     libLead:"we're <strong>continuously updating the library</strong> — thank you for being part of becoming schwiizer",
     libLink:"share what you'd like to learn — or report a bug ›",
+    fbPlaceholder:"your message — ideas, wishes, bugs", fbSend:"send", fbSent:"merci! ✓", fbErr:"couldn't send — try again later",
     sound:"sound", cheers:"helvi & cheers", helviAvatar:"helvi avatar", on:"on", off:"off",
     featVoiceT:"real voice", featVoiceS:"every phrase recorded by Deborah — native swiss german",
     featOfflineT:"works offline", featOfflineS:"on the train, in the mountains — lessons you've opened keep working",
@@ -2130,6 +2139,7 @@ const I18N = {
     alreadyDevice:"Schon auf einem anderen Gerät gekauft?",
     libLead:"Wir <strong>erweitern die Bibliothek laufend</strong> — danke, dass du bei becoming schwiizer dabei bist",
     libLink:"Sag uns, was du lernen möchtest — oder melde einen Fehler ›",
+    fbPlaceholder:"Deine Nachricht — Ideen, Wünsche, Fehler", fbSend:"senden", fbSent:"merci! ✓", fbErr:"Hat nicht geklappt — probier's später nochmal",
     sound:"Ton", cheers:"Helvi & Jubel", helviAvatar:"Helvi-Avatar", on:"An", off:"Aus",
     featVoiceT:"Echte Stimme", featVoiceS:"Jeder Satz von Deborah aufgenommen — echtes Schweizerdeutsch",
     featOfflineT:"Funktioniert offline", featOfflineS:"Im Zug, in den Bergen — geöffnete Lektionen bleiben verfügbar",
@@ -2805,6 +2815,28 @@ const PILLARS=[
 // === Schwiizer API (Cloudflare Worker) ===
 // Note: Worker URL keeps the legacy "grueezi-api" hostname — internal infrastructure, never user-facing.
 const SCHWIIZER_API = 'https://grueezi-api.deborahmuriel-blum.workers.dev';
+
+function gzFbToggle(e){
+  if(e) e.preventDefault();
+  const n=document.getElementById('gz-libnote'); if(!n) return;
+  n.classList.toggle('fb-open');
+  if(n.classList.contains('fb-open')){ const ta=document.getElementById('gz-fb-text'); if(ta) setTimeout(()=>ta.focus(),60); }
+}
+async function gzFbSend(){
+  const ta=document.getElementById('gz-fb-text'), btn=document.getElementById('gz-fb-send'), st=document.getElementById('gz-fb-status');
+  if(!ta||!btn) return;
+  const text=ta.value.trim();
+  if(text.length<2){ ta.focus(); return; }
+  btn.disabled=true; if(st) st.textContent='…';
+  try{
+    const r=await fetch(SCHWIIZER_API+'/feedback',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({text, email:state.email||'', lang:(typeof APP_LANG!=='undefined'&&APP_LANG)?APP_LANG:''})});
+    if(!r.ok) throw new Error('send failed');
+    ta.value=''; if(st) st.textContent=t('fbSent');
+    setTimeout(()=>{ const n=document.getElementById('gz-libnote'); if(n) n.classList.remove('fb-open'); if(st) st.textContent=''; },1800);
+  }catch(err){ if(st) st.textContent=t('fbErr'); }
+  btn.disabled=false;
+}
 // Lemon Squeezy checkout URLs
 const LS_MONTHLY  = 'https://grueezi.lemonsqueezy.com/checkout/buy/e4610157-5fb1-4c52-8f8f-20900ef3341e';
 const LS_LIFETIME = 'https://grueezi.lemonsqueezy.com/checkout/buy/cfdade4e-d179-48c2-bc0b-93ec6d0d5547';
@@ -3266,9 +3298,17 @@ function renderAccount(){
 
   // === library growing note · warmth + invitation + bug channel ===
   const libraryNote = `
-    <div class="lib-note">
+    <div class="lib-note" id="gz-libnote">
       <span class="lib-icon">${ic.book}</span>
-      <span>${t('libLead')} <span style="color:var(--rose)">··</span> <a href="mailto:hello@schwiizer.app?subject=Schwiizer%20feedback&body=Hoi%20Deborah%2C%0A%0A">${t('libLink')}</a></span>
+      <span style="flex:1">${t('libLead')} <span style="color:var(--rose)">··</span> <a href="#" onclick="gzFbToggle(event)">${t('libLink')}</a>
+        <div class="fb-box" id="gz-fb">
+          <textarea id="gz-fb-text" maxlength="2000" placeholder="${t('fbPlaceholder')}"></textarea>
+          <div class="fb-actions">
+            <button class="fb-send" id="gz-fb-send" onclick="gzFbSend()">${t('fbSend')}</button>
+            <span class="fb-status" id="gz-fb-status"></span>
+          </div>
+        </div>
+      </span>
     </div>
   `;
 
@@ -4427,19 +4467,54 @@ async function recCompare(lessonId,idx,text){
   if(__wcState==='busy') return;
   if(__wcState==='rec'){ if(__wcRec&&__wcRec.state==='recording')__wcRec.stop(); return; }
   let media;
-  try{ media=await navigator.mediaDevices.getUserMedia({audio:true}); }
+  try{ media=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}}); }
   catch(e){ __wcUI('', __wcL('mic')); return; }
   __wcMedia=media; __wcChunks=[]; __wcRec=new MediaRecorder(media);
   __wcRec.ondataavailable=e=>{ if(e.data.size)__wcChunks.push(e.data); };
   __wcRec.onstop=function(){
     try{ __wcMedia.getTracks().forEach(t=>t.stop()); }catch(e){}
-    const url=URL.createObjectURL(new Blob(__wcChunks,{type:(__wcRec&&__wcRec.mimeType)||'audio/webm'}));
-    const mine=new Audio(url);
+    const blob=new Blob(__wcChunks,{type:(__wcRec&&__wcRec.mimeType)||'audio/webm'});
     __wcState='busy'; __wcUI('busy',__wcL('cmp'));
-    const fin=()=>{ try{URL.revokeObjectURL(url);}catch(e){} __wcState='idle'; __wcUI('',__wcL('again')); };
-    __wcRef(lessonId,idx,text,()=>{ mine.onended=fin; mine.play().catch(fin); });
+    const fin=()=>{ __wcState='idle'; __wcUI('',__wcL('again')); };
+    __wcRef(lessonId,idx,text,()=>{ __wcPlayClean(blob,fin); });
   };
   __wcRec.start(); __wcState='rec'; __wcUI('on',__wcL('stop'));
+}
+let __wcCtx=null;
+function __wcPlayClean(blob,done){  // play own take through highpass+compressor+peak-normalize, all on-device, nothing stored
+  const fallback=()=>{ const url=URL.createObjectURL(blob); const a=new Audio(url);
+    const f=()=>{ try{URL.revokeObjectURL(url);}catch(e){} done&&done(); };
+    a.onended=f; a.play().catch(f); };
+  try{
+    __wcCtx=__wcCtx||new (window.AudioContext||window.webkitAudioContext)();
+    blob.arrayBuffer().then(ab=>__wcCtx.decodeAudioData(ab)).then(buf=>{
+      // noise gate: estimate the noise floor from the quietest 20ms windows, duck windows near it (speech stays)
+      const sr=buf.sampleRate, win=Math.max(1,Math.round(sr*0.02));
+      for(let c=0;c<buf.numberOfChannels;c++){
+        const d=buf.getChannelData(c), n=Math.floor(d.length/win);
+        if(n<5) continue;
+        const rms=new Float32Array(n);
+        for(let w=0;w<n;w++){ let s=0; for(let i=w*win;i<(w+1)*win;i++) s+=d[i]*d[i]; rms[w]=Math.sqrt(s/win); }
+        const sorted=Array.from(rms).sort((a,b)=>a-b);
+        const thr=Math.max(sorted[Math.floor(n*0.2)]*3, 0.008);
+        let g=1;
+        for(let w=0;w<n;w++){ const target=rms[w]<thr?0.1:1;
+          for(let i=w*win;i<(w+1)*win;i++){ g+=(target-g)*0.0015; d[i]*=g; } }
+      }
+      let peak=0;
+      for(let c=0;c<buf.numberOfChannels;c++){ const d=buf.getChannelData(c);
+        for(let i=0;i<d.length;i++){ const v=Math.abs(d[i]); if(v>peak)peak=v; } }
+      const src=__wcCtx.createBufferSource(); src.buffer=buf;
+      const hp=__wcCtx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=90;
+      const comp=__wcCtx.createDynamicsCompressor();
+      comp.threshold.value=-24; comp.knee.value=12; comp.ratio.value=3; comp.attack.value=0.01; comp.release.value=0.2;
+      const gain=__wcCtx.createGain(); gain.gain.value=Math.min(peak>0?0.9/peak:1,4);
+      src.connect(hp); hp.connect(comp); comp.connect(gain); gain.connect(__wcCtx.destination);
+      src.onended=()=>done&&done();
+      if(__wcCtx.state==='suspended')__wcCtx.resume();
+      src.start();
+    }).catch(fallback);
+  }catch(e){ fallback(); }
 }
 
 /* ===== Einbürgerungstest quiz engine (Change 1) ===== */

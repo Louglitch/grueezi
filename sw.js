@@ -3,7 +3,7 @@
 //
 // 🔄 To force every existing user to update: bump CACHE_VERSION.
 
-const CACHE_VERSION = 'schwiizer-v111-2026-06-11-taktfahrplan-dufourspitze-nuance-fixes';
+const CACHE_VERSION = 'schwiizer-v112-2026-06-12-inapp-feedback-clean-recording';
 const CACHE_NAME = CACHE_VERSION;
 
 // On install, skip waiting so the new SW activates immediately
